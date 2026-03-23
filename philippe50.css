@@ -1,5 +1,5 @@
 /* =========================================
-   BASIS RESET & LETTERTYPE
+    BASIS RESET & LETTERTYPE
    ========================================= */
 * {
     margin: 0;
@@ -9,7 +9,7 @@
 }
 
 body {
-    background-color: #050510; /* Diep donkerblauw/zwart */
+    background-color: #050510;
     color: #fff;
     display: flex;
     justify-content: center;
@@ -35,7 +35,7 @@ body {
 }
 
 /* =========================================
-   CONTAINERS & CARDS
+    CONTAINERS & CARDS
    ========================================= */
 .card-container {
     width: 100%;
@@ -53,9 +53,10 @@ body {
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8), 
                 0 0 15px rgba(0, 242, 255, 0.1);
     text-align: center;
-    border-top: 3px solid #00f2ff; /* Neon cyaan */
-    border-bottom: 3px solid #ff00de; /* Neon magenta */
+    border-top: 3px solid #00f2ff;
+    border-bottom: 3px solid #ff00de;
     margin-bottom: 25px;
+    animation: fadeIn 0.8s ease-out;
 }
 
 h1, h2 {
@@ -68,7 +69,7 @@ h1, h2 {
 }
 
 /* =========================================
-   INPUT VELDEN
+    INPUT VELDEN
    ========================================= */
 .input-group {
     margin-bottom: 20px;
@@ -107,92 +108,93 @@ input:focus, textarea:focus {
 }
 
 /* =========================================
-   KNOPPEN (Neon Style)
+    KNOPPEN (Neon Style)
    ========================================= */
-button, .submit-btn {
+button, .submit-btn, .submit-btn-alt {
     display: inline-flex; 
     justify-content: center; 
     align-items: center; 
     text-decoration: none; 
-    background: linear-gradient(45deg, #ff00de, #00f2ff);
     border: none;
     padding: 14px 28px;
     border-radius: 50px;
-    color: #000 !important;
-    font-weight: bold;
+    font-weight: 900;
     cursor: pointer;
     text-transform: uppercase;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     width: 100%;
-    margin-top: 10px;
-    letter-spacing: 1.5px;
+    margin-top: 15px;
+    letter-spacing: 2px;
     text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Hoofdknoppen (Gevuld) */
+button, .submit-btn {
+    background: linear-gradient(45deg, #ff00de, #00f2ff);
+    color: #000 !important;
+    box-shadow: 0 0 15px rgba(255, 0, 222, 0.4);
 }
 
 button:hover, .submit-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 20px #00f2ff, 0 0 40px rgba(255, 0, 222, 0.4);
-    filter: brightness(1.1);
+    transform: scale(1.03);
+    box-shadow: 0 0 25px #00f2ff, 0 0 50px rgba(255, 0, 222, 0.6);
+    filter: brightness(1.2);
 }
 
-button:active, .submit-btn:active {
-    transform: translateY(-1px);
+/* Secundaire knop (Outline) - Fix voor "Bekijk hoofdstuk" */
+.submit-btn-alt {
+    background: transparent !important;
+    border: 2px solid #00f2ff !important;
+    color: #00f2ff !important;
+    font-size: 1rem;
+    margin-top: 25px;
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
 }
 
-button:disabled {
-    background: linear-gradient(45deg, #444, #666);
-    color: #888 !important;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
+.submit-btn-alt:hover {
+    background: rgba(0, 242, 255, 0.1) !important;
+    box-shadow: 0 0 20px #00f2ff;
+    color: #fff !important;
+    transform: scale(1.03);
 }
 
-/* Taal Schakelaar */
+/* =========================================
+    TAAL SCHAKELAAR (NL/FR)
+   ========================================= */
 .language-switch {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 15px;
+    gap: 10px;
 }
 
 .language-switch button {
     background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #fff;
-    padding: 6px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff !important;
+    padding: 6px 16px;
     font-size: 0.75rem;
-    margin-left: 8px;
     width: auto;
-    border-radius: 4px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 900;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    margin-top: 0;
     box-shadow: none;
+    letter-spacing: 1px;
 }
 
-.language-switch button:hover {
-    background: #fff;
+.language-switch button.lang-active {
+    background: linear-gradient(45deg, #ff00de, #00f2ff);
     color: #000 !important;
-    box-shadow: 0 0 10px #fff;
+    box-shadow: 0 0 15px #00f2ff;
+    border: none;
 }
 
 /* =========================================
-   STORY & LEGENDE LAYOUT
+    STORY & LEGENDE LAYOUT
    ========================================= */
-.story-text {
-    text-align: left;
-    line-height: 1.7;
-    font-size: 1.05rem;
-    color: #e0e0e0;
-    padding: 15px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    border-left: 3px solid #00f2ff;
-}
-
-.story-text p {
-    margin-bottom: 15px;
-    animation: fadeIn 1.2s ease-out;
-}
-
-/* Individuele hoofdstukken (voor legende.html) */
 .chapter-box {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(0, 242, 255, 0.2);
@@ -209,56 +211,24 @@ button:disabled {
     content: "";
     position: absolute;
     top: 0; left: 0;
-    width: 3px; height: 100%;
-    background: #ff00de;
-}
-
-.chapter-box:hover {
-    transform: scale(1.01);
-    border-color: #00f2ff;
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 0 20px rgba(0, 242, 255, 0.1);
-}
-
-.chapter-box small {
-    display: block;
-    margin-bottom: 15px;
-    color: #ff00de;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-size: 0.8rem;
-    border-bottom: 1px solid rgba(255, 0, 222, 0.2);
-    padding-bottom: 5px;
+    width: 4px; height: 100%;
+    background: linear-gradient(to bottom, #ff00de, #00f2ff);
 }
 
 /* Scrollbar styling */
-::-webkit-scrollbar {
-    width: 8px;
-}
-::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.2);
-}
-::-webkit-scrollbar-thumb {
-    background: #ff00de;
-    border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: #00f2ff;
-}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
+::-webkit-scrollbar-thumb { background: #ff00de; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #00f2ff; }
 
 /* Animaties */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 /* Mobiele optimalisatie */
 @media (max-width: 480px) {
-    .glass-card {
-        padding: 20px;
-    }
-    h1, h2 {
-        font-size: 1.2rem;
-    }
+    .glass-card { padding: 20px; }
+    h1, h2 { font-size: 1.2rem; }
 }
