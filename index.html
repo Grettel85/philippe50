@@ -9,38 +9,43 @@
 <body>
     <div class="stars-container"></div>
     <div class="card-container">
+        
         <div class="language-switch">
-            <button onclick="setLanguage('nl')">NL</button>
-            <button onclick="setLanguage('fr')">FR</button>
+            <button onclick="setLanguage('nl')" id="btn-nl" class="lang-active">NL</button>
+            <button onclick="setLanguage('fr')" id="btn-fr">FR</button>
         </div>
 
         <div id="password-gate" class="glass-card">
             <h1 data-i18n="welcome">Welkom bij Philippe 50</h1>
-            <p data-i18n="enter-code">Voer de code in:</p>
+            <p data-i18n="enter-code" style="margin-bottom: 15px;">Voer de code in om deel te nemen:</p>
             <div class="input-group">
                 <input type="password" id="password-input" placeholder="Wachtwoord...">
             </div>
             <button onclick="checkPassword()" data-i18n="login-btn">Log in</button>
-            <p id="error-msg" style="color: #ff00de; display: none;" data-i18n="wrong-pwd">Onjuist.</p>
-            <hr style="margin: 20px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.1);">
-            <a href="mijn-verhaal.html" class="submit-btn" style="text-decoration:none; font-size:0.8rem; background:transparent; border:1px solid #00f2ff;">Bekijk jouw hoofdstuk</a>
+            <p id="error-msg" style="color: #ff00de; display: none; margin-top: 10px;" data-i18n="wrong-pwd">Onjuist.</p>
+            
+            <hr style="margin: 30px 0 10px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.1);">
+            
+            <a href="mijn-verhaal.html" class="submit-btn-alt" data-i18n="view-chapter">
+                Bekijk jouw hoofdstuk
+            </a>
         </div>
 
         <div id="form-section" class="glass-card" style="display: none;">
             <h2 data-i18n="form-title">Het verhaal van Philippe</h2>
             <form id="dragon-form">
                 <div class="input-group">
-                    <label data-i18n="label-name">Nickname:</label>
+                    <label data-i18n="label-name">Wat is je (bij)naam?</label>
                     <input type="text" name="deelnemer_naam" id="deelnemer_naam" required>
                 </div>
                 <div class="input-group">
-                    <label data-i18n="label-email">E-mailadres:</label>
+                    <label data-i18n="label-email">Wat is je e-mailadres:</label>
                     <input type="email" name="deelnemer_email" id="deelnemer_email" required>
                 </div>
                 <div class="input-group">
-                    <label data-i18n="label-band">Geheim Woord (Band met Philippe):</label>
-                    <p style="font-size: 0.7rem; color: #ff00de;" data-i18n="band-note">(Dit is je wachtwoord voor later)</p>
-                    <input type="password" name="deelnemer_ww" id="deelnemer_ww" required>
+                    <label data-i18n="label-band">Schrijf hier het geheime woord:</label>
+                    <p style="font-size: 0.7rem; color: #ff00de; margin-bottom: 5px;" data-i18n="band-note">(Dit is je wachtwoord voor later)</p>
+                    <input type="text" name="deelnemer_ww" id="deelnemer_ww" required>
                 </div>
                 <div class="input-group">
                     <label data-i18n="label-personage">Welk 80's personage?</label>
