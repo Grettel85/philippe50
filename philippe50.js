@@ -116,7 +116,7 @@ async function fetchStory() {
         const rows = csvData.split(/\r?\n/).slice(1).filter(row => row.trim() !== ""); 
         container.innerHTML = ''; 
         rows.forEach(row => {
-            const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^**"]*$)/);
+            const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             const text = columns[1] ? columns[1].replace(/^"|"$/g, '').trim() : ""; 
             const author = columns[2] ? columns[2].replace(/^"|"$/g, '').trim() : "Held"; 
             if (text.length > 5) {
@@ -159,7 +159,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             btn.innerText = "Verzenden...";
             const formData = new FormData(form);
-            const makeWebhookURL = "https://hook.eu1.make.com/r98w97iapvhvcsl6jm2w42o4q5fhzufs"; 
+            
+            // JE NIEUWE MAKE WEBHOOK URL
+            const makeWebhookURL = "https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f"; 
 
             fetch(makeWebhookURL, {
                 method: "POST",
