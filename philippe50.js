@@ -51,28 +51,22 @@ const config = {
 
 const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR8NcRn-YMmbVuxKlYx_WT9_QZEB5eaFbiygWphB86Ya2mzMswKVwVlqFpBDe5ewM6f1uFh2wi8nIDk/pub?output=csv';
 
-// --- 1. CHECK OF GEHEIM WOORD UNIEK IS ---
 async function isPasswordUnique(newPw) {
     try {
         const response = await fetch(sheetURL + '&cachebuster=' + Date.now());
         const csvData = await response.text();
         const rows = csvData.split(/\r?\n/).slice(1);
-        
         return !rows.some(row => {
             const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             const existingPw = columns[4] ? columns[4].replace(/^"|"$/g, '').trim() : "";
             return existingPw.toLowerCase() === newPw.toLowerCase().trim();
         });
-    } catch (e) {
-        console.error("Fout bij uniekheidscontrole:", e);
-        return true; 
-    }
+    } catch (e) { return true; }
 }
 
-// --- 2. DEURWACHTER (Inlogscherm) ---
 function checkPassword() {
     const input = document.getElementById('password-input').value;
-    if (input === "wijhoudenvanvakantie") {
+    if (input === "admin50") { 
         window.location.href = "legende.html";
         return;
     }
@@ -84,19 +78,14 @@ function checkPassword() {
     }
 }
 
-// --- 3. PERSOONLIJK VERHAAL ZOEKEN (mijn-verhaal.html) ---
 async function findPersonalStory() {
     const inputName = document.getElementById('lookup-name').value.toLowerCase().trim();
     const inputPw = document.getElementById('lookup-pw').value.toLowerCase().trim();
     const container = document.getElementById('personal-story-content');
-    
-    if (!inputName || !inputPw) {
-        container.innerHTML = "<p style='color:#ff00de;'>Vul a.u.b. beide velden in.</p>";
-        return;
-    }
+    if (!inputName || !inputPw) return;
 
     try {
-        container.innerHTML = "De sterren staan gunstig... even geduld...";
+        container.innerHTML = "De sterren staan gunstig...";
         const response = await fetch(sheetURL + '&cachebuster=' + Date.now());
         const csvData = await response.text();
         const rows = csvData.split(/\r?\n/).slice(1);
@@ -110,51 +99,36 @@ async function findPersonalStory() {
 
             if (nameInSheet === inputName && pwInSheet === inputPw) {
                 found = true;
-                container.innerHTML = `
-                    <p style="color:#00f2ff; font-weight:bold; margin-bottom:15px;">Dag ${columns[2]}, jouw legende is geschreven:</p>
-                    <div style="border-left: 3px solid #ff00de; padding-left: 15px; font-style: italic; text-align: left;">
-                        ${storyText}
-                    </div>
-                `;
+                container.innerHTML = `<p style="color:#00f2ff; font-weight:bold; margin-bottom:15px;">Dag ${columns[2]}, jouw legende:</p>
+                                       <div style="border-left: 3px solid #ff00de; padding-left: 15px; text-align: left;">${storyText}</div>`;
             }
         });
-
-        if (!found) {
-            container.innerHTML = "<p style='color:#ff00de;'>Helaas, deze combinatie is niet gevonden.</p>";
-        }
-    } catch (e) { 
-        container.innerHTML = "<p style='color:#ff00de;'>Er liep iets mis bij het raadplegen.</p>"; 
-    }
+        if (!found) container.innerHTML = "<p style='color:#ff00de;'>Niet gevonden.</p>";
+    } catch (e) { container.innerHTML = "Fout bij laden."; }
 }
 
-// --- 4. ALLE VERHALEN LADEN (legende.html) ---
 async function fetchStory() {
     const container = document.getElementById('story-content');
     if (!container) return;
-
     try {
         const response = await fetch(sheetURL + '&cachebuster=' + Date.now());
         const csvData = await response.text();
         const rows = csvData.split(/\r?\n/).slice(1).filter(row => row.trim() !== ""); 
-        
         container.innerHTML = ''; 
-
         rows.forEach(row => {
-            const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+            const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^**"]*$)/);
             const text = columns[1] ? columns[1].replace(/^"|"$/g, '').trim() : ""; 
-            const author = columns[2] ? columns[2].replace(/^"|"$/g, '').trim() : "Onbekende held"; 
-
+            const author = columns[2] ? columns[2].replace(/^"|"$/g, '').trim() : "Held"; 
             if (text.length > 5) {
-                const chapterDiv = document.createElement('div');
-                chapterDiv.className = "chapter-box";
-                chapterDiv.innerHTML = `<small>— ${author} —</small><p>${text}</p>`;
-                container.appendChild(chapterDiv);
+                const div = document.createElement('div');
+                div.className = "chapter-box";
+                div.innerHTML = `<small>— ${author} —</small><p>${text}</p>`;
+                container.appendChild(div);
             }
         });
-    } catch (e) { console.error("Fout bij laden legende:", e); }
+    } catch (e) { console.error(e); }
 }
 
-// --- 5. TAAL WISSELEN ---
 function setLanguage(lang) {
     config.currentLang = lang;
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -164,50 +138,43 @@ function setLanguage(lang) {
     });
 }
 
-// --- 6. INITIALISATIE ---
 document.addEventListener('DOMContentLoaded', () => {
-    // Check welke pagina we laden
-    if (document.getElementById('story-content')) {
-        fetchStory();
-    }
-
+    if (document.getElementById('story-content')) fetchStory();
     const form = document.getElementById("dragon-form");
     if (form) {
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
             const btn = form.querySelector('button[type="submit"]');
             const chosenPw = document.getElementById('deelnemer_ww').value;
-
             btn.disabled = true;
             btn.innerText = "Checken...";
 
             const unique = await isPasswordUnique(chosenPw);
-
             if (!unique) {
-                alert("Dit geheime woord is al gekozen! Kies een ander woord.");
+                alert("Dit geheime woord is al gekozen!");
                 btn.disabled = false;
-                btn.innerText = "Verstuur naar de Legende";
+                btn.innerText = "Verstuur";
                 return;
             }
 
             btn.innerText = "Verzenden...";
             const formData = new FormData(form);
-            
-            fetch("/", {
+            const makeWebhookURL = "https://hook.eu1.make.com/r98w97iapvhvcsl6jm2w42o4q5fhzufs"; 
+
+            fetch(makeWebhookURL, {
                 method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: new URLSearchParams(formData).toString(),
+                body: JSON.stringify(Object.fromEntries(formData)),
+                headers: { 'Content-Type': 'application/json' }
             })
             .then(res => {
-                if (res.ok) {
-                    alert("Gelukt! Je wordt nu doorgeleid naar jouw verhaal.");
+                if (res.ok || res.status === 200 || res.status === 202) {
+                    alert("Gelukt!");
                     window.location.href = "mijn-verhaal.html"; 
                 } else { throw new Error(); }
             })
             .catch(() => {
                 alert("Er ging iets mis.");
                 btn.disabled = false;
-                btn.innerText = "Verstuur naar de Legende";
             });
         });
     }
