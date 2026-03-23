@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philippe 50 - De Legende</title>
+    <link rel="stylesheet" href="philippe50.css">
+</head>
+<body>
+
+    <div class="stars-container"></div>
+
+    <div class="card-container">
+        
+        <div class="language-switch">
+            <button onclick="setLanguage('nl')">NL</button>
+            <button onclick="setLanguage('fr')">FR</button>
+        </div>
+
+        <div id="password-gate" class="glass-card">
+            <h1 data-i18n="welcome">Welkom bij Philippe 50</h1>
+            <p data-i18n="enter-code" style="margin-bottom: 15px;">Voer de geheime code in om deel te nemen:</p>
+            <div class="input-group">
+                <input type="password" id="password-input" placeholder="Wachtwoord...">
+            </div>
+            <button onclick="checkPassword()" data-i18n="login-btn">Log in</button>
+            <p id="error-msg" style="color: #ff00de; display: none; margin-top: 10px;" data-i18n="wrong-pwd">Onjuiste code.</p>
+            
+            <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;">
+            <p style="font-size: 0.8rem; margin-bottom: 10px;">Al eerder een offer gebracht?</p>
+            <a href="mijn-verhaal.html" class="submit-btn" style="text-decoration: none; display: inline-flex; background: transparent; border: 1px solid #00f2ff; font-size: 0.8rem; padding: 10px;">Bekijk jouw hoofdstuk</a>
+        </div>
+
+        <div id="form-section" class="glass-card" style="display: none;">
+            <h2 data-i18n="form-title">Het verhaal van Philippe</h2>
+            
+            <form id="dragon-form" name="drakenverhaal-input" method="POST" data-netlify="true">
+                <input type="hidden" name="form-name" value="drakenverhaal-input">
+                
+                <div class="input-group">
+                    <label data-i18n="label-name">Jouw Nickname (voor in de legende):</label>
+                    <input type="text" name="deelnemer_naam" id="deelnemer_naam" required placeholder="Bijv. De Onverschrokken Joris">
+                </div>
+
+                <div class="input-group">
+                    <label data-i18n="label-email">Jouw E-mailadres:</label>
+                    <input type="email" name="deelnemer_email" id="deelnemer_email" required>
+                </div>
+
+                <div class="input-group">
+                    <label data-i18n="label-band">Omschrijf je band met Philippe in 1 woord:</label>
+                    <p style="font-size: 0.75rem; color: #ff00de; margin-bottom: 5px; font-style: italic;" data-i18n="band-note">
+                        (Let op! Dit is je wachtwoord later op deze website)
+                    </p>
+                    <input type="password" name="deelnemer_ww" id="deelnemer_ww" required placeholder="Je geheime woord...">
+                </div>
+
+                <div class="input-group">
+                    <label data-i18n="label-personage">Welk 80's personage zou jij graag geweest zijn?</label>
+                    <input type="text" name="deelnemer_personage" id="deelnemer_personage" required>
+                </div>
+
+                <hr style="border: 0; border-top: 1px dashed #ff00de; margin: 20px 0;">
+
+                <div class="input-group">
+                    <label data-i18n="label-power">Welke superkracht heeft Philippe?</label>
+                    <input type="text" name="philippe_superkracht" id="philippe_superkracht" required>
+                </div>
+
+                <div class="input-group">
+                    <label data-i18n="label-kryptonite">Wat is Philippe zijn Kryptonite (beperking)?</label>
+                    <input type="text" name="philippe_kryptonite" id="philippe_kryptonite" required>
+                </div>
+
+                <div class="input-group">
+                    <label data-i18n="label-memory">Wat is je leukste herinnering aan Philippe?</label>
+                    <textarea name="philippe_herinnering" id="philippe_herinnering" rows="3" required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" data-i18n="submit-btn">Verstuur naar de Legende</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="philippe50.js"></script>
+</body>
+</html>

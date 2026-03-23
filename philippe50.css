@@ -1,0 +1,264 @@
+/* =========================================
+   BASIS RESET & LETTERTYPE
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #050510; /* Diep donkerblauw/zwart */
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding: 20px;
+}
+
+/* Retro Achtergrond met sterren en neon-nevel */
+.stars-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
+    background-image: 
+        radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+        linear-gradient(45deg, rgba(255, 0, 255, 0.1) 0%, transparent 70%),
+        linear-gradient(-45deg, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
+}
+
+/* =========================================
+   CONTAINERS & CARDS
+   ========================================= */
+.card-container {
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8), 
+                0 0 15px rgba(0, 242, 255, 0.1);
+    text-align: center;
+    border-top: 3px solid #00f2ff; /* Neon cyaan */
+    border-bottom: 3px solid #ff00de; /* Neon magenta */
+    margin-bottom: 25px;
+}
+
+h1, h2 {
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px #00f2ff;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+/* =========================================
+   INPUT VELDEN
+   ========================================= */
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    color: #00f2ff;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+input[type="password"],
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid #ff00de;
+    border-radius: 8px;
+    color: #fff;
+    outline: none;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+input:focus, textarea:focus {
+    box-shadow: 0 0 15px #ff00de;
+    border-color: #00f2ff;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+/* =========================================
+   KNOPPEN (Neon Style)
+   ========================================= */
+button, .submit-btn {
+    display: inline-flex; 
+    justify-content: center; 
+    align-items: center; 
+    text-decoration: none; 
+    background: linear-gradient(45deg, #ff00de, #00f2ff);
+    border: none;
+    padding: 14px 28px;
+    border-radius: 50px;
+    color: #000 !important;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 10px;
+    letter-spacing: 1.5px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+button:hover, .submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px #00f2ff, 0 0 40px rgba(255, 0, 222, 0.4);
+    filter: brightness(1.1);
+}
+
+button:active, .submit-btn:active {
+    transform: translateY(-1px);
+}
+
+button:disabled {
+    background: linear-gradient(45deg, #444, #666);
+    color: #888 !important;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Taal Schakelaar */
+.language-switch {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.language-switch button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    margin-left: 8px;
+    width: auto;
+    border-radius: 4px;
+    box-shadow: none;
+}
+
+.language-switch button:hover {
+    background: #fff;
+    color: #000 !important;
+    box-shadow: 0 0 10px #fff;
+}
+
+/* =========================================
+   STORY & LEGENDE LAYOUT
+   ========================================= */
+.story-text {
+    text-align: left;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    color: #e0e0e0;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    border-left: 3px solid #00f2ff;
+}
+
+.story-text p {
+    margin-bottom: 15px;
+    animation: fadeIn 1.2s ease-out;
+}
+
+/* Individuele hoofdstukken (voor legende.html) */
+.chapter-box {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 242, 255, 0.2);
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 30px;
+    text-align: left;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.chapter-box::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: #ff00de;
+}
+
+.chapter-box:hover {
+    transform: scale(1.01);
+    border-color: #00f2ff;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.1);
+}
+
+.chapter-box small {
+    display: block;
+    margin-bottom: 15px;
+    color: #ff00de;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    border-bottom: 1px solid rgba(255, 0, 222, 0.2);
+    padding-bottom: 5px;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb {
+    background: #ff00de;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #00f2ff;
+}
+
+/* Animaties */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobiele optimalisatie */
+@media (max-width: 480px) {
+    .glass-card {
+        padding: 20px;
+    }
+    h1, h2 {
+        font-size: 1.2rem;
+    }
+}
