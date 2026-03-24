@@ -16,19 +16,32 @@
             }, 'google_translate_element');
         }
     </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     
     <style>
-        /* Zorgt dat de translate widget er een beetje neon uitziet */
+        /* Neon Styling voor de Translate Widget */
         .goog-te-gadget-simple {
-            background: rgba(0, 0, 0, 0.5) !important;
+            background: rgba(0, 0, 0, 0.6) !important;
             border: 1px solid #ff00de !important;
-            padding: 4px 8px !important;
+            padding: 6px 10px !important;
             border-radius: 8px !important;
+            font-family: inherit !important;
+            cursor: pointer;
         }
-        .goog-te-gadget-simple span { color: #00f2ff !important; }
+        
+        .goog-te-gadget-simple span { 
+            color: #00f2ff !important; 
+            font-size: 0.85rem !important;
+        }
+
+        /* Verberg de standaard Google balk bovenaan de pagina */
         .goog-te-banner-frame.skiptranslate { display: none !important; }
         body { top: 0px !important; }
+        
+        /* Verberg het Google logo in de widget voor een cleaner uiterlijk */
+        .goog-te-gadget img { display: none !important; }
+        .goog-te-menu-value img { display: none !important; }
     </style>
 </head>
 <body>
@@ -75,16 +88,21 @@
     </div>
 
     <script src="philippe50.js"></script>
+    
     <script>
-        // Overschrijf de findPersonalStory functie specifiek voor deze pagina met de vertaalknop
+        // Deze functie handelt het ophalen van de data uit Google Sheets af
         async function findPersonalStory() {
             const inputName = document.getElementById('lookup-name')?.value.toLowerCase().trim();
             const inputPw = document.getElementById('lookup-pw')?.value.toLowerCase().trim();
             const container = document.getElementById('personal-story-content');
+            
             if (!inputName || !inputPw || !container) return;
 
             try {
+                // Toon laad-tekst
                 container.innerHTML = `<p style="color:#00f2ff;">${config.translations[config.currentLang]["loading-story"]}</p>`;
+                
+                // Haal CSV data op
                 const response = await fetch(sheetURL + '&cachebuster=' + Date.now());
                 const csvData = await response.text();
                 const rows = csvData.split(/\r?\n/).slice(1);
@@ -98,29 +116,40 @@
 
                     if (nameInSheet === inputName && pwInSheet === inputPw) {
                         found = true;
-                        // HIER WORDT DE VERTAALKNOP GEPLAATST ONDER "GEVONDEN!"
+                        
+                        // Bouw de HTML op: Titeltje, Vertaalknop en de Tekst
                         container.innerHTML = `
-                            <p style="color:#00f2ff; font-weight:bold; margin-bottom:5px; text-transform: uppercase;">
+                            <p style="color:#00f2ff; font-weight:bold; margin-bottom:10px; text-transform: uppercase; letter-spacing:1px;">
                                 ${config.currentLang === 'nl' ? 'Gevonden!' : 'Trouvé!'}
                             </p>
-                            <div id="google_translate_element" style="margin-bottom: 20px;"></div>
-                            <div class="story-text" style="border-left: 3px solid #ff00de; padding-left: 15px; text-align: left;">
+                            
+                            <div id="google_translate_element" style="margin-bottom: 25px;"></div>
+                            
+                            <div class="story-text" style="border-left: 3px solid #ff00de; padding-left: 20px; text-align: left; line-height: 1.6; color: #fff;">
                                 ${storyText}
-                            </div>`;
+                            </div>
+                        `;
                         
-                        // Herinitialiseer de Google Translate widget nadat de div is aangemaakt
+                        // Start de Google Translate widget direct nadat de HTML is geplaatst
                         if(typeof googleTranslateElementInit === 'function') {
                             googleTranslateElementInit();
                         }
                     }
                 });
-                if (!found) container.innerHTML = `<p style='color:#ff00de;'>${config.currentLang === 'nl' ? "Niet gevonden." : "Non trouvé."}</p>`;
-            } catch (e) { container.innerHTML = "Error."; }
+
+                if (!found) {
+                    container.innerHTML = `<p style='color:#ff00de;'>${config.currentLang === 'nl' ? "Niet gevonden. Controleer je nickname en geheim woord." : "Niet gevonden."}</p>`;
+                }
+            } catch (e) { 
+                container.innerHTML = "<p style='color:#ff00de;'>Error: Kon de legende niet raadplegen.</p>"; 
+            }
         }
 
-        // Enter-toets logica
+        // Luister naar de Enter-toets voor gebruiksgemak
         document.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') { findPersonalStory(); }
+            if (e.key === 'Enter') { 
+                findPersonalStory(); 
+            }
         });
     </script>
 </body>
