@@ -196,31 +196,32 @@ button:hover, .submit-btn:hover {
     GOOGLE TRANSLATE NEON OVERRIDES
    ========================================= */
 
-/* Verberg de balk bovenin en de logo's */
-.goog-te-banner-frame.skiptranslate, 
+/* Verberg specifiek de balk bovenin en de logo's */
+iframe.goog-te-banner-frame, 
 .goog-te-banner-frame, 
 .goog-te-balloon-frame, 
 #goog-gt-tt, 
 .goog-te-gadget img, 
-.goog-te-menu-value img {
+.goog-te-menu-value img,
+.goog-te-gadget-icon {
     display: none !important;
 }
 
-/* Verwijder de witte ruimte bovenaan de pagina */
-.skiptranslate {
+/* Verberg de witruimte die Google bovenaan forceert */
+.skiptranslate:not(#google_translate_element) {
     display: none !important;
 }
 
-/* De eigenlijke widget container */
+/* De eigenlijke widget container in de kaart */
 #google_translate_element {
     margin: 20px auto;
     min-height: 40px;
-    display: flex;
+    display: flex !important;
     justify-content: center;
     width: 100%;
 }
 
-/* De knop zelf stijlen */
+/* De knop zelf stijlen naar neon-look */
 .goog-te-gadget-simple {
     background: rgba(0, 0, 0, 0.5) !important;
     border: 2px solid #00f2ff !important;
@@ -229,11 +230,14 @@ button:hover, .submit-btn:hover {
     font-family: inherit !important;
     box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
     transition: all 0.3s ease;
+    display: flex !important;
+    align-items: center;
 }
 
 .goog-te-gadget-simple:hover {
     box-shadow: 0 0 20px #00f2ff;
     transform: translateY(-2px);
+    background: rgba(0, 0, 0, 0.7) !important;
 }
 
 .goog-te-gadget-simple span {
@@ -245,9 +249,10 @@ button:hover, .submit-btn:hover {
     vertical-align: middle !important;
 }
 
-/* Verwijder de standaard Google 'pijltjes' */
+/* Verwijder de standaard Google 'pijltjes' en borders */
 .goog-te-menu-value {
     border: none !important;
+    margin: 0 !important;
 }
 
 /* =========================================
