@@ -11,14 +11,14 @@ const config = {
             "login-btn": "Log in",
             "wrong-pwd": "Onjuiste code, probeer het opnieuw.",
             "form-title": "Het verhaal van Philippe",
-            "label-name": "Jouw Nickname (voor in de legende):",
+            "label-name": "Jouw Nickname:",
             "label-email": "Jouw E-mailadres:",
-            "label-band": "Schrijf hier het geheime woord dat je band met Philippe duidt:",
+            "label-band": "Jouw Geheim Woord:",
             "band-note": "(Dit is je wachtwoord voor later)",
-            "label-personage": "Met welk personage uit de jaren 80 ben jij het beste te vergelijken?",
-            "label-power": "Waar is Philippe heel erg goed in volgens jou?",
-            "label-kryptonite": "Waar kan Philippe nog beter in worden volgens jou?",
-            "label-memory": "Omschrijf je leukste herinnering met Philippe hier in enkele zinnen:",
+            "label-personage": "Welk 80s personage ben jij?",
+            "label-power": "Waar is Philippe goed in?",
+            "label-kryptonite": "Verbeterpunt voor Philippe?",
+            "label-memory": "Leukste herinnering:",
             "submit-btn": "Verstuur naar de Legende",
             "view-chapter": "Bekijk jouw hoofdstuk",
             "story-title": "De Legende van Philippe",
@@ -30,20 +30,20 @@ const config = {
         },
         fr: {
             "welcome": "Bienvenue chez Philippe 50",
-            "enter-code": "Entrez le code secret pour participer :",
+            "enter-code": "Entrez le code secret :",
             "login-btn": "Se connecter",
-            "wrong-pwd": "Code incorrect, réessayez.",
+            "wrong-pwd": "Code incorrect.",
             "form-title": "L'histoire de Philippe",
-            "label-name": "Votre Nickname (pour la légende) :",
-            "label-email": "Votre E-mail :",
-            "label-band": "Écrivez ici le mot secret qui définit votre lien avec Philippe :",
-            "band-note": "(Ce sera votre mot de passe plus tard)",
-            "label-personage": "À quel personnage des années 80 ressemblez-vous le plus ?",
-            "label-power": "Selon vous, en quoi Philippe est-il très doué ?",
-            "label-kryptonite": "Selon vous, en quoi Philippe pourrait-il s'améliorer ?",
-            "label-memory": "Décrivez votre meilleur souvenir avec Philippe en quelques phrases :",
+            "label-name": "Ton Nickname :",
+            "label-email": "Ton E-mail :",
+            "label-band": "Ton Mot Secret :",
+            "band-note": "(C'est ton mot de passe)",
+            "label-personage": "Quel personnage des années 80 ?",
+            "label-power": "Points forts de Philippe ?",
+            "label-kryptonite": "Amélioration pour Philippe ?",
+            "label-memory": "Ton meilleur souvenir :",
             "submit-btn": "Envoyer à la Légende",
-            "view-chapter": "Consultez votre chapitre",
+            "view-chapter": "Consulter ton chapitre",
             "story-title": "La Légende de Philippe",
             "loading-story": "Les brumes se lèvent...",
             "lookup-title": "Débloquez votre chapitre",
@@ -62,19 +62,15 @@ const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR8NcRn-YMmbVu
 
 function setLanguage(lang) {
     config.currentLang = lang;
-    
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         const translation = config.translations[lang][key];
         if (translation) el.innerText = translation;
     });
 
-    const pwdInput = document.getElementById('password-input');
-    if (pwdInput) pwdInput.placeholder = lang === 'nl' ? "Wachtwoord..." : "Mot de passe...";
-
     const lookupName = document.getElementById('lookup-name');
     if (lookupName) lookupName.placeholder = lang === 'nl' ? "Jouw Nickname..." : "Ton Nickname...";
-
+    
     updateLangButtons(lang);
 }
 
@@ -82,56 +78,25 @@ function updateLangButtons(lang) {
     const btnNl = document.getElementById('btn-nl');
     const btnFr = document.getElementById('btn-fr');
     if (!btnNl || !btnFr) return;
-
     btnNl.classList.remove('lang-active');
     btnFr.classList.remove('lang-active');
-
-    const activeBtn = (lang === 'nl') ? btnNl : btnFr;
-    activeBtn.classList.add('lang-active');
-}
-
-function checkPassword() {
-    const input = document.getElementById('password-input').value;
-    const errorMsg = document.getElementById('error-msg');
-    
-    if (input === "admin50") { 
-        window.location.href = "legende.html";
-        return;
-    }
-    
-    if (input === config.password) {
-        document.getElementById('password-gate').style.display = 'none';
-        document.getElementById('form-section').style.display = 'block';
-    } else {
-        errorMsg.style.display = 'block';
-    }
+    (lang === 'nl' ? btnNl : btnFr).classList.add('lang-active');
 }
 
 /* =========================================
-    DATABASE & FORM LOGIC
+    DATABASE & STORY LOGIC
    ========================================= */
-
-async function isPasswordUnique(newPw) {
-    try {
-        const response = await fetch(sheetURL + '&cachebuster=' + Date.now());
-        const csvData = await response.text();
-        const rows = csvData.split(/\r?\n/).slice(1);
-        return !rows.some(row => {
-            const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            const existingPw = columns[4] ? columns[4].replace(/^"|"$/g, '').trim() : "";
-            return existingPw.toLowerCase() === newPw.toLowerCase().trim();
-        });
-    } catch (e) { return true; }
-}
 
 async function findPersonalStory() {
     const inputName = document.getElementById('lookup-name')?.value.toLowerCase().trim();
     const inputPw = document.getElementById('lookup-pw')?.value.toLowerCase().trim();
     const container = document.getElementById('personal-story-content');
+    
     if (!inputName || !inputPw || !container) return;
 
     try {
-        container.innerHTML = `<p class="loading">${config.translations[config.currentLang]["loading-story"]}</p>`;
+        container.innerHTML = `<p style="color:#00f2ff;">${config.translations[config.currentLang]["loading-story"]}</p>`;
+        
         const response = await fetch(sheetURL + '&cachebuster=' + Date.now());
         const csvData = await response.text();
         const rows = csvData.split(/\r?\n/).slice(1);
@@ -146,78 +111,45 @@ async function findPersonalStory() {
             if (nameInSheet === inputName && pwInSheet === inputPw) {
                 found = true;
                 
-                // HIER IS DE AANPASSING: Titeltje + Google Knop + Verhaal
+                // HTML injecteren
                 container.innerHTML = `
-                    <p style="color:#00f2ff; font-weight:bold; margin-bottom:10px; text-transform: uppercase; letter-spacing:1px;">
+                    <p style="color:#00f2ff; font-weight:bold; margin-bottom:10px; text-transform: uppercase;">
                         ${config.currentLang === 'nl' ? 'Gevonden!' : 'Trouvé!'}
                     </p>
-                    
-                    <div id="google_translate_element" style="margin-bottom: 20px;"></div>
-
-                    <div class="story-text" style="border-left: 3px solid #ff00de; padding-left: 15px; text-align: left;">
+                    <div id="google_translate_element"></div>
+                    <div class="story-text" style="border-left: 3px solid #ff00de; padding-left: 15px; text-align: left; color: #fff;">
                         ${storyText}
                     </div>
                 `;
 
-                // De Google Translate widget activeren die in de HTML head staat
-                if (typeof googleTranslateElementInit === 'function') {
-                    googleTranslateElementInit();
-                }
+                // GEFORCEERDE HERSTART VAN GOOGLE TRANSLATE
+                setTimeout(() => {
+                    if (window.google && google.translate && google.translate.TranslateElement) {
+                        new google.translate.TranslateElement({
+                            pageLanguage: 'nl',
+                            includedLanguages: 'nl,fr,en,de',
+                            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                        }, 'google_translate_element');
+                    }
+                }, 200);
             }
         });
+
         if (!found) {
-            container.innerHTML = `<p style='color:#ff00de;'>${config.currentLang === 'nl' ? "Nickname of geheim woord onjuist." : "Nickname of mot secret incorrect."}</p>`;
+            container.innerHTML = `<p style='color:#ff00de;'>${config.currentLang === 'nl' ? "Nickname of geheim woord onjuist." : "Invalide."}</p>`;
         }
     } catch (e) { 
         container.innerHTML = "<p style='color:#ff00de;'>Error verbinding.</p>"; 
     }
 }
 
-/* =========================================
-    INITIALISATIE
-   ========================================= */
-
+// Initialisatie bij laden
 document.addEventListener('DOMContentLoaded', () => {
     setLanguage('nl');
-
-    const form = document.getElementById("dragon-form");
-    if (form) {
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const btn = form.querySelector('button[type="submit"]');
-            const chosenPw = document.getElementById('deelnemer_ww').value;
-            
-            btn.disabled = true;
-            btn.innerText = config.currentLang === 'nl' ? "Checken..." : "Vérification...";
-
-            const unique = await isPasswordUnique(chosenPw);
-            if (!unique) {
-                alert(config.currentLang === 'nl' ? "Dit geheime woord is al gekozen!" : "Ce mot secret est déjà utilisé !");
-                btn.disabled = false;
-                btn.innerText = config.translations[config.currentLang]["submit-btn"];
-                return;
-            }
-
-            btn.innerText = config.currentLang === 'nl' ? "Verzenden..." : "Envoi...";
-            const formData = new FormData(form);
-            const makeWebhookURL = "https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f"; 
-
-            fetch(makeWebhookURL, {
-                method: "POST",
-                body: JSON.stringify(Object.fromEntries(formData)),
-                headers: { 'Content-Type': 'application/json' }
-            })
-            .then(res => {
-                if (res.ok) {
-                    alert(config.currentLang === 'nl' ? "Gelukt!" : "Réussi !");
-                    window.location.href = "mijn-verhaal.html"; 
-                } else { throw new Error(); }
-            })
-            .catch(() => {
-                alert("Error.");
-                btn.disabled = false;
-                btn.innerText = config.translations[config.currentLang]["submit-btn"];
-            });
-        });
-    }
+    
+    // Enter-toets op de inputs
+    const inputs = [document.getElementById('lookup-name'), document.getElementById('lookup-pw')];
+    inputs.forEach(input => {
+        input?.addEventListener('keypress', (e) => { if (e.key === 'Enter') findPersonalStory(); });
+    });
 });
