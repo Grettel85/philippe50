@@ -17,6 +17,9 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     padding: 20px;
+    /* FIX: Voorkom dat Google de body naar beneden duwt */
+    top: 0px !important;
+    position: static !important;
 }
 
 /* Retro Achtergrond met sterren en neon-nevel */
@@ -128,7 +131,6 @@ button, .submit-btn, .submit-btn-alt {
     text-align: center;
 }
 
-/* Hoofdknoppen (Gevuld) */
 button, .submit-btn {
     background: linear-gradient(45deg, #ff00de, #00f2ff);
     color: #000 !important;
@@ -141,7 +143,6 @@ button:hover, .submit-btn:hover {
     filter: brightness(1.2);
 }
 
-/* Secundaire knop (Outline) - Fix voor "Bekijk hoofdstuk" */
 .submit-btn-alt {
     background: transparent !important;
     border: 2px solid #00f2ff !important;
@@ -149,13 +150,6 @@ button:hover, .submit-btn:hover {
     font-size: 1rem;
     margin-top: 25px;
     box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
-}
-
-.submit-btn-alt:hover {
-    background: rgba(0, 242, 255, 0.1) !important;
-    box-shadow: 0 0 20px #00f2ff;
-    color: #fff !important;
-    transform: scale(1.03);
 }
 
 /* =========================================
@@ -181,15 +175,6 @@ button:hover, .submit-btn:hover {
     text-transform: uppercase;
     transition: all 0.3s ease;
     margin-top: 0;
-    box-shadow: none;
-    letter-spacing: 1px;
-}
-
-.language-switch button.lang-active {
-    background: linear-gradient(45deg, #ff00de, #00f2ff);
-    color: #000 !important;
-    box-shadow: 0 0 15px #00f2ff;
-    border: none;
 }
 
 /* =========================================
@@ -207,55 +192,62 @@ button:hover, .submit-btn:hover {
     margin-top: 15px;
 }
 
-.chapter-box {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(0, 242, 255, 0.2);
-    border-radius: 12px;
-    padding: 25px;
-    margin-bottom: 30px;
-    text-align: left;
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.chapter-box::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0;
-    width: 4px; height: 100%;
-    background: linear-gradient(to bottom, #ff00de, #00f2ff);
-}
-
 /* =========================================
-    GOOGLE TRANSLATE WIDGET FIXES
+    GOOGLE TRANSLATE NEON OVERRIDES
    ========================================= */
-#google_translate_element {
-    margin-bottom: 20px;
-    min-height: 40px;
-    display: flex;
-    justify-content: center;
-}
 
-.goog-te-gadget-simple {
-    background-color: rgba(0, 0, 0, 0.5) !important;
-    border: 1px solid #00f2ff !important;
-    padding: 8px 12px !important;
-    border-radius: 10px !important;
-    font-family: inherit !important;
-}
-
-.goog-te-gadget-simple span {
-    color: #00f2ff !important;
-    font-weight: bold !important;
-}
-
-.goog-te-banner-frame.skiptranslate, .goog-te-gadget img {
+/* Verberg de balk bovenin en de logo's */
+.goog-te-banner-frame.skiptranslate, 
+.goog-te-banner-frame, 
+.goog-te-balloon-frame, 
+#goog-gt-tt, 
+.goog-te-gadget img, 
+.goog-te-menu-value img {
     display: none !important;
 }
 
-body {
-    top: 0px !important;
+/* Verwijder de witte ruimte bovenaan de pagina */
+.skiptranslate {
+    display: none !important;
+}
+
+/* De eigenlijke widget container */
+#google_translate_element {
+    margin: 20px auto;
+    min-height: 40px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* De knop zelf stijlen */
+.goog-te-gadget-simple {
+    background: rgba(0, 0, 0, 0.5) !important;
+    border: 2px solid #00f2ff !important;
+    padding: 8px 16px !important;
+    border-radius: 50px !important;
+    font-family: inherit !important;
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.goog-te-gadget-simple:hover {
+    box-shadow: 0 0 20px #00f2ff;
+    transform: translateY(-2px);
+}
+
+.goog-te-gadget-simple span {
+    color: #fff !important;
+    font-size: 0.85rem !important;
+    font-weight: bold !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    vertical-align: middle !important;
+}
+
+/* Verwijder de standaard Google 'pijltjes' */
+.goog-te-menu-value {
+    border: none !important;
 }
 
 /* =========================================
@@ -264,15 +256,12 @@ body {
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
 ::-webkit-scrollbar-thumb { background: #ff00de; border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: #00f2ff; }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Mobiele optimalisatie */
 @media (max-width: 480px) {
     .glass-card { padding: 20px; }
-    h1, h2 { font-size: 1.2rem; }
 }
