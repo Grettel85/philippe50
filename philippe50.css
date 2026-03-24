@@ -21,7 +21,6 @@ body {
     position: static !important;
 }
 
-/* Retro Achtergrond */
 .stars-container {
     position: fixed;
     top: 0;
@@ -36,9 +35,6 @@ body {
         linear-gradient(-45deg, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
 }
 
-/* =========================================
-    CONTAINERS & CARDS
-   ========================================= */
 .card-container {
     width: 100%;
     max-width: 600px;
@@ -57,7 +53,6 @@ body {
     border-top: 3px solid #00f2ff;
     border-bottom: 3px solid #ff00de;
     margin-bottom: 25px;
-    animation: fadeIn 0.8s ease-out;
 }
 
 h1, h2 {
@@ -66,41 +61,40 @@ h1, h2 {
     letter-spacing: 2px;
     text-shadow: 0 0 10px #00f2ff;
     font-size: 1.5rem;
-    color: #fff;
 }
 
 /* =========================================
-    GOOGLE TRANSLATE NEON FIX (V4 - ULTRA)
+    GOOGLE TRANSLATE NEON FIX
    ========================================= */
 
-/* Verberg de balk en de popups, MAAR raak de algemene .skiptranslate niet aan */
+/* Verberg de balk bovenin en popups */
 iframe.goog-te-banner-frame, 
 .goog-te-banner-frame, 
 .goog-te-balloon-frame, 
 #goog-gt-tt,
 .goog-te-banner,
-.goog-tooltip,
-.goog-tooltip:hover {
+.goog-tooltip {
     display: none !important;
     visibility: hidden !important;
 }
 
-/* De container in je kaart MOET ALTIJD zichtbaar zijn */
+/* Laat de skiptranslate klasse ALLEEN toe voor onze knop */
+.skiptranslate:not(#google_translate_element) {
+    display: none !important;
+}
+
 #google_translate_element {
     display: block !important;
     visibility: visible !important;
-    opacity: 1 !important;
     margin: 20px auto !important;
-    min-height: 40px !important;
+    min-height: 40px;
 }
 
-/* De knop zelf */
 .goog-te-gadget-simple {
     background: rgba(0, 0, 0, 0.7) !important;
     border: 2px solid #00f2ff !important;
-    padding: 10px 20px !important;
+    padding: 8px 16px !important;
     border-radius: 50px !important;
-    font-family: inherit !important;
     box-shadow: 0 0 15px rgba(0, 242, 255, 0.5) !important;
     display: inline-flex !important;
     align-items: center !important;
@@ -111,21 +105,14 @@ iframe.goog-te-banner-frame,
     color: #fff !important;
     font-weight: bold !important;
     text-transform: uppercase !important;
-    font-size: 0.9rem !important;
+    font-size: 0.85rem !important;
 }
 
-/* Verberg logo's en rommel */
-.goog-te-gadget img, 
-.goog-te-gadget-icon, 
-.goog-te-menu-value img {
+.goog-te-gadget img, .goog-te-gadget-icon, .goog-te-menu-value img {
     display: none !important;
 }
 
-/* Reset alle Google rotzooi die de layout breekt */
-.goog-te-menu-value {
-    border: none !important;
-    margin: 0 !important;
-}
+.goog-te-menu-value { border: none !important; margin: 0 !important; }
 
 /* =========================================
     STORY & KNOPPEN
@@ -142,7 +129,6 @@ iframe.goog-te-banner-frame,
     margin-top: 15px;
 }
 
-/* ... overige knop stijlen ... */
 button, .submit-btn {
     background: linear-gradient(45deg, #ff00de, #00f2ff);
     color: #000 !important;
@@ -152,9 +138,8 @@ button, .submit-btn {
     cursor: pointer;
     text-transform: uppercase;
     width: 100%;
+    border: none;
+    transition: 0.3s;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+button:hover { transform: scale(1.02); filter: brightness(1.2); }
