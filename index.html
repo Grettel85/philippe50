@@ -4,69 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Philippe 50 - De Legende</title>
-    <link rel="stylesheet" href="philippe50.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="stars-container"></div>
+
     <div class="card-container">
-        
-        <div class="language-switch">
-            <button onclick="setLanguage('nl')" id="btn-nl" class="lang-active">NL</button>
-            <button onclick="setLanguage('fr')" id="btn-fr">FR</button>
+        <div class="lang-switch">
+            <button id="btn-nl" onclick="setLanguage('nl')">NL</button>
+            <button id="btn-fr" onclick="setLanguage('fr')">FR</button>
         </div>
 
-        <div id="password-gate" class="glass-card">
-            <h1 data-i18n="welcome">Welkom bij Philippe 50</h1>
-            <p data-i18n="enter-code" style="margin-bottom: 15px;">Voer de code in om deel te nemen:</p>
+        <div class="glass-card">
+            <h1 data-i18n="lookup-title">Ontgrendel jouw hoofdstuk</h1>
+            <p data-i18n="lookup-desc" style="margin-bottom: 20px; opacity: 0.8;">Voer je nickname en het geheime woord in.</p>
+            
             <div class="input-group">
-                <input type="password" id="password-input" placeholder="Wachtwoord...">
+                <input type="text" id="lookup-name" placeholder="Jouw Nickname...">
+                <input type="password" id="lookup-pw" placeholder="Geheim Woord...">
             </div>
-            <button onclick="checkPassword()" data-i18n="login-btn">Log in</button>
-            <p id="error-msg" style="color: #ff00de; display: none; margin-top: 10px;" data-i18n="wrong-pwd">Onjuist.</p>
-            
-            <hr style="margin: 30px 0 10px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.1);">
-            
-            <a href="mijn-verhaal.html" class="submit-btn-alt" data-i18n="view-chapter">
-                Bekijk jouw hoofdstuk
-            </a>
-        </div>
 
-        <div id="form-section" class="glass-card" style="display: none;">
-            <h2 data-i18n="form-title">Het verhaal van Philippe</h2>
-            <form id="dragon-form">
-                <div class="input-group">
-                    <label data-i18n="label-name">Wat is je (bij)naam?</label>
-                    <input type="text" name="deelnemer_naam" id="deelnemer_naam" required>
+            <button class="submit-btn" onclick="findPersonalStory()" data-i18n="show-story-btn">Toon mijn verhaal</button>
+            
+            <div id="personal-story-content" class="story-container">
                 </div>
-                <div class="input-group">
-                    <label data-i18n="label-email">Wat is je e-mailadres:</label>
-                    <input type="email" name="deelnemer_email" id="deelnemer_email" required>
-                </div>
-                <div class="input-group">
-                    <label data-i18n="label-band">Schrijf hier het geheime woord:</label>
-                    <p style="font-size: 0.7rem; color: #ff00de; margin-bottom: 5px;" data-i18n="band-note">(Dit is je wachtwoord voor later)</p>
-                    <input type="text" name="deelnemer_ww" id="deelnemer_ww" required>
-                </div>
-                <div class="input-group">
-                    <label data-i18n="label-personage">Welk 80's personage?</label>
-                    <input type="text" name="deelnemer_personage" id="deelnemer_personage" required>
-                </div>
-                <div class="input-group">
-                    <label data-i18n="label-power">Superkracht?</label>
-                    <input type="text" name="philippe_superkracht" id="philippe_superkracht" required>
-                </div>
-                <div class="input-group">
-                    <label data-i18n="label-kryptonite">Kryptonite?</label>
-                    <input type="text" name="philippe_kryptonite" id="philippe_kryptonite" required>
-                </div>
-                <div class="input-group">
-                    <label data-i18n="label-memory">Leukste herinnering?</label>
-                    <textarea name="philippe_herinnering" id="philippe_herinnering" rows="3" required></textarea>
-                </div>
-                <button type="submit" class="submit-btn" data-i18n="submit-btn">Verstuur naar de Legende</button>
-            </form>
+
+            <div style="margin-top: 30px;">
+                <a href="index.html" class="back-link" data-i18n="back-link">← Terug naar de start</a>
+            </div>
         </div>
     </div>
-    <script src="philippe50.js"></script>
+
+    <script src="script.js"></script>
 </body>
 </html>
