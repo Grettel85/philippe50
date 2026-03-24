@@ -1,60 +1,74 @@
-/* =========================================
-    CORE LOGIC & STORY LOGIC
-   ========================================= */
-// ... (Houd je config en setLanguage functies hetzelfde)
+const config = {
+    currentLang: 'nl',
+    translations: {
+        nl: {
+            "lookup-title": "Ontgrendel jouw hoofdstuk",
+            "lookup-desc": "Voer je nickname en het geheime woord in.",
+            "show-story-btn": "Toon mijn verhaal",
+            "loading-story": "De nevels trekken op...",
+            "back-link": "← Terug naar de start",
+            "not-found": "Geen match gevonden. Controleer je gegevens."
+        },
+        fr: {
+            "lookup-title": "Débloquez votre chapitre",
+            "lookup-desc": "Entrez votre nickname et le mot secret.",
+            "show-story-btn": "Afficher mon histoire",
+            "loading-story": "Les brumes se lèvent...",
+            "back-link": "← Retour au début",
+            "not-found": "Aucune correspondance trouvée."
+        }
+    }
+};
+
+const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR8NcRn-YMmbVuxKlYx_WT9_QZEB5eaFbiygWphB86Ya2mzMswKVwVlqFpBDe5ewM6f1uFh2wi8nIDk/pub?output=csv';
+
+function setLanguage(lang) {
+    config.currentLang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (config.translations[lang][key]) el.innerText = config.translations[lang][key];
+    });
+
+    document.getElementById('btn-nl').className = lang === 'nl' ? 'lang-active' : '';
+    document.getElementById('btn-fr').className = lang === 'fr' ? 'lang-active' : '';
+    
+    document.getElementById('lookup-name').placeholder = lang === 'nl' ? "Jouw Nickname..." : "Ton Nickname...";
+}
 
 async function findPersonalStory() {
-    const inputName = document.getElementById('lookup-name')?.value.toLowerCase().trim();
-    const inputPw = document.getElementById('lookup-pw')?.value.toLowerCase().trim();
+    const name = document.getElementById('lookup-name').value.toLowerCase().trim();
+    const pw = document.getElementById('lookup-pw').value.toLowerCase().trim();
     const container = document.getElementById('personal-story-content');
-    
-    if (!inputName || !inputPw || !container) return;
+
+    if (!name || !pw) return;
+
+    container.innerHTML = `<p style="color:#00f2ff; margin-top:20px;">${config.translations[config.currentLang]["loading-story"]}</p>`;
 
     try {
-        container.innerHTML = `<p style="color:#00f2ff;">${config.translations[config.currentLang]["loading-story"]}</p>`;
-        
-        const response = await fetch(sheetURL + '&cachebuster=' + Date.now());
-        const csvData = await response.text();
-        const rows = csvData.split(/\r?\n/).slice(1);
+        const response = await fetch(sheetURL + '&cache=' + Date.now());
+        const data = await response.text();
+        const rows = data.split('\n').slice(1);
         let found = false;
 
         rows.forEach(row => {
-            const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            const storyText = columns[1] ? columns[1].replace(/^"|"$/g, '').trim() : "";
-            const nameInSheet = columns[2] ? columns[2].replace(/^"|"$/g, '').toLowerCase().trim() : "";
-            const pwInSheet = columns[4] ? columns[4].replace(/^"|"$/g, '').toLowerCase().trim() : "";
+            const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+            const sheetStory = cols[1]?.replace(/^"|"$/g, '').trim();
+            const sheetName = cols[2]?.replace(/^"|"$/g, '').toLowerCase().trim();
+            const sheetPw = cols[4]?.replace(/^"|"$/g, '').toLowerCase().trim();
 
-            if (nameInSheet === inputName && pwInSheet === inputPw) {
+            if (sheetName === name && sheetPw === pw) {
                 found = true;
-                
-                container.innerHTML = `
-                    <p style="color:#00f2ff; font-weight:bold; margin-bottom:10px; text-transform: uppercase;">
-                        ${config.currentLang === 'nl' ? 'Gevonden!' : 'Trouvé!'}
-                    </p>
-                    <div id="google_translate_element"></div>
-                    <div class="story-text" style="border-left: 3px solid #ff00de; padding-left: 15px; text-align: left; color: #fff;">
-                        ${storyText}
-                    </div>
-                `;
-
-                setTimeout(() => {
-                    const el = document.getElementById('google_translate_element');
-                    if (el && el.innerHTML === "" && window.google && google.translate) {
-                        new google.translate.TranslateElement({
-                            pageLanguage: 'nl',
-                            includedLanguages: 'nl,fr,en,de,it,es',
-                            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                            autoDisplay: false // CRUCIAAL: Voorkomt dat Google de hele pagina overneemt
-                        }, 'google_translate_element');
-                    }
-                }, 500);
+                container.innerHTML = `<div class="story-text">${sheetStory}</div>`;
             }
         });
 
         if (!found) {
-            container.innerHTML = `<p style='color:#ff00de;'>${config.currentLang === 'nl' ? "Nickname of geheim woord onjuist." : "Invalide."}</p>`;
+            container.innerHTML = `<p style="color:#ff00de; margin-top:20px;">${config.translations[config.currentLang]["not-found"]}</p>`;
         }
-    } catch (e) { 
-        container.innerHTML = "<p style='color:#ff00de;'>Error verbinding.</p>"; 
+    } catch (err) {
+        container.innerHTML = "<p style='color:#ff00de;'>Error verbinding.</p>";
     }
 }
+
+// Start in NL
+document.addEventListener('DOMContentLoaded', () => setLanguage('nl'));
