@@ -5,6 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Philippe 50 - Jouw Hoofdstuk</title>
     <link rel="stylesheet" href="philippe50.css">
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'nl',
+                includedLanguages: 'nl,fr,en,de',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    
+    <style>
+        /* Zorgt dat de translate widget er een beetje neon uitziet */
+        .goog-te-gadget-simple {
+            background: rgba(0, 0, 0, 0.5) !important;
+            border: 1px solid #ff00de !important;
+            padding: 4px 8px !important;
+            border-radius: 8px !important;
+        }
+        .goog-te-gadget-simple span { color: #00f2ff !important; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; }
+        body { top: 0px !important; }
+    </style>
 </head>
 <body>
 
@@ -13,8 +38,8 @@
     <div class="card-container">
         
         <div class="language-switch">
-            <button onclick="setLanguage('nl')">NL</button>
-            <button onclick="setLanguage('fr')">FR</button>
+            <button onclick="setLanguage('nl')" id="btn-nl">NL</button>
+            <button onclick="setLanguage('fr')" id="btn-fr">FR</button>
         </div>
 
         <div class="glass-card">
@@ -37,7 +62,7 @@
                 Toon mijn verhaal
             </button>
             
-            <div id="personal-story-content" class="story-text" style="margin-top: 30px; min-height: 50px;">
+            <div id="personal-story-content" style="margin-top: 30px; min-height: 50px;">
                 </div>
             
             <div style="text-align: center; margin-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px;">
@@ -51,24 +76,51 @@
 
     <script src="philippe50.js"></script>
     <script>
-        // Extra vertalingen specifiek voor deze pagina toevoegen aan de bestaande config
-        if (config && config.translations) {
-            config.translations.nl["lookup-title"] = "Ontgrendel jouw hoofdstuk";
-            config.translations.nl["lookup-desc"] = "Voer je nickname en het geheime woord (je band met Philippe) in.";
-            config.translations.nl["show-story-btn"] = "Toon mijn verhaal";
-            config.translations.nl["back-link"] = "← Terug naar de start";
+        // Overschrijf de findPersonalStory functie specifiek voor deze pagina met de vertaalknop
+        async function findPersonalStory() {
+            const inputName = document.getElementById('lookup-name')?.value.toLowerCase().trim();
+            const inputPw = document.getElementById('lookup-pw')?.value.toLowerCase().trim();
+            const container = document.getElementById('personal-story-content');
+            if (!inputName || !inputPw || !container) return;
 
-            config.translations.fr["lookup-title"] = "Débloquez votre chapitre";
-            config.translations.fr["lookup-desc"] = "Entrez votre nickname et le mot secret (votre lien avec Philippe).";
-            config.translations.fr["show-story-btn"] = "Afficher mon histoire";
-            config.translations.fr["back-link"] = "← Retour au début";
+            try {
+                container.innerHTML = `<p style="color:#00f2ff;">${config.translations[config.currentLang]["loading-story"]}</p>`;
+                const response = await fetch(sheetURL + '&cachebuster=' + Date.now());
+                const csvData = await response.text();
+                const rows = csvData.split(/\r?\n/).slice(1);
+                let found = false;
+
+                rows.forEach(row => {
+                    const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    const storyText = columns[1] ? columns[1].replace(/^"|"$/g, '').trim() : "";
+                    const nameInSheet = columns[2] ? columns[2].replace(/^"|"$/g, '').toLowerCase().trim() : "";
+                    const pwInSheet = columns[4] ? columns[4].replace(/^"|"$/g, '').toLowerCase().trim() : "";
+
+                    if (nameInSheet === inputName && pwInSheet === inputPw) {
+                        found = true;
+                        // HIER WORDT DE VERTAALKNOP GEPLAATST ONDER "GEVONDEN!"
+                        container.innerHTML = `
+                            <p style="color:#00f2ff; font-weight:bold; margin-bottom:5px; text-transform: uppercase;">
+                                ${config.currentLang === 'nl' ? 'Gevonden!' : 'Trouvé!'}
+                            </p>
+                            <div id="google_translate_element" style="margin-bottom: 20px;"></div>
+                            <div class="story-text" style="border-left: 3px solid #ff00de; padding-left: 15px; text-align: left;">
+                                ${storyText}
+                            </div>`;
+                        
+                        // Herinitialiseer de Google Translate widget nadat de div is aangemaakt
+                        if(typeof googleTranslateElementInit === 'function') {
+                            googleTranslateElementInit();
+                        }
+                    }
+                });
+                if (!found) container.innerHTML = `<p style='color:#ff00de;'>${config.currentLang === 'nl' ? "Niet gevonden." : "Non trouvé."}</p>`;
+            } catch (e) { container.innerHTML = "Error."; }
         }
 
-        // Zorg dat de Enter-toets ook werkt op deze pagina
+        // Enter-toets logica
         document.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                findPersonalStory();
-            }
+            if (e.key === 'Enter') { findPersonalStory(); }
         });
     </script>
 </body>
