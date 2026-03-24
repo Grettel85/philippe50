@@ -1,11 +1,11 @@
 /* =========================================
-    BASIS RESET & RETRO STIJL
+    BASIS & LAYOUT HERSTEL
    ========================================= */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
 }
 
 body {
@@ -15,19 +15,9 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 20px;
-    top: 0px !important; /* Fix voor Google Translate */
+    /* FIX: Voorkomt dat Google Translate de pagina verschuift */
+    top: 0px !important;
     position: static !important;
-}
-
-.stars-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
 }
 
 .glass-card {
@@ -35,19 +25,18 @@ body {
     backdrop-filter: blur(12px);
     border-radius: 20px;
     padding: 30px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-    text-align: center;
     border-top: 3px solid #00f2ff;
     border-bottom: 3px solid #ff00de;
     width: 100%;
     max-width: 500px;
+    text-align: center;
 }
 
-/* Invoervelden herstellen naar Neon Look */
+/* INPUTS HERSTELLEN (Geen witte vlakken meer) */
 input {
     width: 100%;
     padding: 12px;
-    margin: 10px 0 20px 0;
+    margin: 10px 0;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(0, 242, 255, 0.3);
     border-radius: 8px;
@@ -55,57 +44,22 @@ input {
     outline: none;
 }
 
-input:focus {
-    border-color: #00f2ff;
-    box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
-}
-
-/* =========================================
-    GOOGLE TRANSLATE FIX (STABIEL)
-   ========================================= */
-#google_translate_element {
-    margin: 15px 0;
-    min-height: 40px;
-}
-
-/* Verberg alleen de Google rommel, niet onze knop */
-.goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame, .goog-te-gadget img {
+/* GOOGLE TRANSLATE FIX - Verbergt de rommelige balken */
+.goog-te-banner-frame, .goog-te-balloon-frame, #goog-gt-tt, .goog-te-gadget img {
     display: none !important;
 }
 
+#google_translate_element {
+    margin: 15px 0;
+}
+
 .goog-te-gadget-simple {
-    background: rgba(0, 0, 0, 0.5) !important;
+    background: rgba(0, 0, 0, 0.3) !important;
     border: 1px solid #00f2ff !important;
     padding: 5px 10px !important;
     border-radius: 4px !important;
-    cursor: pointer;
 }
 
 .goog-te-gadget-simple span {
     color: #00f2ff !important;
-    font-size: 0.8rem !important;
-}
-
-/* =========================================
-    STORY TEXT & BUTTONS
-   ========================================= */
-.story-text {
-    background: rgba(255, 255, 255, 0.05);
-    border-left: 3px solid #ff00de;
-    padding: 20px;
-    text-align: left;
-    line-height: 1.6;
-    margin-top: 20px;
-}
-
-.submit-btn {
-    background: linear-gradient(45deg, #ff00de, #00f2ff);
-    color: #000;
-    padding: 14px;
-    border-radius: 50px;
-    font-weight: bold;
-    text-transform: uppercase;
-    width: 100%;
-    border: none;
-    cursor: pointer;
 }
