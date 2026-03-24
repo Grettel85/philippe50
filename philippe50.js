@@ -7,7 +7,7 @@ const config = {
             "show-story-btn": "Toon mijn verhaal",
             "loading-story": "De nevels trekken op...",
             "back-link": "← Terug naar de start",
-            "not-found": "Geen match gevonden. Controleer je gegevens."
+            "error": "Helaas, geen match gevonden."
         },
         fr: {
             "lookup-title": "Débloquez votre chapitre",
@@ -15,7 +15,7 @@ const config = {
             "show-story-btn": "Afficher mon histoire",
             "loading-story": "Les brumes se lèvent...",
             "back-link": "← Retour au début",
-            "not-found": "Aucune correspondance trouvée."
+            "error": "Désolé, aucune correspondance."
         }
     }
 };
@@ -31,7 +31,6 @@ function setLanguage(lang) {
 
     document.getElementById('btn-nl').className = lang === 'nl' ? 'lang-active' : '';
     document.getElementById('btn-fr').className = lang === 'fr' ? 'lang-active' : '';
-    
     document.getElementById('lookup-name').placeholder = lang === 'nl' ? "Jouw Nickname..." : "Ton Nickname...";
 }
 
@@ -63,12 +62,11 @@ async function findPersonalStory() {
         });
 
         if (!found) {
-            container.innerHTML = `<p style="color:#ff00de; margin-top:20px;">${config.translations[config.currentLang]["not-found"]}</p>`;
+            container.innerHTML = `<p style="color:#ff00de; margin-top:20px;">${config.translations[config.currentLang]["error"]}</p>`;
         }
     } catch (err) {
         container.innerHTML = "<p style='color:#ff00de;'>Error verbinding.</p>";
     }
 }
 
-// Start in NL
 document.addEventListener('DOMContentLoaded', () => setLanguage('nl'));
