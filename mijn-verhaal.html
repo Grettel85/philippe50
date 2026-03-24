@@ -35,17 +35,21 @@
             font-size: 0.85rem !important;
         }
 
-        /* Verberg de standaard Google balk bovenaan de pagina */
+        /* Verberg de standaard Google balk en logo's */
         .goog-te-banner-frame.skiptranslate { display: none !important; }
         body { top: 0px !important; }
-        
-        /* Verberg het Google logo in de widget voor een cleaner uiterlijk */
         .goog-te-gadget img { display: none !important; }
         .goog-te-menu-value img { display: none !important; }
+        
+        /* Zorg dat de widget ruimte heeft */
+        #google_translate_element {
+            min-height: 40px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
-<div id="google_translate_element"></div>
+
     <div class="stars-container"></div>
 
     <div class="card-container">
@@ -58,16 +62,16 @@
         <div class="glass-card">
             <h2 id="lookup-title" style="color: #00f2ff; margin-bottom: 10px;" data-i18n="lookup-title">Ontgrendel jouw hoofdstuk</h2>
             <p id="lookup-desc" style="font-size: 0.9rem; margin-bottom: 25px; color: #e0e0e0;" data-i18n="lookup-desc">
-                Voer je nickname en het geheime woord (je band met Philippe) in die je eerder hebt gekozen.
+                Voer je nickname en het geheime woord in.
             </p>
             
             <div class="input-group">
-                <label style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;" data-i18n="label-name">Jouw Nickname:</label>
+                <label data-i18n="label-name">Jouw Nickname:</label>
                 <input type="text" id="lookup-name" placeholder="...">
             </div>
 
             <div class="input-group">
-                <label style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;" data-i18n="label-band">Jouw Geheim Woord:</label>
+                <label data-i18n="label-band">Jouw Geheim Woord:</label>
                 <input type="password" id="lookup-pw" placeholder="...">
             </div>
 
@@ -75,8 +79,7 @@
                 Toon mijn verhaal
             </button>
             
-            <div id="personal-story-content" style="margin-top: 30px; min-height: 50px;">
-                </div>
+            <div id="personal-story-content" style="margin-top: 30px; min-height: 50px;"></div>
             
             <div style="text-align: center; margin-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px;">
                 <a href="index.html" style="color: #ff00de; text-decoration: none; font-size: 0.85rem;" data-i18n="back-link">
@@ -88,69 +91,5 @@
     </div>
 
     <script src="philippe50.js"></script>
-    
-    <script>
-        // Deze functie handelt het ophalen van de data uit Google Sheets af
-        async function findPersonalStory() {
-            const inputName = document.getElementById('lookup-name')?.value.toLowerCase().trim();
-            const inputPw = document.getElementById('lookup-pw')?.value.toLowerCase().trim();
-            const container = document.getElementById('personal-story-content');
-            
-            if (!inputName || !inputPw || !container) return;
-
-            try {
-                // Toon laad-tekst
-                container.innerHTML = `<p style="color:#00f2ff;">${config.translations[config.currentLang]["loading-story"]}</p>`;
-                
-                // Haal CSV data op
-                const response = await fetch(sheetURL + '&cachebuster=' + Date.now());
-                const csvData = await response.text();
-                const rows = csvData.split(/\r?\n/).slice(1);
-                let found = false;
-
-                rows.forEach(row => {
-                    const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    const storyText = columns[1] ? columns[1].replace(/^"|"$/g, '').trim() : "";
-                    const nameInSheet = columns[2] ? columns[2].replace(/^"|"$/g, '').toLowerCase().trim() : "";
-                    const pwInSheet = columns[4] ? columns[4].replace(/^"|"$/g, '').toLowerCase().trim() : "";
-
-                    if (nameInSheet === inputName && pwInSheet === inputPw) {
-                        found = true;
-                        
-                        // Bouw de HTML op: Titeltje, Vertaalknop en de Tekst
-                        container.innerHTML = `
-                            <p style="color:#00f2ff; font-weight:bold; margin-bottom:10px; text-transform: uppercase; letter-spacing:1px;">
-                                ${config.currentLang === 'nl' ? 'Gevonden!' : 'Trouvé!'}
-                            </p>
-                            
-                            <div id="google_translate_element" style="margin-bottom: 25px;"></div>
-                            
-                            <div class="story-text" style="border-left: 3px solid #ff00de; padding-left: 20px; text-align: left; line-height: 1.6; color: #fff;">
-                                ${storyText}
-                            </div>
-                        `;
-                        
-                        // Start de Google Translate widget direct nadat de HTML is geplaatst
-                        if(typeof googleTranslateElementInit === 'function') {
-                            googleTranslateElementInit();
-                        }
-                    }
-                });
-
-                if (!found) {
-                    container.innerHTML = `<p style='color:#ff00de;'>${config.currentLang === 'nl' ? "Niet gevonden. Controleer je nickname en geheim woord." : "Niet gevonden."}</p>`;
-                }
-            } catch (e) { 
-                container.innerHTML = "<p style='color:#ff00de;'>Error: Kon de legende niet raadplegen.</p>"; 
-            }
-        }
-
-        // Luister naar de Enter-toets voor gebruiksgemak
-        document.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') { 
-                findPersonalStory(); 
-            }
-        });
-    </script>
 </body>
 </html>
