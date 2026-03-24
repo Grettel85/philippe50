@@ -53,6 +53,10 @@ const config = {
 
 const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR8NcRn-YMmbVuxKlYx_WT9_QZEB5eaFbiygWphB86Ya2mzMswKVwVlqFpBDe5ewM6f1uFh2wi8nIDk/pub?output=csv';
 
+/* =========================================
+   CORE LOGIC
+   ========================================= */
+
 function setLanguage(lang) {
     config.currentLang = lang;
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -61,9 +65,11 @@ function setLanguage(lang) {
         if (translation) el.innerText = translation;
     });
 
+    // Update placeholders
     const pwdInput = document.getElementById('password-input');
     if (pwdInput) pwdInput.placeholder = lang === 'nl' ? "Wachtwoord..." : "Mot de passe...";
 
+    // Update actieve knop styling
     updateLangButtons(lang);
 }
 
@@ -72,18 +78,14 @@ function updateLangButtons(lang) {
     const btnFr = document.getElementById('btn-fr');
     if (!btnNl || !btnFr) return;
 
-    // Reset beide knoppen naar standaard gloed (niet-actief)
     [btnNl, btnFr].forEach(btn => {
-        btn.style.boxShadow = '0 0 10px rgba(255, 0, 222, 0.4)';
-        btn.style.filter = 'brightness(0.8)';
-        btn.classList.remove('active-lang');
+        btn.style.boxShadow = '0 0 10px rgba(255, 0, 222, 0.3)';
+        btn.style.filter = 'brightness(1)';
     });
 
-    // Zet de actieve knop in de kijker
     const activeBtn = lang === 'nl' ? btnNl : btnFr;
     activeBtn.style.boxShadow = '0 0 20px #00f2ff';
-    activeBtn.style.filter = 'brightness(1.2)';
-    activeBtn.classList.add('active-lang');
+    activeBtn.style.filter = 'brightness(1.3)';
 }
 
 function checkPassword() {
@@ -103,6 +105,10 @@ function checkPassword() {
     }
 }
 
+/* =========================================
+   DATABASE & FORM LOGIC
+   ========================================= */
+
 async function isPasswordUnique(newPw) {
     try {
         const response = await fetch(sheetURL + '&cachebuster=' + Date.now());
@@ -115,6 +121,39 @@ async function isPasswordUnique(newPw) {
         });
     } catch (e) { return true; }
 }
+
+async function findPersonalStory() {
+    const inputName = document.getElementById('lookup-name')?.value.toLowerCase().trim();
+    const inputPw = document.getElementById('lookup-pw')?.value.toLowerCase().trim();
+    const container = document.getElementById('personal-story-content');
+    if (!inputName || !inputPw || !container) return;
+
+    try {
+        container.innerHTML = config.translations[config.currentLang]["loading-story"];
+        const response = await fetch(sheetURL + '&cachebuster=' + Date.now());
+        const csvData = await response.text();
+        const rows = csvData.split(/\r?\n/).slice(1);
+        let found = false;
+
+        rows.forEach(row => {
+            const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+            const storyText = columns[1] ? columns[1].replace(/^"|"$/g, '').trim() : "";
+            const nameInSheet = columns[2] ? columns[2].replace(/^"|"$/g, '').toLowerCase().trim() : "";
+            const pwInSheet = columns[4] ? columns[4].replace(/^"|"$/g, '').toLowerCase().trim() : "";
+
+            if (nameInSheet === inputName && pwInSheet === inputPw) {
+                found = true;
+                container.innerHTML = `<p style="color:#00f2ff; font-weight:bold; margin-bottom:15px;">Dag ${columns[2]}, jouw legende:</p>
+                                       <div style="border-left: 3px solid #ff00de; padding-left: 15px; text-align: left;">${storyText}</div>`;
+            }
+        });
+        if (!found) container.innerHTML = `<p style='color:#ff00de;'>${config.currentLang === 'nl' ? "Niet gevonden." : "Non trouvé."}</p>`;
+    } catch (e) { container.innerHTML = "Error."; }
+}
+
+/* =========================================
+   INITIALIZATION
+   ========================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
     setLanguage('nl');
