@@ -17,12 +17,11 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     padding: 20px;
-    /* FIX: Voorkom dat Google de body naar beneden duwt */
     top: 0px !important;
     position: static !important;
 }
 
-/* Retro Achtergrond met sterren en neon-nevel */
+/* Retro Achtergrond */
 .stars-container {
     position: fixed;
     top: 0;
@@ -53,8 +52,7 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
     padding: 30px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8), 
-                0 0 15px rgba(0, 242, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 242, 255, 0.1);
     text-align: center;
     border-top: 3px solid #00f2ff;
     border-bottom: 3px solid #ff00de;
@@ -72,113 +70,65 @@ h1, h2 {
 }
 
 /* =========================================
-    INPUT VELDEN
+    GOOGLE TRANSLATE NEON FIX (V4 - ULTRA)
    ========================================= */
-.input-group {
-    margin-bottom: 20px;
-    text-align: left;
+
+/* Verberg de balk en de popups, MAAR raak de algemene .skiptranslate niet aan */
+iframe.goog-te-banner-frame, 
+.goog-te-banner-frame, 
+.goog-te-balloon-frame, 
+#goog-gt-tt,
+.goog-te-banner,
+.goog-tooltip,
+.goog-tooltip:hover {
+    display: none !important;
+    visibility: hidden !important;
 }
 
-label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 0.85rem;
-    color: #00f2ff;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+/* De container in je kaart MOET ALTIJD zichtbaar zijn */
+#google_translate_element {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin: 20px auto !important;
+    min-height: 40px !important;
 }
 
-input[type="password"],
-input[type="text"],
-input[type="email"],
-textarea {
-    width: 100%;
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid #ff00de;
-    border-radius: 8px;
-    color: #fff;
-    outline: none;
-    transition: all 0.3s ease;
-    font-size: 1rem;
-}
-
-input:focus, textarea:focus {
-    box-shadow: 0 0 15px #ff00de;
-    border-color: #00f2ff;
-    background: rgba(0, 0, 0, 0.8);
-}
-
-/* =========================================
-    KNOPPEN (Neon Style)
-   ========================================= */
-button, .submit-btn, .submit-btn-alt {
-    display: inline-flex; 
-    justify-content: center; 
-    align-items: center; 
-    text-decoration: none; 
-    border: none;
-    padding: 14px 28px;
-    border-radius: 50px;
-    font-weight: 900;
-    cursor: pointer;
-    text-transform: uppercase;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    width: 100%;
-    margin-top: 15px;
-    letter-spacing: 2px;
-    text-align: center;
-}
-
-button, .submit-btn {
-    background: linear-gradient(45deg, #ff00de, #00f2ff);
-    color: #000 !important;
-    box-shadow: 0 0 15px rgba(255, 0, 222, 0.4);
-}
-
-button:hover, .submit-btn:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 25px #00f2ff, 0 0 50px rgba(255, 0, 222, 0.6);
-    filter: brightness(1.2);
-}
-
-.submit-btn-alt {
-    background: transparent !important;
+/* De knop zelf */
+.goog-te-gadget-simple {
+    background: rgba(0, 0, 0, 0.7) !important;
     border: 2px solid #00f2ff !important;
-    color: #00f2ff !important;
-    font-size: 1rem;
-    margin-top: 25px;
-    box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+    padding: 10px 20px !important;
+    border-radius: 50px !important;
+    font-family: inherit !important;
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.5) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    cursor: pointer !important;
 }
 
-/* =========================================
-    TAAL SCHAKELAAR (NL/FR)
-   ========================================= */
-.language-switch {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 15px;
-    gap: 10px;
-}
-
-.language-switch button {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+.goog-te-gadget-simple span {
     color: #fff !important;
-    padding: 6px 16px;
-    font-size: 0.75rem;
-    width: auto;
-    border-radius: 50px;
-    cursor: pointer;
-    font-weight: 900;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    margin-top: 0;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+    font-size: 0.9rem !important;
+}
+
+/* Verberg logo's en rommel */
+.goog-te-gadget img, 
+.goog-te-gadget-icon, 
+.goog-te-menu-value img {
+    display: none !important;
+}
+
+/* Reset alle Google rotzooi die de layout breekt */
+.goog-te-menu-value {
+    border: none !important;
+    margin: 0 !important;
 }
 
 /* =========================================
-    STORY & LEGENDE LAYOUT
+    STORY & KNOPPEN
    ========================================= */
 .story-text {
     background: rgba(255, 255, 255, 0.05);
@@ -192,82 +142,19 @@ button:hover, .submit-btn:hover {
     margin-top: 15px;
 }
 
-/* =========================================
-    GOOGLE TRANSLATE NEON OVERRIDES
-   ========================================= */
-
-/* Verberg specifiek de balk bovenin en de logo's */
-iframe.goog-te-banner-frame, 
-.goog-te-banner-frame, 
-.goog-te-balloon-frame, 
-#goog-gt-tt, 
-.goog-te-gadget img, 
-.goog-te-menu-value img,
-.goog-te-gadget-icon {
-    display: none !important;
-}
-
-/* Verberg de witruimte bovenin maar laat de knop met rust */
-.skiptranslate:not(#google_translate_element) {
-    display: none !important;
-}
-
-/* De eigenlijke widget container in de kaart */
-#google_translate_element {
-    margin: 20px auto !important;
-    min-height: 40px;
-    display: flex !important;
-    visibility: visible !important;
-    justify-content: center;
+/* ... overige knop stijlen ... */
+button, .submit-btn {
+    background: linear-gradient(45deg, #ff00de, #00f2ff);
+    color: #000 !important;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-weight: 900;
+    cursor: pointer;
+    text-transform: uppercase;
     width: 100%;
 }
-
-/* De knop zelf stijlen naar neon-look */
-.goog-te-gadget-simple {
-    background: rgba(0, 0, 0, 0.6) !important;
-    border: 2px solid #00f2ff !important;
-    padding: 8px 16px !important;
-    border-radius: 50px !important;
-    font-family: inherit !important;
-    box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
-    transition: all 0.3s ease;
-    display: inline-flex !important;
-    align-items: center;
-}
-
-.goog-te-gadget-simple:hover {
-    box-shadow: 0 0 25px #00f2ff;
-    transform: translateY(-2px);
-    background: rgba(0, 0, 0, 0.8) !important;
-}
-
-.goog-te-gadget-simple span {
-    color: #fff !important;
-    font-size: 0.85rem !important;
-    font-weight: bold !important;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    vertical-align: middle !important;
-}
-
-/* Verwijder de standaard Google 'pijltjes' en borders */
-.goog-te-menu-value {
-    border: none !important;
-    margin: 0 !important;
-}
-
-/* =========================================
-    ANIMATIES & SCROLLBAR
-   ========================================= */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
-::-webkit-scrollbar-thumb { background: #ff00de; border-radius: 10px; }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
-}
-
-@media (max-width: 480px) {
-    .glass-card { padding: 20px; }
 }
