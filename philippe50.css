@@ -1,11 +1,8 @@
-/* =========================================
-    BASIS & LAYOUT HERSTEL
-   ========================================= */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', Roboto, sans-serif;
 }
 
 body {
@@ -15,51 +12,124 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    /* FIX: Voorkomt dat Google Translate de pagina verschuift */
-    top: 0px !important;
-    position: static !important;
+    overflow-x: hidden;
+}
+
+.stars-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
+    background-image: 
+        radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+        linear-gradient(45deg, rgba(255, 0, 255, 0.05) 0%, transparent 70%);
 }
 
 .glass-card {
     background: rgba(255, 255, 255, 0.07);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
-    padding: 30px;
+    padding: 40px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+    text-align: center;
     border-top: 3px solid #00f2ff;
     border-bottom: 3px solid #ff00de;
     width: 100%;
     max-width: 500px;
-    text-align: center;
 }
 
-/* INPUTS HERSTELLEN (Geen witte vlakken meer) */
+h1 {
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+}
+
 input {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     margin: 10px 0;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(0, 242, 255, 0.3);
     border-radius: 8px;
     color: #fff;
+    font-size: 1rem;
     outline: none;
+    transition: 0.3s;
 }
 
-/* GOOGLE TRANSLATE FIX - Verbergt de rommelige balken */
-.goog-te-banner-frame, .goog-te-balloon-frame, #goog-gt-tt, .goog-te-gadget img {
-    display: none !important;
+input:focus {
+    border-color: #00f2ff;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
 }
 
-#google_translate_element {
-    margin: 15px 0;
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(45deg, #ff00de, #00f2ff);
+    color: #000;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.goog-te-gadget-simple {
-    background: rgba(0, 0, 0, 0.3) !important;
-    border: 1px solid #00f2ff !important;
-    padding: 5px 10px !important;
-    border-radius: 4px !important;
+.submit-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
 }
 
-.goog-te-gadget-simple span {
-    color: #00f2ff !important;
+.story-text {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-left: 3px solid #ff00de;
+    text-align: left;
+    line-height: 1.6;
+    font-size: 1.1rem;
+    animation: fadeIn 0.8s ease-out;
+}
+
+.lang-switch {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.lang-switch button {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.lang-switch button.lang-active {
+    border-color: #00f2ff;
+    color: #00f2ff;
+    background: rgba(0, 242, 255, 0.1);
+}
+
+.back-link {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
