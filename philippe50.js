@@ -111,7 +111,7 @@ async function findPersonalStory() {
             if (nameInSheet === inputName && pwInSheet === inputPw) {
                 found = true;
                 
-                // HTML injecteren
+                // HTML Injecteren
                 container.innerHTML = `
                     <p style="color:#00f2ff; font-weight:bold; margin-bottom:10px; text-transform: uppercase;">
                         ${config.currentLang === 'nl' ? 'Gevonden!' : 'Trouvé!'}
@@ -122,16 +122,19 @@ async function findPersonalStory() {
                     </div>
                 `;
 
-                // GEFORCEERDE HERSTART VAN GOOGLE TRANSLATE
+                // HERSTART GOOGLE TRANSLATE MET TIMEOUT
                 setTimeout(() => {
-                    if (window.google && google.translate && google.translate.TranslateElement) {
+                    const el = document.getElementById('google_translate_element');
+                    // Check of de knop niet al per ongeluk geladen is door een vorige zoekopdracht
+                    if (el && el.innerHTML === "" && window.google && google.translate) {
                         new google.translate.TranslateElement({
                             pageLanguage: 'nl',
-                            includedLanguages: 'nl,fr,en,de',
-                            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                            includedLanguages: 'nl,fr,en,de,it,es',
+                            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                            autoDisplay: false
                         }, 'google_translate_element');
                     }
-                }, 200);
+                }, 500); // 500ms voor stabiliteit
             }
         });
 
