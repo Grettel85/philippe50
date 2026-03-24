@@ -63,21 +63,18 @@ const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR8NcRn-YMmbVu
 function setLanguage(lang) {
     config.currentLang = lang;
     
-    // Update alle teksten met data-i18n attribuut
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         const translation = config.translations[lang][key];
         if (translation) el.innerText = translation;
     });
 
-    // Update placeholders specifiek
     const pwdInput = document.getElementById('password-input');
     if (pwdInput) pwdInput.placeholder = lang === 'nl' ? "Wachtwoord..." : "Mot de passe...";
 
     const lookupName = document.getElementById('lookup-name');
     if (lookupName) lookupName.placeholder = lang === 'nl' ? "Jouw Nickname..." : "Ton Nickname...";
 
-    // Update de visuele status van de knoppen
     updateLangButtons(lang);
 }
 
@@ -86,11 +83,9 @@ function updateLangButtons(lang) {
     const btnFr = document.getElementById('btn-fr');
     if (!btnNl || !btnFr) return;
 
-    // Verwijder actieve klasse van beide
     btnNl.classList.remove('lang-active');
     btnFr.classList.remove('lang-active');
 
-    // Voeg toe aan de geselecteerde taal
     const activeBtn = (lang === 'nl') ? btnNl : btnFr;
     activeBtn.classList.add('lang-active');
 }
@@ -99,13 +94,11 @@ function checkPassword() {
     const input = document.getElementById('password-input').value;
     const errorMsg = document.getElementById('error-msg');
     
-    // Admin toegang voor de volledige lijst
     if (input === "admin50") { 
         window.location.href = "legende.html";
         return;
     }
     
-    // Normale toegang tot het formulier
     if (input === config.password) {
         document.getElementById('password-gate').style.display = 'none';
         document.getElementById('form-section').style.display = 'block';
@@ -146,19 +139,30 @@ async function findPersonalStory() {
 
         rows.forEach(row => {
             const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            // Indexen: [1]=Verhaal, [2]=Nickname, [4]=Wachtwoord/GeheimWoord
             const storyText = columns[1] ? columns[1].replace(/^"|"$/g, '').trim() : "";
             const nameInSheet = columns[2] ? columns[2].replace(/^"|"$/g, '').toLowerCase().trim() : "";
             const pwInSheet = columns[4] ? columns[4].replace(/^"|"$/g, '').toLowerCase().trim() : "";
 
             if (nameInSheet === inputName && pwInSheet === inputPw) {
                 found = true;
+                
+                // HIER IS DE AANPASSING: Titeltje + Google Knop + Verhaal
                 container.innerHTML = `
-                    <p style="color:#00f2ff; font-weight:bold; margin-bottom:15px; text-transform: uppercase; letter-spacing:1px;">
+                    <p style="color:#00f2ff; font-weight:bold; margin-bottom:10px; text-transform: uppercase; letter-spacing:1px;">
                         ${config.currentLang === 'nl' ? 'Gevonden!' : 'Trouvé!'}
                     </p>
-                    <div class="story-text">${storyText}</div>
+                    
+                    <div id="google_translate_element" style="margin-bottom: 20px;"></div>
+
+                    <div class="story-text" style="border-left: 3px solid #ff00de; padding-left: 15px; text-align: left;">
+                        ${storyText}
+                    </div>
                 `;
+
+                // De Google Translate widget activeren die in de HTML head staat
+                if (typeof googleTranslateElementInit === 'function') {
+                    googleTranslateElementInit();
+                }
             }
         });
         if (!found) {
@@ -170,11 +174,10 @@ async function findPersonalStory() {
 }
 
 /* =========================================
-    INITIALISATIE (Bij laden pagina)
+    INITIALISATIE
    ========================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Start altijd in het Nederlands
     setLanguage('nl');
 
     const form = document.getElementById("dragon-form");
@@ -187,16 +190,14 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.disabled = true;
             btn.innerText = config.currentLang === 'nl' ? "Checken..." : "Vérification...";
 
-            // Check of het geheime woord uniek is
             const unique = await isPasswordUnique(chosenPw);
             if (!unique) {
-                alert(config.currentLang === 'nl' ? "Dit geheime woord is al gekozen door iemand anders! Kies een ander woord." : "Ce mot secret est déjà utilisé par quelqu'un d'autre !");
+                alert(config.currentLang === 'nl' ? "Dit geheime woord is al gekozen!" : "Ce mot secret est déjà utilisé !");
                 btn.disabled = false;
                 btn.innerText = config.translations[config.currentLang]["submit-btn"];
                 return;
             }
 
-            // Verzenden naar Make.com
             btn.innerText = config.currentLang === 'nl' ? "Verzenden..." : "Envoi...";
             const formData = new FormData(form);
             const makeWebhookURL = "https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f"; 
@@ -208,12 +209,12 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(res => {
                 if (res.ok) {
-                    alert(config.currentLang === 'nl' ? "Je verhaal is toegevoegd aan de legende!" : "Votre histoire a été ajoutée à la légende !");
+                    alert(config.currentLang === 'nl' ? "Gelukt!" : "Réussi !");
                     window.location.href = "mijn-verhaal.html"; 
                 } else { throw new Error(); }
             })
             .catch(() => {
-                alert("Er ging iets mis bij het verzenden. Probeer het later opnieuw.");
+                alert("Error.");
                 btn.disabled = false;
                 btn.innerText = config.translations[config.currentLang]["submit-btn"];
             });
