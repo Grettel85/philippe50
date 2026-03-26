@@ -113,16 +113,13 @@ async function findPersonalStory() {
 
     try {
         container.innerHTML = config.translations[config.currentLang]["loading-story"];
-        // Cachebuster toegevoegd om altijd verse data te laden
         const response = await fetch(sheetURL + '&cachebuster=' + Date.now());
         const csvData = await response.text();
         const rows = csvData.split(/\r?\n/).slice(1);
         let found = false;
 
         for (let row of rows) {
-            // Regex om komma's binnen quotes te negeren
             const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            
             const storyText = columns[1] ? columns[1].replace(/^"|"$/g, '').trim() : "";
             const nameInSheet = columns[2] ? columns[2].replace(/^"|"$/g, '').toLowerCase().trim() : "";
             const pwInSheet = columns[4] ? columns[4].replace(/^"|"$/g, '').toLowerCase().trim() : "";
@@ -147,6 +144,45 @@ async function findPersonalStory() {
 }
 
 /* =========================================
+   LEGENDE PAGINA LOGICA (Toon alle verhalen)
+   ========================================= */
+
+async function fetchStory() {
+    const container = document.getElementById('story-content');
+    if (!container) return;
+
+    try {
+        const response = await fetch(sheetURL + '&cachebuster=' + Date.now());
+        const csvData = await response.text();
+        const rows = csvData.split(/\r?\n/).slice(1);
+        
+        if (rows.length === 0 || (rows.length === 1 && rows[0] === "")) {
+            container.innerHTML = "<p>Er zijn nog geen legendes geschreven...</p>";
+            return;
+        }
+
+        let fullHTML = "";
+        rows.forEach((row) => {
+            if (!row.trim()) return;
+            const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+            const storyText = columns[1] ? columns[1].replace(/^"|"$/g, '').trim() : "";
+            const nickname = columns[2] ? columns[2].replace(/^"|"$/g, '').trim() : "Anoniem";
+
+            if (storyText) {
+                fullHTML += `
+                    <div class="story-entry" style="margin-bottom: 40px; border-bottom: 1px dashed rgba(0, 242, 255, 0.2); padding-bottom: 20px;">
+                        <h3 style="color: #00f2ff; margin-bottom: 10px;">Hoofdstuk: ${nickname}</h3>
+                        <div style="white-space: pre-wrap; line-height: 1.6;">${storyText}</div>
+                    </div>`;
+            }
+        });
+        container.innerHTML = fullHTML || "<p>Geen verhalen gevonden.</p>";
+    } catch (error) {
+        container.innerHTML = "<p style='color:red;'>Fout bij het laden van de legende.</p>";
+    }
+}
+
+/* =========================================
    INITIALIZATION & FORM SUBMIT
    ========================================= */
 
@@ -163,7 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.disabled = true;
             btn.innerText = config.currentLang === 'nl' ? "Checken..." : "Vérification...";
 
-            // Check uniekheid wachtwoord
             const isUnique = await (async () => {
                 try {
                     const res = await fetch(sheetURL + '&cb=' + Date.now());
