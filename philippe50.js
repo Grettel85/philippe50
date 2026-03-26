@@ -78,7 +78,6 @@ function updateLangButtons(lang) {
     const btnNl = document.getElementById('btn-nl');
     const btnFr = document.getElementById('btn-fr');
     if (!btnNl || !btnFr) return;
-
     [btnNl, btnFr].forEach(btn => btn.classList.remove('active-lang'));
     const activeBtn = lang === 'nl' ? btnNl : btnFr;
     activeBtn.classList.add('active-lang');
@@ -87,18 +86,11 @@ function updateLangButtons(lang) {
 function checkPassword() {
     const input = document.getElementById('password-input').value;
     const errorMsg = document.getElementById('error-msg');
-    
-    if (input === "admin50") { 
-        window.location.href = "legende.html";
-        return;
-    }
-    
+    if (input === "admin50") { window.location.href = "legende.html"; return; }
     if (input === config.password) {
         document.getElementById('password-gate').style.display = 'none';
         document.getElementById('form-section').style.display = 'block';
-    } else {
-        errorMsg.style.display = 'block';
-    }
+    } else { errorMsg.style.display = 'block'; }
 }
 
 /* =========================================
@@ -113,7 +105,7 @@ async function findPersonalStory() {
 
     try {
         container.innerHTML = config.translations[config.currentLang]["loading-story"];
-        const response = await fetch(sheetURL + '&cachebuster=' + Date.now());
+        const response = await fetch(sheetURL + '&cb=' + Date.now());
         const csvData = await response.text();
         const rows = csvData.split(/\r?\n/).slice(1);
         let found = false;
@@ -134,111 +126,81 @@ async function findPersonalStory() {
                 break;
             }
         }
-        if (!found) {
-            container.innerHTML = `<p style='color:#ff00de;'>${config.currentLang === 'nl' ? "Nickname of geheim woord onjuist." : "Nickname ou mot secret incorrect."}</p>`;
-        }
-    } catch (e) { 
-        container.innerHTML = "Error loading story."; 
-        console.error(e);
-    }
+        if (!found) { container.innerHTML = `<p style='color:#ff00de;'>${config.currentLang === 'nl' ? "Geen match gevonden." : "Aucune correspondance."}</p>`; }
+    } catch (e) { container.innerHTML = "Error."; }
 }
-
-/* =========================================
-   LEGENDE PAGINA LOGICA (Toon alle verhalen)
-   ========================================= */
 
 async function fetchStory() {
     const container = document.getElementById('story-content');
     if (!container) return;
 
     try {
-        const response = await fetch(sheetURL + '&cachebuster=' + Date.now());
+        const response = await fetch(sheetURL + '&cb=' + Date.now());
         const csvData = await response.text();
         const rows = csvData.split(/\r?\n/).slice(1);
-        
-        if (rows.length === 0 || (rows.length === 1 && rows[0] === "")) {
-            container.innerHTML = "<p>Er zijn nog geen legendes geschreven...</p>";
-            return;
-        }
-
         let fullHTML = "";
+
         rows.forEach((row) => {
             if (!row.trim()) return;
             const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             const storyText = columns[1] ? columns[1].replace(/^"|"$/g, '').trim() : "";
             const nickname = columns[2] ? columns[2].replace(/^"|"$/g, '').trim() : "Anoniem";
-
             if (storyText) {
-                fullHTML += `
-                    <div class="story-entry" style="margin-bottom: 40px; border-bottom: 1px dashed rgba(0, 242, 255, 0.2); padding-bottom: 20px;">
-                        <h3 style="color: #00f2ff; margin-bottom: 10px;">Hoofdstuk: ${nickname}</h3>
-                        <div style="white-space: pre-wrap; line-height: 1.6;">${storyText}</div>
-                    </div>`;
+                fullHTML += `<div class="story-entry" style="margin-bottom: 40px; border-bottom: 1px dashed rgba(0, 242, 255, 0.2); padding-bottom: 20px;">
+                    <h3 style="color: #00f2ff; margin-bottom: 10px;">Hoofdstuk: ${nickname}</h3>
+                    <div style="white-space: pre-wrap; line-height: 1.6;">${storyText}</div>
+                </div>`;
             }
         });
-        container.innerHTML = fullHTML || "<p>Geen verhalen gevonden.</p>";
-    } catch (error) {
-        container.innerHTML = "<p style='color:red;'>Fout bij het laden van de legende.</p>";
-    }
+        container.innerHTML = fullHTML || "<p>Nog geen verhalen.</p>";
+    } catch (error) { container.innerHTML = "Error."; }
 }
 
 /* =========================================
-   INITIALIZATION & FORM SUBMIT
+   INITIALIZATION & ROUTING
    ========================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
     setLanguage('nl');
 
+    // Automatische start voor de legende-pagina
+    if (document.getElementById('story-content')) {
+        fetchStory();
+    }
+
+    // Formulier afhandeling
     const form = document.getElementById("dragon-form");
     if (form) {
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
             const btn = form.querySelector('button[type="submit"]');
             const chosenPw = document.getElementById('deelnemer_ww').value;
-            
             btn.disabled = true;
-            btn.innerText = config.currentLang === 'nl' ? "Checken..." : "Vérification...";
+            btn.innerText = "...";
 
-            const isUnique = await (async () => {
-                try {
-                    const res = await fetch(sheetURL + '&cb=' + Date.now());
-                    const data = await res.text();
-                    const r = data.split(/\r?\n/).slice(1);
-                    return !r.some(row => {
-                        const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                        const p = cols[4] ? cols[4].replace(/^"|"$/g, '').trim().toLowerCase() : "";
-                        return p === chosenPw.toLowerCase().trim();
-                    });
-                } catch(e) { return true; }
-            })();
+            try {
+                const res = await fetch(sheetURL + '&cb=' + Date.now());
+                const data = await res.text();
+                const r = data.split(/\r?\n/).slice(1);
+                const isUnique = !r.some(row => {
+                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    return (cols[4] || "").replace(/^"|"$/g, '').trim().toLowerCase() === chosenPw.toLowerCase().trim();
+                });
 
-            if (!isUnique) {
-                alert(config.currentLang === 'nl' ? "Dit geheime woord is al gekozen!" : "Ce mot secret est déjà utilisé !");
-                btn.disabled = false;
-                btn.innerText = config.translations[config.currentLang]["submit-btn"];
-                return;
-            }
+                if (!isUnique) {
+                    alert("Geheim woord bestaat al!");
+                    btn.disabled = false;
+                    return;
+                }
 
-            btn.innerText = config.currentLang === 'nl' ? "Verzenden..." : "Envoi...";
-            const formData = new FormData(form);
-            const makeWebhookURL = "https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f"; 
-
-            fetch(makeWebhookURL, {
-                method: "POST",
-                body: JSON.stringify(Object.fromEntries(formData)),
-                headers: { 'Content-Type': 'application/json' }
-            })
-            .then(res => {
-                if (res.ok) {
-                    alert(config.currentLang === 'nl' ? "Gegevens veilig bewaard!" : "Données enregistrées !");
-                    window.location.href = "mijn-verhaal.html"; 
-                } else { throw new Error(); }
-            })
-            .catch(() => {
-                alert("Error.");
-                btn.disabled = false;
-                btn.innerText = config.translations[config.currentLang]["submit-btn"];
-            });
+                const formData = new FormData(form);
+                await fetch("https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f", {
+                    method: "POST",
+                    body: JSON.stringify(Object.fromEntries(formData)),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                window.location.href = "mijn-verhaal.html";
+            } catch (err) { btn.disabled = false; }
         });
     }
 });
