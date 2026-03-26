@@ -10,7 +10,7 @@
     <div class="stars-container"></div>
     <div class="card-container">
         <div class="language-switch">
-            <button onclick="setLanguage('nl')" id="btn-nl">NL</button>
+            <button onclick="setLanguage('nl')" id="btn-nl" class="active-lang">NL</button>
             <button onclick="setLanguage('fr')" id="btn-fr">FR</button>
         </div>
 
@@ -43,24 +43,7 @@
                 </div>
                 <div class="input-group">
                     <label data-i18n="label-band">Schrijf hier het geheime woord:</label>
-                    <p style="font-size: 0.7rem; color: #ff00de;" data-i18n="band-note">(Dit is je wachtwoord voor later)</p>
                     <input type="password" name="deelnemer_ww" id="deelnemer_ww" required>
-                </div>
-                <div class="input-group">
-                    <label data-i18n="label-personage">Welk 80's personage?</label>
-                    <input type="text" name="deelnemer_personage" id="deelnemer_personage" required>
-                </div>
-                <div class="input-group">
-                    <label data-i18n="label-power">Superkracht?</label>
-                    <input type="text" name="philippe_superkracht" id="philippe_superkracht" required>
-                </div>
-                <div class="input-group">
-                    <label data-i18n="label-kryptonite">Kryptonite?</label>
-                    <input type="text" name="philippe_kryptonite" id="philippe_kryptonite" required>
-                </div>
-                <div class="input-group">
-                    <label data-i18n="label-memory">Leukste herinnering?</label>
-                    <textarea name="philippe_herinnering" id="philippe_herinnering" rows="3" required></textarea>
                 </div>
                 <button type="submit" class="submit-btn" data-i18n="submit-btn">Verstuur naar de Legende</button>
             </form>
