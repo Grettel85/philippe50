@@ -62,19 +62,15 @@ const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR8NcRn-YMmbVu
 
 function setLanguage(lang) {
     config.currentLang = lang;
-    
-    // Update alle teksten met data-i18n
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         const translation = config.translations[lang][key];
         if (translation) el.innerText = translation;
     });
 
-    // Update placeholders
     const pwdInput = document.getElementById('password-input');
     if (pwdInput) pwdInput.placeholder = lang === 'nl' ? "Wachtwoord..." : "Mot de passe...";
 
-    // Update actieve knop styling (Visual Feedback)
     updateLangButtons(lang);
 }
 
@@ -83,12 +79,7 @@ function updateLangButtons(lang) {
     const btnFr = document.getElementById('btn-fr');
     if (!btnNl || !btnFr) return;
 
-    // Reset beide knoppen naar de standaard CSS look
-    [btnNl, btnFr].forEach(btn => {
-        btn.classList.remove('active-lang');
-    });
-
-    // Voeg de active-lang klasse toe aan de gekozen taal
+    [btnNl, btnFr].forEach(btn => btn.classList.remove('active-lang'));
     const activeBtn = lang === 'nl' ? btnNl : btnFr;
     activeBtn.classList.add('active-lang');
 }
@@ -111,22 +102,8 @@ function checkPassword() {
 }
 
 /* =========================================
-   DATABASE & FORM LOGIC
+   DATABASE & STORY LOOKUP
    ========================================= */
-
-async function isPasswordUnique(newPw) {
-    try {
-        const response = await fetch(sheetURL + '&cachebuster=' + Date.now());
-        const csvData = await response.text();
-        const rows = csvData.split(/\r?\n/).slice(1);
-        return !rows.some(row => {
-            const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            // Index 4 is het geheime woord (kolom E)
-            const existingPw = columns[4] ? columns[4].replace(/^"|"$/g, '').trim() : "";
-            return existingPw.toLowerCase() === newPw.toLowerCase().trim();
-        });
-    } catch (e) { return true; }
-}
 
 async function findPersonalStory() {
     const inputName = document.getElementById('lookup-name')?.value.toLowerCase().trim();
@@ -136,13 +113,16 @@ async function findPersonalStory() {
 
     try {
         container.innerHTML = config.translations[config.currentLang]["loading-story"];
+        // Cachebuster toegevoegd om altijd verse data te laden
         const response = await fetch(sheetURL + '&cachebuster=' + Date.now());
         const csvData = await response.text();
         const rows = csvData.split(/\r?\n/).slice(1);
         let found = false;
 
-        rows.forEach(row => {
+        for (let row of rows) {
+            // Regex om komma's binnen quotes te negeren
             const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+            
             const storyText = columns[1] ? columns[1].replace(/^"|"$/g, '').trim() : "";
             const nameInSheet = columns[2] ? columns[2].replace(/^"|"$/g, '').toLowerCase().trim() : "";
             const pwInSheet = columns[4] ? columns[4].replace(/^"|"$/g, '').toLowerCase().trim() : "";
@@ -151,23 +131,26 @@ async function findPersonalStory() {
                 found = true;
                 container.innerHTML = `
                     <p style="color:#00f2ff; font-weight:bold; margin-bottom:15px;">Dag ${columns[2]}, jouw legende:</p>
-                    <div style="border-left: 3px solid #ff00de; padding-left: 15px; text-align: left; color: #e0e0e0; line-height: 1.6;">
+                    <div style="border-left: 3px solid #ff00de; padding-left: 15px; text-align: left; color: #e0e0e0; line-height: 1.6; white-space: pre-wrap;">
                         ${storyText}
                     </div>`;
+                break;
             }
-        });
-        if (!found) {
-            container.innerHTML = `<p style='color:#ff00de;'>${config.currentLang === 'nl' ? "Nickname of geheim woord onjuist." : "Nickname of mot secret incorrect."}</p>`;
         }
-    } catch (e) { container.innerHTML = "Error loading story."; }
+        if (!found) {
+            container.innerHTML = `<p style='color:#ff00de;'>${config.currentLang === 'nl' ? "Nickname of geheim woord onjuist." : "Nickname ou mot secret incorrect."}</p>`;
+        }
+    } catch (e) { 
+        container.innerHTML = "Error loading story."; 
+        console.error(e);
+    }
 }
 
 /* =========================================
-   INITIALIZATION
+   INITIALIZATION & FORM SUBMIT
    ========================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Start in het Nederlands
     setLanguage('nl');
 
     const form = document.getElementById("dragon-form");
@@ -180,18 +163,28 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.disabled = true;
             btn.innerText = config.currentLang === 'nl' ? "Checken..." : "Vérification...";
 
-            // Check of het geheime woord al bestaat in Google Sheets
-            const unique = await isPasswordUnique(chosenPw);
-            if (!unique) {
-                alert(config.currentLang === 'nl' ? "Dit geheime woord is al gekozen! Kies een ander woord." : "Ce mot secret est déjà utilisé ! Choisissez un ander mot.");
+            // Check uniekheid wachtwoord
+            const isUnique = await (async () => {
+                try {
+                    const res = await fetch(sheetURL + '&cb=' + Date.now());
+                    const data = await res.text();
+                    const r = data.split(/\r?\n/).slice(1);
+                    return !r.some(row => {
+                        const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                        const p = cols[4] ? cols[4].replace(/^"|"$/g, '').trim().toLowerCase() : "";
+                        return p === chosenPw.toLowerCase().trim();
+                    });
+                } catch(e) { return true; }
+            })();
+
+            if (!isUnique) {
+                alert(config.currentLang === 'nl' ? "Dit geheime woord is al gekozen!" : "Ce mot secret est déjà utilisé !");
                 btn.disabled = false;
                 btn.innerText = config.translations[config.currentLang]["submit-btn"];
                 return;
             }
 
             btn.innerText = config.currentLang === 'nl' ? "Verzenden..." : "Envoi...";
-            
-            // Verzamelen van alle velden (incl. personage, superkracht, etc.)
             const formData = new FormData(form);
             const makeWebhookURL = "https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f"; 
 
@@ -202,12 +195,12 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(res => {
                 if (res.ok) {
-                    alert(config.currentLang === 'nl' ? "Je gegevens zijn veilig bewaard in de nevels van de legende!" : "Vos données sont précieusement gardées dans les brumes de la légende !");
+                    alert(config.currentLang === 'nl' ? "Gegevens veilig bewaard!" : "Données enregistrées !");
                     window.location.href = "mijn-verhaal.html"; 
                 } else { throw new Error(); }
             })
             .catch(() => {
-                alert("Er ging iets mis bij het verzenden. Probeer het later opnieuw.");
+                alert("Error.");
                 btn.disabled = false;
                 btn.innerText = config.translations[config.currentLang]["submit-btn"];
             });
