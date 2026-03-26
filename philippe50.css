@@ -54,34 +54,37 @@ h1, h2 {
    ========================================= */
 .language-switch {
     display: flex; 
-    justify-content: flex-end; /* Dit zet ze rechtsboven */
+    justify-content: flex-end; 
     margin-bottom: 10px; 
     gap: 8px;
 }
 
+/* Belangrijk: we gebruiken hier !important om de algemene button-stijl te blokkeren */
 .language-switch button {
-    background: rgba(255, 255, 255, 0.1); /* Donker/transparant */
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1) !important; 
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
     color: #fff !important;
-    padding: 4px 10px; /* Klein formaat */
-    font-size: 0.7rem;
-    border-radius: 20px; /* Afgerond */
+    padding: 4px 12px !important; 
+    font-size: 0.7rem !important;
+    border-radius: 20px !important; 
+    width: auto !important; 
+    margin-top: 0 !important;
     cursor: pointer;
     font-weight: bold;
     text-transform: uppercase;
     transition: all 0.3s ease;
-    box-shadow: none; /* Verwijder de zware schaduw */
+    box-shadow: none !important;
+    text-shadow: none !important;
 }
 
-/* De actieve knop: Licht op met een blauwe rand */
 .language-switch button.active-lang {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: #00f2ff; /* De cyaan kleur van je foto */
-    box-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-color: #00f2ff !important; 
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.5) !important;
 }
 
 /* =========================================
-    INPUTS & KNOPPEN
+    INPUTS & GROTE KNOPPEN
    ========================================= */
 .input-group { margin-bottom: 20px; text-align: left; }
 
@@ -98,7 +101,8 @@ input, textarea {
 
 input:focus, textarea:focus { box-shadow: 0 0 15px #ff00de; border-color: #00f2ff; }
 
-button, .submit-btn {
+/* We hebben 'button' hier verwijderd en alleen '.submit-btn' gelaten */
+.submit-btn, #password-gate button {
     background: linear-gradient(45deg, #ff00de, #00f2ff);
     border: none; padding: 14px 28px; border-radius: 50px;
     color: #000 !important; font-weight: 900; cursor: pointer;
@@ -107,18 +111,12 @@ button, .submit-btn {
     box-shadow: 0 0 15px rgba(255, 0, 222, 0.4);
 }
 
-button:hover { transform: scale(1.03); box-shadow: 0 0 25px #00f2ff; }
+.submit-btn:hover, #password-gate button:hover { 
+    transform: scale(1.03); 
+    box-shadow: 0 0 25px #00f2ff; 
+}
 
-/* De alternatieve knop onderaan de gate */
 .submit-btn-alt {
     display: block; text-decoration: none; padding: 12px;
     border-radius: 50px; color: #00f2ff; border: 1px solid #00f2ff;
-    font-size: 0.8rem; margin-top: 20px; transition: 0.3s;
-    font-weight: bold; text-transform: uppercase;
-}
-
-.submit-btn-alt:hover { background: rgba(0, 242, 255, 0.1); color: #fff; box-shadow: 0 0 15px #00f2ff; }
-
-/* Scrollbar & Misc */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-thumb { background: #ff00de; border-radius: 10px; }
+    font-size: 0.8rem; margin-top: 20px; transition: 0.
