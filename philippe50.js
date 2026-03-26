@@ -94,6 +94,28 @@ function checkPassword() {
 }
 
 /* =========================================
+   CSV HELPER FUNCTION
+   ========================================= */
+
+// Splitst de CSV correct op rijen, zelfs als er enters IN een cel staan
+function getCSVRows(csvData) {
+    // Deze regex splitst alleen op nieuwe regels die NIET tussen quotes staan
+    const rows = csvData.split(/\r?\n(?=(?:[^"]*"[^"]*")*[^"]*$)/);
+    return rows.filter(row => row.trim() !== "");
+}
+
+// Splitst een rij op komma's, maar negeert komma's tussen quotes
+function splitCSVRow(row) {
+    return row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+}
+
+// Maakt de tekst schoon (haalt quotes weg en herstelt dubbele quotes)
+function cleanCSVValue(val) {
+    if (!val) return "";
+    return val.replace(/^"|"$/g, '').replace(/""/g, '"').trim();
+}
+
+/* =========================================
    DATABASE & STORY LOOKUP
    ========================================= */
 
@@ -107,26 +129,27 @@ async function findPersonalStory() {
         container.innerHTML = config.translations[config.currentLang]["loading-story"];
         const response = await fetch(sheetURL + '&cb=' + Date.now());
         const csvData = await response.text();
-        const rows = csvData.split(/\r?\n/).slice(1);
+        
+        const rows = getCSVRows(csvData).slice(1); // Skip header
         let found = false;
 
         for (let row of rows) {
-            const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            const storyText = columns[1] ? columns[1].replace(/^"|"$/g, '').trim() : "";
-            const nameInSheet = columns[2] ? columns[2].replace(/^"|"$/g, '').toLowerCase().trim() : "";
-            const pwInSheet = columns[4] ? columns[4].replace(/^"|"$/g, '').toLowerCase().trim() : "";
+            const cols = splitCSVRow(row);
+            const storyText = cleanCSVValue(cols[1]);
+            const nameInSheet = cleanCSVValue(cols[2]).toLowerCase();
+            const pwInSheet = cleanCSVValue(cols[4]).toLowerCase();
 
             if (nameInSheet === inputName && pwInSheet === inputPw) {
                 found = true;
                 container.innerHTML = `
-                    <p style="color:#00f2ff; font-weight:bold; margin-bottom:15px;">Dag ${columns[2]}, jouw legende:</p>
-                    <div style="border-left: 3px solid #ff00de; padding-left: 15px; text-align: left; color: #e0e0e0; line-height: 1.6; white-space: pre-wrap;">
-                        ${storyText}
-                    </div>`;
+                    <p style="color:#00f2ff; font-weight:bold; margin-bottom:15px;">Dag ${cleanCSVValue(cols[2])}, jouw legende:</p>
+                    <div style="border-left: 3px solid #ff00de; padding-left: 15px; text-align: left; color: #e0e0e0; line-height: 1.6; white-space: pre-wrap;">${storyText}</div>`;
                 break;
             }
         }
-        if (!found) { container.innerHTML = `<p style='color:#ff00de;'>${config.currentLang === 'nl' ? "Geen match gevonden." : "Aucune correspondance."}</p>`; }
+        if (!found) { 
+            container.innerHTML = `<p style='color:#ff00de;'>${config.currentLang === 'nl' ? "Geen match gevonden." : "Aucune correspondance."}</p>`; 
+        }
     } catch (e) { container.innerHTML = "Error."; }
 }
 
@@ -137,19 +160,21 @@ async function fetchStory() {
     try {
         const response = await fetch(sheetURL + '&cb=' + Date.now());
         const csvData = await response.text();
-        const rows = csvData.split(/\r?\n/).slice(1);
+        
+        const rows = getCSVRows(csvData).slice(1);
         let fullHTML = "";
 
         rows.forEach((row) => {
-            if (!row.trim()) return;
-            const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            const storyText = columns[1] ? columns[1].replace(/^"|"$/g, '').trim() : "";
-            const nickname = columns[2] ? columns[2].replace(/^"|"$/g, '').trim() : "Anoniem";
+            const cols = splitCSVRow(row);
+            const storyText = cleanCSVValue(cols[1]);
+            const nickname = cleanCSVValue(cols[2]) || "Anoniem";
+
             if (storyText) {
-                fullHTML += `<div class="story-entry" style="margin-bottom: 40px; border-bottom: 1px dashed rgba(0, 242, 255, 0.2); padding-bottom: 20px;">
-                    <h3 style="color: #00f2ff; margin-bottom: 10px;">Hoofdstuk: ${nickname}</h3>
-                    <div style="white-space: pre-wrap; line-height: 1.6;">${storyText}</div>
-                </div>`;
+                fullHTML += `
+                    <div class="story-entry" style="margin-bottom: 40px; border-bottom: 1px dashed rgba(0, 242, 255, 0.2); padding-bottom: 20px;">
+                        <h3 style="color: #00f2ff; margin-bottom: 10px;">Hoofdstuk: ${nickname}</h3>
+                        <div style="white-space: pre-wrap; line-height: 1.6;">${storyText}</div>
+                    </div>`;
             }
         });
         container.innerHTML = fullHTML || "<p>Nog geen verhalen.</p>";
@@ -174,33 +199,43 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
             const btn = form.querySelector('button[type="submit"]');
-            const chosenPw = document.getElementById('deelnemer_ww').value;
+            const chosenPw = document.getElementById('deelnemer_ww').value.toLowerCase().trim();
             btn.disabled = true;
             btn.innerText = "...";
 
             try {
+                // Check uniekheid met de nieuwe CSV logica
                 const res = await fetch(sheetURL + '&cb=' + Date.now());
                 const data = await res.text();
-                const r = data.split(/\r?\n/).slice(1);
-                const isUnique = !r.some(row => {
-                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    return (cols[4] || "").replace(/^"|"$/g, '').trim().toLowerCase() === chosenPw.toLowerCase().trim();
+                const rows = getCSVRows(data).slice(1);
+                
+                const isUnique = !rows.some(row => {
+                    const cols = splitCSVRow(row);
+                    return cleanCSVValue(cols[4]).toLowerCase() === chosenPw;
                 });
 
                 if (!isUnique) {
-                    alert("Geheim woord bestaat al!");
+                    alert("Dit geheime woord bestaat al!");
                     btn.disabled = false;
+                    btn.innerText = config.translations[config.currentLang]["submit-btn"];
                     return;
                 }
 
                 const formData = new FormData(form);
-                await fetch("https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f", {
+                const postRes = await fetch("https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f", {
                     method: "POST",
                     body: JSON.stringify(Object.fromEntries(formData)),
                     headers: { 'Content-Type': 'application/json' }
                 });
-                window.location.href = "mijn-verhaal.html";
-            } catch (err) { btn.disabled = false; }
+
+                if (postRes.ok) {
+                    alert("Verzonden!");
+                    window.location.href = "mijn-verhaal.html";
+                } else { throw new Error(); }
+            } catch (err) { 
+                btn.disabled = false; 
+                btn.innerText = "Error - Probeer opnieuw";
+            }
         });
     }
 });
