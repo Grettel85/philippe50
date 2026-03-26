@@ -50,30 +50,37 @@ h1, h2 {
 }
 
 /* =========================================
-    TAAL SCHAKELAAR (Gradient Style)
+    TAAL SCHAKELAAR (Hersteld naar image_8ba29f.jpg)
    ========================================= */
 .language-switch {
-    display: flex; justify-content: flex-end; margin-bottom: 15px; gap: 10px;
+    display: flex; 
+    justify-content: flex-end; /* Dit zorgt dat ze RECHTS staan */
+    margin-bottom: 15px; 
+    gap: 8px;
 }
 
 .language-switch button {
-    background: linear-gradient(45deg, #ff00de, #00f2ff);
-    border: none;
-    color: #000 !important;
-    padding: 6px 16px;
-    font-size: 0.75rem;
-    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.1); /* Donker/transparant zoals op de foto */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff !important;
+    padding: 4px 10px; /* Kleiner gemaakt */
+    font-size: 0.7rem;
+    border-radius: 20px; /* Mooi afgerond */
     cursor: pointer;
-    font-weight: 900;
+    font-weight: bold;
     text-transform: uppercase;
     transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(255, 0, 222, 0.3);
+}
+
+/* De stijl voor de knop die op dat moment gekozen is */
+.language-switch button.active-lang {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #00f2ff; /* De cyaan gloed van de foto */
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
 }
 
 .language-switch button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 15px #00f2ff;
-    filter: brightness(1.2);
+    border-color: #ff00de; /* Subtiele roze gloed bij hover */
 }
 
 /* =========================================
