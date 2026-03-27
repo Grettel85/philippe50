@@ -26,7 +26,9 @@ const config = {
             "lookup-title": "Ontgrendel jouw hoofdstuk",
             "lookup-desc": "Voer je nickname en het geheime woord in.",
             "show-story-btn": "Toon mijn verhaal",
-            "back-link": "← Terug naar de start"
+            "back-link": "← Terug naar de start",
+            "prologue-title": "Hoofdstuk 0: De Glitch",
+            "prologue-text": "Philippe zit thuis in de veranda op een ochtend rustig van een tasje koffie te genieten, met zijn Spotify-playlist op de achtergrond. Met gesloten ogen geniet hij van de zon op zijn gezicht. De oude videospeler rolt met zijn ogen en de oude grammofoonspeler onder de televisie kreunt; alweer die 'moderne' muziek. Dan komt er plots een tijdsglitch langs en de grammofoonspeler schrikt op. Door de schok verplaatst de naald op een oude grammofoonplaat en komt bovenop een van de ribbels terecht. De speler probeert de naald terug in de juiste groef te schudden, maar de tijdsglitch keert onverwacht terug en de kamer begint plots te draaien. Philippe merkt niets van wat er rond hem gebeurt. Het licht wordt weggezogen in een spiraal van duisternis en de kamer lijkt weg te ebben. Hij hoort de muziek van Spotify niet meer, maar de klanken van de ABBA-hit 'Fernando' klinken door de kamer. Vreemd, dacht Philippe, dat stond toch niet in mijn playlist? Hij opent zijn ogen en ziet dat hij nog steeds in de zetel zit. Maar de kamer rondom hem is niet meer zijn huis in Kessel-Lo. Hij wandelt door het huis en herkent de dingen, maar toch ook niet. Op tafel ligt een krant: de geboorteaankondigingen. Er is een kindje geboren met dezelfde naam als hij. Hij slaat de krant dicht en ziet een artikel over de fusies van gemeenten en de viering van 25 jaar Koning Boudewijn. Dan valt zijn Belgische frank: hij staat in de woonkamer van zijn eerste levensjaren. De datum op de krant: 14 april 1976 om exact 13:30. 50 jaar terug in de tijd. Hoe geraakt hij terug naar de toekomst?"
         },
         fr: {
             "welcome": "Bienvenue chez Philippe 50",
@@ -49,7 +51,9 @@ const config = {
             "lookup-title": "Débloquez votre chapitre",
             "lookup-desc": "Entrez votre nickname et le mot secret.",
             "show-story-btn": "Afficher mon histoire",
-            "back-link": "← Retour au début"
+            "back-link": "← Retour au début",
+            "prologue-title": "Chapitre 0: Le Glitch",
+            "prologue-text": "Philippe est assis dans sa véranda un matin, savourant tranquillement une tasse de café avec sa playlist Spotify en arrière-plan. Les yeux fermés, il profite du soleil sur son visage. Le vieux magnétoscope lève les yeux au ciel et le vieux tourne-disque sous le téléviseur gémit; encore cette musique 'moderne'. Soudain, un glitch temporel survient et le tourne-disque sursaute. Sous le choc, le saphir se déplace sur un vieux disque et se retrouve au sommet d'un sillon. L'appareil tente de remettre l'aiguille à sa place, mais le glitch revient de manière inattendue et la pièce commence à tourner. Philippe ne remarque rien de ce qui se passe autour de lui. La lumière est aspirée dans une spirale d'obscurité et la pièce semble s'effacer. Il n'entend plus Spotify, mais les notes du tube 'Fernando' d'ABBA résonnent. Étrange, pense Philippe, ce n'était pas dans ma playlist? Il ouvre les yeux et voit qu'il est toujours dans son fauteuil. Mais la pièce n'est plus sa maison à Kessel-Lo. Il marche dans la maison et reconnaît les objets, mais sans les reconnaître tout à fait. Sur la table traîne un journal: les annonces de naissance. Un enfant est né avec le même nom que lui. Il ferme le journal et voit un article sur la fusion des communes et les 25 ans du Roi Baudouin. C'est alors que le franc tombe: il se tient dans le salon de ses deux premières années de vie. La date sur le journal: 14 avril 1976 à 13h30 précises. 50 ans en arrière. Comment reviendra-t-il vers le futur?"
         }
     }
 };
@@ -62,14 +66,29 @@ const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR8NcRn-YMmbVu
 
 function setLanguage(lang) {
     config.currentLang = lang;
+    
+    // Update alle statische teksten
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         const translation = config.translations[lang][key];
         if (translation) el.innerText = translation;
     });
 
+    // Update placeholders
     const pwdInput = document.getElementById('password-input');
     if (pwdInput) pwdInput.placeholder = lang === 'nl' ? "Wachtwoord..." : "Mot de passe...";
+
+    // Update de Proloog (Hoofdstuk 0) als die op de pagina staat
+    const prologueTitle = document.getElementById('prologue-title');
+    const prologueText = document.getElementById('prologue-text');
+    if (prologueTitle && prologueText) {
+        prologueTitle.innerText = config.translations[lang]["prologue-title"];
+        prologueText.innerText = config.translations[lang]["prologue-text"];
+    }
+
+    // Herlaad verhalen uit de sheet in de juiste taal
+    if (document.getElementById('story-content')) fetchStory();
+    if (document.getElementById('personal-story-content')) findPersonalStory();
 
     updateLangButtons(lang);
 }
@@ -83,41 +102,31 @@ function updateLangButtons(lang) {
     activeBtn.classList.add('active-lang');
 }
 
-function checkPassword() {
-    const input = document.getElementById('password-input').value;
-    const errorMsg = document.getElementById('error-msg');
-    if (input === "admin50") { window.location.href = "legende.html"; return; }
-    if (input === config.password) {
-        document.getElementById('password-gate').style.display = 'none';
-        document.getElementById('form-section').style.display = 'block';
-    } else { errorMsg.style.display = 'block'; }
+function getLanguageSpecificText(fullText, lang) {
+    if (!fullText.includes('***')) return fullText;
+    const parts = fullText.split('***');
+    const nlText = parts[0].trim();
+    const frText = parts[1] ? parts[1].trim() : nlText;
+    return (lang === 'fr') ? frText : nlText;
 }
 
 /* =========================================
-   CSV HELPER FUNCTION
+   CSV & DATABASE LOGIC
    ========================================= */
 
-// Splitst de CSV correct op rijen, zelfs als er enters IN een cel staan
 function getCSVRows(csvData) {
-    // Deze regex splitst alleen op nieuwe regels die NIET tussen quotes staan
     const rows = csvData.split(/\r?\n(?=(?:[^"]*"[^"]*")*[^"]*$)/);
     return rows.filter(row => row.trim() !== "");
 }
 
-// Splitst een rij op komma's, maar negeert komma's tussen quotes
 function splitCSVRow(row) {
     return row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
 }
 
-// Maakt de tekst schoon (haalt quotes weg en herstelt dubbele quotes)
 function cleanCSVValue(val) {
     if (!val) return "";
     return val.replace(/^"|"$/g, '').replace(/""/g, '"').trim();
 }
-
-/* =========================================
-   DATABASE & STORY LOOKUP
-   ========================================= */
 
 async function findPersonalStory() {
     const inputName = document.getElementById('lookup-name')?.value.toLowerCase().trim();
@@ -129,18 +138,18 @@ async function findPersonalStory() {
         container.innerHTML = config.translations[config.currentLang]["loading-story"];
         const response = await fetch(sheetURL + '&cb=' + Date.now());
         const csvData = await response.text();
-        
-        const rows = getCSVRows(csvData).slice(1); // Skip header
+        const rows = getCSVRows(csvData).slice(1);
         let found = false;
 
         for (let row of rows) {
             const cols = splitCSVRow(row);
-            const storyText = cleanCSVValue(cols[1]);
+            const rawStory = cleanCSVValue(cols[1]);
             const nameInSheet = cleanCSVValue(cols[2]).toLowerCase();
             const pwInSheet = cleanCSVValue(cols[4]).toLowerCase();
 
             if (nameInSheet === inputName && pwInSheet === inputPw) {
                 found = true;
+                const storyText = getLanguageSpecificText(rawStory, config.currentLang);
                 container.innerHTML = `
                     <p style="color:#00f2ff; font-weight:bold; margin-bottom:15px;">Dag ${cleanCSVValue(cols[2])}, jouw legende:</p>
                     <div style="border-left: 3px solid #ff00de; padding-left: 15px; text-align: left; color: #e0e0e0; line-height: 1.6; white-space: pre-wrap;">${storyText}</div>`;
@@ -160,19 +169,19 @@ async function fetchStory() {
     try {
         const response = await fetch(sheetURL + '&cb=' + Date.now());
         const csvData = await response.text();
-        
         const rows = getCSVRows(csvData).slice(1);
         let fullHTML = "";
 
-        rows.forEach((row) => {
+        rows.forEach((row, index) => {
             const cols = splitCSVRow(row);
-            const storyText = cleanCSVValue(cols[1]);
+            const rawStory = cleanCSVValue(cols[1]);
             const nickname = cleanCSVValue(cols[2]) || "Anoniem";
+            const storyText = getLanguageSpecificText(rawStory, config.currentLang);
 
             if (storyText) {
                 fullHTML += `
                     <div class="story-entry" style="margin-bottom: 40px; border-bottom: 1px dashed rgba(0, 242, 255, 0.2); padding-bottom: 20px;">
-                        <h3 style="color: #00f2ff; margin-bottom: 10px;">Hoofdstuk: ${nickname}</h3>
+                        <h3 style="color: #00f2ff; margin-bottom: 10px;">Hoofdstuk ${index + 1}: ${nickname}</h3>
                         <div style="white-space: pre-wrap; line-height: 1.6;">${storyText}</div>
                     </div>`;
             }
@@ -188,12 +197,6 @@ async function fetchStory() {
 document.addEventListener('DOMContentLoaded', () => {
     setLanguage('nl');
 
-    // Automatische start voor de legende-pagina
-    if (document.getElementById('story-content')) {
-        fetchStory();
-    }
-
-    // Formulier afhandeling
     const form = document.getElementById("dragon-form");
     if (form) {
         form.addEventListener("submit", async (e) => {
@@ -204,15 +207,10 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.innerText = "...";
 
             try {
-                // Check uniekheid met de nieuwe CSV logica
                 const res = await fetch(sheetURL + '&cb=' + Date.now());
                 const data = await res.text();
                 const rows = getCSVRows(data).slice(1);
-                
-                const isUnique = !rows.some(row => {
-                    const cols = splitCSVRow(row);
-                    return cleanCSVValue(cols[4]).toLowerCase() === chosenPw;
-                });
+                const isUnique = !rows.some(row => cleanCSVValue(splitCSVRow(row)[4]).toLowerCase() === chosenPw);
 
                 if (!isUnique) {
                     alert("Dit geheime woord bestaat al!");
