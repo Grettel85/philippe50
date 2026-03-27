@@ -96,7 +96,6 @@ function updateLangButtons(lang) {
     activeBtn.classList.add('active-lang');
 }
 
-// DE GEFIXTE WACHTWOORD CHECK
 function checkPassword() {
     const inputField = document.getElementById('password-input');
     const errorMsg = document.getElementById('error-msg');
@@ -104,13 +103,11 @@ function checkPassword() {
 
     const input = inputField.value.trim().toLowerCase();
     
-    // Check voor de admin/feest-pagina
     if (input === "admin50") {
         window.location.href = "legende.html";
         return;
     }
 
-    // Check voor de normale toegang (formulier)
     if (input === config.password.toLowerCase()) {
         document.getElementById('password-gate').style.display = 'none';
         document.getElementById('form-section').style.display = 'block';
@@ -213,6 +210,15 @@ async function fetchStory() {
 
 document.addEventListener('DOMContentLoaded', () => {
     setLanguage('nl');
+
+    // Luister naar de inlogknop
+    const loginBtn = document.querySelector('button[data-i18n="login-btn"]');
+    if (loginBtn) {
+        loginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            checkPassword();
+        });
+    }
 
     const form = document.getElementById("dragon-form");
     if (form) {
