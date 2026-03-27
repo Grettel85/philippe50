@@ -53,7 +53,7 @@ const config = {
             "show-story-btn": "Afficher mon histoire",
             "back-link": "← Retour au début",
             "prologue-title": "Chapitre 0: Le Glitch",
-            "prologue-text": "Philippe est assis dans sa véranda un matin, savourant tranquillement une tasse de café avec sa playlist Spotify en arrière-plan. Les yeux fermés, il profite du soleil sur son visage. Le vieux magnétoscope lève les yeux au ciel et le vieux tourne-disque sous le téléviseur gémit; encore cette musique 'moderne'. Soudain, un glitch temporel survient et le tourne-disque sursaute. Sous le choc, le saphir se déplace sur un vieux disque et se retrouve au sommet d'un sillon. L'appareil tente de remettre l'aiguille à sa place, mais le glitch revient de manière inattendue et la pièce commence à tourner. Philippe ne remarque rien de ce qui se passe autour de lui. La lumière est aspirée dans une spirale d'obscurité et la pièce semble s'effacer. Il n'entend plus Spotify, mais les notes du tube 'Fernando' d'ABBA résonnent. Étrange, pense Philippe, ce n'était pas dans ma playlist? Il ouvre les yeux et voit qu'il est toujours dans son fauteuil. Mais la pièce n'est plus sa maison à Kessel-Lo. Il marche dans la maison et reconnaît les objets, mais sans les reconnaître tout à fait. Sur la table traîne un journal: les annonces de naissance. Un enfant est né avec le même nom que lui. Il ferme le journal et voit un article sur la fusion des communes et les 25 ans du Roi Baudouin. C'est alors que le franc tombe: il se tient dans le salon de ses deux premières années de vie. La date sur le journal: 14 avril 1976 à 13h30 précises. 50 ans en arrière. Comment reviendra-t-il vers le futur?"
+            "prologue-text": "Philippe est assis dans sa véranda un matin, savourant tranquillement une tasse de café avec sa playlist Spotify en arrière-plan. Les yeux fermés, il profite du soleil sur son visage. Le vieux magnétoscope lève les yeux au ciel et le vieux tourne-disque sous le téléviseur gémit; encore cette musique 'moderne'. Soudain, un glitch temporel survient et le tourne-disque sursaute. Sous le choc, le saphir se déplace sur un vieux disque et se retrouve au sommet d'un sillon. L'appareil tente de remettre l'aiguille à sa place, maar le glitch revient de manière inattendue et la pièce commence à tourner. Philippe ne remarque rien de ce qui se passe autour de lui. La lumière est aspirée dans une spirale d'obscurité et la pièce semble s'effacer. Il n'entend plus Spotify, maar les notes du tube 'Fernando' d'ABBA résonnent. Étrange, pense Philippe, ce n'était pas dans ma playlist? Il ouvre les yeux et voit qu'il est toujours dans son fauteuil. Maar la pièce n'est plus sa maison à Kessel-Lo. Il marche dans la maison et reconnaît les objets, maar sans les reconnaître tout à fait. Sur la table traîne un journal: les annonces de naissance. Un enfant est né avec le même nom que lui. Il ferme le journal et voit un article sur la fusion des communes et les 25 ans du Roi Baudouin. C'est alors que le franc tombe: il se tient dans le salon de ses deux premières années de vie. La date sur le journal: 14 avril 1976 à 13h30 précises. 50 ans en arrière. Comment reviendra-t-il vers le futur?"
         }
     }
 };
@@ -67,18 +67,15 @@ const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR8NcRn-YMmbVu
 function setLanguage(lang) {
     config.currentLang = lang;
     
-    // Update alle statische teksten
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         const translation = config.translations[lang][key];
         if (translation) el.innerText = translation;
     });
 
-    // Update placeholders
     const pwdInput = document.getElementById('password-input');
     if (pwdInput) pwdInput.placeholder = lang === 'nl' ? "Wachtwoord..." : "Mot de passe...";
 
-    // Update de Proloog (Hoofdstuk 0) als die op de pagina staat
     const prologueTitle = document.getElementById('prologue-title');
     const prologueText = document.getElementById('prologue-text');
     if (prologueTitle && prologueText) {
@@ -86,10 +83,7 @@ function setLanguage(lang) {
         prologueText.innerText = config.translations[lang]["prologue-text"];
     }
 
-    // Herlaad verhalen uit de sheet in de juiste taal
     if (document.getElementById('story-content')) fetchStory();
-    if (document.getElementById('personal-story-content')) findPersonalStory();
-
     updateLangButtons(lang);
 }
 
@@ -100,6 +94,29 @@ function updateLangButtons(lang) {
     [btnNl, btnFr].forEach(btn => btn.classList.remove('active-lang'));
     const activeBtn = lang === 'nl' ? btnNl : btnFr;
     activeBtn.classList.add('active-lang');
+}
+
+// DE GEFIXTE WACHTWOORD CHECK
+function checkPassword() {
+    const inputField = document.getElementById('password-input');
+    const errorMsg = document.getElementById('error-msg');
+    if (!inputField) return;
+
+    const input = inputField.value.trim().toLowerCase();
+    
+    // Check voor de admin/feest-pagina
+    if (input === "admin50") {
+        window.location.href = "legende.html";
+        return;
+    }
+
+    // Check voor de normale toegang (formulier)
+    if (input === config.password.toLowerCase()) {
+        document.getElementById('password-gate').style.display = 'none';
+        document.getElementById('form-section').style.display = 'block';
+    } else {
+        if (errorMsg) errorMsg.style.display = 'block';
+    }
 }
 
 function getLanguageSpecificText(fullText, lang) {
