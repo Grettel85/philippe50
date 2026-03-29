@@ -106,7 +106,7 @@ function getLanguageSpecificText(fullText, lang) {
 }
 
 /* =========================================
-   CSV & DATABASE LOGIC
+   CSV & DATABASE LOGIC (Schoongemaakt)
    ========================================= */
 
 function getCSVRows(csvData) {
@@ -128,16 +128,17 @@ async function findPersonalStory() {
     if (!inputName || !inputPw || !container) return;
 
     const lang = config.currentLang;
+    // Harde 'style' attributes verwijderd, classes toegevoegd
     container.innerHTML = `
-        <div id="fixed-prologue" class="fade-in" style="margin-bottom: 40px; text-align: left;">
-            <h2 id="prologue-display-title" style="color: #ff00de; border-bottom: 1px solid rgba(255, 0, 222, 0.3); padding-bottom: 10px;">${config.translations[lang]["prologue-title"]}</h2>
-            <p id="prologue-display-text" style="line-height: 1.6; color: #fff; font-size: 1.1em;">${config.translations[lang]["prologue-text"]}</p>
+        <div id="fixed-prologue" class="fade-in">
+            <h2 id="prologue-display-title">${config.translations[lang]["prologue-title"]}</h2>
+            <p id="prologue-display-text" class="story-text">${config.translations[lang]["prologue-text"]}</p>
         </div>
-        <div id="story-divider" style="text-align: center; margin: 50px 0; border-top: 1px dashed #00f2ff; padding-top: 30px;">
-            <div class="loader-spinner" style="margin-bottom: 15px;"></div>
-            <p id="loader-text" style="color: #00f2ff; font-style: italic;">${lang === 'nl' ? "De naald zoekt de juiste groef..." : "Le saphir cherche le bon sillon..."}</p>
+        <div id="story-divider">
+            <div class="loader-spinner"></div>
+            <p id="loader-text">${lang === 'nl' ? "De naald zoekt de juiste groef..." : "Le saphir cherche le bon sillon..."}</p>
         </div>
-        <div id="final-story-target" class="fade-in" style="text-align: left;"></div>
+        <div id="final-story-target" class="fade-in"></div>
     `;
 
     let attempts = 0;
@@ -154,8 +155,7 @@ async function findPersonalStory() {
                 const cols = splitCSVRow(match);
                 let storyText = getLanguageSpecificText(cleanCSVValue(cols[1]), lang);
                 
-                // --- STRIP LOGICA ---
-                let finalTitle = "DE GROEF VAN DE HARIGE VRIEND"; 
+                let finalTitle = "HOOFDSTUK: " + cleanCSVValue(cols[2]).toUpperCase(); 
                 let finalContent = storyText;
                 const lines = storyText.split(/\r?\n/).filter(l => l.trim() !== "");
                 
@@ -166,8 +166,8 @@ async function findPersonalStory() {
 
                 document.getElementById('story-divider').style.display = 'none';
                 document.getElementById('final-story-target').innerHTML = `
-                    <h2 style="color: #00f2ff; border-bottom: 1px solid rgba(0, 242, 255, 0.3); padding-bottom: 10px; text-transform: uppercase; text-align: center;">${finalTitle}</h2>
-                    <div style="border-left: 3px solid #ff00de; padding-left: 20px; margin-top: 20px; color: #e0e0e0; line-height: 1.8; white-space: pre-wrap;">${finalContent}</div>
+                    <h2>${finalTitle}</h2>
+                    <div class="final-content">${finalContent}</div>
                 `;
             } else if (attempts < 24) { attempts++; setTimeout(checkSheet, 5000); }
         } catch (e) { console.error(e); }
@@ -194,9 +194,9 @@ async function fetchStory() {
                     finalContent = lines.slice(1).join("\n").trim();
                 }
                 fullHTML += `
-                    <div class="story-entry" style="margin-bottom: 40px; border-bottom: 1px dashed rgba(0, 242, 255, 0.2); padding-bottom: 20px; text-align: left;">
-                        <h3 style="color: #00f2ff; margin-bottom: 10px; text-transform: uppercase;">${finalTitle}</h3>
-                        <div style="white-space: pre-wrap; line-height: 1.6; color: #e0e0e0;">${finalContent}</div>
+                    <div class="story-entry">
+                        <h3>${finalTitle}</h3>
+                        <div class="final-content">${finalContent}</div>
                     </div>`;
             }
         });
