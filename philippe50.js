@@ -53,7 +53,7 @@ const config = {
             "show-story-btn": "Afficher mon histoire",
             "back-link": "← Retour au début",
             "prologue-title": "Chapitre 0: Le Glitch",
-            "prologue-text": "Philippe est assis dans sa véranda un matin, savourant tranquillement une tasse de café avec sa playlist Spotify en arrière-plan..."
+            "prologue-text": "Philippe est assis dans sa véranda un matin, savourant tranquillement une tasse de café avec sa playlist Spotify en arrière-plan. Les yeux fermés, il profite du soleil sur son visage. Le vieux magnétoscope roule des yeux et le vieux tourne-disque sous la télévision gémit; encore cette musique 'moderne'. Soudain, un glitch temporel survient et le tourne-disque sursaute..."
         }
     }
 };
@@ -71,11 +71,26 @@ function setLanguage(lang) {
         const translation = config.translations[lang][key];
         if (translation) el.innerText = translation;
     });
+
+    // Update proloog tekst
     const pTitle = document.getElementById('prologue-display-title');
     const pText = document.getElementById('prologue-display-text');
     if(pTitle) pTitle.innerText = config.translations[lang]["prologue-title"];
     if(pText) pText.innerText = config.translations[lang]["prologue-text"];
+
     updateLangButtons(lang);
+
+    // Herlaad de verhalen in de nieuwe taal
+    if (document.getElementById('story-content')) {
+        fetchStory();
+    }
+    if (document.getElementById('personal-story-content')) {
+        // Alleen herladen als er al een verhaal gezocht was
+        const target = document.getElementById('final-story-target');
+        if (target && target.innerHTML !== "") {
+            findPersonalStory();
+        }
+    }
 }
 
 function updateLangButtons(lang) {
@@ -106,7 +121,7 @@ function getLanguageSpecificText(fullText, lang) {
 }
 
 /* =========================================
-   CSV & DATABASE LOGIC (Schoongemaakt)
+   CSV & DATABASE LOGIC
    ========================================= */
 
 function getCSVRows(csvData) {
@@ -128,7 +143,6 @@ async function findPersonalStory() {
     if (!inputName || !inputPw || !container) return;
 
     const lang = config.currentLang;
-    // Harde 'style' attributes verwijderd, classes toegevoegd
     container.innerHTML = `
         <div id="fixed-prologue" class="fade-in">
             <h2 id="prologue-display-title">${config.translations[lang]["prologue-title"]}</h2>
@@ -155,10 +169,10 @@ async function findPersonalStory() {
                 const cols = splitCSVRow(match);
                 let storyText = getLanguageSpecificText(cleanCSVValue(cols[1]), lang);
                 
-                let finalTitle = "HOOFDSTUK: " + cleanCSVValue(cols[2]).toUpperCase(); 
-                let finalContent = storyText;
                 const lines = storyText.split(/\r?\n/).filter(l => l.trim() !== "");
-                
+                let finalTitle = (lang === 'nl' ? "HOOFDSTUK: " : "CHAPITRE: ") + cleanCSVValue(cols[2]).toUpperCase();
+                let finalContent = storyText;
+
                 if (lines.length > 0 && (lines[0].toLowerCase().includes("hoofdstuk") || lines[0].toLowerCase().includes("chapitre"))) {
                     finalTitle = lines[0];
                     finalContent = lines.slice(1).join("\n").trim();
@@ -186,9 +200,10 @@ async function fetchStory() {
             const cols = splitCSVRow(row);
             const storyText = getLanguageSpecificText(cleanCSVValue(cols[1]), config.currentLang);
             if (storyText) {
-                let finalTitle = `HOOFDSTUK ${index + 1}: ${cleanCSVValue(cols[2])}`;
-                let finalContent = storyText;
                 const lines = storyText.split(/\r?\n/).filter(l => l.trim() !== "");
+                let finalTitle = (config.currentLang === 'nl' ? `HOOFDSTUK ${index + 1}: ` : `CHAPITRE ${index + 1}: `) + cleanCSVValue(cols[2]);
+                let finalContent = storyText;
+
                 if (lines.length > 0 && (lines[0].toLowerCase().includes("hoofdstuk") || lines[0].toLowerCase().includes("chapitre"))) {
                     finalTitle = lines[0];
                     finalContent = lines.slice(1).join("\n").trim();
