@@ -15,10 +15,10 @@ const config = {
             "label-email": "Jouw E-mailadres:",
             "label-band": "Schrijf hier het geheime woord dat je band met Philippe duidt:",
             "band-note": "(Dit is je wachtwoord voor later)",
-            "label-personage": "Wie is volgens jou een echte superheld",
-            "label-power": "Wat is Philippe zijn superkracht?",
+            "label-personage": "Wie is volgens jou een echte superheld?",
+            "label-power": "Wat is de superkracht van Philippe?",
             "label-kryptonite": "Waar kan Philippe nog beter in worden?",
-            "label-memory": "Omschrijf je leukste herinnering met Philippe hier in enkele zinnen:",
+            "label-memory": "Omschrijf je leukste herinnering met Philippe in enkele zinnen:",
             "submit-btn": "Verstuur naar de Legende",
             "view-chapter": "Bekijk jouw hoofdstuk",
             "story-title": "De Legende van Philippe",
@@ -28,24 +28,8 @@ const config = {
             "show-story-btn": "Toon mijn verhaal",
             "back-link": "← Terug naar de start",
             "prologue-title": "Hoofdstuk 1: De Tijdsglitch",
-            "prologue-text": "Philippe zat op een ochtend thuis in de veranda rustig van een tasje koffie te genieten, met zijn spotify playlist op de achtergrond. Zijn ogen gesloten genoot hij van de zon op zijn gezicht. 
-De combi video en DVD-speler rolde met zijn ogen en de oude grammofoonspeler onder de televisie kreunde, weeral die 'moderne' muziek. 
-Toen kwam er plots een tijdsglich langs en de grammofoonspeler schrikte op. Door de schok verplaatste de naald die nog op een oude grammofoonplaat lag, en kwam bovenop een van de ribbels terecht. De grammofoonspeler probeerde de naald terug in de juiste groef te schudden, maar de tijdsglich keerde onverwacht terug en de kamer begon plots te draaien. Philippe nog met zijn ogen gesloten in de zetel merkte niets van wat er rond hem gebeurde. Het licht rondom hem werd weggezogen in een spiraal van duisternis en de kamer leek weg te ebben rondom hem. 
-
-Philippe hoorde de muziek van Spotify niet meer, maar er klonken langzaamaan vanuit de verte de klanken van de bekende ABBA hit 'Fernando' door de kamer. 
-Vreemd, dacht Philippe, dat stond toch niet in mijn playlist? 
-Hij opende zijn ogen en zag dat hij nog steeds in de zetel zat. Maar de kamer rondom hem, was niet meer de kamer van zijn huis in Kessel-Lo. Philippe kende deze plek wel, maar waar was hij. 
-Hij stond op en begon door het huis te wandelen. Hij herkende de dingen, maar toch ook weer niet. Op de tafel lag een krant open en Philippe keek erin. 
-De geboorteaankondigingen. 
-Hey dat was grappig, er was een kindje geboren dat dezelfde naam had als hij. 
-Philippe sloeg de krant dicht en keek naar de voorpagina. Op de voorpagina stond een lang en saai artikel over fusies van gemeenten. En een kleine vooruitblik op de festiviteiten voor de viering van 25j koning Boudewijn. 
-Philippe krabte in zijn haar en wreef zijn ogen uit. 
-
-Hij keek nogmaals rond in de kamer. En toen viel zijn Belgische frank. 
-Philippe stond in zijn eigen woonkamer van het huis waarin hij de eerste twee jaren van zijn leven gewoond had. Het licht brandde nog, en de radio stond nog aan, maar er was niemand thuis. De datum op de krant vertelde hem dat hij beland was in 14 april 1976 om exact 13:30. 
-
-50j terug in de tijd. Hoe geraakt hij terug naar de toekomst?"
-               },
+            "prologue-text": "Philippe zat op een ochtend in de veranda rustig van een tasje koffie te genieten, met zijn Spotify-playlist op de achtergrond. Met gesloten ogen genoot hij van de zon op zijn gezicht. De combi video- en dvd-speler rolde met zijn ogen en de oude grammofoonspeler onder de televisie kreunde; alweer die 'moderne' muziek.\n\nPlots kwam er een tijdsglitch langs en de grammofoonspeler schrok op. Door de schok verplaatste de naald op een oude plaat en kwam bovenop een van de ribbels terecht. De speler probeerde de naald terug in de juiste groef te schudden, maar de glitch keerde onverwacht terug en de kamer begon te draaien. Philippe merkte niets van de spiraal van duisternis die het licht wegzoog. De kamer leek om hem heen weg te ebben.\n\nToen hoorde hij de Spotify-muziek niet meer. Langzaam klonken vanuit de verte de tonen van de ABBA-hit 'Fernando'. Vreemd, dacht Philippe, dat stond niet in mijn playlist? Hij opende zijn ogen en zag dat hij nog steeds in de zetel zat, maar de kamer was niet meer zijn huis in Kessel-Lo. Hij herkende de plek, maar toch ook niet. Op tafel lag een krant: de geboorteaankondigingen. Er was een kindje geboren met exact dezelfde naam als hij.\n\nHij sloeg de krant dicht. De voorpagina toonde een artikel over de fusie van gemeenten en de viering van 25 jaar Koning Boudewijn. Toen viel zijn Belgische frank: hij stond in de woonkamer van het huis waar hij de eerste twee jaar van zijn leven had gewoond. De datum op de krant: 14 april 1976 om exact 13:30. 50 jaar terug in de tijd. Hoe geraakt hij terug naar de toekomst?"
+        },
         fr: {
             "welcome": "Bienvenue chez Philippe 50",
             "enter-code": "Entrez le code secret pour participer :",
@@ -55,7 +39,7 @@ Philippe stond in zijn eigen woonkamer van het huis waarin hij de eerste twee ja
             "label-name": "Votre Nickname (pour la légende) :",
             "label-email": "Votre E-mail :",
             "label-band": "Écrivez ici le mot secret qui définit votre lien avec Philippe :",
-            "band-note": "(Ce sera votre mot de passe later)",
+            "band-note": "(Ce sera votre mot de passe plus tard)",
             "label-personage": "À quel personnage des années 80 ressemblez-vous le plus ?",
             "label-power": "Selon vous, en quoi Philippe est-il très doué ?",
             "label-kryptonite": "Selon vous, en quoi Philippe pourrait-il s'améliorer ?",
@@ -68,35 +52,9 @@ Philippe stond in zijn eigen woonkamer van het huis waarin hij de eerste twee ja
             "lookup-desc": "Entrez votre nickname et le mot secret.",
             "show-story-btn": "Afficher mon histoire",
             "back-link": "← Retour au début",
-            "prologue-title": "Chapitre 0: Le Glitch",
-            "prologue-text": "Chapitre 1 : Le Gramophone
-Philippe était assis dans sa véranda un matin, savourant tranquillement une tasse de café avec sa playlist Spotify en fond sonore. Les yeux fermés, il profitait du soleil sur son visage.
-
-Le combiné lecteur vidéo et DVD leva les yeux au ciel et le vieux gramophone sous le téléviseur grogna ; encore cette musique « moderne ».
-
-Soudain, une faille temporelle passa par là et le gramophone sursauta. Sous le choc, le saphir qui reposait encore sur un vieux disque se déplaça et atterrit sur l'un des sillons. Le gramophone tenta de remettre l'aiguille dans la bonne rainure, mais la faille revint de manière inattendue et la pièce commença soudainement à tourner. Toujours installé dans son fauteuil les yeux clos, Philippe ne remarqua rien de ce qui se passait autour de lui. La lumière fut aspirée dans une spirale de ténèbres et la pièce sembla s'effacer tout autour de lui.
-
-Philippe n'entendait plus la musique de Spotify, mais les notes du célèbre tube d'ABBA, « Fernando », résonnaient lentement au loin dans la pièce.
-
-« Étrange », pensa Philippe, « ce n'était pas dans ma playlist, n'est-ce pas ? »
-
-Il ouvrit les yeux et vit qu'il était toujours assis dans son fauteuil. Mais la pièce qui l'entourait n'était plus celle de sa maison à Kessel-Lo. Philippe connaissait cet endroit, mais où était-il exactement ?
-
-Il se leva et commença à déambuler dans la maison. Il reconnaissait les objets, et pourtant, quelque chose clochait. Sur la table, un journal était ouvert et Philippe y jeta un œil.
-
-Les annonces de naissance.
-
-Tiens, c'était drôle : un enfant était né et portait le même nom que lui.
-
-Philippe referma le journal et regarda la une. En première page se trouvait un article long et ennuyeux sur les fusions de communes, ainsi qu'un court aperçu des festivités pour la célébration des 25 ans de règne du roi Baudouin.
-
-Philippe se gratta la tête et se frotta les yeux.
-
-Il regarda une nouvelle fois autour de lui. Et c’est alors que le « franc belge » tomba (il comprit enfin).
-
-Philippe se tenait dans le salon de la maison où il avait vécu les deux premières années de sa vie. La lumière était encore allumée et la radio marchait toujours, mais il n'y avait personne à la maison. La date sur le journal lui indiqua qu'il s'était retrouvé le 14 avril 1976, à 13h30 précises.
-
-Cinquante ans en arrière dans le temps. Comment allait-il retourner vers le futur ?"    }
+            "prologue-title": "Chapitre 1 : Le Glitch Temporel",
+            "prologue-text": "Philippe était assis dans sa véranda un matin, savourant tranquillement une tasse de café avec sa playlist Spotify en fond sonore. Les yeux fermés, il profitait du soleil sur son visage. Le combiné lecteur vidéo et DVD leva les yeux au ciel et le vieux gramophone sous le téléviseur grogna ; encore cette musique 'moderne'.\n\nSoudain, une faille temporelle passa par là et le gramophone sursauta. Sous le choc, le saphir se déplaça sur un vieux disque et atterrit sur l'un des sillons. Le gramophone tenta de remettre l'aiguille dans la bonne rainure, mais la faille revint de manière inattendue et la pièce commença soudainement à tourner. Toujours installé dans son fauteuil les yeux clos, Philippe ne remarqua rien de la spirale de ténèbres qui aspirait la lumière. La pièce sembla s'effacer tout autour de lui.\n\nPhilippe n'entendait plus la musique de Spotify, mais les notes du célèbre tube d'ABBA, 'Fernando', résonnaient lentement au loin. Étrange, pensa Philippe, ce n'était pas dans ma playlist. Il ouvrit les yeux et vit qu'il était toujours assis dans son fauteuil. Mais la pièce n'était plus celle de sa maison à Kessel-Lo. Il reconnaissait l'endroit, et pourtant, quelque chose clochait. Sur la table, un journal était ouvert aux annonces de naissance : un enfant était né avec le même nom que lui.\n\nIl referma le journal et vit la une : un article sur les fusions de communes et les festivités pour les 25 ans de règne du roi Baudouin. C'est alors que le 'franc belge' tomba. Philippe se trouvait dans le salon de la maison de ses deux premières années. La date sur le journal : le 14 avril 1976 à 13h30 précises. Cinquante ans en arrière. Comment allait-il retourner vers le futur ?"
+        }
     }
 };
 
@@ -114,7 +72,6 @@ function setLanguage(lang) {
         if (translation) el.innerText = translation;
     });
 
-    // Update proloog tekst
     const pTitle = document.getElementById('prologue-display-title');
     const pText = document.getElementById('prologue-display-text');
     if(pTitle) pTitle.innerText = config.translations[lang]["prologue-title"];
@@ -122,12 +79,10 @@ function setLanguage(lang) {
 
     updateLangButtons(lang);
 
-    // Herlaad de verhalen in de nieuwe taal
     if (document.getElementById('story-content')) {
         fetchStory();
     }
     if (document.getElementById('personal-story-content')) {
-        // Alleen herladen als er al een verhaal gezocht was
         const target = document.getElementById('final-story-target');
         if (target && target.innerHTML !== "") {
             findPersonalStory();
@@ -210,7 +165,6 @@ async function findPersonalStory() {
             if (match) {
                 const cols = splitCSVRow(match);
                 let storyText = getLanguageSpecificText(cleanCSVValue(cols[1]), lang);
-                
                 const lines = storyText.split(/\r?\n/).filter(l => l.trim() !== "");
                 let finalTitle = (lang === 'nl' ? "HOOFDSTUK: " : "CHAPITRE: ") + cleanCSVValue(cols[2]).toUpperCase();
                 let finalContent = storyText;
