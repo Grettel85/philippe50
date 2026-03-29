@@ -49,6 +49,7 @@ body {
     margin-bottom: 25px;
 }
 
+/* Hoofdtitels van de pagina (zoals 'Ontgrendel jouw hoofdstuk') */
 h1, h2 {
     margin-bottom: 20px; 
     text-transform: uppercase; 
@@ -56,6 +57,39 @@ h1, h2 {
     text-shadow: 0 0 15px rgba(0, 242, 255, 0.6); 
     font-size: 1.6rem;
     color: #fff;
+}
+
+/* =========================================
+    VERHAAL STYLING (Aangepast voor leesbaarheid)
+   ========================================= */
+
+/* De titels van de individuele hoofdstukken (bijv. Hoofdstuk 1: Nickname) */
+.story-entry h3, #final-story-target h2 {
+    color: #00f2ff !important;
+    font-size: 1.25rem !important; /* Kleiner dan de hoofdtitel */
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px rgba(0, 242, 255, 0.4);
+    border-bottom: 1px solid rgba(0, 242, 255, 0.2);
+    padding-bottom: 8px;
+    text-align: center;
+}
+
+/* De eigenlijke verhaaltekst */
+.story-text, .final-content {
+    color: #e0e0e0;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    text-align: left; /* Zorgt voor betere leesbaarheid van lange teksten */
+}
+
+/* De proloog titel (Hoofdstuk 0) */
+#prologue-display-title {
+    color: #ff00de !important;
+    font-size: 1.3rem !important;
+    border-bottom: 1px solid rgba(255, 0, 222, 0.3);
 }
 
 /* =========================================
@@ -144,29 +178,8 @@ input:focus, textarea:focus {
     box-shadow: 0 0 25px rgba(0, 242, 255, 0.6); 
 }
 
-/* Alternatieve link */
-.submit-btn-alt {
-    display: inline-block;
-    text-decoration: none; 
-    padding: 12px 25px;
-    border-radius: 50px; 
-    color: #00f2ff; 
-    border: 1px solid #00f2ff;
-    font-size: 0.8rem; 
-    margin-top: 20px; 
-    transition: 0.3s;
-    font-weight: bold; 
-    text-transform: uppercase;
-}
-
-.submit-btn-alt:hover { 
-    background: rgba(0, 242, 255, 0.1); 
-    color: #fff; 
-    box-shadow: 0 0 15px #00f2ff; 
-}
-
 /* =========================================
-    ANIMATIES & LOADERS (Nieuw)
+    ANIMATIES & LOADERS
    ========================================= */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
@@ -177,7 +190,6 @@ input:focus, textarea:focus {
     animation: fadeIn 1.5s ease-out;
 }
 
-/* De draaiende loader spinner */
 .loader-spinner {
     width: 40px;
     height: 40px;
