@@ -53,7 +53,7 @@ const config = {
             "show-story-btn": "Afficher mon histoire",
             "back-link": "← Retour au début",
             "prologue-title": "Chapitre 0: Le Glitch",
-            "prologue-text": "Philippe est assis dans sa véranda un matin, savourant tranquillement une tasse de café avec sa playlist Spotify en arrière-plan. Les yeux fermés, il profite du soleil sur son visage. Le vieux magnétoscope lève les yeux au ciel et le vieux tourne-disque sous le téléviseur gémit; encore cette musique 'moderne'. Soudain, un glitch temporel survient et le tourne-disque sursaute. Sous le choc, le saphir se déplace sur un vieux disque et se retrouve au sommet d'un sillon. L'appareil tente de remettre l'aiguille à sa place, maar le glitch revient de manière inattendue et la pièce commence à tourner. Philippe ne remarque rien de ce qui se passe autour de lui. La lumière est aspirée dans une spirale d'obscurité et la pièce semble s'effacer. Il n'entend plus Spotify, maar les notes du tube 'Fernando' d'ABBA résonnent. Étrange, pense Philippe, ce n'était pas dans ma playlist? Il ouvre les yeux et voit qu'il est toujours dans son fauteuil. Maar la pièce n'est plus sa maison à Kessel-Lo. Il marche dans la maison et reconnaît les objets, maar sans les reconnaître tout à fait. Sur la table traîne un journal: les annonces de naissance. Un enfant est né avec le même nom que lui. Il ferme le journal et voit un article sur la fusion des communes et les 25 ans du Roi Baudouin. C'est alors que le franc tombe: il se tient dans le salon de ses deux premières années de vie. La date sur le journal: 14 avril 1976 à 13h30 précises. 50 ans en arrière. Comment reviendra-t-il vers le futur?"
+            "prologue-text": "Philippe est assis dans sa véranda un matin, savourant tranquillement une tasse de café avec sa playlist Spotify en arrière-plan. Les yeux fermés, il profite du soleil sur son visage. Le vieux magnétoscope lève les yeux au ciel et le vieux tourne-disque sous le téléviseur gémit; encore cette musique 'moderne'. Soudain, un glitch temporel survient et le tourne-disque sursaute. Sous le choc, le saphir se déplace sur un vieux disque et se retrouve au sommet d'un sillon. L'appareil tente de remettre l'aiguille à sa place, maar le glitch revient de manière inattendue et la pièce commence à tourner. Philippe ne remarque rien de ce qui se passe autour de lui. La lumière est aspirée dans une spirale d'obscurité et la pièce semble s'effacer. Il n'entend plus Spotify, maar les notes du tube 'Fernando' d'ABBA résonnent. Étrange, pense Philippe, ce n'était pas dans ma playlist? Il ouvre les yeux et voit qu'il est toujours dans son fauteuil. Maar la pièce n'est plus sa maison à Kessel-Lo. Il marche dans la maison et reconnaît les objets, maar sans les reconnaître tout à fait. Sur la table traîne un journal: les annonces de naissance. Un enfant est né avec le même nom que lui. Il ferme le journal et voit un artikel sur la fusion des communes et les 25 ans du Roi Baudouin. C'est alors que le franc tombe: il se tient dans le salon de ses deux premières années de vie. La date sur le journal: 14 avril 1976 à 13h30 précises. 50 ans en arrière. Comment reviendra-t-il vers le futur?"
         }
     }
 };
@@ -72,6 +72,12 @@ function setLanguage(lang) {
         const translation = config.translations[lang][key];
         if (translation) el.innerText = translation;
     });
+
+    // Update Proloog teksten direct als ze aanwezig zijn
+    const pTitle = document.getElementById('prologue-display-title');
+    const pText = document.getElementById('prologue-display-text');
+    if(pTitle) pTitle.innerText = config.translations[lang]["prologue-title"];
+    if(pText) pText.innerText = config.translations[lang]["prologue-text"];
 
     const pwdInput = document.getElementById('password-input');
     if (pwdInput) pwdInput.placeholder = lang === 'nl' ? "Wachtwoord..." : "Mot de passe...";
@@ -145,11 +151,10 @@ async function findPersonalStory() {
     const prologueTitle = config.translations[lang]["prologue-title"];
     const prologueText = config.translations[lang]["prologue-text"];
     
-    // Stap 1: Toon direct de Proloog en de Loader
     container.innerHTML = `
-        <div id="fixed-prologue" style="animation: fadeIn 1.5s ease-in; margin-bottom: 40px;">
-            <h2 style="color: #ff00de; border-bottom: 1px solid rgba(255, 0, 222, 0.3); padding-bottom: 10px;">${prologueTitle}</h2>
-            <p style="line-height: 1.6; color: #fff; font-size: 1.1em;">${prologueText}</p>
+        <div id="fixed-prologue" class="fade-in" style="margin-bottom: 40px;">
+            <h2 id="prologue-display-title" style="color: #ff00de; border-bottom: 1px solid rgba(255, 0, 222, 0.3); padding-bottom: 10px;">${prologueTitle}</h2>
+            <p id="prologue-display-text" style="line-height: 1.6; color: #fff; font-size: 1.1em;">${prologueText}</p>
         </div>
         
         <div id="story-divider" style="text-align: center; margin: 50px 0; border-top: 1px dashed #00f2ff; padding-top: 30px;">
@@ -159,13 +164,12 @@ async function findPersonalStory() {
             </p>
         </div>
 
-        <div id="final-story-target" style="animation: fadeIn 2s ease-in;"></div>
+        <div id="final-story-target" class="fade-in"></div>
     `;
 
-    // Stap 2: Animatieve tussen-teksten
     const phrases = lang === 'nl' 
-        ? ["Tijdsglitch stabiliseren...", "Herinneringen scannen...", "De legende wordt geschreven...", "Bijna daar...", "De naald vindt zijn weg..."]
-        : ["Stabilisation du glitch...", "Récupération des souvenirs...", "La légende s'écrit...", "Presque là...", "Le saphir trouve sa voie..."];
+        ? ["Tijdsglitch stabiliseren...", "Herinneringen scannen...", "De legende wordt geschreven...", "Bijna daar..."]
+        : ["Stabilisation du glitch...", "Récupération des souvenirs...", "La légende s'écrit...", "Presque là..."];
     
     let phraseIdx = 0;
     const loaderInterval = setInterval(() => {
@@ -176,9 +180,8 @@ async function findPersonalStory() {
         }
     }, 4500);
 
-    // Stap 3: Polling van de Google Sheet
     let attempts = 0;
-    const maxAttempts = 24; // 24 * 5 sec = 120 seconden (2 minuten)
+    const maxAttempts = 24; 
 
     const checkSheet = async () => {
         try {
@@ -186,7 +189,6 @@ async function findPersonalStory() {
             const csvData = await response.text();
             const rows = getCSVRows(csvData).slice(1);
             
-            // Zoek naar de juiste rij op basis van Nickname EN Geheime Woord
             const match = rows.find(row => {
                 const cols = splitCSVRow(row);
                 return cleanCSVValue(cols[2]).toLowerCase() === inputName && 
@@ -203,31 +205,29 @@ async function findPersonalStory() {
                 const divider = document.getElementById('story-divider');
                 if (divider) divider.style.display = 'none';
                 
+                // Slimme titel check: als de AI al start met "Hoofdstuk", zet de nickname er alleen boven.
+                const hasChapterTitle = storyText.trim().toLowerCase().startsWith("hoofdstuk") || storyText.trim().toLowerCase().startsWith("chapitre");
+                const displayTitle = hasChapterTitle ? `De Legende van ${realNickname}` : `Hoofdstuk 1: De Legende van ${realNickname}`;
+
                 const target = document.getElementById('final-story-target');
                 if (target) {
                     target.innerHTML = `
                         <h2 style="color: #00f2ff; border-bottom: 1px solid rgba(0, 242, 255, 0.3); padding-bottom: 10px;">
-                            Hoofdstuk 1: De Legende van ${realNickname}
+                            ${displayTitle}
                         </h2>
                         <div style="border-left: 3px solid #ff00de; padding-left: 20px; margin-top: 20px; color: #e0e0e0; line-height: 1.8; white-space: pre-wrap; font-size: 1.05em;">${storyText}</div>
                     `;
                 }
             } else if (attempts < maxAttempts) {
                 attempts++;
-                setTimeout(checkSheet, 5000); // Check opnieuw over 5 seconden
+                setTimeout(checkSheet, 5000); 
             } else {
-                // Timeout bereikt
                 clearInterval(loaderInterval);
                 const el = document.getElementById('loader-text');
-                if (el) el.innerHTML = lang === 'nl' 
-                    ? "Het duurt iets langer... <br><button onclick='location.reload()' style='background:none; border:1px solid #00f2ff; color:#00f2ff; padding:5px 10px; margin-top:10px; cursor:pointer;'>Ververs de pagina</button>" 
-                    : "C'est un peu long... <br><button onclick='location.reload()' style='background:none; border:1px solid #00f2ff; color:#00f2ff; padding:5px 10px; margin-top:10px; cursor:pointer;'>Rafraîchir la page</button>";
+                if (el) el.innerHTML = lang === 'nl' ? "Sessie verlopen. Ververs de pagina." : "Session expirée. Rafraîchir.";
             }
-        } catch (e) { 
-            console.error("Fetch error:", e);
-        }
+        } catch (e) { console.error(e); }
     };
-
     checkSheet();
 }
 
@@ -248,9 +248,13 @@ async function fetchStory() {
             const storyText = getLanguageSpecificText(rawStory, config.currentLang);
 
             if (storyText) {
+                // Hier ook de slimme check voor de algemene legende pagina
+                const hasChapterTitle = storyText.trim().toLowerCase().startsWith("hoofdstuk") || storyText.trim().toLowerCase().startsWith("chapitre");
+                const entryTitle = hasChapterTitle ? nickname : `Hoofdstuk ${index + 1}: ${nickname}`;
+
                 fullHTML += `
                     <div class="story-entry" style="margin-bottom: 40px; border-bottom: 1px dashed rgba(0, 242, 255, 0.2); padding-bottom: 20px;">
-                        <h3 style="color: #00f2ff; margin-bottom: 10px;">Hoofdstuk ${index + 1}: ${nickname}</h3>
+                        <h3 style="color: #00f2ff; margin-bottom: 10px;">${entryTitle}</h3>
                         <div style="white-space: pre-wrap; line-height: 1.6;">${storyText}</div>
                     </div>`;
             }
@@ -260,14 +264,12 @@ async function fetchStory() {
 }
 
 /* =========================================
-   INITIALIZATION & ROUTING
+   INITIALIZATION
    ========================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Start altijd in NL
     setLanguage('nl');
 
-    // Inlogknop
     const loginBtn = document.querySelector('button[data-i18n="login-btn"]');
     if (loginBtn) {
         loginBtn.addEventListener('click', (e) => {
@@ -276,7 +278,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Formulier verzenden
     const form = document.getElementById("dragon-form");
     if (form) {
         form.addEventListener("submit", async (e) => {
@@ -307,7 +308,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (postRes.ok) {
-                    alert(config.currentLang === 'nl' ? "Verzonden naar de nevels!" : "Envoyé dans les brumes !");
                     window.location.href = "mijn-verhaal.html";
                 } else { throw new Error(); }
             } catch (err) { 
