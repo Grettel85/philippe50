@@ -76,14 +76,6 @@ function setLanguage(lang) {
     const pwdInput = document.getElementById('password-input');
     if (pwdInput) pwdInput.placeholder = lang === 'nl' ? "Wachtwoord..." : "Mot de passe...";
 
-    const prologueTitle = document.getElementById('prologue-title');
-    const prologueText = document.getElementById('prologue-text');
-    if (prologueTitle && prologueText) {
-        prologueTitle.innerText = config.translations[lang]["prologue-title"];
-        prologueText.innerText = config.translations[lang]["prologue-text"];
-    }
-
-    if (document.getElementById('story-content')) fetchStory();
     updateLangButtons(lang);
 }
 
@@ -117,7 +109,7 @@ function checkPassword() {
 }
 
 function getLanguageSpecificText(fullText, lang) {
-    if (!fullText.includes('***')) return fullText;
+    if (!fullText || !fullText.includes('***')) return fullText;
     const parts = fullText.split('***');
     const nlText = parts[0].trim();
     const frText = parts[1] ? parts[1].trim() : nlText;
@@ -146,34 +138,97 @@ async function findPersonalStory() {
     const inputName = document.getElementById('lookup-name')?.value.toLowerCase().trim();
     const inputPw = document.getElementById('lookup-pw')?.value.toLowerCase().trim();
     const container = document.getElementById('personal-story-content');
+    
     if (!inputName || !inputPw || !container) return;
 
-    try {
-        container.innerHTML = config.translations[config.currentLang]["loading-story"];
-        const response = await fetch(sheetURL + '&cb=' + Date.now());
-        const csvData = await response.text();
-        const rows = getCSVRows(csvData).slice(1);
-        let found = false;
+    const lang = config.currentLang;
+    const prologueTitle = config.translations[lang]["prologue-title"];
+    const prologueText = config.translations[lang]["prologue-text"];
+    
+    // Stap 1: Toon direct de Proloog en de Loader
+    container.innerHTML = `
+        <div id="fixed-prologue" style="animation: fadeIn 1.5s ease-in; margin-bottom: 40px;">
+            <h2 style="color: #ff00de; border-bottom: 1px solid rgba(255, 0, 222, 0.3); padding-bottom: 10px;">${prologueTitle}</h2>
+            <p style="line-height: 1.6; color: #fff; font-size: 1.1em;">${prologueText}</p>
+        </div>
+        
+        <div id="story-divider" style="text-align: center; margin: 50px 0; border-top: 1px dashed #00f2ff; padding-top: 30px;">
+            <div class="loader-spinner" style="margin-bottom: 15px;"></div>
+            <p id="loader-text" style="color: #00f2ff; font-style: italic; font-family: 'Courier New', monospace; letter-spacing: 1px;">
+                ${lang === 'nl' ? "De naald zoekt de juiste groef..." : "Le saphir cherche le bon sillon..."}
+            </p>
+        </div>
 
-        for (let row of rows) {
-            const cols = splitCSVRow(row);
-            const rawStory = cleanCSVValue(cols[1]);
-            const nameInSheet = cleanCSVValue(cols[2]).toLowerCase();
-            const pwInSheet = cleanCSVValue(cols[4]).toLowerCase();
+        <div id="final-story-target" style="animation: fadeIn 2s ease-in;"></div>
+    `;
 
-            if (nameInSheet === inputName && pwInSheet === inputPw) {
-                found = true;
-                const storyText = getLanguageSpecificText(rawStory, config.currentLang);
-                container.innerHTML = `
-                    <p style="color:#00f2ff; font-weight:bold; margin-bottom:15px;">Dag ${cleanCSVValue(cols[2])}, jouw legende:</p>
-                    <div style="border-left: 3px solid #ff00de; padding-left: 15px; text-align: left; color: #e0e0e0; line-height: 1.6; white-space: pre-wrap;">${storyText}</div>`;
-                break;
+    // Stap 2: Animatieve tussen-teksten
+    const phrases = lang === 'nl' 
+        ? ["Tijdsglitch stabiliseren...", "Herinneringen scannen...", "De legende wordt geschreven...", "Bijna daar...", "De naald vindt zijn weg..."]
+        : ["Stabilisation du glitch...", "Récupération des souvenirs...", "La légende s'écrit...", "Presque là...", "Le saphir trouve sa voie..."];
+    
+    let phraseIdx = 0;
+    const loaderInterval = setInterval(() => {
+        const el = document.getElementById('loader-text');
+        if (el) {
+            el.innerText = phrases[phraseIdx % phrases.length];
+            phraseIdx++;
+        }
+    }, 4500);
+
+    // Stap 3: Polling van de Google Sheet
+    let attempts = 0;
+    const maxAttempts = 24; // 24 * 5 sec = 120 seconden (2 minuten)
+
+    const checkSheet = async () => {
+        try {
+            const response = await fetch(sheetURL + '&cb=' + Date.now());
+            const csvData = await response.text();
+            const rows = getCSVRows(csvData).slice(1);
+            
+            // Zoek naar de juiste rij op basis van Nickname EN Geheime Woord
+            const match = rows.find(row => {
+                const cols = splitCSVRow(row);
+                return cleanCSVValue(cols[2]).toLowerCase() === inputName && 
+                       cleanCSVValue(cols[4]).toLowerCase() === inputPw;
+            });
+
+            if (match) {
+                const cols = splitCSVRow(match);
+                const rawStory = cleanCSVValue(cols[1]);
+                const storyText = getLanguageSpecificText(rawStory, lang);
+                const realNickname = cleanCSVValue(cols[2]);
+                
+                clearInterval(loaderInterval);
+                const divider = document.getElementById('story-divider');
+                if (divider) divider.style.display = 'none';
+                
+                const target = document.getElementById('final-story-target');
+                if (target) {
+                    target.innerHTML = `
+                        <h2 style="color: #00f2ff; border-bottom: 1px solid rgba(0, 242, 255, 0.3); padding-bottom: 10px;">
+                            Hoofdstuk 1: De Legende van ${realNickname}
+                        </h2>
+                        <div style="border-left: 3px solid #ff00de; padding-left: 20px; margin-top: 20px; color: #e0e0e0; line-height: 1.8; white-space: pre-wrap; font-size: 1.05em;">${storyText}</div>
+                    `;
+                }
+            } else if (attempts < maxAttempts) {
+                attempts++;
+                setTimeout(checkSheet, 5000); // Check opnieuw over 5 seconden
+            } else {
+                // Timeout bereikt
+                clearInterval(loaderInterval);
+                const el = document.getElementById('loader-text');
+                if (el) el.innerHTML = lang === 'nl' 
+                    ? "Het duurt iets langer... <br><button onclick='location.reload()' style='background:none; border:1px solid #00f2ff; color:#00f2ff; padding:5px 10px; margin-top:10px; cursor:pointer;'>Ververs de pagina</button>" 
+                    : "C'est un peu long... <br><button onclick='location.reload()' style='background:none; border:1px solid #00f2ff; color:#00f2ff; padding:5px 10px; margin-top:10px; cursor:pointer;'>Rafraîchir la page</button>";
             }
+        } catch (e) { 
+            console.error("Fetch error:", e);
         }
-        if (!found) { 
-            container.innerHTML = `<p style='color:#ff00de;'>${config.currentLang === 'nl' ? "Geen match gevonden." : "Aucune correspondance."}</p>`; 
-        }
-    } catch (e) { container.innerHTML = "Error."; }
+    };
+
+    checkSheet();
 }
 
 async function fetchStory() {
@@ -209,9 +264,10 @@ async function fetchStory() {
    ========================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Start altijd in NL
     setLanguage('nl');
 
-    // Luister naar de inlogknop
+    // Inlogknop
     const loginBtn = document.querySelector('button[data-i18n="login-btn"]');
     if (loginBtn) {
         loginBtn.addEventListener('click', (e) => {
@@ -220,6 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Formulier verzenden
     const form = document.getElementById("dragon-form");
     if (form) {
         form.addEventListener("submit", async (e) => {
@@ -236,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const isUnique = !rows.some(row => cleanCSVValue(splitCSVRow(row)[4]).toLowerCase() === chosenPw);
 
                 if (!isUnique) {
-                    alert("Dit geheime woord bestaat al!");
+                    alert(config.currentLang === 'nl' ? "Dit geheime woord bestaat al!" : "Ce mot secret existe déjà !");
                     btn.disabled = false;
                     btn.innerText = config.translations[config.currentLang]["submit-btn"];
                     return;
@@ -250,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (postRes.ok) {
-                    alert("Verzonden!");
+                    alert(config.currentLang === 'nl' ? "Verzonden naar de nevels!" : "Envoyé dans les brumes !");
                     window.location.href = "mijn-verhaal.html";
                 } else { throw new Error(); }
             } catch (err) { 
