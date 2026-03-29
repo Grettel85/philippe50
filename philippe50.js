@@ -73,7 +73,6 @@ function setLanguage(lang) {
         if (translation) el.innerText = translation;
     });
 
-    // Update Proloog teksten direct als ze aanwezig zijn
     const pTitle = document.getElementById('prologue-display-title');
     const pText = document.getElementById('prologue-display-text');
     if(pTitle) pTitle.innerText = config.translations[lang]["prologue-title"];
@@ -148,13 +147,11 @@ async function findPersonalStory() {
     if (!inputName || !inputPw || !container) return;
 
     const lang = config.currentLang;
-    const prologueTitle = config.translations[lang]["prologue-title"];
-    const prologueText = config.translations[lang]["prologue-text"];
     
     container.innerHTML = `
         <div id="fixed-prologue" class="fade-in" style="margin-bottom: 40px;">
-            <h2 id="prologue-display-title" style="color: #ff00de; border-bottom: 1px solid rgba(255, 0, 222, 0.3); padding-bottom: 10px;">${prologueTitle}</h2>
-            <p id="prologue-display-text" style="line-height: 1.6; color: #fff; font-size: 1.1em;">${prologueText}</p>
+            <h2 id="prologue-display-title" style="color: #ff00de; border-bottom: 1px solid rgba(255, 0, 222, 0.3); padding-bottom: 10px;">${config.translations[lang]["prologue-title"]}</h2>
+            <p id="prologue-display-text" style="line-height: 1.6; color: #fff; font-size: 1.1em;">${config.translations[lang]["prologue-text"]}</p>
         </div>
         
         <div id="story-divider" style="text-align: center; margin: 50px 0; border-top: 1px dashed #00f2ff; padding-top: 30px;">
@@ -163,22 +160,8 @@ async function findPersonalStory() {
                 ${lang === 'nl' ? "De naald zoekt de juiste groef..." : "Le saphir cherche le bon sillon..."}
             </p>
         </div>
-
         <div id="final-story-target" class="fade-in"></div>
     `;
-
-    const phrases = lang === 'nl' 
-        ? ["Tijdsglitch stabiliseren...", "Herinneringen scannen...", "De legende wordt geschreven...", "Bijna daar..."]
-        : ["Stabilisation du glitch...", "Récupération des souvenirs...", "La légende s'écrit...", "Presque là..."];
-    
-    let phraseIdx = 0;
-    const loaderInterval = setInterval(() => {
-        const el = document.getElementById('loader-text');
-        if (el) {
-            el.innerText = phrases[phraseIdx % phrases.length];
-            phraseIdx++;
-        }
-    }, 4500);
 
     let attempts = 0;
     const maxAttempts = 24; 
@@ -197,34 +180,35 @@ async function findPersonalStory() {
 
             if (match) {
                 const cols = splitCSVRow(match);
-                const rawStory = cleanCSVValue(cols[1]);
-                const storyText = getLanguageSpecificText(rawStory, lang);
+                let storyText = getLanguageSpecificText(cleanCSVValue(cols[1]), lang);
                 const realNickname = cleanCSVValue(cols[2]);
                 
-                clearInterval(loaderInterval);
-                const divider = document.getElementById('story-divider');
-                if (divider) divider.style.display = 'none';
-                
-                // Slimme titel check: als de AI al start met "Hoofdstuk", zet de nickname er alleen boven.
-                const hasChapterTitle = storyText.trim().toLowerCase().startsWith("hoofdstuk") || storyText.trim().toLowerCase().startsWith("chapitre");
-                const displayTitle = hasChapterTitle ? `De Legende van ${realNickname}` : `Hoofdstuk 1: De Legende van ${realNickname}`;
+                // --- SPLIT & SWAP LOGICA ---
+                let finalTitle = `${lang === 'nl' ? 'De Legende van' : 'La Légende de'} ${realNickname}`;
+                let finalContent = storyText;
+
+                const lines = storyText.split(/\r?\n/);
+                if (lines.length > 0) {
+                    const firstLine = lines[0].trim();
+                    if (firstLine.toLowerCase().startsWith("hoofdstuk") || firstLine.toLowerCase().startsWith("chapitre")) {
+                        finalTitle = firstLine;
+                        finalContent = lines.slice(1).join("\n").trim();
+                    }
+                }
 
                 const target = document.getElementById('final-story-target');
                 if (target) {
+                    document.getElementById('story-divider').style.display = 'none';
                     target.innerHTML = `
-                        <h2 style="color: #00f2ff; border-bottom: 1px solid rgba(0, 242, 255, 0.3); padding-bottom: 10px;">
-                            ${displayTitle}
+                        <h2 style="color: #00f2ff; border-bottom: 1px solid rgba(0, 242, 255, 0.3); padding-bottom: 10px; text-transform: uppercase;">
+                            ${finalTitle}
                         </h2>
-                        <div style="border-left: 3px solid #ff00de; padding-left: 20px; margin-top: 20px; color: #e0e0e0; line-height: 1.8; white-space: pre-wrap; font-size: 1.05em;">${storyText}</div>
+                        <div style="border-left: 3px solid #ff00de; padding-left: 20px; margin-top: 20px; color: #e0e0e0; line-height: 1.8; white-space: pre-wrap; font-size: 1.05em;">${finalContent}</div>
                     `;
                 }
             } else if (attempts < maxAttempts) {
                 attempts++;
-                setTimeout(checkSheet, 5000); 
-            } else {
-                clearInterval(loaderInterval);
-                const el = document.getElementById('loader-text');
-                if (el) el.innerHTML = lang === 'nl' ? "Sessie verlopen. Ververs de pagina." : "Session expirée. Rafraîchir.";
+                setTimeout(checkSheet, 5000);
             }
         } catch (e) { console.error(e); }
     };
@@ -248,14 +232,22 @@ async function fetchStory() {
             const storyText = getLanguageSpecificText(rawStory, config.currentLang);
 
             if (storyText) {
-                // Hier ook de slimme check voor de algemene legende pagina
-                const hasChapterTitle = storyText.trim().toLowerCase().startsWith("hoofdstuk") || storyText.trim().toLowerCase().startsWith("chapitre");
-                const entryTitle = hasChapterTitle ? nickname : `Hoofdstuk ${index + 1}: ${nickname}`;
+                let finalTitle = `Hoofdstuk ${index + 1}: ${nickname}`;
+                let finalContent = storyText;
+
+                const lines = storyText.split(/\r?\n/);
+                if (lines.length > 0) {
+                    const firstLine = lines[0].trim();
+                    if (firstLine.toLowerCase().startsWith("hoofdstuk") || firstLine.toLowerCase().startsWith("chapitre")) {
+                        finalTitle = firstLine; // Gebruik de titel van de AI
+                        finalContent = lines.slice(1).join("\n").trim();
+                    }
+                }
 
                 fullHTML += `
                     <div class="story-entry" style="margin-bottom: 40px; border-bottom: 1px dashed rgba(0, 242, 255, 0.2); padding-bottom: 20px;">
-                        <h3 style="color: #00f2ff; margin-bottom: 10px;">${entryTitle}</h3>
-                        <div style="white-space: pre-wrap; line-height: 1.6;">${storyText}</div>
+                        <h3 style="color: #00f2ff; margin-bottom: 10px;">${finalTitle}</h3>
+                        <div style="white-space: pre-wrap; line-height: 1.6;">${finalContent}</div>
                     </div>`;
             }
         });
