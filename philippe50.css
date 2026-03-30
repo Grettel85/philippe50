@@ -172,7 +172,7 @@ button:hover, .submit-btn:hover {
 }
 
 /* =========================================
-    7. LIVE SCROLL SPECIFIEKE STIJLEN
+    7. LIVE SCROLL (VERBETERDE VERSIE)
    ========================================= */
 .scroll-wrapper {
     display: flex;
@@ -183,15 +183,18 @@ button:hover, .submit-btn:hover {
     margin: 0 auto;
     position: relative;
     overflow: hidden;
-    /* Fading effect boven en onder */
-    mask-image: linear-gradient(transparent, black 15%, black 85%, transparent);
-    -webkit-mask-image: linear-gradient(transparent, black 15%, black 85%, transparent);
+    z-index: 10; /* Zorg dat dit BOVEN de sterren ligt */
+    /* Zachte fading aan de randen */
+    mask-image: linear-gradient(transparent, black 20%, black 80%, transparent);
+    -webkit-mask-image: linear-gradient(transparent, black 20%, black 80%, transparent);
 }
 
 .scroll-column {
     width: 45%;
     position: absolute;
-    top: 100%; /* Start volledig onder het scherm */
+    /* We zetten de startpositie op 'initial' en regelen de beweging 
+       volledig via het JavaScript voor maximale controle */
+    top: 100vh; 
     padding: 20px;
     will-change: transform;
 }
@@ -200,26 +203,28 @@ button:hover, .submit-btn:hover {
 .column-fr { right: 2%; }
 
 .scroll-entry {
-    margin-bottom: 80px;
+    margin-bottom: 100px; /* Meer ruimte tussen hoofdstukken */
     text-align: left;
-    background: rgba(255, 255, 255, 0.03);
-    padding: 25px;
+    background: rgba(255, 255, 255, 0.05); /* Subtiele achtergrond */
+    padding: 30px;
     border-radius: 15px;
-    border-left: 3px solid #ff00de;
+    border-left: 4px solid #ff00de; /* Roze accentlijn */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .scroll-entry h3 {
-    color: #00f2ff;
-    font-size: 1.3rem;
-    margin-bottom: 15px;
+    color: #00f2ff; /* Neon blauwe titels */
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
 }
 
 .scroll-entry p {
-    font-size: 1rem;
+    font-size: 1.1rem;
     line-height: 1.8;
-    color: #ffffff;
+    color: #ffffff; /* Helderwitte tekst */
+    white-space: pre-wrap; /* Behoudt de enters in de tekst */
 }
-
 /* =========================================
     8. ANIMATIES & UTILS
    ========================================= */
