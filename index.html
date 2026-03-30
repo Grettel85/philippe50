@@ -1,78 +1,73 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Philippe 50 - De Legende</title>
-    <link rel="stylesheet" href="philippe50.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philippe 50 - De Legende</title>
+    <link rel="stylesheet" href="philippe50.css">
 </head>
 <body>
-    <div class="stars-container"></div>
-    <div class="card-container">
-        <div class="language-switch">
-            <button onclick="setLanguage('nl')" id="btn-nl" class="active-lang">NL</button>
-            <button onclick="setLanguage('fr')" id="btn-fr">FR</button>
-        </div>
+    <div class="stars-container"></div>
+    <div class="card-container">
+        <div class="language-switch">
+            <button onclick="setLanguage('nl')" id="btn-nl" class="active-lang">NL</button>
+            <button onclick="setLanguage('fr')" id="btn-fr">FR</button>
+        </div>
 
-        <div id="password-gate" class="glass-card">
-            <h1 data-i18n="welcome">Welkom bij Philippe 50</h1>
-            <p data-i18n="enter-code">Voer de code in:</p>
-            <div class="input-group">
-                <input type="password" id="password-input" placeholder="Wachtwoord...">
-            </div>
-            <button onclick="checkPassword()" data-i18n="login-btn">Log in</button>
-            <p id="error-msg" style="color: #ff00de; display: none;" data-i18n="wrong-pwd">Onjuist.</p>
-            
-            <hr style="margin: 20px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.1);">
-            
-            <a href="mijn-verhaal.html" class="submit-btn-alt" data-i18n="view-chapter">
-                Bekijk jouw hoofdstuk
-            </a>
-        </div>
+        <div id="password-gate" class="glass-card fade-in">
+            <h1 data-i18n="welcome">Welkom bij Philippe 50</h1>
+            <p data-i18n="enter-code">Voer de geheime code in om deel te nemen:</p>
+            <div class="input-group">
+                <input type="password" id="password-input" placeholder="Wachtwoord...">
+            </div>
+            <button onclick="checkPassword()" data-i18n="login-btn">Log in</button>
+            <p id="error-msg" style="color: #ff00de; display: none; margin-top: 10px;" data-i18n="wrong-pwd">Onjuiste code.</p>
+            
+            <hr style="margin: 30px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.1);">
+            
+            <a href="mijn-verhaal.html" class="submit-btn-alt" data-i18n="view-chapter">
+                Bekijk jouw hoofdstuk
+            </a>
+        </div>
 
-        <div id="form-section" class="glass-card" style="display: none;">
-            <h2 data-i18n="form-title">Het verhaal van Philippe</h2>
-            <form id="dragon-form">
-                <div class="input-group">
-                    <label data-i18n="label-name">Wat is je (bij)naam?</label>
-                    <input type="text" name="deelnemer_naam" id="deelnemer_naam" required>
-                </div>
+        <div id="form-section" class="glass-card fade-in" style="display: none;">
+            <h2 data-i18n="form-title">Het verhaal van Philippe</h2>
+            <form id="dragon-form">
+                <div class="input-group">
+                    <label data-i18n="label-name">Jouw Nickname:</label>
+                    <input type="text" name="deelnemer_naam" id="deelnemer_naam" required>
+                </div>
 
-                <div class="input-group">
-                    <label data-i18n="label-email">Wat is je e-mailadres:</label>
-                    <input type="email" name="deelnemer_email" id="deelnemer_email" required>
-                </div>
+                <div class="input-group">
+                    <label data-i18n="label-email">Jouw E-mailadres:</label>
+                    <input type="email" name="deelnemer_email" id="deelnemer_email" required>
+                </div>
 
-                <div class="input-group">
-                    <label data-i18n="label-band">Schrijf hier het geheime woord:</label>
-                    <p style="font-size: 0.7rem; color: #ff00de;" data-i18n="band-note">(Dit is je wachtwoord voor later)</p>
-                    <input type="password" name="deelnemer_ww" id="deelnemer_ww" required>
-                </div>
+                <div class="input-group">
+                    <label data-i18n="label-band">Het geheime woord:</label>
+                    <p style="font-size: 0.7rem; color: #ff00de;" data-i18n="band-note">(Dit is je wachtwoord voor later)</p>
+                    <input type="password" name="deelnemer_ww" id="deelnemer_ww" required>
+                </div>
 
-                <div class="input-group">
-                    <label data-i18n="label-personage">Welk 80's personage?</label>
-                    <input type="text" name="deelnemer_personage" id="deelnemer_personage" required>
-                </div>
+                <div class="input-group">
+                    <label data-i18n="label-personage">Welk 80's personage?</label>
+                    <input type="text" name="deelnemer_personage" id="deelnemer_personage" required>
+                </div>
 
-                <div class="input-group">
-                    <label data-i18n="label-power">Superkracht?</label>
-                    <input type="text" name="philippe_superkracht" id="philippe_superkracht" required>
-                </div>
+                <div class="input-group">
+                    <label data-i18n="label-power">Superkracht?</label>
+                    <input type="text" name="philippe_superkracht" id="philippe_superkracht" required>
+                </div>
 
-                <div class="input-group">
-                    <label data-i18n="label-kryptonite">Kryptonite?</label>
-                    <input type="text" name="philippe_kryptonite" id="philippe_kryptonite" required>
-                </div>
+                <div class="input-group">
+                    <label data-i18n="label-memory">Leukste herinnering?</label>
+                    <textarea name="philippe_herinnering" id="philippe_herinnering" rows="4" required></textarea>
+                </div>
 
-                <div class="input-group">
-                    <label data-i18n="label-memory">Leukste herinnering?</label>
-                    <textarea name="philippe_herinnering" id="philippe_herinnering" rows="3" required></textarea>
-                </div>
-
-                <button type="submit" class="submit-btn" data-i18n="submit-btn">Verstuur naar de Legende</button>
-            </form>
-        </div>
-    </div>
-    <script src="philippe50.js"></script>
+                <button type="submit" class="submit-btn" data-i18n="submit-btn">Verstuur naar de Legende</button>
+            </form>
+        </div>
+    </div>
+    <script src="philippe50.js"></script>
 </body>
 </html>
