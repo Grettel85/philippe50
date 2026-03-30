@@ -28,7 +28,9 @@ const config = {
             "show-story-btn": "Toon mijn verhaal",
             "back-link": "← Terug naar de start",
             "prologue-title": "Hoofdstuk 1: De Tijdsglitch",
-            "prologue-text": "Philippe zat op een ochtend in de veranda rustig van een tasje koffie te genieten, met zijn Spotify-playlist op de achtergrond. Met gesloten ogen genoot hij van de zon op zijn gezicht. De combi video- en dvd-speler rolde met zijn ogen en de oude grammofoonspeler onder de televisie kreunde; alweer die 'moderne' muziek.\n\nPlots kwam er een tijdsglitch langs en de grammofoonspeler schrok op. Door de schok verplaatste de naald op een oude plaat en kwam bovenop een van de ribbels terecht. De speler probeerde de naald terug in de juiste groef te schudden, maar de glitch keerde onverwacht terug en de kamer begon te draaien. Philippe merkte niets van de spiraal van duisternis die het licht wegzoog. De kamer leek om hem heen weg te ebben.\n\nToen hoorde hij de Spotify-muziek niet meer. Langzaam klonken vanuit de verte de tonen van de ABBA-hit 'Fernando'. Vreemd, dacht Philippe, dat stond niet in mijn playlist? Hij opende zijn ogen en zag dat hij nog steeds in de zetel zat, maar de kamer was niet meer zijn huis in Kessel-Lo. Hij herkende de plek, maar toch ook niet. Op tafel lag een krant: de geboorteaankondigingen. Er was een kindje geboren met exact dezelfde naam als hij.\n\nHij sloeg de krant dicht. De voorpagina toonde een artikel over de fusie van gemeenten en de viering van 25 jaar Koning Boudewijn. Toen viel zijn Belgische frank: hij stond in de woonkamer van het huis waar hij de eerste twee jaar van zijn leven had gewoond. De datum op de krant: 14 april 1976 om exact 13:30. 50 jaar terug in de tijd. Hoe geraakt hij terug naar de toekomst?"
+            "prologue-text": "Philippe zat op een ochtend in de veranda rustig van een tasje koffie te genieten, met zijn Spotify-playlist op de achtergrond. Met gesloten ogen genoot hij van de zon op zijn gezicht. De combi video- en dvd-speler rolde met zijn ogen en de oude grammofoonspeler onder de televisie kreunde; alweer die 'moderne' muziek.\n\nPlots kwam er een tijdsglitch langs en de grammofoonspeler schrok op. Door de schok verplaatste de naald op een oude plaat en kwam bovenop een van de ribbels terecht. De speler probeerde de naald terug in de juiste groef te schudden, maar de glitch keerde onverwacht terug en de kamer begon te draaien. Philippe merkte niets van de spiraal van duisternis die het licht wegzoog. De kamer leek om hem heen weg te ebben.\n\nToen hoorde hij de Spotify-muziek niet meer. Langzaam klonken vanuit de verte de tonen van de ABBA-hit 'Fernando'. Vreemd, dacht Philippe, dat stond niet in mijn playlist? Hij opende zijn ogen en zag dat hij nog steeds in de zetel zat, maar de kamer was niet meer zijn huis in Kessel-Lo. Hij herkende de plek, maar toch ook niet. Op tafel lag een krant: de geboorteaankondigingen. Er was een kindje geboren met exact dezelfde naam als hij.\n\nHij sloeg de krant dicht. De voorpagina toonde een artikel over de fusie van gemeenten en de viering van 25 jaar Koning Boudewijn. Toen viel zijn Belgische frank: hij stond in de woonkamer van het huis waar hij de eerste twee jaar van zijn leven had gewoond. De datum op de krant: 14 april 1976 om exact 13:30. 50 jaar terug in de tijd. Hoe geraakt hij terug naar de toekomst?",
+            "loader-phrases": ["Tijdsglitch stabiliseren...", "Herinneringen uit de jaren 80 ophalen...", "De legende wordt geschreven...", "Bijna daar..."],
+            "wait-longer": "Het duurt iets langer... ververs de pagina over een minuutje."
         },
         fr: {
             "welcome": "Bienvenue chez Philippe 50",
@@ -53,7 +55,9 @@ const config = {
             "show-story-btn": "Afficher mon histoire",
             "back-link": "← Retour au début",
             "prologue-title": "Chapitre 1 : Le Glitch Temporel",
-            "prologue-text": "Philippe était assis dans sa véranda un matin, savourant tranquillement une tasse de café avec sa playlist Spotify en fond sonore. Les yeux fermés, il profitait du soleil sur son visage. Le combiné lecteur vidéo et DVD leva les yeux au ciel et le vieux gramophone sous le téléviseur grogna ; encore cette musique 'moderne'.\n\nSoudain, une faille temporelle passa par là et le gramophone sursauta. Sous le choc, le saphir se déplaça sur un vieux disque et atterrit sur l'un des sillons. Le gramophone tenta de remettre l'aiguille dans la bonne rainure, mais la faille revint de manière inattendue et la pièce commença soudainement à tourner. Toujours installé dans son fauteuil les yeux clos, Philippe ne remarqua rien de la spirale de ténèbres qui aspirait la lumière. La pièce sembla s'effacer tout autour de lui.\n\nPhilippe n'entendait plus la musique de Spotify, mais les notes du célèbre tube d'ABBA, 'Fernando', résonnaient lentement au loin. Étrange, pensa Philippe, ce n'était pas dans ma playlist. Il ouvrit les yeux et vit qu'il était toujours assis dans son fauteuil. Mais la pièce n'était plus celle de sa maison à Kessel-Lo. Il reconnaissait l'endroit, et pourtant, quelque chose clochait. Sur la table, un journal était ouvert aux annonces de naissance : un enfant était né avec le même nom que lui.\n\nIl referma le journal et vit la une : un article sur les fusions de communes et les festivités pour les 25 ans de règne du roi Baudouin. C'est alors que le 'franc belge' tomba. Philippe se trouvait dans le salon de la maison de ses deux premières années. La date sur le journal : le 14 avril 1976 à 13h30 précises. Cinquante ans en arrière. Comment allait-il retourner vers le futur ?"
+            "prologue-text": "Philippe était assis dans sa véranda un matin, savourant tranquillement une tasse de café avec sa playlist Spotify en fond sonore. Les yeux fermés, il profitait du soleil sur son visage. Le combiné lecteur vidéo et DVD leva les yeux au ciel et le vieux gramophone sous le téléviseur grogna ; encore cette musique 'moderne'.\n\nSoudain, une faille temporelle passa par là et le gramophone sursauta. Sous le choc, le saphir se déplaça sur un vieux disque et atterrit sur l'un des sillons. Le gramophone tenta de remettre l'aiguille dans la bonne rainure, mais la faille revint de manière inattendue et la pièce commença soudainement à tourner. Toujours installé dans son fauteuil les yeux clos, Philippe ne remarqua rien de la spirale de ténèbres qui aspirait la lumière. La pièce sembla s'effacer tout autour de lui.\n\nPhilippe n'entendait plus la musique de Spotify, mais les notes du célèbre tube d'ABBA, 'Fernando', résonnaient lentement au loin. Étrange, pensa Philippe, ce n'était pas dans ma playlist. Il ouvrit les yeux et vit qu'il était toujours assis dans son fauteuil. Mais la pièce n'était plus celle de sa maison à Kessel-Lo. Il reconnaissait l'endroit, et pourtant, quelque chose clochait. Sur la table, un journal était ouvert aux annonces de naissance : un enfant était né avec le même nom que lui.\n\nIl referma le journal et vit la une : un article sur les fusions de communes et les festivités pour les 25 ans de règne du roi Baudouin. C'est alors que le 'franc belge' tomba. Philippe se trouvait dans le salon de la maison de ses deux premières années. La date sur le journal : le 14 avril 1976 à 13h30 précises. Cinquante ans en arrière. Comment allait-il retourner vers le futur ?",
+            "loader-phrases": ["Stabilisation du glitch...", "Récupération des souvenirs...", "La légende s'écrit...", "Presque là..."],
+            "wait-longer": "C'est un peu long... rafraîchissez la page dans une minute."
         }
     }
 };
@@ -140,48 +144,71 @@ async function findPersonalStory() {
     if (!inputName || !inputPw || !container) return;
 
     const lang = config.currentLang;
+    const prologueTitle = config.translations[lang]["prologue-title"];
+    const prologueText = config.translations[lang]["prologue-text"];
+
+    // 1. Toon direct de Proloog en de Loader-sectie
     container.innerHTML = `
         <div id="fixed-prologue" class="fade-in">
-            <h2 id="prologue-display-title">${config.translations[lang]["prologue-title"]}</h2>
-            <p id="prologue-display-text" class="story-text">${config.translations[lang]["prologue-text"]}</p>
+            <h2 style="color: #ff00de;">${prologueTitle}</h2>
+            <p style="line-height: 1.6; margin-bottom: 40px;">${prologueText}</p>
         </div>
-        <div id="story-divider">
-            <div class="loader-spinner"></div>
-            <p id="loader-text">${lang === 'nl' ? "De naald zoekt de juiste groef..." : "Le saphir cherche le bon sillon..."}</p>
+        
+        <div id="story-divider" style="text-align: center; margin: 40px 0; border-top: 1px solid #00f2ff; padding-top: 20px;">
+            <p id="loader-text" style="color: #00f2ff; font-style: italic; font-family: 'Courier New', monospace;">
+                ${lang === 'nl' ? "De naald zoekt de juiste groef..." : "Le saphir cherche le bon sillon..."}
+            </p>
         </div>
+
         <div id="final-story-target" class="fade-in"></div>
     `;
 
+    // 2. Start de dynamische loader tekst
+    const phrases = config.translations[lang]["loader-phrases"];
+    let phraseIdx = 0;
+    const loaderInterval = setInterval(() => {
+        const el = document.getElementById('loader-text');
+        if (el) el.innerText = phrases[phraseIdx % phrases.length];
+        phraseIdx++;
+    }, 4000);
+
+    // 3. Polling van Google Sheets
     let attempts = 0;
     const checkSheet = async () => {
         try {
-            const res = await fetch(sheetURL + '&cb=' + Date.now());
-            const rows = getCSVRows(await res.text()).slice(1);
+            const response = await fetch(sheetURL + '&cb=' + Date.now());
+            const csvData = await response.text();
+            const rows = getCSVRows(csvData).slice(1);
+            
             const match = rows.find(row => {
                 const cols = splitCSVRow(row);
-                return cleanCSVValue(cols[2]).toLowerCase() === inputName && cleanCSVValue(cols[4]).toLowerCase() === inputPw;
+                return cleanCSVValue(cols[2]).toLowerCase() === inputName && 
+                       cleanCSVValue(cols[4]).toLowerCase() === inputPw;
             });
 
             if (match) {
                 const cols = splitCSVRow(match);
-                let storyText = getLanguageSpecificText(cleanCSVValue(cols[1]), lang);
-                const lines = storyText.split(/\r?\n/).filter(l => l.trim() !== "");
-                let finalTitle = (lang === 'nl' ? "HOOFDSTUK: " : "CHAPITRE: ") + cleanCSVValue(cols[2]).toUpperCase();
-                let finalContent = storyText;
-
-                if (lines.length > 0 && (lines[0].toLowerCase().includes("hoofdstuk") || lines[0].toLowerCase().includes("chapitre"))) {
-                    finalTitle = lines[0];
-                    finalContent = lines.slice(1).join("\n").trim();
-                }
-
-                document.getElementById('story-divider').style.display = 'none';
+                const rawStory = cleanCSVValue(cols[1]);
+                const storyText = getLanguageSpecificText(rawStory, lang);
+                
+                clearInterval(loaderInterval); 
+                document.getElementById('story-divider').style.display = 'none'; 
+                
+                // Resultaat tonen
                 document.getElementById('final-story-target').innerHTML = `
-                    <h2>${finalTitle}</h2>
-                    <div class="final-content">${finalContent}</div>
+                    <h2 style="color: #00f2ff;">De Legende van ${cleanCSVValue(cols[2])}</h2>
+                    <div class="typewriter-text" style="border-left: 3px solid #ff00de; padding-left: 15px; white-space: pre-wrap;">${storyText}</div>
                 `;
-            } else if (attempts < 24) { attempts++; setTimeout(checkSheet, 5000); }
-        } catch (e) { console.error(e); }
+            } else if (attempts < 18) { 
+                attempts++;
+                setTimeout(checkSheet, 5000);
+            } else {
+                clearInterval(loaderInterval);
+                document.getElementById('loader-text').innerText = config.translations[lang]["wait-longer"];
+            }
+        } catch (e) { console.error("Fout bij ophalen:", e); }
     };
+
     checkSheet();
 }
 
