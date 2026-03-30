@@ -1,3 +1,6 @@
+/* =========================================
+    CONFIG & VERTALINGEN
+   ========================================= */
 const config = {
     password: "Philippe50", 
     currentLang: 'nl',
@@ -83,6 +86,10 @@ const config = {
 
 const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR8NcRn-YMmbVuxKlYx_WT9_QZEB5eaFbiygWphB86Ya2mzMswKVwVlqFpBDe5ewM6f1uFh2wi8nIDk/pub?output=csv';
 
+/* =========================================
+    LOGIC FUNCTIONS
+   ========================================= */
+
 function setLanguage(lang) {
     config.currentLang = lang;
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -96,7 +103,18 @@ function setLanguage(lang) {
             }
         }
     });
+
+    // Update proloog op 'mijn-verhaal' pagina als die getoond wordt
+    const pTitle = document.getElementById('prologue-display-title');
+    const pText = document.querySelector('#fixed-prologue .story-text');
+    if(pTitle) pTitle.innerText = config.translations[lang]["prologue-title"];
+    if(pText) pText.innerText = config.translations[lang]["prologue-text"];
+
     updateLangButtons(lang);
+
+    if (document.getElementById('story-content')) {
+        fetchStory();
+    }
 }
 
 function updateLangButtons(lang) {
@@ -110,6 +128,7 @@ function updateLangButtons(lang) {
 
 function checkPassword() {
     const inputField = document.getElementById('password-input');
+    const errorMsg = document.getElementById('error-msg');
     if (!inputField) return;
     const input = inputField.value.trim().toLowerCase();
     if (input === "admin50") { window.location.href = "legende.html"; return; }
@@ -117,7 +136,7 @@ function checkPassword() {
         document.getElementById('password-gate').style.display = 'none';
         document.getElementById('form-section').style.display = 'block';
     } else {
-        document.getElementById('error-msg').style.display = 'block';
+        if (errorMsg) errorMsg.style.display = 'block';
     }
 }
 
@@ -193,11 +212,30 @@ async function findPersonalStory() {
                 setTimeout(checkSheet, 5000);
             } else {
                 clearInterval(loaderInterval);
-                document.getElementById('loader-text').innerText = config.translations[lang]["wait-longer"];
+                const lText = document.getElementById('loader-text');
+                if(lText) lText.innerText = config.translations[lang]["wait-longer"];
             }
         } catch (e) { console.error(e); }
     };
     checkSheet();
+}
+
+async function fetchStory() {
+    const container = document.getElementById('story-content');
+    if (!container) return;
+    try {
+        const res = await fetch(sheetURL + '&cb=' + Date.now());
+        const rows = getCSVRows(await res.text()).slice(1);
+        let html = "";
+        rows.forEach((row, idx) => {
+            const cols = splitCSVRow(row);
+            const story = getLanguageSpecificText(cleanCSVValue(cols[1]), config.currentLang);
+            if (story) {
+                html += `<div class="story-entry"><h3>HOOFDSTUK ${idx+1}: ${cleanCSVValue(cols[2])}</h3><div class="final-content">${story}</div></div>`;
+            }
+        });
+        container.innerHTML = html || "<p>Nog geen verhalen.</p>";
+    } catch (e) { container.innerHTML = "Fout bij laden."; }
 }
 
 function copyToClipboard() {
@@ -213,10 +251,40 @@ function copyToClipboard() {
     });
 }
 
+/* =========================================
+    INITIALIZATION & FORM SUBMIT
+   ========================================= */
 document.addEventListener('DOMContentLoaded', () => {
     setLanguage('nl');
+    
     const loginBtn = document.querySelector('button[data-i18n="login-btn"]');
     if (loginBtn) loginBtn.addEventListener('click', (e) => { e.preventDefault(); checkPassword(); });
+
     const bandNote = document.querySelector('[data-i18n="band-note"]');
     if (bandNote) { bandNote.style.cursor = "pointer"; bandNote.addEventListener('click', copyToClipboard); }
+
+    const form = document.getElementById("dragon-form");
+    if (form) {
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const btn = form.querySelector('button[type="submit"]');
+            const chosenPw = document.getElementById('deelnemer_ww').value.toLowerCase().trim();
+            btn.disabled = true; btn.innerText = "...";
+            try {
+                const res = await fetch(sheetURL + '&cb=' + Date.now());
+                const rows = getCSVRows(await res.text()).slice(1);
+                if (rows.some(row => cleanCSVValue(splitCSVRow(row)[4]).toLowerCase() === chosenPw)) {
+                    alert(config.currentLang === 'nl' ? "Dit geheime woord bestaat al!" : "Ce mot secret existe déjà !");
+                    btn.disabled = false; btn.innerText = config.translations[config.currentLang]["submit-btn"];
+                    return;
+                }
+                const postRes = await fetch("https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f", {
+                    method: "POST",
+                    body: JSON.stringify(Object.fromEntries(new FormData(form))),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                if (postRes.ok) { window.location.href = "mijn-verhaal.html"; } else { throw new Error(); }
+            } catch (err) { btn.disabled = false; btn.innerText = "Error - Opnieuw proberen"; }
+        });
+    }
 });
