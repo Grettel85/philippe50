@@ -66,7 +66,7 @@ const config = {
             "show-story-btn": "Afficher mon histoire",
             "back-link": "← Retour au début",
             "prologue-title": "Chapitre 1 : Le Glitch Temporel",
-            "prologue-text": "Philippe était assis dans sa véranda un matin, savourant tranquillement une tasse de café avec sa playlist Spotify en fond sonore. Les yeux fermés, il profitait du soleil sur son visage. Le combiné lecteur vidéo et DVD leva les yeux au ciel et le vieux gramophone sous le téléviseur grogna ; encore cette musique 'moderne'.\n\nSoudain, une faille temporelle passa par là et le gramophone sursauta. Sous le choc, le saphir se déplaça sur un vieux disque et atterrit sur l'un des sillons. Le gramophone tenta de remettre l'aiguille dans la bonne rainure, mais la faille revint de manière inattendue et la pièce commença soudainement à tourner. Toujours installé dans son fauteuil les yeux clos, Philippe ne remarqua rien de la spirale de ténèbres qui aspirait la lumière. La pièce sembla s'effacer tout autour de lui.\n\nPhilippe n'entendait plus la musique de Spotify, mais les notes du célèbre tube d'ABBA, 'Fernando', résonnaient lentement au loin. Étrange, pensa Philippe, ce n'était pas dans ma playlist. Il ouvrit les yeux et vit qu'il était toujours assis dans son fauteuil. Mais la pièce n'était plus celle de sa maison à Kessel-Lo. Il reconnaissait l'endroit, et pourtant, quelque chose clochait. Sur la table, un journal était ouvert aux annonces de naissance : un enfant était né avec le même nom que lui.\n\nIl referma le journal et vit la une : un article sur les fusions de communes et les festivités pour les 25 ans de règne du roi Baudouin. C'est alors que le 'franc belge' tomba. Philippe se trouvait dans le salon de la maison de ses deux premières années. La date sur le journal : le 14 avril 1976 à 13h30 précises. Cinquante ans en arrière. Comment allait-il retourner vers le futur ?",
+            "prologue-text": "Philippe était assis dans sa véranda un matin, savourant tranquillement une tasse de café avec sa playlist Spotify en fond sonore. Les yeux fermés, il profitait du soleil sur son visage. Le combiné lecteur vidéo et DVD leva les yeux au ciel et le vieux gramophone sous le téléviseur grogna ; encore cette musique 'moderne'.\n\nSoudain, une faille temporelle passa par là et le gramophone sursauta. Sous le choc, le saphir se déplaça sur un vieux disque et atterrit sur l'un des sillons. Le gramophone tenta de remettre l'aiguille dans la bonne rainure, maar de glitch revint de manière inattendue et la pièce commença soudainement à tourner. Toujours installé dans son fauteuil les yeux clos, Philippe ne remarqua rien de la spirale de ténèbres qui aspirait la lumière. La pièce sembla s'effacer tout autour de lui.\n\nPhilippe n'entendait plus la musique de Spotify, maar les notes du célèbre tube d'ABBA, 'Fernando', résonnaient lentement au loin. Étrange, pensa Philippe, ce n'était pas dans ma playlist. Il ouvrit les yeux et vit qu'il était toujours assis dans son fauteuil. Mais la pièce n'était plus celle de sa maison à Kessel-Lo. Il reconnaissait l'endroit, et pourtant, quelque chose clochait. Sur la table, un journal était ouvert aux annonces de naissance : un enfant était né avec le même nom que lui.\n\nIl referma le journal et vit la une : un article sur les fusions de communes et les festivités pour les 25 ans de règne du roi Baudouin. C'est alors que le 'franc belge' tomba. Philippe se trouvait dans le salon de la maison de ses deux premières années. La date sur le journal : le 14 avril 1976 à 13h30 précises. Cinquante ans en arrière. Comment allait-il retourner vers le futur ?",
             "loader-phrases": [
                 "Le saphir cherche le bon sillon...",
                 "Stabilisation du glitch temporel...",
@@ -98,7 +98,6 @@ function setLanguage(lang) {
         if (translation) el.innerText = translation;
     });
 
-    // Update proloog direct als we op mijn-verhaal.html zijn
     const pTitle = document.getElementById('prologue-display-title');
     const pText = document.getElementById('prologue-display-text');
     if(pTitle) pTitle.innerText = config.translations[lang]["prologue-title"];
@@ -106,7 +105,6 @@ function setLanguage(lang) {
 
     updateLangButtons(lang);
 
-    // Herlaad content indien nodig
     if (document.getElementById('story-content')) fetchStory();
     if (document.getElementById('personal-story-content')) {
         const target = document.getElementById('final-story-target');
@@ -169,7 +167,6 @@ async function findPersonalStory() {
 
     const lang = config.currentLang;
     
-    // Toon de Proloog en de Loader
     container.innerHTML = `
         <div id="fixed-prologue" class="fade-in">
             <h2 style="color: #ff00de;" id="prologue-display-title">${config.translations[lang]["prologue-title"]}</h2>
@@ -209,10 +206,8 @@ async function findPersonalStory() {
             if (match) {
                 const cols = splitCSVRow(match);
                 const storyText = getLanguageSpecificText(cleanCSVValue(cols[1]), lang);
-                
                 clearInterval(loaderInterval); 
                 document.getElementById('story-divider').style.display = 'none'; 
-                
                 document.getElementById('final-story-target').innerHTML = `
                     <h2 style="color: #00f2ff; margin-bottom: 15px;">De Legende van ${cleanCSVValue(cols[2])}</h2>
                     <div class="typewriter-text" style="border-left: 3px solid #ff00de; padding-left: 15px; white-space: pre-wrap;">${storyText}</div>
@@ -252,12 +247,72 @@ async function fetchStory() {
 }
 
 /* =========================================
+    SCROLL LOGIC (Synchronized NL/FR)
+   ========================================= */
+
+async function startLiveScroll() {
+    const nlCol = document.getElementById('scroll-nl');
+    const frCol = document.getElementById('scroll-fr');
+    if (!nlCol || !frCol) return;
+
+    try {
+        const res = await fetch(sheetURL + '&cb=' + Date.now());
+        const csvData = await res.text();
+        const rows = getCSVRows(csvData).slice(1);
+
+        let nlHTML = `<div class="scroll-entry"><h3>${config.translations.nl["prologue-title"]}</h3><p>${config.translations.nl["prologue-text"]}</p></div>`;
+        let frHTML = `<div class="scroll-entry"><h3>${config.translations.fr["prologue-title"]}</h3><p>${config.translations.fr["prologue-text"]}</p></div>`;
+
+        rows.forEach((row, index) => {
+            const cols = splitCSVRow(row);
+            const name = cleanCSVValue(cols[2]);
+            const rawStory = cleanCSVValue(cols[1]);
+
+            const textNL = getLanguageSpecificText(rawStory, 'nl');
+            const textFR = getLanguageSpecificText(rawStory, 'fr');
+
+            if (textNL) {
+                nlHTML += `<div class="scroll-entry"><h3>Hoofdstuk ${index + 2}: ${name}</h3><p>${textNL}</p></div>`;
+                frHTML += `<div class="scroll-entry"><h3>Chapitre ${index + 2}: ${name}</h3><p>${textFR}</p></div>`;
+            }
+        });
+
+        nlCol.innerHTML = nlHTML;
+        frCol.innerHTML = frHTML;
+
+        // Start de animatie nadat de content is geladen
+        setTimeout(() => {
+            const scrollHeight = Math.max(nlCol.offsetHeight, frCol.offsetHeight);
+            const duration = scrollHeight * 45; // Snelheid aanpassen (lager = sneller)
+            
+            const animationStyles = `
+                @keyframes scrollUpDynamic {
+                    from { transform: translateY(0); }
+                    to { transform: translateY(-${scrollHeight + 500}px); }
+                }
+            `;
+            const styleSheet = document.createElement("style");
+            styleSheet.innerText = animationStyles;
+            document.head.appendChild(styleSheet);
+
+            nlCol.style.animation = `scrollUpDynamic ${duration}ms linear forwards`;
+            frCol.style.animation = `scrollUpDynamic ${duration}ms linear forwards`;
+        }, 1000);
+
+    } catch (e) { console.error("Scroll error:", e); }
+}
+
+/* =========================================
     INITIALIZATION
    ========================================= */
 document.addEventListener('DOMContentLoaded', () => {
-    setLanguage('nl');
+    // Check of we op de scroll pagina zijn
+    if (document.getElementById('scroll-wrapper')) {
+        startLiveScroll();
+    } else {
+        setLanguage('nl');
+    }
     
-    // Form submission
     const form = document.getElementById("dragon-form");
     if (form) {
         form.addEventListener("submit", async (e) => {
