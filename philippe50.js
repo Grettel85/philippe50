@@ -255,13 +255,40 @@ async function startLiveScroll() {
     const frCol = document.getElementById('scroll-fr');
     if (!nlCol || !frCol) return;
 
+    // STAP 1: Toon DIRECT de proloog (zonder wachten op de fetch)
+    let nlHTML = `<div class="scroll-entry"><h3>${config.translations.nl["prologue-title"]}</h3><p>${config.translations.nl["prologue-text"]}</p></div>`;
+    let frHTML = `<div class="scroll-entry"><h3>${config.translations.fr["prologue-title"]}</h3><p>${config.translations.fr["prologue-text"]}</p></div>`;
+    
+    nlCol.innerHTML = nlHTML;
+    frCol.innerHTML = frHTML;
+
+    // Hulpfunctie om de animatie op gang te trekken
+    const applyScroll = (element) => {
+        const height = element.scrollHeight;
+        const duration = height * 45; // Snelheid (lager = sneller)
+        
+        // Verwijder oude animaties voor een propere reset
+        element.getAnimations().forEach(anim => anim.cancel());
+
+        return element.animate([
+            { transform: 'translateY(0)' },
+            { transform: `translateY(-${height + window.innerHeight}px)` }
+        ], {
+            duration: duration,
+            easing: 'linear',
+            fill: 'forwards'
+        });
+    };
+
+    // Start direct met de proloog
+    let activeAnimNL = applyScroll(nlCol);
+    let activeAnimFR = applyScroll(frCol);
+
+    // STAP 2: Haal ondertussen de rest op uit de Google Sheet
     try {
         const res = await fetch(sheetURL + '&cb=' + Date.now());
         const csvData = await res.text();
         const rows = getCSVRows(csvData).slice(1);
-
-        let nlHTML = `<div class="scroll-entry"><h3>${config.translations.nl["prologue-title"]}</h3><p>${config.translations.nl["prologue-text"]}</p></div>`;
-        let frHTML = `<div class="scroll-entry"><h3>${config.translations.fr["prologue-title"]}</h3><p>${config.translations.fr["prologue-text"]}</p></div>`;
 
         rows.forEach((row, index) => {
             const cols = splitCSVRow(row);
@@ -271,42 +298,29 @@ async function startLiveScroll() {
             const textNL = getLanguageSpecificText(rawStory, 'nl');
             const textFR = getLanguageSpecificText(rawStory, 'fr');
 
-            if (textNL) {
+            if (textNL && name) {
                 nlHTML += `<div class="scroll-entry"><h3>Hoofdstuk ${index + 2}: ${name}</h3><p>${textNL}</p></div>`;
                 frHTML += `<div class="scroll-entry"><h3>Chapitre ${index + 2}: ${name}</h3><p>${textFR}</p></div>`;
             }
         });
 
+        // Update de content met de volledige lijst (proloog + verhalen)
         nlCol.innerHTML = nlHTML;
         frCol.innerHTML = frHTML;
 
-        // Start de animatie nadat de content is geladen
-        setTimeout(() => {
-            const scrollHeight = Math.max(nlCol.offsetHeight, frCol.offsetHeight);
-            const duration = scrollHeight * 45; // Snelheid aanpassen (lager = sneller)
-            
-            const animationStyles = `
-                @keyframes scrollUpDynamic {
-                    from { transform: translateY(0); }
-                    to { transform: translateY(-${scrollHeight + 500}px); }
-                }
-            `;
-            const styleSheet = document.createElement("style");
-            styleSheet.innerText = animationStyles;
-            document.head.appendChild(styleSheet);
+        // Herbereken de animatie voor de nieuwe totale hoogte
+        applyScroll(nlCol);
+        applyScroll(frCol);
 
-            nlCol.style.animation = `scrollUpDynamic ${duration}ms linear forwards`;
-            frCol.style.animation = `scrollUpDynamic ${duration}ms linear forwards`;
-        }, 1000);
-
-    } catch (e) { console.error("Scroll error:", e); }
+    } catch (e) {
+        console.error("Achtergrond laden mislukt, maar proloog loopt door:", e);
+    }
 }
 
 /* =========================================
     INITIALIZATION
    ========================================= */
 document.addEventListener('DOMContentLoaded', () => {
-    // Check of we op de scroll pagina zijn
     if (document.getElementById('scroll-wrapper')) {
         startLiveScroll();
     } else {
