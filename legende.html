@@ -1,66 +1,66 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Philippe 50 - De Volledige Legende</title>
-    <link rel="stylesheet" href="philippe50.css">
-    <style>
-        /* Extra styling specifiek voor de leeservaring op deze pagina */
-        #story-content {
-            margin-top: 20px;
-            max-height: 70vh;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-        /* Scrollbar styling voor dat retro gevoel */
-        #story-content::-webkit-scrollbar { width: 8px; }
-        #story-content::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
-        #story-content::-webkit-scrollbar-thumb { background: #00f2ff; border-radius: 10px; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philippe 50 - De Volledige Legende</title>
+    <link rel="stylesheet" href="philippe50.css">
+    <style>
+        /* Extra styling specifiek voor de leeservaring op deze pagina */
+        #story-content {
+            margin-top: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        /* Scrollbar styling voor dat retro gevoel */
+        #story-content::-webkit-scrollbar { width: 8px; }
+        #story-content::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
+        #story-content::-webkit-scrollbar-thumb { background: #00f2ff; border-radius: 10px; }
+    </style>
 </head>
 <body>
 
-    <div class="stars-container"></div>
+    <div class="stars-container"></div>
 
-    <div class="card-container">
-        
-        <div class="language-switch">
-            <button onclick="setLanguage('nl')">NL</button>
-            <button onclick="setLanguage('fr')">FR</button>
-        </div>
+    <div class="card-container">
+        
+        <div class="language-switch">
+            <button onclick="setLanguage('nl')">NL</button>
+            <button onclick="setLanguage('fr')">FR</button>
+        </div>
 
-        <div id="full-story-section" class="glass-card" style="max-width: 800px;">
-            <h2 data-i18n="story-title" style="color: #ff00de; text-shadow: 0 0 10px #ff00de;">De Legende van Philippe</h2>
-            
-            <div id="story-content" class="story-text">
-                <p data-i18n="loading-story">De nevels trekken op... de geschiedenis wordt geladen...</p>
-            </div>
+        <div id="full-story-section" class="glass-card" style="max-width: 800px;">
+            <h2 data-i18n="story-title" style="color: #ff00de; text-shadow: 0 0 10px #ff00de;">De Legende van Philippe</h2>
+            
+            <div id="story-content" class="story-text">
+                <p data-i18n="loading-story">De nevels trekken op... de geschiedenis wordt geladen...</p>
+            </div>
 
-            <div style="text-align: center; margin-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px;">
-                <a href="index.html" style="color: #00f2ff; text-decoration: none; font-size: 0.9rem; font-weight: bold;" data-i18n="back-link">
-                    ← Terug naar het formulier
-                </a>
-            </div>
-        </div>
+            <div style="text-align: center; margin-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px;">
+                <a href="index.html" style="color: #00f2ff; text-decoration: none; font-size: 0.9rem; font-weight: bold;" data-i18n="back-link">
+                    ← Terug naar het formulier
+                </a>
+            </div>
+        </div>
 
-    </div>
+    </div>
 
-    <script src="philippe50.js"></script>
-    <script>
-        // Extra vertalingen voor de navigatie op deze pagina
-        if (typeof config !== 'undefined' && config.translations) {
-            config.translations.nl["back-link"] = "← Terug naar de start";
-            config.translations.fr["back-link"] = "← Retour au début";
-            config.translations.fr["story-title"] = "La Légende de Philippe";
-        }
+    <script src="philippe50.js"></script>
+    <script>
+        // Extra vertalingen voor de navigatie op deze pagina
+        if (typeof config !== 'undefined' && config.translations) {
+            config.translations.nl["back-link"] = "← Terug naar de start";
+            config.translations.fr["back-link"] = "← Retour au début";
+            config.translations.fr["story-title"] = "La Légende de Philippe";
+        }
 
-        // Roep fetchStory aan zodra de pagina geladen is
-        document.addEventListener('DOMContentLoaded', () => {
-            if (typeof fetchStory === "function") {
-                fetchStory();
-            }
-        });
-    </script>
+        // Roep fetchStory aan zodra de pagina geladen is
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof fetchStory === "function") {
+                fetchStory();
+            }
+        });
+    </script>
 </body>
 </html>
