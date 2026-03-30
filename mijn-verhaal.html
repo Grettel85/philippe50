@@ -1,95 +1,40 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Philippe 50 - Jouw Hoofdstuk</title>
-    <link rel="stylesheet" href="philippe50.css">
-    
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'nl',
-                includedLanguages: 'nl,fr,en,de',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                autoDisplay: false
-            }, 'google_translate_element');
-        }
-    </script>
-    
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    
-    <style>
-        /* Neon Styling voor de Translate Widget */
-        .goog-te-gadget-simple {
-            background: rgba(0, 0, 0, 0.6) !important;
-            border: 1px solid #ff00de !important;
-            padding: 6px 10px !important;
-            border-radius: 8px !important;
-            font-family: inherit !important;
-            cursor: pointer;
-        }
-        
-        .goog-te-gadget-simple span { 
-            color: #00f2ff !important; 
-            font-size: 0.85rem !important;
-        }
-
-        /* Verberg de standaard Google balk en logo's */
-        .goog-te-banner-frame.skiptranslate { display: none !important; }
-        body { top: 0px !important; }
-        .goog-te-gadget img { display: none !important; }
-        .goog-te-menu-value img { display: none !important; }
-        
-        /* Zorg dat de widget ruimte heeft */
-        #google_translate_element {
-            min-height: 40px;
-            margin-bottom: 20px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jouw Hoofdstuk - Philippe 50</title>
+    <link rel="stylesheet" href="philippe50.css">
 </head>
 <body>
+    <div class="stars-container"></div>
+    <div class="card-container">
+        <div class="language-switch">
+            <button onclick="setLanguage('nl')" id="btn-nl">NL</button>
+            <button onclick="setLanguage('fr')" id="btn-fr">FR</button>
+        </div>
 
-    <div class="stars-container"></div>
+        <div class="glass-card fade-in">
+            <h1 data-i18n="lookup-title">Ontgrendel jouw hoofdstuk</h1>
+            <p data-i18n="lookup-desc">Voer je nickname en het geheime woord in.</p>
+            
+            <div class="input-group">
+                <input type="text" id="lookup-name" placeholder="Nickname...">
+            </div>
+            <div class="input-group">
+                <input type="password" id="lookup-pw" placeholder="Geheim woord...">
+            </div>
+            
+            <button onclick="findPersonalStory()" data-i18n="show-story-btn">Toon mijn verhaal</button>
+            
+            <div id="personal-story-content" style="margin-top: 30px; text-align: left;">
+                </div>
 
-    <div class="card-container">
-        
-        <div class="language-switch">
-            <button onclick="setLanguage('nl')" id="btn-nl">NL</button>
-            <button onclick="setLanguage('fr')" id="btn-fr">FR</button>
-        </div>
-
-        <div class="glass-card">
-            <h2 id="lookup-title" style="color: #00f2ff; margin-bottom: 10px;" data-i18n="lookup-title">Ontgrendel jouw hoofdstuk</h2>
-            <p id="lookup-desc" style="font-size: 0.9rem; margin-bottom: 25px; color: #e0e0e0;" data-i18n="lookup-desc">
-                Voer je nickname en het geheime woord in.
-            </p>
-            
-            <div class="input-group">
-                <label data-i18n="label-name">Jouw Nickname:</label>
-                <input type="text" id="lookup-name" placeholder="...">
-            </div>
-
-            <div class="input-group">
-                <label data-i18n="label-band">Jouw Geheim Woord:</label>
-                <input type="password" id="lookup-pw" placeholder="...">
-            </div>
-
-            <button onclick="findPersonalStory()" class="submit-btn" style="margin-top: 10px;" data-i18n="show-story-btn">
-                Toon mijn verhaal
-            </button>
-            
-            <div id="personal-story-content" style="margin-top: 30px; min-height: 50px;"></div>
-            
-            <div style="text-align: center; margin-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px;">
-                <a href="index.html" style="color: #ff00de; text-decoration: none; font-size: 0.85rem;" data-i18n="back-link">
-                    ← Terug naar de start
-                </a>
-            </div>
-        </div>
-
-    </div>
-
-    <script src="philippe50.js"></script>
+            <a href="index.html" class="submit-btn-alt" style="margin-top: 30px;" data-i18n="back-link">
+                ← Terug naar de start
+            </a>
+        </div>
+    </div>
+    <script src="philippe50.js"></script>
 </body>
 </html>
