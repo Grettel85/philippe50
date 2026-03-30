@@ -66,7 +66,7 @@ const config = {
             "show-story-btn": "Afficher mon histoire",
             "back-link": "← Retour au début",
             "prologue-title": "Chapitre 1 : Le Glitch Temporel",
-            "prologue-text": "Philippe était assis dans sa véranda un matin, savourant tranquillement une tasse de café avec sa playlist Spotify en fond sonore. Les yeux fermés, il profitait du soleil sur son visage. Le combiné lecteur vidéo et DVD leva les yeux au ciel et le vieux gramophone sous le téléviseur grogna ; encore cette musique 'moderne'.\n\nSoudain, une faille temporelle passa par là et le gramophone sursauta. Sous le choc, le saphir se déplaça sur un vieux disque et atterrit sur l'un des sillons. Le gramophone tenta de remettre l'aiguille dans la bonne rainure, mais la faille revint de manière inattendue et la pièce commença soudainement à tourner. Toujours installé dans son fauteuil les yeux clos, Philippe ne remarqua rien de la spirale de ténèbres qui aspirait la lumière. La pièce sembla s'effacer tout autour de lui.\n\nPhilippe n'entendait plus la musique de Spotify, mais les notes du célèbre tube d'ABBA, 'Fernando', résonnaient lentement au loin. Étrange, pensa Philippe, ce n'était pas dans ma playlist. Il ouvrit les yeux et vit qu'il était toujours assis dans son fauteuil. Mais la pièce n'était plus celle de sa maison à Kessel-Lo. Il reconnaissait l'endroit, et pourtant, quelque chose clochait. Sur la table, un journal était ouvert aux annonces de naissance : un enfant était né avec le même nom que lui.\n\nIl referma le journal et vit la une : un article sur les fusions de communes et les festivités pour les 25 ans de règne du roi Baudouin. C'est alors que le 'franc belge' tomba. Philippe se trouvait dans le salon de la maison de ses deux premières années. La date sur le journal : le 14 avril 1976 à 13h30 précises. Cinquante ans en arrière. Comment allait-il retourner vers le futur ?",
+            "prologue-text": "Philippe était assis dans sa véranda un matin, savourant tranquillement une tasse de café avec sa playlist Spotify en fond sonore. Les yeux fermés, il profitait du soleil sur son visage. Le combiné lecteur vidéo et DVD leva les yeux au ciel et le vieux gramophone sous le téléviseur grogna ; encore cette musique 'moderne'.\n\nSoudain, une faille temporelle passa par là et le gramophone sursauta. Sous le choc, le saphir se déplaça sur un vieux disque et atterrit sur l'un des sillons. Le gramophone tenta de remettre l'aiguille dans la bonne rainure, mais la faille revint de manière inattendue et la pièce commença soudainement à tourner. Toujours installé dans son fauteuil les yeux clos, Philippe ne remarqua rien de la spirale de ténèbres qui aspirait la lumière. La pièce sembla s'effacer tout autour de lui.\n\nPhilippe n'entendait plus la musique de Spotify, maar les notes du célèbre tube d'ABBA, 'Fernando', résonnaient lentement au loin. Étrange, pensa Philippe, ce n'était pas dans ma playlist. Il ouvrit les yeux et vit qu'il était toujours assis dans son fauteuil. Mais la pièce n'était plus celle de sa maison à Kessel-Lo. Il reconnaissait l'endroit, et pourtant, quelque chose clochait. Sur la table, un journal était ouvert aux annonces de naissance : un enfant était né avec le même nom que lui.\n\nIl referma le journal et vit la une : un article sur les fusions de communes et les festivités pour les 25 ans de règne du roi Baudouin. C'est alors que le 'franc belge' tomba. Philippe se trouvait dans le salon de la maison de ses deux premières années. La date sur le journal : le 14 avril 1976 à 13h30 précises. Cinquante ans en arrière. Comment allait-il retourner vers le futur ?",
             "loader-phrases": [
                 "Le saphir cherche le bon sillon...",
                 "Stabilisation du glitch temporel...",
@@ -92,19 +92,29 @@ const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR8NcRn-YMmbVu
 
 function setLanguage(lang) {
     config.currentLang = lang;
+    
+    // Update alle elementen met data-i18n attribuut
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         const translation = config.translations[lang][key];
-        if (translation) el.innerText = translation;
+        if (translation) {
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                el.placeholder = translation;
+            } else {
+                el.innerText = translation;
+            }
+        }
     });
 
+    // Update prologue op de mijn-verhaal pagina (indien reeds getoond)
     const pTitle = document.getElementById('prologue-display-title');
-    const pText = document.getElementById('prologue-display-text');
+    const pText = document.querySelector('#fixed-prologue .story-text');
     if(pTitle) pTitle.innerText = config.translations[lang]["prologue-title"];
     if(pText) pText.innerText = config.translations[lang]["prologue-text"];
 
     updateLangButtons(lang);
 
+    // Indien we op de legende pagina zijn, herladen we de lijst
     if (document.getElementById('story-content')) {
         fetchStory();
     }
@@ -146,7 +156,7 @@ function getCSVRows(csvData) {
 }
 
 function splitCSVRow(row) {
-    return row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+    return row.split(/,(?=(?:[^"]*"){2})*[^"]*$/);
 }
 
 function cleanCSVValue(val) {
@@ -159,7 +169,7 @@ async function findPersonalStory() {
     const container = document.getElementById('personal-story-content');
     if (!inputName || !inputPw || !container) return;
 
-    const lang = config.currentLang;
+    const lang = config.currentLang; // Gebruik de huidige taalinstelling
     const prologueTitle = config.translations[lang]["prologue-title"];
     const prologueText = config.translations[lang]["prologue-text"];
 
@@ -204,7 +214,7 @@ async function findPersonalStory() {
             if (match) {
                 const cols = splitCSVRow(match);
                 const rawStory = cleanCSVValue(cols[1]);
-                const storyText = getLanguageSpecificText(rawStory, lang);
+                const storyText = getLanguageSpecificText(rawStory, config.currentLang);
                 
                 clearInterval(loaderInterval); 
                 document.getElementById('story-divider').style.display = 'none'; 
@@ -218,7 +228,8 @@ async function findPersonalStory() {
                 setTimeout(checkSheet, 5000);
             } else {
                 clearInterval(loaderInterval);
-                document.getElementById('loader-text').innerText = config.translations[lang]["wait-longer"];
+                const loaderEl = document.getElementById('loader-text');
+                if (loaderEl) loaderEl.innerText = config.translations[config.currentLang]["wait-longer"];
             }
         } catch (e) { console.error("Fout bij ophalen:", e); }
     };
@@ -265,7 +276,8 @@ function copyToClipboard() {
     
     navigator.clipboard.writeText(pwField.value).then(() => {
         const note = document.querySelector('[data-i18n="band-note"]');
-        const originalText = note.innerText;
+        if (!note) return;
+        const originalText = config.translations[config.currentLang]["band-note"];
         note.innerText = config.currentLang === 'nl' ? "Gekopieerd!" : "Copié !";
         note.style.color = "#00f2ff";
         setTimeout(() => {
@@ -280,10 +292,10 @@ function copyToClipboard() {
    ========================================= */
 document.addEventListener('DOMContentLoaded', () => {
     setLanguage('nl');
+    
     const loginBtn = document.querySelector('button[data-i18n="login-btn"]');
     if (loginBtn) loginBtn.addEventListener('click', (e) => { e.preventDefault(); checkPassword(); });
 
-    // Event listener voor copy op de note
     const bandNote = document.querySelector('[data-i18n="band-note"]');
     if (bandNote) {
         bandNote.style.cursor = "pointer";
