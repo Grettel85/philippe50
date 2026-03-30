@@ -1,5 +1,5 @@
 /* =========================================
-    CONFIG & VERTALINGEN
+    CONFIG & VERTALINGS-DATABASE
    ========================================= */
 const config = {
     password: "Philippe50", 
@@ -98,6 +98,7 @@ function setLanguage(lang) {
         if (translation) el.innerText = translation;
     });
 
+    // Update proloog direct als we op mijn-verhaal.html zijn
     const pTitle = document.getElementById('prologue-display-title');
     const pText = document.getElementById('prologue-display-text');
     if(pTitle) pTitle.innerText = config.translations[lang]["prologue-title"];
@@ -105,14 +106,11 @@ function setLanguage(lang) {
 
     updateLangButtons(lang);
 
-    if (document.getElementById('story-content')) {
-        fetchStory();
-    }
+    // Herlaad content indien nodig
+    if (document.getElementById('story-content')) fetchStory();
     if (document.getElementById('personal-story-content')) {
         const target = document.getElementById('final-story-target');
-        if (target && target.innerHTML !== "") {
-            findPersonalStory();
-        }
+        if (target && target.innerHTML !== "") findPersonalStory();
     }
 }
 
@@ -130,11 +128,15 @@ function checkPassword() {
     const errorMsg = document.getElementById('error-msg');
     if (!inputField) return;
     const input = inputField.value.trim().toLowerCase();
+    
     if (input === "admin50") { window.location.href = "legende.html"; return; }
+    
     if (input === config.password.toLowerCase()) {
         document.getElementById('password-gate').style.display = 'none';
         document.getElementById('form-section').style.display = 'block';
-    } else { if (errorMsg) errorMsg.style.display = 'block'; }
+    } else { 
+        if (errorMsg) errorMsg.style.display = 'block'; 
+    }
 }
 
 function getLanguageSpecificText(fullText, lang) {
@@ -166,26 +168,21 @@ async function findPersonalStory() {
     if (!inputName || !inputPw || !container) return;
 
     const lang = config.currentLang;
-    const prologueTitle = config.translations[lang]["prologue-title"];
-    const prologueText = config.translations[lang]["prologue-text"];
-
-    // 1. Toon direct de Proloog en de Loader-sectie
+    
+    // Toon de Proloog en de Loader
     container.innerHTML = `
         <div id="fixed-prologue" class="fade-in">
-            <h2 style="color: #ff00de;" id="prologue-display-title">${prologueTitle}</h2>
-            <p style="line-height: 1.6; margin-bottom: 40px;" id="prologue-display-text">${prologueText}</p>
+            <h2 style="color: #ff00de;" id="prologue-display-title">${config.translations[lang]["prologue-title"]}</h2>
+            <p style="line-height: 1.6; margin-bottom: 40px;" id="prologue-display-text">${config.translations[lang]["prologue-text"]}</p>
         </div>
-        
         <div id="story-divider" style="text-align: center; margin: 40px 0; border-top: 1px solid #00f2ff; padding-top: 20px;">
             <p id="loader-text" style="color: #00f2ff; font-style: italic; font-family: 'Courier New', monospace;">
                 ${config.translations[lang]["loader-phrases"][0]}
             </p>
         </div>
-
         <div id="final-story-target" class="fade-in"></div>
     `;
 
-    // 2. Start de dynamische loader tekst
     const phrases = config.translations[lang]["loader-phrases"];
     let phraseIdx = 0;
     const loaderInterval = setInterval(() => {
@@ -196,7 +193,6 @@ async function findPersonalStory() {
         }
     }, 4000);
 
-    // 3. Polling van Google Sheets
     let attempts = 0;
     const checkSheet = async () => {
         try {
@@ -212,15 +208,13 @@ async function findPersonalStory() {
 
             if (match) {
                 const cols = splitCSVRow(match);
-                const rawStory = cleanCSVValue(cols[1]);
-                const storyText = getLanguageSpecificText(rawStory, lang);
+                const storyText = getLanguageSpecificText(cleanCSVValue(cols[1]), lang);
                 
                 clearInterval(loaderInterval); 
                 document.getElementById('story-divider').style.display = 'none'; 
                 
-                // Resultaat tonen
                 document.getElementById('final-story-target').innerHTML = `
-                    <h2 style="color: #00f2ff;">De Legende van ${cleanCSVValue(cols[2])}</h2>
+                    <h2 style="color: #00f2ff; margin-bottom: 15px;">De Legende van ${cleanCSVValue(cols[2])}</h2>
                     <div class="typewriter-text" style="border-left: 3px solid #ff00de; padding-left: 15px; white-space: pre-wrap;">${storyText}</div>
                 `;
             } else if (attempts < 18) { 
@@ -230,9 +224,8 @@ async function findPersonalStory() {
                 clearInterval(loaderInterval);
                 document.getElementById('loader-text').innerText = config.translations[lang]["wait-longer"];
             }
-        } catch (e) { console.error("Fout bij ophalen:", e); }
+        } catch (e) { console.error("Fout:", e); }
     };
-
     checkSheet();
 }
 
@@ -247,23 +240,15 @@ async function fetchStory() {
             const cols = splitCSVRow(row);
             const storyText = getLanguageSpecificText(cleanCSVValue(cols[1]), config.currentLang);
             if (storyText) {
-                const lines = storyText.split(/\r?\n/).filter(l => l.trim() !== "");
-                let finalTitle = (config.currentLang === 'nl' ? `HOOFDSTUK ${index + 1}: ` : `CHAPITRE ${index + 1}: `) + cleanCSVValue(cols[2]);
-                let finalContent = storyText;
-
-                if (lines.length > 0 && (lines[0].toLowerCase().includes("hoofdstuk") || lines[0].toLowerCase().includes("chapitre"))) {
-                    finalTitle = lines[0];
-                    finalContent = lines.slice(1).join("\n").trim();
-                }
                 fullHTML += `
-                    <div class="story-entry">
-                        <h3>${finalTitle}</h3>
-                        <div class="final-content">${finalContent}</div>
+                    <div class="story-entry glass-card" style="margin-bottom: 20px; text-align: left;">
+                        <h3 style="color: #00f2ff; margin-bottom: 10px;">HOOFDSTUK ${index + 1}: ${cleanCSVValue(cols[2])}</h3>
+                        <div class="final-content" style="font-size: 0.9rem; line-height: 1.5;">${storyText}</div>
                     </div>`;
             }
         });
         container.innerHTML = fullHTML || "<p>Nog geen verhalen.</p>";
-    } catch (e) { container.innerHTML = "Error."; }
+    } catch (e) { container.innerHTML = "Error loading legends."; }
 }
 
 /* =========================================
@@ -271,9 +256,8 @@ async function fetchStory() {
    ========================================= */
 document.addEventListener('DOMContentLoaded', () => {
     setLanguage('nl');
-    const loginBtn = document.querySelector('button[data-i18n="login-btn"]');
-    if (loginBtn) loginBtn.addEventListener('click', (e) => { e.preventDefault(); checkPassword(); });
-
+    
+    // Form submission
     const form = document.getElementById("dragon-form");
     if (form) {
         form.addEventListener("submit", async (e) => {
@@ -281,6 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const btn = form.querySelector('button[type="submit"]');
             const chosenPw = document.getElementById('deelnemer_ww').value.toLowerCase().trim();
             btn.disabled = true; btn.innerText = "...";
+            
             try {
                 const res = await fetch(sheetURL + '&cb=' + Date.now());
                 const rows = getCSVRows(await res.text()).slice(1);
@@ -289,13 +274,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     btn.disabled = false; btn.innerText = config.translations[config.currentLang]["submit-btn"];
                     return;
                 }
+                
                 const postRes = await fetch("https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f", {
                     method: "POST",
                     body: JSON.stringify(Object.fromEntries(new FormData(form))),
                     headers: { 'Content-Type': 'application/json' }
                 });
-                if (postRes.ok) { window.location.href = "mijn-verhaal.html"; } else { throw new Error(); }
-            } catch (err) { btn.disabled = false; btn.innerText = "Error - Probeer opnieuw"; }
+                
+                if (postRes.ok) { window.location.href = "mijn-verhaal.html"; } 
+                else { throw new Error(); }
+            } catch (err) { 
+                btn.disabled = false; 
+                btn.innerText = "Error - Probeer opnieuw"; 
+            }
         });
     }
 });
