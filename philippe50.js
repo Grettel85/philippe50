@@ -14,7 +14,7 @@ const config = {
             "label-name": "Jouw Nickname (voor in de legende):",
             "label-email": "Jouw E-mailadres:",
             "label-band": "Schrijf hier het geheime woord dat je band met Philippe duidt:",
-            "band-note": "(Dit is je wachtwoord voor later)",
+            "band-note": "(Dit is je wachtwoord voor later - Klik om te kopiëren)",
             "label-personage": "Wie is volgens jou een echte superheld?",
             "label-power": "Wat is de superkracht van Philippe?",
             "label-kryptonite": "Waar kan Philippe nog beter in worden?",
@@ -52,7 +52,7 @@ const config = {
             "label-name": "Votre Nickname (pour la légende) :",
             "label-email": "Votre E-mail :",
             "label-band": "Écrivez ici le mot secret qui définit votre lien avec Philippe :",
-            "band-note": "(Ce sera votre mot de passe plus tard)",
+            "band-note": "(Ce sera votre mot de passe plus tard - Cliquez pour copier)",
             "label-personage": "À quel personnage des années 80 ressemblez-vous le plus ?",
             "label-power": "Selon vous, en quoi Philippe est-il très doué ?",
             "label-kryptonite": "Selon vous, en quoi Philippe pourrait-il s'améliorer ?",
@@ -107,12 +107,6 @@ function setLanguage(lang) {
 
     if (document.getElementById('story-content')) {
         fetchStory();
-    }
-    if (document.getElementById('personal-story-content')) {
-        const target = document.getElementById('final-story-target');
-        if (target && target.innerHTML !== "") {
-            findPersonalStory();
-        }
     }
 }
 
@@ -169,15 +163,14 @@ async function findPersonalStory() {
     const prologueTitle = config.translations[lang]["prologue-title"];
     const prologueText = config.translations[lang]["prologue-text"];
 
-    // 1. Toon direct de Proloog en de Loader-sectie
     container.innerHTML = `
         <div id="fixed-prologue" class="fade-in">
-            <h2 style="color: #ff00de;" id="prologue-display-title">${prologueTitle}</h2>
-            <p style="line-height: 1.6; margin-bottom: 40px;" id="prologue-display-text">${prologueText}</p>
+            <h2 id="prologue-display-title">${prologueTitle}</h2>
+            <p class="story-text">${prologueText}</p>
         </div>
         
-        <div id="story-divider" style="text-align: center; margin: 40px 0; border-top: 1px solid #00f2ff; padding-top: 20px;">
-            <p id="loader-text" style="color: #00f2ff; font-style: italic; font-family: 'Courier New', monospace;">
+        <div id="story-divider" style="text-align: center; margin: 40px 0;">
+            <p id="loader-text">
                 ${config.translations[lang]["loader-phrases"][0]}
             </p>
         </div>
@@ -185,7 +178,6 @@ async function findPersonalStory() {
         <div id="final-story-target" class="fade-in"></div>
     `;
 
-    // 2. Start de dynamische loader tekst
     const phrases = config.translations[lang]["loader-phrases"];
     let phraseIdx = 0;
     const loaderInterval = setInterval(() => {
@@ -196,7 +188,6 @@ async function findPersonalStory() {
         }
     }, 4000);
 
-    // 3. Polling van Google Sheets
     let attempts = 0;
     const checkSheet = async () => {
         try {
@@ -218,10 +209,9 @@ async function findPersonalStory() {
                 clearInterval(loaderInterval); 
                 document.getElementById('story-divider').style.display = 'none'; 
                 
-                // Resultaat tonen
                 document.getElementById('final-story-target').innerHTML = `
                     <h2 style="color: #00f2ff;">De Legende van ${cleanCSVValue(cols[2])}</h2>
-                    <div class="typewriter-text" style="border-left: 3px solid #ff00de; padding-left: 15px; white-space: pre-wrap;">${storyText}</div>
+                    <div class="typewriter-text">${storyText}</div>
                 `;
             } else if (attempts < 18) { 
                 attempts++;
@@ -267,12 +257,38 @@ async function fetchStory() {
 }
 
 /* =========================================
+    UTILS: COPY TO CLIPBOARD
+   ========================================= */
+function copyToClipboard() {
+    const pwField = document.getElementById('deelnemer_ww');
+    if (!pwField || pwField.value === "") return;
+    
+    navigator.clipboard.writeText(pwField.value).then(() => {
+        const note = document.querySelector('[data-i18n="band-note"]');
+        const originalText = note.innerText;
+        note.innerText = config.currentLang === 'nl' ? "Gekopieerd!" : "Copié !";
+        note.style.color = "#00f2ff";
+        setTimeout(() => {
+            note.innerText = originalText;
+            note.style.color = "#ff00de";
+        }, 2000);
+    });
+}
+
+/* =========================================
     INITIALIZATION
    ========================================= */
 document.addEventListener('DOMContentLoaded', () => {
     setLanguage('nl');
     const loginBtn = document.querySelector('button[data-i18n="login-btn"]');
     if (loginBtn) loginBtn.addEventListener('click', (e) => { e.preventDefault(); checkPassword(); });
+
+    // Event listener voor copy op de note
+    const bandNote = document.querySelector('[data-i18n="band-note"]');
+    if (bandNote) {
+        bandNote.style.cursor = "pointer";
+        bandNote.addEventListener('click', copyToClipboard);
+    }
 
     const form = document.getElementById("dragon-form");
     if (form) {
