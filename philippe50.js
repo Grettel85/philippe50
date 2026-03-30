@@ -255,19 +255,18 @@ async function startLiveScroll() {
     const frCol = document.getElementById('scroll-fr');
     if (!nlCol || !frCol) return;
 
-    // STAP 1: Toon DIRECT de proloog (zonder wachten op de fetch)
+    console.log("startLiveScroll uitgevoerd");
+
+    // STAP 1: Toon DIRECT de proloog
     let nlHTML = `<div class="scroll-entry"><h3>${config.translations.nl["prologue-title"]}</h3><p>${config.translations.nl["prologue-text"]}</p></div>`;
     let frHTML = `<div class="scroll-entry"><h3>${config.translations.fr["prologue-title"]}</h3><p>${config.translations.fr["prologue-text"]}</p></div>`;
     
     nlCol.innerHTML = nlHTML;
     frCol.innerHTML = frHTML;
 
-    // Hulpfunctie om de animatie op gang te trekken
     const applyScroll = (element) => {
         const height = element.scrollHeight;
-        const duration = height * 45; // Snelheid (lager = sneller)
-        
-        // Verwijder oude animaties voor een propere reset
+        const duration = height * 45; 
         element.getAnimations().forEach(anim => anim.cancel());
 
         return element.animate([
@@ -280,11 +279,10 @@ async function startLiveScroll() {
         });
     };
 
-    // Start direct met de proloog
-    let activeAnimNL = applyScroll(nlCol);
-    let activeAnimFR = applyScroll(frCol);
+    applyScroll(nlCol);
+    applyScroll(frCol);
 
-    // STAP 2: Haal ondertussen de rest op uit de Google Sheet
+    // STAP 2: Haal ondertussen de rest op
     try {
         const res = await fetch(sheetURL + '&cb=' + Date.now());
         const csvData = await res.text();
@@ -304,24 +302,25 @@ async function startLiveScroll() {
             }
         });
 
-        // Update de content met de volledige lijst (proloog + verhalen)
         nlCol.innerHTML = nlHTML;
         frCol.innerHTML = frHTML;
 
-        // Herbereken de animatie voor de nieuwe totale hoogte
         applyScroll(nlCol);
         applyScroll(frCol);
 
     } catch (e) {
-        console.error("Achtergrond laden mislukt, maar proloog loopt door:", e);
+        console.error("Achtergrond laden mislukt:", e);
     }
 }
 
 /* =========================================
-    INITIALIZATION
+    INITIALIZATION (MET EXTRA FORCE-START)
    ========================================= */
 document.addEventListener('DOMContentLoaded', () => {
-    if (document.getElementById('scroll-wrapper')) {
+    console.log("Pagina geladen, initialiseren...");
+    
+    if (document.getElementById('scroll-nl')) {
+        console.log("Scroll-kolommen gevonden! Starten...");
         startLiveScroll();
     } else {
         setLanguage('nl');
@@ -359,3 +358,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// BACKUP: Als het script later laadt dan de pagina
+if (document.readyState === "complete" || document.readyState === "interactive") {
+    if (document.getElementById('scroll-nl') && document.getElementById('scroll-nl').innerHTML === "") {
+        startLiveScroll();
+    }
+}
