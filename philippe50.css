@@ -1,9 +1,11 @@
 /* =========================================
-    1. BASIS & ACHTERGROND
+    1. BASIS & RESET
    ========================================= */
 * {
-    margin: 0; padding: 0; box-sizing: border-box;
-    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 body {
@@ -13,12 +15,18 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 10px;
+    margin: 0;
     overflow-x: hidden;
 }
 
+/* Geanimeerde sterrenachtergrond */
 .stars-container {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
     background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
     background-image: 
         radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
@@ -27,137 +35,171 @@ body {
 }
 
 /* =========================================
-    2. CARDS & LAYOUT
+    2. CONTAINERS & CARDS
    ========================================= */
-.card-container { 
-    width: 100%; 
-    max-width: 500px; 
-    position: relative; 
+.card-container {
+    width: 90%;
+    max-width: 600px;
+    margin: 40px auto;
+    position: relative;
 }
 
 .glass-card {
-    background: rgba(20, 20, 35, 0.85);
+    background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
-    padding: 25px 35px !important; 
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+    padding: 40px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
     text-align: center;
-    border-top: 3px solid #00f2ff;
-    margin-bottom: 15px;
-}
-
-h1, h2 {
-    margin-top: 5px;
-    margin-bottom: 15px !important;
-    text-transform: uppercase; 
-    letter-spacing: 2px;
-    text-shadow: 0 0 15px rgba(0, 242, 255, 0.8); 
-    font-size: 1.5rem;
-    color: #fff;
-}
-
-/* Subtitel tekst direct onder de kop */
-.glass-card > p {
-    margin-bottom: 20px !important;
-    font-size: 0.85rem;
-    color: #ccc;
-}
-
-/* De horizontale lijn in de password-gate */
-hr {
-    margin: 15px 0 !important;
-    border: 0;
-    border-top: 1px solid rgba(255,255,255,0.1);
 }
 
 /* =========================================
-    3. INPUTS, LABELS & EXTRA UITLEG
+    3. TYPOGRAFIE & TITELS
    ========================================= */
-.input-group { 
-    margin-bottom: 15px !important; /* Ruimte tussen blokken verkleind */
-    text-align: left; 
+h1, h2, h3 {
+    margin-bottom: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+}
+
+p {
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #e0e0e0;
+}
+
+/* =========================================
+    4. FORMULIER ELEMENTEN
+   ========================================= */
+.input-group {
+    margin-bottom: 25px;
+    text-align: left;
 }
 
 label {
-    display: block; 
-    margin-bottom: 4px !important; 
-    font-size: 0.75rem;
-    color: #00f2ff; 
-    font-weight: bold; 
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* Specifieke styling voor de paarse tekstjes onder labels */
-.input-group p[data-i18n="band-note"] {
-    margin-top: -2px !important;
-    margin-bottom: 8px !important;
-    font-size: 0.7rem !important;
-    color: #ff00de !important;
-    font-style: italic;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #00f2ff;
+    font-weight: 600;
 }
 
 input, textarea {
-    width: 100%; 
-    padding: 10px 14px; 
-    background: rgba(0, 0, 0, 0.4);
-    border: 1.5px solid #4a1a4a;
-    border-radius: 10px; 
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
     color: #fff;
-    outline: none; 
-    font-size: 0.9rem;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus {
+    border-color: #ff00de;
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 15px rgba(255, 0, 222, 0.3);
+}
+
+/* =========================================
+    5. KNOPPEN (NEON STIJL)
+   ========================================= */
+button, .submit-btn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(90deg, #ff00de, #00f2ff);
+    color: #000;
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover, .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.6);
+}
+
+/* Alternatieve knop (Bekijk jouw hoofdstuk) */
+.submit-btn-alt {
+    display: inline-block;
+    margin-top: 20px;
+    color: #00f2ff;
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
     transition: 0.3s;
 }
 
-input:focus, textarea:focus { 
-    border-color: #ff00de;
-    box-shadow: 0 0 10px rgba(255, 0, 222, 0.2);
+.submit-btn-alt:hover {
+    border-bottom: 1px solid #00f2ff;
+    text-shadow: 0 0 8px #00f2ff;
 }
 
 /* =========================================
-    4. KNOPPEN (NEON)
-   ========================================= */
-.submit-btn, #password-gate button, .submit-btn-alt {
-    display: block;
-    text-decoration: none;
-    background: linear-gradient(90deg, #ff00de 0%, #00f2ff 100%);
-    border: none; 
-    padding: 14px; 
-    border-radius: 50px;
-    color: #000 !important; 
-    font-weight: 800; 
-    cursor: pointer;
-    text-transform: uppercase; 
-    width: 100%; 
-    margin-top: 10px;
-    box-shadow: 0 0 15px rgba(255, 0, 222, 0.3);
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    text-align: center;
-}
-
-/* =========================================
-    5. TAAL SCHAKELAAR
+    6. TAAL SCHAKELAAR
    ========================================= */
 .language-switch {
-    display: flex; 
-    justify-content: flex-end; 
-    margin-bottom: 10px; 
-    gap: 8px;
+    position: absolute;
+    top: -50px;
+    right: 0;
+    display: flex;
+    gap: 10px;
 }
 
 .language-switch button {
-    background: rgba(0, 0, 0, 0.6) !important; 
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    color: #fff !important;
-    padding: 4px 12px !important;
-    font-size: 0.7rem !important;
-    border-radius: 20px !important;
-    cursor: pointer;
+    width: auto;
+    padding: 5px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-radius: 5px;
+    font-size: 0.8rem;
 }
 
-.active-lang {
-    border-color: #00f2ff !important;
-    box-shadow: 0 0 8px rgba(0, 242, 255, 0.5);
+.language-switch button.active-lang {
+    background: #00f2ff;
+    color: #000;
+}
+
+/* =========================================
+    7. ANIMATIES & UTILS
+   ========================================= */
+.fade-in {
+    animation: fadeIn 1s ease-in forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#loader-text {
+    font-family: 'Courier New', Courier, monospace;
+    min-height: 1.2em;
+}
+
+/* Custom scrollbar voor textarea */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #ff00de;
 }
