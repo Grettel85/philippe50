@@ -16,11 +16,9 @@
             }, 'google_translate_element');
         }
     </script>
-    
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     
     <style>
-        /* Neon Styling voor de Translate Widget */
         .goog-te-gadget-simple {
             background: rgba(0, 0, 0, 0.6) !important;
             border: 1px solid #ff00de !important;
@@ -29,19 +27,14 @@
             font-family: inherit !important;
             cursor: pointer;
         }
-        
         .goog-te-gadget-simple span { 
             color: #00f2ff !important; 
             font-size: 0.85rem !important;
         }
-
-        /* Verberg de standaard Google balk en logo's */
         .goog-te-banner-frame.skiptranslate { display: none !important; }
         body { top: 0px !important; }
         .goog-te-gadget img { display: none !important; }
         .goog-te-menu-value img { display: none !important; }
-        
-        /* Zorg dat de widget ruimte heeft */
         #google_translate_element {
             min-height: 40px;
             margin-bottom: 20px;
