@@ -59,7 +59,7 @@ h1, h2 {
 }
 
 /* =========================================
-    VERHAAL STYLING
+    VERHAAL STYLING (Uniform wit font)
    ========================================= */
 .story-entry h3, #final-story-target h2 {
     color: #00f2ff !important;
@@ -74,29 +74,40 @@ h1, h2 {
     text-align: center;
 }
 
+/* De hoofdtekst van zowel proloog als resultaat */
 .story-text, .final-content, .typewriter-text {
     color: #e0e0e0;
     line-height: 1.7;
     font-size: 1.05rem;
     text-align: left;
-    white-space: pre-wrap; /* Behoudt enters uit de tekst */
+    white-space: pre-wrap; 
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif !important;
 }
 
-/* Specifieke styling voor het gegenereerde hoofdstuk */
+/* Specifieke container styling voor het resultaat */
 .final-content, .typewriter-text {
-    font-family: 'Courier New', Courier, monospace;
-    background: rgba(255, 0, 222, 0.05);
-    padding: 20px;
-    border-radius: 8px;
+    padding: 10px 0;
     margin-top: 15px;
-    box-shadow: inset 0 0 10px rgba(0, 242, 255, 0.1);
     border-left: 3px solid #ff00de;
+    padding-left: 15px;
 }
 
 #prologue-display-title {
     color: #ff00de !important;
     font-size: 1.3rem !important;
     border-bottom: 1px solid rgba(255, 0, 222, 0.3);
+}
+
+/* =========================================
+    LOADER & WACHT PHRASES (Typemachine behouden)
+   ========================================= */
+#loader-text {
+    font-family: 'Courier New', Courier, monospace !important;
+    color: #00f2ff;
+    font-style: italic;
+    animation: pulse 2s infinite;
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
 /* =========================================
@@ -121,7 +132,6 @@ h1, h2 {
     cursor: pointer;
     font-weight: bold;
     transition: all 0.3s ease;
-    box-shadow: none !important;
 }
 
 .language-switch button.active-lang {
@@ -157,13 +167,12 @@ input, textarea {
 input:focus, textarea:focus { 
     border-color: #00f2ff;
     box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
-    background: rgba(0, 0, 0, 0.7);
 }
 
 /* =========================================
     NEON KNOPPEN
    ========================================= */
-.submit-btn, #password-gate button {
+.submit-btn, #password-gate button, .submit-btn-alt {
     background: linear-gradient(90deg, #ff00de 0%, #00f2ff 100%);
     border: none; 
     padding: 16px; 
@@ -174,45 +183,35 @@ input:focus, textarea:focus {
     text-transform: uppercase; 
     width: 100%; 
     margin-top: 10px;
+    display: block;
+    text-align: center;
+    text-decoration: none;
     transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: 0 4px 15px rgba(255, 0, 222, 0.4);
     font-size: 0.9rem;
-    letter-spacing: 1px;
 }
 
-.submit-btn:hover, #password-gate button:hover { 
+.submit-btn:hover, #password-gate button:hover, .submit-btn-alt:hover { 
     transform: scale(1.02); 
     box-shadow: 0 0 25px rgba(0, 242, 255, 0.6); 
 }
 
 /* =========================================
-    ANIMATIES & LOADERS
+    ANIMATIES
    ========================================= */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-.fade-in {
-    animation: fadeIn 1.5s ease-out forwards;
-}
+.fade-in { animation: fadeIn 1.5s ease-out forwards; }
 
-/* Typewriter effect verschijning */
 @keyframes typingReveal {
     from { opacity: 0; }
     to { opacity: 1; }
 }
 
-.typewriter-text {
-    animation: typingReveal 2s ease-in forwards;
-}
-
-/* De loader tekst die pulseert */
-#loader-text {
-    animation: pulse 2s infinite;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
+.typewriter-text { animation: typingReveal 2s ease-in forwards; }
 
 @keyframes pulse {
     0% { opacity: 1; text-shadow: 0 0 5px #00f2ff; }
@@ -220,29 +219,11 @@ input:focus, textarea:focus {
     100% { opacity: 1; text-shadow: 0 0 5px #00f2ff; }
 }
 
-.loader-spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid rgba(0, 242, 255, 0.1);
-    border-radius: 50%;
-    border-top-color: #00f2ff;
-    animation: spin 1.2s linear infinite;
-    display: inline-block;
-    margin-bottom: 10px;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-/* Foutmeldingen */
 #error-msg {
     color: #ff00de;
-    text-shadow: 0 0 8px rgba(255, 0, 222, 0.5);
     font-weight: bold;
     margin-top: 15px;
 }
 
-/* Scrollbar styling */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-thumb { background: #ff00de; border-radius: 10px; }
