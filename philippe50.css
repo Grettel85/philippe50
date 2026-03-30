@@ -172,7 +172,7 @@ button:hover, .submit-btn:hover {
 }
 
 /* =========================================
-    7. LIVE SCROLL DIAGNOSE (TEST DIT)
+    7. LIVE SCROLL SPECIFIEKE STIJLEN
    ========================================= */
 .scroll-wrapper {
     display: flex;
@@ -183,33 +183,18 @@ button:hover, .submit-btn:hover {
     margin: 0 auto;
     position: relative;
     overflow: hidden;
-    /* Tijdelijk even GEEN mask-image om te zien of dat het probleem is */
-    border: 2px solid red; /* Zie je een rood kader? Dan is de container er! */
+    z-index: 10; /* EXTRA VEILIGHEID: boven de sterren */
+    mask-image: linear-gradient(transparent, black 15%, black 85%, transparent);
+    -webkit-mask-image: linear-gradient(transparent, black 15%, black 85%, transparent);
 }
 
 .scroll-column {
     width: 45%;
     position: absolute;
-    /* VERANDER DIT TIJDELIJK: */
-    top: 10%; /* Zet de tekst vast bovenaan ipv op 100% */
+    top: 100vh; /* Start volledig onder het scherm */
     padding: 20px;
-    background: rgba(255, 0, 0, 0.1); /* Een lichte rode gloed om de kolom te vinden */
-    z-index: 9999; /* Zorg dat het overal bovenop ligt */
+    will-change: transform;
 }
-
-.column-nl { left: 2%; }
-.column-fr { right: 2%; }
-
-.scroll-entry {
-    margin-bottom: 80px;
-    text-align: left;
-    background: rgba(255, 255, 255, 0.1); /* lets meer zichtbaar */
-    padding: 25px;
-    border-left: 3px solid #ff00de;
-    color: white !important; /* Forceer witte tekst */
-}
-
-
 /* =========================================
     8. ANIMATIES & UTILS
    ========================================= */
