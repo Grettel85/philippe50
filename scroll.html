@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>De Legende - Live Scroll</title>
+    <link rel="stylesheet" href="philippe50.css">
+    <style>
+        /* Specifieke stijlen voor de scroll-pagina */
+        body {
+            overflow: hidden; /* We voorkomen de standaard browser scroll */
+            height: 100vh;
+        }
+
+        .scroll-wrapper {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px; /* Breder voor twee kolommen */
+            height: 100vh;
+            margin: 0 auto;
+            position: relative;
+            mask-image: linear-gradient(transparent, black 15%, black 85%, transparent);
+            -webkit-mask-image: linear-gradient(transparent, black 15%, black 85%, transparent);
+        }
+
+        .scroll-column {
+            width: 48%;
+            position: absolute;
+            top: 100%; /* Start onderaan het scherm */
+            padding: 20px;
+        }
+
+        .column-nl { left: 0; }
+        .column-fr { right: 0; }
+
+        .scroll-entry {
+            margin-bottom: 60px;
+            text-align: left;
+        }
+
+        .scroll-entry h3 {
+            color: #00f2ff;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+            padding-bottom: 5px;
+        }
+
+        .scroll-entry p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+        }
+
+        /* De eigenlijke animatie via JS of CSS */
+        @keyframes scrollUp {
+            from { transform: translateY(0); }
+            to { transform: translateY(-110%); } /* Past zich aan op basis van tekstlengte */
+        }
+    </style>
+</head>
+<body>
+    <div class="stars-container"></div>
+
+    <div class="scroll-wrapper" id="scroll-wrapper">
+        <div class="scroll-column column-nl" id="scroll-nl">
+            </div>
+
+        <div class="scroll-column column-fr" id="scroll-fr">
+            </div>
+    </div>
+
+    <div style="position: fixed; bottom: 20px; width: 100%; text-align: center; z-index: 100;">
+        <a href="index.html" class="submit-btn-alt" style="background: rgba(0,0,0,0.5); padding: 10px 20px; border-radius: 20px;">
+            ← Terug naar de start
+        </a>
+    </div>
+
+    <script src="philippe50.js"></script>
+    <script>
+        // Zodra de pagina geladen is, roepen we de data op
+        document.addEventListener('DOMContentLoaded', () => {
+            startLiveScroll();
+        });
+
+        async function startLiveScroll() {
+            // We gebruiken de bestaande fetch logica uit philippe50.js maar passen de output aan
+            // Ik zal je in de volgende stap de JS functies geven om dit te vullen!
+        }
+    </script>
+</body>
+</html>
