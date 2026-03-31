@@ -78,17 +78,15 @@
         </a>
     </div>
 
-    <script src="philippe50.js"></script>
+<script src="philippe50.js"></script>
     <script>
-        // Zodra de pagina geladen is, roepen we de data op
+        // We roepen de functie aan die AL in je philippe50.js staat
         document.addEventListener('DOMContentLoaded', () => {
-            startLiveScroll();
+            if (typeof startLiveScroll === 'function') {
+                startLiveScroll();
+            }
         });
-
-        async function startLiveScroll() {
-            // We gebruiken de bestaande fetch logica uit philippe50.js maar passen de output aan
-            // Ik zal je in de volgende stap de JS functies geven om dit te vullen!
-        }
     </script>
+
 </body>
 </html>
