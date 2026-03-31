@@ -221,57 +221,62 @@ button:hover, .submit-btn:hover {
 
 
 /* =========================================
-    9. ZWEVENDE LEGENDE KNOP (NEON ROZE)
+   9. ZWEVENDE ROZE LEGENDE-KNOP (FAB)
    ========================================= */
-.fab-container {
-    position: fixed;
-    bottom: 30px;
-    left: 30px;
-    z-index: 999;
+.legend-fab {
+    /* RESET: we negeren alle standaard knop-stijlen */
+    all: unset;
+
+    /* POSITIONERING: zwevend boven de layout */
+    position: fixed !important;
+    bottom: 30px !important;
+    left: 30px !important;
+    z-index: 99999 !important; /* Zorgt dat hij boven alles staat */
+
+    /* VORM & GROOTTE: dwingt een perfecte cirkel af */
+    width: 65px !important;
+    height: 65px !important;
+    min-width: 65px !important;
+    max-width: 65px !important;
+    border-radius: 50% !important;
+    
+    /* KLEUR & GLOW */
+    background: #ff00de !important; /* Fel neon roze */
+    box-shadow: 0 0 15px rgba(255, 0, 222, 0.6), 
+                0 0 30px rgba(255, 0, 222, 0.3) !important;
+    
+    /* ALIGNEMENT: emoji in het midden */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    
+    /* INTERACTIE & ANIMATIE */
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
 }
 
-.fab-btn {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 25px;
-    background: rgba(255, 0, 222, 0.15);
-    border: 2px solid #ff00de;
-    border-radius: 50px;
-    color: #ff00de;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 0 15px rgba(255, 0, 222, 0.4);
-    backdrop-filter: blur(5px);
+/* De emoji zelf */
+.legend-icon {
+    font-size: 30px !important;
+    line-height: 1 !important;
 }
 
-.fab-icon {
-    font-size: 1.5rem;
-    filter: drop-shadow(0 0 5px #ff00de);
+/* Hover effect: hij wordt iets groter en feller */
+.legend-fab:hover {
+    transform: scale(1.1) rotate(5deg) !important;
+    background: #ff4df0 !important;
+    box-shadow: 0 0 25px rgba(255, 0, 222, 1) !important;
 }
 
-.fab-text {
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 0.85rem;
-    white-space: nowrap;
-}
-
-.fab-btn:hover {
-    transform: scale(1.05) translateY(-5px);
-    background: #ff00de;
-    color: #000;
-    box-shadow: 0 0 30px rgba(255, 0, 222, 0.8);
-}
-
-/* Subtiele 'pulse' animatie */
-@keyframes fab-pulse {
-    0% { box-shadow: 0 0 15px rgba(255, 0, 222, 0.4); }
-    50% { box-shadow: 0 0 25px rgba(255, 0, 222, 0.7); }
-    100% { box-shadow: 0 0 15px rgba(255, 0, 222, 0.4); }
-}
-
-.fab-btn {
-    animation: fab-pulse 3s infinite;
+/* Mobiele schermen: iets compacter */
+@media (max-width: 600px) {
+    .legend-fab {
+        width: 55px !important;
+        height: 55px !important;
+        bottom: 20px !important;
+        left: 20px !important;
+    }
+    .legend-icon {
+        font-size: 24px !important;
+    }
 }
