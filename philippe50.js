@@ -365,3 +365,33 @@ if (document.readyState === "complete" || document.readyState === "interactive")
         startLiveScroll();
     }
 }
+
+
+/**
+ * Beveiligde toegang tot de legende-scroll met specifiek wachtwoord
+ */
+function openSecureScroll() {
+    // We bepalen de taal op basis van de huidige instelling
+    const lang = config.currentLang || 'nl';
+    
+    // De vraagtekst in de juiste taal
+    const promptMsg = lang === 'nl' 
+        ? "Voer de geheime code in om de legende te openen:" 
+        : "Entrez le code secret pour ouvrir la légende :";
+
+    const pw = prompt(promptMsg);
+    
+    // Het specifieke wachtwoord voor de legende is 'Admin50'
+    const secretKey = "Admin50";
+
+    if (pw && pw.toLowerCase() === secretKey.toLowerCase()) {
+        // Succes! We sturen de gebruiker naar de scroll pagina
+        window.location.href = "scroll.html";
+    } else if (pw) {
+        // Fout wachtwoord melding
+        const errorMsg = lang === 'nl'
+            ? "Verkeerd wachtwoord. De legende blijft verborgen..."
+            : "Mot de passe incorrect. La légende reste cachée...";
+        alert(errorMsg);
+    }
+}
