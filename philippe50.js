@@ -127,7 +127,7 @@ function checkPassword() {
     if (!inputField) return;
     const input = inputField.value.trim().toLowerCase();
     
-    if (input === "admin50") { window.location.href = "legende.html"; return; }
+    if (input === "admin50") { window.location.href = "scroll.html"; return; }
     
     if (input === config.password.toLowerCase()) {
         document.getElementById('password-gate').style.display = 'none';
@@ -141,6 +141,28 @@ function getLanguageSpecificText(fullText, lang) {
     if (!fullText || !fullText.includes('***')) return fullText;
     const parts = fullText.split('***');
     return (lang === 'fr') ? (parts[1] ? parts[1].trim() : parts[0].trim()) : parts[0].trim();
+}
+
+/**
+ * Beveiligde toegang tot de legende-scroll via de roze knop
+ */
+function openSecureScroll() {
+    const lang = config.currentLang || 'nl';
+    const promptMsg = lang === 'nl' 
+        ? "Voer de geheime code in om de legende te openen:" 
+        : "Entrez le code secret pour ouvrir la légende :";
+
+    const pw = prompt(promptMsg);
+    const secretKey = "Admin50";
+
+    if (pw && pw.toLowerCase() === secretKey.toLowerCase()) {
+        window.location.href = "scroll.html";
+    } else if (pw) {
+        const errorMsg = lang === 'nl'
+            ? "Verkeerd wachtwoord. De legende blijft verborgen..."
+            : "Mot de passe incorrect. La légende reste cachée...";
+        alert(errorMsg);
+    }
 }
 
 /* =========================================
@@ -257,7 +279,6 @@ async function startLiveScroll() {
 
     console.log("startLiveScroll uitgevoerd");
 
-    // STAP 1: Toon DIRECT de proloog
     let nlHTML = `<div class="scroll-entry"><h3>${config.translations.nl["prologue-title"]}</h3><p>${config.translations.nl["prologue-text"]}</p></div>`;
     let frHTML = `<div class="scroll-entry"><h3>${config.translations.fr["prologue-title"]}</h3><p>${config.translations.fr["prologue-text"]}</p></div>`;
     
@@ -282,7 +303,6 @@ async function startLiveScroll() {
     applyScroll(nlCol);
     applyScroll(frCol);
 
-    // STAP 2: Haal ondertussen de rest op
     try {
         const res = await fetch(sheetURL + '&cb=' + Date.now());
         const csvData = await res.text();
@@ -314,13 +334,10 @@ async function startLiveScroll() {
 }
 
 /* =========================================
-    INITIALIZATION (MET EXTRA FORCE-START)
+    INITIALIZATION
    ========================================= */
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Pagina geladen, initialiseren...");
-    
     if (document.getElementById('scroll-nl')) {
-        console.log("Scroll-kolommen gevonden! Starten...");
         startLiveScroll();
     } else {
         setLanguage('nl');
@@ -359,39 +376,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// BACKUP: Als het script later laadt dan de pagina
 if (document.readyState === "complete" || document.readyState === "interactive") {
     if (document.getElementById('scroll-nl') && document.getElementById('scroll-nl').innerHTML === "") {
         startLiveScroll();
-    }
-}
-
-
-/**
- * Beveiligde toegang tot de legende-scroll met specifiek wachtwoord
- */
-function openSecureScroll() {
-    // We bepalen de taal op basis van de huidige instelling
-    const lang = config.currentLang || 'nl';
-    
-    // De vraagtekst in de juiste taal
-    const promptMsg = lang === 'nl' 
-        ? "Voer de geheime code in om de legende te openen:" 
-        : "Entrez le code secret pour ouvrir la légende :";
-
-    const pw = prompt(promptMsg);
-    
-    // Het specifieke wachtwoord voor de legende is 'Admin50'
-    const secretKey = "Admin50";
-
-    if (pw && pw.toLowerCase() === secretKey.toLowerCase()) {
-        // Succes! We sturen de gebruiker naar de scroll pagina
-        window.location.href = "scroll.html";
-    } else if (pw) {
-        // Fout wachtwoord melding
-        const errorMsg = lang === 'nl'
-            ? "Verkeerd wachtwoord. De legende blijft verborgen..."
-            : "Mot de passe incorrect. La légende reste cachée...";
-        alert(errorMsg);
     }
 }
