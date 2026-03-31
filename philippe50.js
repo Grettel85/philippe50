@@ -1,5 +1,5 @@
 /* =========================================
-    CONFIG & VERTALINGS-DATABASE
+    CONFIG & VERTALINGS-DATABASE 
    ========================================= */
 const config = {
     password: "Philippe50", 
