@@ -172,7 +172,7 @@ async function startLiveScroll() {
         frCol.innerHTML = frHTML;
 
         // De animatie starten
-        const speed = 25; // Pixels per seconde
+        const speed = 15; // Pixels per seconde
         const height = Math.max(nlCol.scrollHeight, frCol.scrollHeight);
         const duration = (height + window.innerHeight) / speed;
 
