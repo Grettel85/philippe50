@@ -1,9 +1,5 @@
-/* ==========================================================================
-   VERSION: PHILIPPE 50 - CORE ENGINE (V2.5 - Admin & Scroll Security)
-   ========================================================================== */
-
 /* =========================================
-    CONFIG & VERTALINGS-DATABASE 
+   CONFIG & VERTALINGS-DATABASE 
    ========================================= */
 const config = {
     password: "Philippe50", 
@@ -102,18 +98,7 @@ function setLanguage(lang) {
         if (translation) el.innerText = translation;
     });
 
-    const pTitle = document.getElementById('prologue-display-title');
-    const pText = document.getElementById('prologue-display-text');
-    if(pTitle) pTitle.innerText = config.translations[lang]["prologue-title"];
-    if(pText) pText.innerText = config.translations[lang]["prologue-text"];
-
     updateLangButtons(lang);
-
-    if (document.getElementById('story-content')) fetchStory();
-    if (document.getElementById('personal-story-content')) {
-        const target = document.getElementById('final-story-target');
-        if (target && target.innerHTML !== "") findPersonalStory();
-    }
 }
 
 function updateLangButtons(lang) {
@@ -125,22 +110,14 @@ function updateLangButtons(lang) {
     activeBtn.classList.add('active-lang');
 }
 
-/**
- * Logica voor het invoerveld op de indexpagina
- */
 function checkPassword() {
     const inputField = document.getElementById('password-input');
     const errorMsg = document.getElementById('error-msg');
     if (!inputField) return;
     const input = inputField.value.trim().toLowerCase();
     
-    // ROUTE 1: Bij admin50 in het tekstveld -> naar de beheerderspagina (legende.html)
-    if (input === "admin50") { 
-        window.location.href = "legende.html"; 
-        return; 
-    }
+    if (input === "admin50") { window.location.href = "legende.html"; return; }
     
-    // ROUTE 2: Bij het normale wachtwoord -> toon het deelnameformulier
     if (input === config.password.toLowerCase()) {
         document.getElementById('password-gate').style.display = 'none';
         document.getElementById('form-section').style.display = 'block';
@@ -149,26 +126,28 @@ function checkPassword() {
     }
 }
 
-/**
- * Logica voor de roze zwevende knop (📜)
- */
 function openSecureScroll() {
     const lang = config.currentLang || 'nl';
-    const promptMsg = lang === 'nl' 
-        ? "Voer de geheime code in om de legende te openen:" 
-        : "Entrez le code secret pour ouvrir la légende :";
-
-    const pw = prompt(promptMsg);
-
-    // ROUTE 3: Bij admin50 in de pop-up -> naar de scroll-animatie (scroll.html)
+    const pw = prompt(lang === 'nl' ? "Geheime code:" : "Code secret:");
     if (pw && pw.toLowerCase() === "admin50") {
         window.location.href = "scroll.html";
-    } else if (pw) {
-        const errorMsg = lang === 'nl'
-            ? "Verkeerd wachtwoord. De legende blijft verborgen..."
-            : "Mot de passe incorrect. La légende reste cachée...";
-        alert(errorMsg);
     }
+}
+
+/* =========================================
+    CSV & DATABASE LOGIC
+   ========================================= */
+
+function getCSVRows(csvData) {
+    return csvData.split(/\r?\n(?=(?:[^"]*"[^"]*")*[^"]*$)/).filter(row => row.trim() !== "");
+}
+
+function splitCSVRow(row) {
+    return row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+}
+
+function cleanCSVValue(val) {
+    return val ? val.replace(/^"|"$/g, '').replace(/""/g, '"').trim() : "";
 }
 
 function getLanguageSpecificText(fullText, lang) {
@@ -177,7 +156,42 @@ function getLanguageSpecificText(fullText, lang) {
     return (lang === 'fr') ? (parts[1] ? parts[1].trim() : parts[0].trim()) : parts[0].trim();
 }
 
+async function fetchStory() {
+    const container = document.getElementById('story-content');
+    if (!container) return;
+    try {
+        const res = await fetch(sheetURL + '&cb=' + Date.now());
+        const csvData = await res.text();
+        const rows = getCSVRows(csvData).slice(1);
+        let fullHTML = "";
+        
+        rows.forEach((row, index) => {
+            const cols = splitCSVRow(row);
+            const storyText = getLanguageSpecificText(cleanCSVValue(cols[1]), config.currentLang);
+            if (storyText) {
+                fullHTML += `
+                    <div class="story-entry glass-card" style="margin-bottom: 20px; text-align: left; padding: 20px; border-radius: 15px; background: rgba(255,255,255,0.05);">
+                        <h3 style="color: #00f2ff; margin-bottom: 10px;">HOOFDSTUK ${index + 2}: ${cleanCSVValue(cols[2])}</h3>
+                        <div style="font-size: 0.95rem; line-height: 1.6; white-space: pre-wrap;">${storyText}</div>
+                    </div>`;
+            }
+        });
+        container.innerHTML = fullHTML || "<p>Nog geen verhalen.</p>";
+    } catch (e) { 
+        container.innerHTML = "Fout bij het laden van de verhalen."; 
+        console.error("Fout:", e);
+    }
+}
+
 /* =========================================
-    CSV & DATABASE LOGIC (Rest van het script blijft ongewijzigd)
+    INITIALIZATION
    ========================================= */
-// ... (hier volgen de functies getCSVRows, splitCSVRow, cleanCSVValue, findPersonalStory, fetchStory, startLiveScroll en de DOMContentLoaded listener zoals in je originele code)
+document.addEventListener('DOMContentLoaded', () => {
+    // Stel taal in bij laden
+    setLanguage('nl');
+    
+    // Als we op de legende-pagina zijn, laad de verhalen
+    if (document.getElementById('story-content')) {
+        fetchStory();
+    }
+});
