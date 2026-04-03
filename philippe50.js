@@ -1,6 +1,7 @@
-/* =========================================
-   CONFIG & VERTALINGS-DATABASE 
-   ========================================= */
+/* ==========================================================================
+   VERSION: PHILIPPE 50 - TOTAL ENGINE (V2.6 - Everything Integrated)
+   ========================================================================== */
+
 const config = {
     password: "Philippe50", 
     currentLang: 'nl',
@@ -28,20 +29,9 @@ const config = {
             "show-story-btn": "Toon mijn verhaal",
             "back-link": "← Terug naar de start",
             "prologue-title": "Hoofdstuk 1: De Tijdsglitch",
-            "prologue-text": "Philippe zat op een ochtend in de veranda rustig van een tasje koffie te genieten, met zijn Spotify-playlist op de achtergrond. Met gesloten ogen genoot hij van de zon op zijn gezicht. De combi video- en dvd-speler rolde met zijn ogen en de oude grammofoonspeler onder de televisie kreunde; alweer die 'moderne' muziek.\n\nPlots kwam er een tijdsglitch langs en de grammofoonspeler schrok op. Door de schok verplaatste de naald op een oude plaat en kwam bovenop een van de ribbels terecht. De speler probeerde de naald terug in de juiste groef te schudden, maar de glitch keerde onverwacht terug en de kamer begon te draaien. Philippe merkte niets van de spiraal van duisternis die het licht wegzoog. De kamer leek om hem heen weg te ebben.\n\nToen hoorde hij de Spotify-muziek niet meer. Langzaam klonken vanuit de verte de tonen van de ABBA-hit 'Fernando'. Vreemd, dacht Philippe, dat stond niet in mijn playlist? Hij opende zijn ogen en zag dat hij nog steeds in de zetel zat, maar de kamer was niet meer zijn huis in Kessel-Lo. Hij herkende de plek, maar toch ook niet. Op tafel lag een krant: de geboorteaankondigingen. Er was een kindje geboren met exact dezelfde naam als hij.\n\nHij sloeg de krant dicht. De voorpagina toonde een artikel over de fusie van gemeenten en de viering van 25 jaar Koning Boudewijn. Toen viel zijn Belgische frank: hij stond in de woonkamer van het huis waar hij de eerste twee jaar van zijn leven had gewond. De datum op de krant: 14 april 1976 om exact 13:30. 50 jaar terug in de tijd. Hoe geraakt hij terug naar de toekomst?",
-            "loader-phrases": [
-                "De naald zoekt de juiste groef...",
-                "Tijdsglitch stabiliseren...",
-                "De saphir glijdt door het verleden...",
-                "Herinneringen ophalen...",
-                "Euhm, ben je zeker dat het langs hier was...",
-                "De legende wordt geschreven...",
-                "Pas op, we scheren langs een parallel universum...",
-                "De platenwisselaar hapert in de tijd...",
-                "Echo's uit de toekomst opgevangen...",
-                "De tijdlijn wordt hersteld..."
-            ],
-            "wait-longer": "Het duurt iets langer... geef de naald even een tik en ververs de pagina over een minuutje."
+            "prologue-text": "Philippe zat op een ochtend in de veranda rustig van een tasje koffie te genieten, met zijn Spotify-playlist op de achtergrond. De kamer begon te draaien... 50 jaar terug in de tijd. Hoe geraakt hij terug naar de toekomst?",
+            "loader-phrases": ["De naald zoekt de juiste groef...", "Tijdsglitch stabiliseren...", "De legende wordt geschreven..."],
+            "wait-longer": "Het duurt iets langer... ververs de pagina even."
         },
         fr: {
             "welcome": "Bienvenue chez Philippe 50",
@@ -66,20 +56,9 @@ const config = {
             "show-story-btn": "Afficher mon histoire",
             "back-link": "← Retour au début",
             "prologue-title": "Chapitre 1 : Le Glitch Temporel",
-            "prologue-text": "Philippe était assis dans sa véranda un matin, savourant tranquillement une tasse de café avec sa playlist Spotify en fond sonore. Les yeux fermés, il profitait du soleil sur son visage. Le combiné lecteur vidéo et DVD leva les yeux au ciel et le vieux gramophone sous le téléviseur grogna ; encore cette musique 'moderne'.\n\nSoudain, une faille temporelle passa par là et le gramophone sursauta. Sous le choc, le saphir se déplaça sur un vieux disque et atterrit sur l'un des sillons. Le gramophone tenta de remettre l'aiguille dans la bonne rainure, maar de glitch revint de manière inattendue et la pièce commença soudainement à tourner. Toujours installé dans son fauteuil les yeux clos, Philippe ne remarqua rien de la spirale de ténèbres qui aspirait la lumière. La pièce sembla s'effacer tout autour de lui.\n\nPhilippe n'entendait plus la musique de Spotify, maar les notes du célèbre tube d'ABBA, 'Fernando', résonnaient lentement au loin. Étrange, pensa Philippe, ce n'était pas dans ma playlist. Il ouvrit les yeux et vit qu'il était toujours assis dans son fauteuil. Mais la pièce n'était plus celle de sa maison à Kessel-Lo. Il reconnaissait l'endroit, et pourtant, quelque chose clochait. Sur la table, un journal était ouvert aux annonces de naissance : un enfant était né avec le même nom que lui.\n\nIl referma le journal et vit la une : un article sur les fusions de communes et les festivités pour les 25 ans de règne du roi Baudouin. C'est alors que le 'franc belge' tomba. Philippe se trouvait dans le salon de la maison de ses deux premières années. La date sur le journal : le 14 avril 1976 à 13h30 précises. Cinquante ans en arrière. Comment allait-il retourner vers le futur ?",
-            "loader-phrases": [
-                "Le saphir cherche le bon sillon...",
-                "Stabilisation du glitch temporel...",
-                "Le saphir glisse à travers le passé...",
-                "Récupération des souvenirs...",
-                "Euh, vous êtes sûr que c'était par ici... ?",
-                "La légende s'écrit...",
-                "Attention, on frôle un univers parallèle...",
-                "Le changeur de disques bégaye dans le temps...",
-                "Échos du futur interceptés...",
-                "La chronologie est en cours de restauration..."
-            ],
-            "wait-longer": "C'est un peu long... donnez un petit coup au saphir et rafraîchissez la page dans une minute."
+            "prologue-text": "Philippe était assis dans sa véranda... Cinquante ans en arrière. Comment allait-il retourner vers le futur ?",
+            "loader-phrases": ["Le saphir cherche le bon sillon...", "Stabilisation du glitch...", "La légende s'écrit..."],
+            "wait-longer": "C'est un peu long... rafraîchissez la page."
         }
     }
 };
@@ -87,7 +66,7 @@ const config = {
 const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR8NcRn-YMmbVuxKlYx_WT9_QZEB5eaFbiygWphB86Ya2mzMswKVwVlqFpBDe5ewM6f1uFh2wi8nIDk/pub?output=csv';
 
 /* =========================================
-    CORE LOGIC (Language & Auth)
+    CORE LOGIC
    ========================================= */
 
 function setLanguage(lang) {
@@ -97,45 +76,36 @@ function setLanguage(lang) {
         const translation = config.translations[lang][key];
         if (translation) el.innerText = translation;
     });
-
     updateLangButtons(lang);
 }
 
 function updateLangButtons(lang) {
     const btnNl = document.getElementById('btn-nl');
     const btnFr = document.getElementById('btn-fr');
-    if (!btnNl || !btnFr) return;
-    [btnNl, btnFr].forEach(btn => btn.classList.remove('active-lang'));
-    const activeBtn = lang === 'nl' ? btnNl : btnFr;
-    activeBtn.classList.add('active-lang');
+    if (btnNl && btnFr) {
+        btnNl.classList.toggle('active-lang', lang === 'nl');
+        btnFr.classList.toggle('active-lang', lang === 'fr');
+    }
 }
 
 function checkPassword() {
-    const inputField = document.getElementById('password-input');
-    const errorMsg = document.getElementById('error-msg');
-    if (!inputField) return;
-    const input = inputField.value.trim().toLowerCase();
-    
+    const input = document.getElementById('password-input').value.trim().toLowerCase();
     if (input === "admin50") { window.location.href = "legende.html"; return; }
-    
     if (input === config.password.toLowerCase()) {
         document.getElementById('password-gate').style.display = 'none';
         document.getElementById('form-section').style.display = 'block';
-    } else { 
-        if (errorMsg) errorMsg.style.display = 'block'; 
+    } else {
+        document.getElementById('error-msg').style.display = 'block';
     }
 }
 
 function openSecureScroll() {
-    const lang = config.currentLang || 'nl';
-    const pw = prompt(lang === 'nl' ? "Geheime code:" : "Code secret:");
-    if (pw && pw.toLowerCase() === "admin50") {
-        window.location.href = "scroll.html";
-    }
+    const pw = prompt("Geheime code / Code secret:");
+    if (pw && pw.toLowerCase() === "admin50") window.location.href = "scroll.html";
 }
 
 /* =========================================
-    CSV & DATABASE LOGIC
+    CSV & DATA HANDLING
    ========================================= */
 
 function getCSVRows(csvData) {
@@ -156,42 +126,67 @@ function getLanguageSpecificText(fullText, lang) {
     return (lang === 'fr') ? (parts[1] ? parts[1].trim() : parts[0].trim()) : parts[0].trim();
 }
 
+/* Voor legende.html */
 async function fetchStory() {
     const container = document.getElementById('story-content');
     if (!container) return;
     try {
         const res = await fetch(sheetURL + '&cb=' + Date.now());
-        const csvData = await res.text();
-        const rows = getCSVRows(csvData).slice(1);
-        let fullHTML = "";
-        
+        const rows = getCSVRows(await res.text()).slice(1);
+        let html = "";
         rows.forEach((row, index) => {
             const cols = splitCSVRow(row);
-            const storyText = getLanguageSpecificText(cleanCSVValue(cols[1]), config.currentLang);
-            if (storyText) {
-                fullHTML += `
-                    <div class="story-entry glass-card" style="margin-bottom: 20px; text-align: left; padding: 20px; border-radius: 15px; background: rgba(255,255,255,0.05);">
-                        <h3 style="color: #00f2ff; margin-bottom: 10px;">HOOFDSTUK ${index + 2}: ${cleanCSVValue(cols[2])}</h3>
-                        <div style="font-size: 0.95rem; line-height: 1.6; white-space: pre-wrap;">${storyText}</div>
-                    </div>`;
+            const text = getLanguageSpecificText(cleanCSVValue(cols[1]), config.currentLang);
+            if (text) {
+                html += `<div class="story-entry glass-card" style="margin-bottom:20px; padding:20px; background:rgba(255,255,255,0.05); border-radius:15px;">
+                            <h3 style="color:#00f2ff;">HOOFDSTUK ${index + 2}: ${cleanCSVValue(cols[2])}</h3>
+                            <div style="white-space:pre-wrap;">${text}</div>
+                         </div>`;
             }
         });
-        container.innerHTML = fullHTML || "<p>Nog geen verhalen.</p>";
-    } catch (e) { 
-        container.innerHTML = "Fout bij het laden van de verhalen."; 
-        console.error("Fout:", e);
-    }
+        container.innerHTML = html || "Nog geen verhalen.";
+    } catch (e) { container.innerHTML = "Fout bij laden."; }
 }
 
-/* =========================================
-    INITIALIZATION
-   ========================================= */
+/* Voor scroll.html */
+async function startLiveScroll() {
+    const nlCol = document.getElementById('scroll-nl');
+    const frCol = document.getElementById('scroll-fr');
+    if (!nlCol || !frCol) return;
+
+    try {
+        const res = await fetch(sheetURL + '&cb=' + Date.now());
+        const rows = getCSVRows(await res.text()).slice(1);
+        
+        let nlHTML = `<div class="scroll-entry"><h3>HOOFDSTUK 1</h3><p>${config.translations.nl["prologue-text"]}</p></div>`;
+        let frHTML = `<div class="scroll-entry"><h3>CHAPITRE 1</h3><p>${config.translations.fr["prologue-text"]}</p></div>`;
+
+        rows.forEach((row, index) => {
+            const cols = splitCSVRow(row);
+            const name = cleanCSVValue(cols[2]);
+            nlHTML += `<div class="scroll-entry"><h3>HOOFDSTUK ${index+2}: ${name}</h3><p>${getLanguageSpecificText(cleanCSVValue(cols[1]), 'nl')}</p></div>`;
+            frHTML += `<div class="scroll-entry"><h3>CHAPITRE ${index+2}: ${name}</h3><p>${getLanguageSpecificText(cleanCSVValue(cols[1]), 'fr')}</p></div>`;
+        });
+
+        nlCol.innerHTML = nlHTML;
+        frCol.innerHTML = frHTML;
+
+        // De animatie starten
+        const speed = 40; // Pixels per seconde
+        const height = Math.max(nlCol.scrollHeight, frCol.scrollHeight);
+        const duration = (height + window.innerHeight) / speed;
+
+        [nlCol, frCol].forEach(col => {
+            col.style.transition = `transform ${duration}s linear`;
+            col.style.transform = `translateY(-${height + 100}px)`;
+        });
+
+    } catch (e) { console.error("Scroll error:", e); }
+}
+
+/* INITIALIZATION */
 document.addEventListener('DOMContentLoaded', () => {
-    // Stel taal in bij laden
-    setLanguage('nl');
-    
-    // Als we op de legende-pagina zijn, laad de verhalen
-    if (document.getElementById('story-content')) {
-        fetchStory();
-    }
+    if (document.getElementById('password-input')) setLanguage('nl');
+    if (document.getElementById('story-content')) fetchStory();
+    // startLiveScroll wordt aangeroepen door de inline script in scroll.html
 });
