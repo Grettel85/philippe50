@@ -210,3 +210,48 @@ function copyPassword() {
         });
     }
 }
+
+/* Zoekfunctie voor mijn-verhaal.html */
+async function findPersonalStory() {
+    const nameInput = document.getElementById('lookup-name').value.trim().toLowerCase();
+    const pwInput = document.getElementById('lookup-pw').value.trim().toLowerCase();
+    const container = document.getElementById('personal-story-content');
+    
+    if (!nameInput || !pwInput) {
+        alert("Vul aub beide velden in / Veuillez remplir les deux champs.");
+        return;
+    }
+
+    container.innerHTML = "<p>De legende wordt doorzocht...</p>";
+
+    try {
+        const res = await fetch(sheetURL + '&cb=' + Date.now());
+        const rows = getCSVRows(await res.text()).slice(1); // Slaat titels over
+        
+        let found = false;
+
+        rows.forEach((row, index) => {
+            const cols = splitCSVRow(row);
+            const sheetName = cleanCSVValue(cols[2]).toLowerCase(); // Kolom C: Nickname
+            const sheetPW = cleanCSVValue(cols[3]).toLowerCase();   // Kolom D: Geheim woord
+            
+            if (sheetName === nameInput && sheetPW === pwInput) {
+                const text = getLanguageSpecificText(cleanCSVValue(cols[1]), config.currentLang);
+                container.innerHTML = `
+                    <div class="story-entry glass-card" style="padding:20px; background:rgba(0,242,255,0.1); border: 1px solid #00f2ff;">
+                        <h3 style="color:#00f2ff; margin-top:0;">HOOFDSTUK ${index + 1}: ${cleanCSVValue(cols[2])}</h3>
+                        <div style="white-space:pre-wrap; color: white; line-height:1.6;">${text}</div>
+                    </div>`;
+                found = true;
+            }
+        });
+
+        if (!found) {
+            container.innerHTML = "<p style='color: #ff4d4d;'>Geen match gevonden. Controleer je nickname en geheime woord (band met Philippe).</p>";
+        }
+
+    } catch (e) {
+        console.error("Lookup error:", e);
+        container.innerHTML = "<p>Er liep iets mis bij het ophalen van de data.</p>";
+    }
+}
