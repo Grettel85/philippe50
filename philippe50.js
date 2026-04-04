@@ -233,7 +233,7 @@ async function findPersonalStory() {
         rows.forEach((row, index) => {
             const cols = splitCSVRow(row);
             const sheetName = cleanCSVValue(cols[2]).toLowerCase(); // Kolom C: Nickname
-            const sheetPW = cleanCSVValue(cols[3]).toLowerCase();   // Kolom D: Geheim woord
+            const sheetPW = cleanCSVValue(cols[4]).toLowerCase();   // Kolom D: Geheim woord
             
             if (sheetName === nameInput && sheetPW === pwInput) {
                 const text = getLanguageSpecificText(cleanCSVValue(cols[1]), config.currentLang);
