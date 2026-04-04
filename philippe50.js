@@ -190,3 +190,26 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('story-content')) fetchStory();
     // startLiveScroll wordt aangeroepen door de inline script in scroll.html
 });
+
+
+
+function copyPassword() {
+    const passwordField = document.getElementById("deelnemer_ww");
+    
+    if (passwordField.value) {
+        // Kopieer de tekst
+        navigator.clipboard.writeText(passwordField.value).then(() => {
+            // Verander het icoontje tijdelijk naar een vinkje
+            const btn = document.querySelector('.copy-btn');
+            const originalIcon = btn.innerText;
+            btn.innerText = "✅";
+            
+            // Zet na 2 seconden het originele icoontje terug
+            setTimeout(() => {
+                btn.innerText = originalIcon;
+            }, 2000);
+        }).catch(err => {
+            console.error('Fout bij kopiëren: ', err);
+        });
+    }
+}
