@@ -1,5 +1,5 @@
 /* ==========================================================================
-   VERSION: PHILIPPE 50 - TOTAL ENGINE (V2.7 - Pure Sheet Driven)
+   VERSION: PHILIPPE 50 - TOTAL ENGINE (V3.0 - Time Travel Edition)
    ========================================================================== */
 
 const config = {
@@ -13,13 +13,13 @@ const config = {
             "wrong-pwd": "Onjuiste code, probeer het opnieuw.",
             "form-title": "Het verhaal van Philippe",
             "label-name": "Jouw Nickname (voor in de legende):",
+            "label-setting": "Waar en/of wanneer is Philippe beland?",
+            "label-obstacle": "Welk probleem heeft hij daar?",
+            "label-soundtrack": "Welk liedje hoort bij dit avontuur?",
+            "label-memory": "Beschrijf je leukste herinnering met Philippe:",
             "label-email": "Jouw E-mailadres:",
-            "label-band": "Schrijf hier het geheime woord dat je band met Philippe duidt:",
+            "label-band": "Welk woord doet je aan Philippe denken:",
             "band-note": "(Dit is je wachtwoord voor later)",
-            "label-personage": "Wie is volgens jou een echte superheld?",
-            "label-power": "Wat is de superkracht van Philippe?",
-            "label-kryptonite": "Waar kan Philippe nog beter in worden?",
-            "label-memory": "Omschrijf je leukste herinnering met Philippe in enkele zinnen:",
             "submit-btn": "Verstuur naar de Legende",
             "view-chapter": "Bekijk jouw hoofdstuk",
             "story-title": "De Legende van Philippe",
@@ -38,13 +38,13 @@ const config = {
             "wrong-pwd": "Code incorrect, réessayez.",
             "form-title": "L'histoire de Philippe",
             "label-name": "Votre Nickname (pour la légende) :",
+            "label-setting": "Où et/ou quand Philippe a-t-il atterri ?",
+            "label-obstacle": "Quel problème rencontre-t-il ?",
+            "label-soundtrack": "Quelle chanson accompagne cette aventure ?",
+            "label-memory": "Décrivez votre meilleur souvenir avec Philippe :",
             "label-email": "Votre E-mail :",
-            "label-band": "Écrivez ici le mot secret qui définit votre lien avec Philippe :",
+            "label-band": "Quel mot vous fait penser à Philippe :",
             "band-note": "(Ce sera votre mot de passe plus tard)",
-            "label-personage": "À quel personnage des années 80 ressemblez-vous le plus ?",
-            "label-power": "Selon vous, en quoi Philippe est-il très doué ?",
-            "label-kryptonite": "Selon vous, en quoi Philippe pourrait-il s'améliorer ?",
-            "label-memory": "Décrivez votre meilleur souvenir avec Philippe en quelques phrases :",
             "submit-btn": "Envoyer à la Légende",
             "view-chapter": "Consultez votre chapitre",
             "story-title": "La Légende de Philippe",
@@ -60,9 +60,10 @@ const config = {
 };
 
 const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR8NcRn-YMmbVuxKlYx_WT9_QZEB5eaFbiygWphB86Ya2mzMswKVwVlqFpBDe5ewM6f1uFh2wi8nIDk/pub?output=csv';
+const makeWebhookURL = "JOUW_MAKE_WEBHOOK_LINK_HIER"; // VERGEET DEZE NIET IN TE VULLEN!
 
 /* =========================================
-    CORE LOGIC
+   CORE LOGIC & NAVIGATION
    ========================================= */
 
 function setLanguage(lang) {
@@ -101,7 +102,42 @@ function openSecureScroll() {
 }
 
 /* =========================================
-    CSV & DATA HANDLING
+   FORM SUBMISSION (The Engine)
+   ========================================= */
+
+async function submitForm() {
+    const data = {
+        nickname: document.getElementById('deelnemer_naam').value,
+        setting: document.getElementById('input-setting').value,
+        obstacle: document.getElementById('input-obstacle').value,
+        soundtrack: document.getElementById('input-soundtrack').value,
+        memory: document.getElementById('philippe_herinnering').value,
+        email: document.getElementById('deelnemer_email').value,
+        band: document.getElementById('deelnemer_ww').value,
+        language: config.currentLang
+    };
+
+    try {
+        const response = await fetch(makeWebhookURL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            alert(config.currentLang === 'nl' ? "Je hoofdstuk wordt geschreven!" : "Votre chapitre est en cours d'écriture !");
+            window.location.href = "mijn-verhaal.html";
+        } else {
+            alert("Error sending data.");
+        }
+    } catch (error) {
+        console.error("Submission error:", error);
+        alert("Server error.");
+    }
+}
+
+/* =========================================
+   CSV & DATA HANDLING
    ========================================= */
 
 function getCSVRows(csvData) {
@@ -181,36 +217,6 @@ async function startLiveScroll() {
     } catch (e) { console.error("Scroll error:", e); }
 }
 
-/* INITIALIZATION */
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.getElementById('password-input')) setLanguage('nl');
-    if (document.getElementById('story-content')) fetchStory();
-});
-
-/* WAKE LOCK */
-let wakeLock = null;
-const requestWakeLock = async () => {
-  try {
-    if ('wakeLock' in navigator) {
-      wakeLock = await navigator.wakeLock.request('screen');
-    }
-  } catch (err) {}
-};
-document.addEventListener('click', requestWakeLock);
-
-/* UTILS */
-function copyPassword() {
-    const passwordField = document.getElementById("deelnemer_ww");
-    if (passwordField && passwordField.value) {
-        navigator.clipboard.writeText(passwordField.value).then(() => {
-            const btn = document.querySelector('.copy-btn');
-            const originalIcon = btn.innerText;
-            btn.innerText = "✅";
-            setTimeout(() => { btn.innerText = originalIcon; }, 2000);
-        });
-    }
-}
-
 /* Zoekfunctie voor mijn-verhaal.html */
 async function findPersonalStory() {
     const nameInput = document.getElementById('lookup-name').value.trim().toLowerCase();
@@ -226,14 +232,14 @@ async function findPersonalStory() {
 
     try {
         const res = await fetch(sheetURL + '&cb=' + Date.now());
-        const rows = getCSVRows(await res.text()).slice(1); // Slaat titels over
+        const rows = getCSVRows(await res.text()).slice(1); 
         
         let found = false;
 
         rows.forEach((row, index) => {
             const cols = splitCSVRow(row);
-            const sheetName = cleanCSVValue(cols[2]).toLowerCase(); // Kolom C: Nickname
-            const sheetPW = cleanCSVValue(cols[4]).toLowerCase();   // Kolom D: Geheim woord
+            const sheetName = cleanCSVValue(cols[2]).toLowerCase(); // Kolom C
+            const sheetPW = cleanCSVValue(cols[4]).toLowerCase();   // Kolom E
             
             if (sheetName === nameInput && sheetPW === pwInput) {
                 const text = getLanguageSpecificText(cleanCSVValue(cols[1]), config.currentLang);
@@ -247,7 +253,7 @@ async function findPersonalStory() {
         });
 
         if (!found) {
-            container.innerHTML = "<p style='color: #ff4d4d;'>Geen match gevonden. Controleer je nickname en geheime woord (band met Philippe).</p>";
+            container.innerHTML = "<p style='color: #ff4d4d;'>Geen match gevonden. Controleer je nickname en geheime woord.</p>";
         }
 
     } catch (e) {
@@ -255,3 +261,33 @@ async function findPersonalStory() {
         container.innerHTML = "<p>Er liep iets mis bij het ophalen van de data.</p>";
     }
 }
+
+/* INITIALIZATION */
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('password-input')) setLanguage('nl');
+    if (document.getElementById('story-content')) fetchStory();
+    if (document.getElementById('scroll-nl')) startLiveScroll();
+});
+
+/* UTILS */
+function copyPassword() {
+    const passwordField = document.getElementById("deelnemer_ww");
+    if (passwordField && passwordField.value) {
+        navigator.clipboard.writeText(passwordField.value).then(() => {
+            const btn = document.querySelector('.copy-btn');
+            const originalIcon = btn.innerText;
+            btn.innerText = "✅";
+            setTimeout(() => { btn.innerText = originalIcon; }, 2000);
+        });
+    }
+}
+
+let wakeLock = null;
+const requestWakeLock = async () => {
+  try {
+    if ('wakeLock' in navigator) {
+      wakeLock = await navigator.wakeLock.request('screen');
+    }
+  } catch (err) {}
+};
+document.addEventListener('click', requestWakeLock);
