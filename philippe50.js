@@ -1,5 +1,5 @@
 /* ==========================================================================
-   VERSION: PHILIPPE 50 - TOTAL ENGINE (V2.6 - Everything Integrated)
+   VERSION: PHILIPPE 50 - TOTAL ENGINE (V2.7 - Pure Sheet Driven)
    ========================================================================== */
 
 const config = {
@@ -28,8 +28,6 @@ const config = {
             "lookup-desc": "Voer je nickname en het geheime woord in.",
             "show-story-btn": "Toon mijn verhaal",
             "back-link": "← Terug naar de start",
-            "prologue-title": "Hoofdstuk 1: De Tijdsglitch",
-            "prologue-text": "Philippe zat op een ochtend in de veranda rustig van een tasje koffie te genieten, met zijn Spotify-playlist op de achtergrond. De kamer begon te draaien... 50 jaar terug in de tijd. Hoe geraakt hij terug naar de toekomst?",
             "loader-phrases": ["De naald zoekt de juiste groef...", "Tijdsglitch stabiliseren...", "De legende wordt geschreven..."],
             "wait-longer": "Het duurt iets langer... ververs de pagina even."
         },
@@ -55,8 +53,6 @@ const config = {
             "lookup-desc": "Entrez votre nickname et le mot secret.",
             "show-story-btn": "Afficher mon histoire",
             "back-link": "← Retour au début",
-            "prologue-title": "Chapitre 1 : Le Glitch Temporel",
-            "prologue-text": "Philippe était assis dans sa véranda... Cinquante ans en arrière. Comment allait-il retourner vers le futur ?",
             "loader-phrases": ["Le saphir cherche le bon sillon...", "Stabilisation du glitch...", "La légende s'écrit..."],
             "wait-longer": "C'est un peu long... rafraîchissez la page."
         }
@@ -139,7 +135,7 @@ async function fetchStory() {
             const text = getLanguageSpecificText(cleanCSVValue(cols[1]), config.currentLang);
             if (text) {
                 html += `<div class="story-entry glass-card" style="margin-bottom:20px; padding:20px; background:rgba(255,255,255,0.05); border-radius:15px;">
-                            <h3 style="color:#00f2ff;">HOOFDSTUK ${index + 2}: ${cleanCSVValue(cols[2])}</h3>
+                            <h3 style="color:#00f2ff;">HOOFDSTUK ${index + 1}: ${cleanCSVValue(cols[2])}</h3>
                             <div style="white-space:pre-wrap;">${text}</div>
                          </div>`;
             }
@@ -158,21 +154,22 @@ async function startLiveScroll() {
         const res = await fetch(sheetURL + '&cb=' + Date.now());
         const rows = getCSVRows(await res.text()).slice(1);
         
-        let nlHTML = `<div class="scroll-entry"><h3>HOOFDSTUK 1</h3><p>${config.translations.nl["prologue-text"]}</p></div>`;
-        let frHTML = `<div class="scroll-entry"><h3>CHAPITRE 1</h3><p>${config.translations.fr["prologue-text"]}</p></div>`;
+        let nlHTML = ""; 
+        let frHTML = "";
 
         rows.forEach((row, index) => {
             const cols = splitCSVRow(row);
             const name = cleanCSVValue(cols[2]);
-            nlHTML += `<div class="scroll-entry"><h3>HOOFDSTUK ${index+2}: ${name}</h3><p>${getLanguageSpecificText(cleanCSVValue(cols[1]), 'nl')}</p></div>`;
-            frHTML += `<div class="scroll-entry"><h3>CHAPITRE ${index+2}: ${name}</h3><p>${getLanguageSpecificText(cleanCSVValue(cols[1]), 'fr')}</p></div>`;
+            const textRaw = cleanCSVValue(cols[1]);
+            
+            nlHTML += `<div class="scroll-entry"><h3>HOOFDSTUK ${index + 1}: ${name}</h3><p>${getLanguageSpecificText(textRaw, 'nl')}</p></div>`;
+            frHTML += `<div class="scroll-entry"><h3>CHAPITRE ${index + 1}: ${name}</h3><p>${getLanguageSpecificText(textRaw, 'fr')}</p></div>`;
         });
 
         nlCol.innerHTML = nlHTML;
         frCol.innerHTML = frHTML;
 
-        // De animatie starten
-        const speed = 15; // Pixels per seconde
+        const speed = 15; 
         const height = Math.max(nlCol.scrollHeight, frCol.scrollHeight);
         const duration = (height + window.innerHeight) / speed;
 
@@ -188,28 +185,28 @@ async function startLiveScroll() {
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('password-input')) setLanguage('nl');
     if (document.getElementById('story-content')) fetchStory();
-    // startLiveScroll wordt aangeroepen door de inline script in scroll.html
 });
 
+/* WAKE LOCK */
+let wakeLock = null;
+const requestWakeLock = async () => {
+  try {
+    if ('wakeLock' in navigator) {
+      wakeLock = await navigator.wakeLock.request('screen');
+    }
+  } catch (err) {}
+};
+document.addEventListener('click', requestWakeLock);
 
-
+/* UTILS */
 function copyPassword() {
     const passwordField = document.getElementById("deelnemer_ww");
-    
-    if (passwordField.value) {
-        // Kopieer de tekst
+    if (passwordField && passwordField.value) {
         navigator.clipboard.writeText(passwordField.value).then(() => {
-            // Verander het icoontje tijdelijk naar een vinkje
             const btn = document.querySelector('.copy-btn');
             const originalIcon = btn.innerText;
             btn.innerText = "✅";
-            
-            // Zet na 2 seconden het originele icoontje terug
-            setTimeout(() => {
-                btn.innerText = originalIcon;
-            }, 2000);
-        }).catch(err => {
-            console.error('Fout bij kopiëren: ', err);
+            setTimeout(() => { btn.innerText = originalIcon; }, 2000);
         });
     }
 }
