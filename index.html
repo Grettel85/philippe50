@@ -32,51 +32,56 @@
 
         <div id="form-section" class="glass-card fade-in" style="display: none;">
             <h2 data-i18n="form-title">Het verhaal van Philippe</h2>
-            <form id="dragon-form">
+            <form id="dragon-form" onsubmit="event.preventDefault(); submitForm();">
+                
                 <div class="input-group">
                     <label data-i18n="label-name">Jouw Nickname:</label>
-                    <input type="text" name="deelnemer_naam" id="deelnemer_naam" required>
+                    <input type="text" id="deelnemer_naam" required>
+                </div>
+
+                <div class="input-group">
+                    <label data-i18n="label-setting">In welk tijdperk is Philippe beland?</label>
+                    <input type="text" id="input-setting" placeholder="bijv. 1984, de toekomst, disco-tijd..." required>
+                </div>
+
+                <div class="input-group">
+                    <label data-i18n="label-obstacle">Welk technisch probleem heeft hij daar?</label>
+                    <input type="text" id="input-obstacle" placeholder="bijv. De platenspeler hapert, wifi is weg..." required>
+                </div>
+
+                <div class="input-group">
+                    <label data-i18n="label-soundtrack">Welk liedje hoort bij dit avontuur?</label>
+                    <input type="text" id="input-soundtrack" placeholder="Artiest - Titel" required>
+                </div>
+
+                <div class="input-group">
+                    <label data-i18n="label-memory">Een leuke herinnering met Philippe:</label>
+                    <textarea id="philippe_herinnering" rows="3" required></textarea>
                 </div>
 
                 <div class="input-group">
                     <label data-i18n="label-email">Jouw E-mailadres:</label>
-                    <input type="email" name="deelnemer_email" id="deelnemer_email" required>
+                    <input type="email" id="deelnemer_email" required>
                 </div>
 
                 <div class="input-group">
                     <label data-i18n="label-band">Het geheime woord:</label>
                     <p style="font-size: 0.7rem; color: #ff00de;" data-i18n="band-note">(Dit is je wachtwoord voor later)</p>
-                   <div style="position: relative; display: flex; align-items: center;">
-        <input type="password" name="deelnemer_ww" id="deelnemer_ww" required style="padding-right: 45px;">
-        <button type="button" onclick="copyPassword()" class="copy-btn" title="Kopieer wachtwoord" 
-            style="position: absolute; right: 10px; background: none; border: none; cursor: pointer; font-size: 1.2rem; width: auto; margin: 0; padding: 0;">
-            📋
-        </button>
-    </div>
-                </div>
-
-                <div class="input-group">
-                    <label data-i18n="label-personage">Welk 80's personage?</label>
-                    <input type="text" name="deelnemer_personage" id="deelnemer_personage" required>
-                </div>
-
-                <div class="input-group">
-                    <label data-i18n="label-power">Superkracht?</label>
-                    <input type="text" name="philippe_superkracht" id="philippe_superkracht" required>
-                </div>
-
-                <div class="input-group">
-                    <label data-i18n="label-memory">Leukste herinnering?</label>
-                    <textarea name="philippe_herinnering" id="philippe_herinnering" rows="4" required></textarea>
+                    <div style="position: relative; display: flex; align-items: center;">
+                        <input type="password" id="deelnemer_ww" required style="padding-right: 45px;">
+                        <button type="button" onclick="copyPassword()" class="copy-btn" title="Kopieer wachtwoord" 
+                            style="position: absolute; right: 10px; background: none; border: none; cursor: pointer; font-size: 1.2rem; width: auto; margin: 0; padding: 0;">
+                            📋
+                        </button>
+                    </div>
                 </div>
 
                 <button type="submit" class="submit-btn" data-i18n="submit-btn">Verstuur naar de Legende</button>
             </form>
         </div>
     </div>
-    <script src="philippe50.js"></script>
 
-<script src="philippe50.js"></script>
+    <script src="philippe50.js"></script>
 
     <button onclick="openSecureScroll()" class="legend-fab" title="Lees de Legende">
         <span class="legend-icon">📜</span>
