@@ -60,7 +60,7 @@ const config = {
 };
 
 const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR8NcRn-YMmbVuxKlYx_WT9_QZEB5eaFbiygWphB86Ya2mzMswKVwVlqFpBDe5ewM6f1uFh2wi8nIDk/pub?output=csv';
-const makeWebhookURL = "JOUW_MAKE_WEBHOOK_LINK_HIER"; // VERGEET DEZE NIET IN TE VULLEN!
+const makeWebhookURL = "https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f"; // VERGEET DEZE NIET IN TE VULLEN!
 
 /* =========================================
    CORE LOGIC & NAVIGATION
