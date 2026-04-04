@@ -267,3 +267,20 @@ button:hover, .submit-btn:hover {
     transform: scale(1.1) !important;
     box-shadow: 0 0 30px rgba(255, 0, 222, 1) !important;
 }
+
+
+
+.copy-btn {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    opacity: 0.6;
+}
+
+.copy-btn:hover {
+    transform: scale(1.2);
+    opacity: 1;
+    filter: drop-shadow(0 0 5px #00f2ff);
+}
+
+.copy-btn:active {
+    transform: scale(0.9);
+}
