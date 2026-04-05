@@ -60,7 +60,7 @@ const config = {
 };
 
 const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR8NcRn-YMmbVuxKlYx_WT9_QZEB5eaFbiygWphB86Ya2mzMswKVwVlqFpBDe5ewM6f1uFh2wi8nIDk/pub?output=csv';
-const makeWebhookURL = "https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f"; // VERGEET DEZE NIET IN TE VULLEN!
+const makeWebhookURL = "https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f"; 
 
 /* =========================================
    CORE LOGIC & NAVIGATION
@@ -217,48 +217,61 @@ async function startLiveScroll() {
     } catch (e) { console.error("Scroll error:", e); }
 }
 
-/* Zoekfunctie voor mijn-verhaal.html */
+/* Zoekfunctie voor mijn-verhaal.html - AANGEPAST VOOR TYPEMACHINE & HOOFDSTUK 1 */
 async function findPersonalStory() {
     const nameInput = document.getElementById('lookup-name').value.trim().toLowerCase();
     const pwInput = document.getElementById('lookup-pw').value.trim().toLowerCase();
-    const container = document.getElementById('personal-story-content');
+    const typewriterOutput = document.getElementById('typewriter-output');
+    const hoofdstukVast = document.getElementById('hoofdstuk-vast');
     
     if (!nameInput || !pwInput) {
         alert("Vul aub beide velden in / Veuillez remplir les deux champs.");
         return;
     }
 
-    container.innerHTML = "<p>De legende wordt doorzocht...</p>";
+    // Toon laadbericht in de typewriter div
+    typewriterOutput.innerHTML = "<p><em>De chronometer synchroniseert met 1976... De tijdlijn stabiliseert bijna.</em></p>";
 
     try {
         const res = await fetch(sheetURL + '&cb=' + Date.now());
         const rows = getCSVRows(await res.text()).slice(1); 
         
-        let found = false;
+        let foundRow = null;
+        let foundIndex = -1;
 
         rows.forEach((row, index) => {
             const cols = splitCSVRow(row);
-            const sheetName = cleanCSVValue(cols[2]).toLowerCase(); // Kolom C
-            const sheetPW = cleanCSVValue(cols[4]).toLowerCase();   // Kolom E
+            const sheetName = cleanCSVValue(cols[2]).toLowerCase(); 
+            const sheetPW = cleanCSVValue(cols[4]).toLowerCase();   
             
             if (sheetName === nameInput && sheetPW === pwInput) {
-                const text = getLanguageSpecificText(cleanCSVValue(cols[1]), config.currentLang);
-                container.innerHTML = `
-                    <div class="story-entry glass-card" style="padding:20px; background:rgba(0,242,255,0.1); border: 1px solid #00f2ff;">
-                        <h3 style="color:#00f2ff; margin-top:0;">HOOFDSTUK ${index + 1}: ${cleanCSVValue(cols[2])}</h3>
-                        <div style="white-space:pre-wrap; color: white; line-height:1.6;">${text}</div>
-                    </div>`;
-                found = true;
+                foundRow = cols;
+                foundIndex = index;
             }
         });
 
-        if (!found) {
-            container.innerHTML = "<p style='color: #ff4d4d;'>Geen match gevonden. Controleer je nickname en geheime woord.</p>";
+        if (foundRow) {
+            // 1. Maak Hoofdstuk 1 zichtbaar
+            if(hoofdstukVast) hoofdstukVast.style.display = 'block';
+
+            // 2. Haal de juiste tekst op
+            const text = getLanguageSpecificText(cleanCSVValue(foundRow[1]), config.currentLang);
+            const chapterTitle = cleanCSVValue(foundRow[2]);
+
+            // 3. Start de typemachine na een korte vertraging voor de sfeer
+            setTimeout(() => {
+                const fullOutput = `<h3 style="color:#00f2ff; margin-top:20px;">HOOFDSTUK ${foundIndex + 1}: ${chapterTitle}</h3><div id="typing-area" style="white-space:pre-wrap; color: white; line-height:1.6;"></div>`;
+                typewriterOutput.innerHTML = fullOutput;
+                typeWriter(text, "typing-area", 30);
+            }, 1000);
+
+        } else {
+            typewriterOutput.innerHTML = "<p style='color: #ff4d4d;'>Geen match gevonden. Controleer je nickname en geheime woord.</p>";
         }
 
     } catch (e) {
         console.error("Lookup error:", e);
-        container.innerHTML = "<p>Er liep iets mis bij het ophalen van de data.</p>";
+        typewriterOutput.innerHTML = "<p>Er liep iets mis bij het ophalen van de data.</p>";
     }
 }
 
@@ -291,3 +304,20 @@ const requestWakeLock = async () => {
   } catch (err) {}
 };
 document.addEventListener('click', requestWakeLock);
+
+/* NIEUWE FUNCTIE: TYPEWRITER EFFECT */
+function typeWriter(text, elementId, speed) {
+    let i = 0;
+    const element = document.getElementById(elementId);
+    
+    function type() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+            // Optioneel: scroll zachtjes mee
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+    }
+    type();
+}
