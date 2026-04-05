@@ -44,7 +44,7 @@ const config = {
             "label-memory": "Décrivez votre meilleur souvenir avec Philippe :",
             "label-email": "Votre E-mail :",
             "label-band": "Quel mot vous fait penser à Philippe :",
-            "band-note": "(Ce sera votre mot de passe plus tard)",
+            "label-band-note": "(Ce sera votre mot de passe plus tard)",
             "submit-btn": "Envoyer à la Légende",
             "view-chapter": "Consultez votre chapitre",
             "story-title": "La Légende de Philippe",
@@ -229,7 +229,6 @@ async function findPersonalStory() {
         return;
     }
 
-    // Toon laadbericht in de typewriter div
     if (typewriterOutput) {
         typewriterOutput.innerHTML = "<p><em>De chronometer synchroniseert met 1976... De tijdlijn stabiliseert bijna.</em></p>";
     }
@@ -253,16 +252,13 @@ async function findPersonalStory() {
         });
 
         if (foundRow) {
-            // 1. Maak Hoofdstuk 1 zichtbaar
             if (hoofdstukVast) {
                 hoofdstukVast.style.display = 'block';
             }
 
-            // 2. Haal de juiste tekst op
             const text = getLanguageSpecificText(cleanCSVValue(foundRow[1]), config.currentLang);
             const chapterTitle = cleanCSVValue(foundRow[2]);
 
-            // 3. Start de typemachine na een korte vertraging (Gast is altijd Hoofdstuk 2 of hoger)
             setTimeout(() => {
                 const fullOutput = `<h3 style="color:#00f2ff; margin-top:20px;">HOOFDSTUK ${foundIndex + 2}: ${chapterTitle}</h3><div id="typing-area" style="white-space:pre-wrap; color: white; line-height:1.6;"></div>`;
                 if (typewriterOutput) {
@@ -287,7 +283,10 @@ async function findPersonalStory() {
 
 /* INITIALIZATION */
 document.addEventListener('DOMContentLoaded', () => {
-    if (document.getElementById('password-input')) setLanguage('nl');
+    // Deze regel zorgt dat ELKE pagina (ook mijn-verhaal) direct de taal op NL zet en de knop blauw kleurt
+    setLanguage('nl'); 
+
+    // De rest van je bestaande checks blijft exact hetzelfde
     if (document.getElementById('story-content')) fetchStory();
     if (document.getElementById('scroll-nl')) startLiveScroll();
 });
