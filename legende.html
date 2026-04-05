@@ -6,12 +6,12 @@
     <title>De Volledige Legende - Philippe 50</title>
     <link rel="stylesheet" href="philippe50.css">
 </head>
-<body onload="setLanguage('nl'); fetchStory();">
+<body>
     <div class="stars-container"></div>
     <div class="card-container" style="max-width: 800px;">
         <div class="language-switch">
-            <button onclick="setLanguage('nl')" id="btn-nl">NL</button>
-            <button onclick="setLanguage('fr')" id="btn-fr">FR</button>
+            <button onclick="setLanguage('nl'); fetchStory();" id="btn-nl">NL</button>
+            <button onclick="setLanguage('fr'); fetchStory();" id="btn-fr">FR</button>
         </div>
 
         <h1 data-i18n="story-title" style="text-align: center; margin-bottom: 40px;">De Legende van Philippe</h1>
