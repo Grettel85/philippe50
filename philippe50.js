@@ -230,7 +230,9 @@ async function findPersonalStory() {
     }
 
     // Toon laadbericht in de typewriter div
-    typewriterOutput.innerHTML = "<p><em>De chronometer synchroniseert met 1976... De tijdlijn stabiliseert bijna.</em></p>";
+    if (typewriterOutput) {
+        typewriterOutput.innerHTML = "<p><em>De chronometer synchroniseert met 1976... De tijdlijn stabiliseert bijna.</em></p>";
+    }
 
     try {
         const res = await fetch(sheetURL + '&cb=' + Date.now());
@@ -252,26 +254,34 @@ async function findPersonalStory() {
 
         if (foundRow) {
             // 1. Maak Hoofdstuk 1 zichtbaar
-            if(hoofdstukVast) hoofdstukVast.style.display = 'block';
+            if (hoofdstukVast) {
+                hoofdstukVast.style.display = 'block';
+            }
 
             // 2. Haal de juiste tekst op
             const text = getLanguageSpecificText(cleanCSVValue(foundRow[1]), config.currentLang);
             const chapterTitle = cleanCSVValue(foundRow[2]);
 
-            // 3. Start de typemachine na een korte vertraging voor de sfeer
+            // 3. Start de typemachine na een korte vertraging (Gast is altijd Hoofdstuk 2 of hoger)
             setTimeout(() => {
-                const fullOutput = `<h3 style="color:#00f2ff; margin-top:20px;">HOOFDSTUK ${foundIndex + 1}: ${chapterTitle}</h3><div id="typing-area" style="white-space:pre-wrap; color: white; line-height:1.6;"></div>`;
-                typewriterOutput.innerHTML = fullOutput;
-                typeWriter(text, "typing-area", 30);
+                const fullOutput = `<h3 style="color:#00f2ff; margin-top:20px;">HOOFDSTUK ${foundIndex + 2}: ${chapterTitle}</h3><div id="typing-area" style="white-space:pre-wrap; color: white; line-height:1.6;"></div>`;
+                if (typewriterOutput) {
+                    typewriterOutput.innerHTML = fullOutput;
+                    typeWriter(text, "typing-area", 30);
+                }
             }, 1000);
 
         } else {
-            typewriterOutput.innerHTML = "<p style='color: #ff4d4d;'>Geen match gevonden. Controleer je nickname en geheime woord.</p>";
+            if (typewriterOutput) {
+                typewriterOutput.innerHTML = "<p style='color: #ff4d4d;'>Geen match gevonden. Controleer je nickname en geheime woord.</p>";
+            }
         }
 
     } catch (e) {
         console.error("Lookup error:", e);
-        typewriterOutput.innerHTML = "<p>Er liep iets mis bij het ophalen van de data.</p>";
+        if (typewriterOutput) {
+            typewriterOutput.innerHTML = "<p>Er liep iets mis bij het ophalen van de data.</p>";
+        }
     }
 }
 
@@ -315,7 +325,6 @@ function typeWriter(text, elementId, speed) {
             element.innerHTML += text.charAt(i);
             i++;
             setTimeout(type, speed);
-            // Optioneel: scroll zachtjes mee
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }
     }
