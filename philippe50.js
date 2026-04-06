@@ -1,5 +1,5 @@
 /* ==========================================================================
-   VERSION: PHILIPPE 50 - TOTAL ENGINE (V5.0 - Sequential Flow & Background Polling)
+   VERSION: PHILIPPE 50 - TOTAL ENGINE (V5.1 - Image Fix & Sequential Flow)
    ========================================================================== */
 
 const config = {
@@ -35,7 +35,7 @@ const config = {
             "placeholder-obstacle": "bijv. De wifi is weg, wiel van waveboard stuk...",
             "placeholder-soundtrack": "Artiest - Titel",
             "chapter1-title": "Hoofdstuk 1: De Grammofoonspeler",
-            "chapter1-text": "Philippe zat op een ochtend thuis in de veranda rustig van een tasje koffie te genieten, met zijn spotify playlist op de achtergrond. Zijn ogen gesloten genoot hij van de zon op zijn gezicht.\n\nDe combi video en DVD-speler rolde met zijn ogen en de oude grammofoonspeler onder de televisie kreunde, weeral die 'moderne' muziek. Toen kwam er plots een tijdsglitch langs en de grammofoonspeler schrikte op. Door de schok verplaatste de naald die nog op een oude grammofoonplaat lag, en kwam bovenop een van de ribbels terecht. De grammofoonspeler probeerde de naald terug in de juiste groef te schudden, maar de tijdsglitch keerde onverwacht terug en de kamer begon plots te draaien.\n\nPhilippe hoorde de muziek van Spotify niet meer, maar er klonken langzaamaan vanuit de verte de klanken van de bekende ABBA hit 'Fernando' door de kamer. Hij opende zijn ogen en zag dat hij nog steeds in de zetel zat. Maar de kamer rondom hem, was niet meer de kamer van zijn huis in Kessel-Lo. De datum op de krant vertelde hem dat hij beland was in 14 april 1976 om exact 13:30.\n\n50j terug in de tijd. Hoe geraakt hij terug naar de toekomst?",
+            "chapter1-text": "Philippe zat op een ochtend thuis in de veranda rustig van een tasje koffie te genieten, met zijn spotify playlist op de achtergrond. Zijn ogen gesloten genoot hij van de zon op zijn gezicht.\n\nDe combi video en DVD-speler rolde met zijn ogen en de oude grammofoonspeler onder de televisie kreunde, weeral die 'moderne' muziek. Toen kwam er plots een tijdsglitch langs en de grammofoonspeler schrikte op. Door de schok verplaatste de naald die nog op een oude grammofoonplaat lag, en kwam bovenop een van de ribbels terecht. De grammofoonspeler probeerde de naald terug in de juiste groef te schudden, maar de tijdsglitch keerde onverwacht terug en de kamer begon plots te draaien.\n\nPhilippe hoorde de muziek van Spotify niet meer, maar er klonken langzaamaan vanuit de verte de klanken van de bekende ABBA hit 'Fernando' door de kamer. Hij opende zijn ogen and zag dat hij nog steeds in de zetel zat. Maar de kamer rondom hem, was niet meer de kamer van zijn huis in Kessel-Lo. De datum op de krant vertelde hem dat hij beland was in 14 april 1976 om exact 13:30.\n\n50j terug in de tijd. Hoe geraakt hij terug naar de toekomst?",
             "loader-phrases": ["De naald zoekt de juiste groef...", "Tijdsglitch stabiliseren...", "De legende wordt geschreven...", "De chronometer synchroniseert met 1976..."],
             "sync-msg": "De chronometer synchroniseert met 1976... De tijdlijn stabiliseert bijna.",
             "no-match": "Geen match gevonden. Controleer je nickname en geheim woord.",
@@ -96,7 +96,8 @@ let chapterOneFinished = false;
 function getDirectDriveLink(url) {
     if (!url || !url.includes("drive.google.com")) return url;
     const fileId = url.split('/d/')[1]?.split('/')[0] || url.split('id=')[1]?.split('&')[0];
-    return fileId ? `https://drive.google.com/uc?export=view&id=${fileId}` : url;
+    // Gebruik de stabiele googleusercontent methode
+    return fileId ? `https://lh3.googleusercontent.com/d/${fileId}` : url;
 }
 
 function cleanCSVValue(val) {
@@ -244,14 +245,10 @@ async function findPersonalStory() {
     
     if (!nameInput || !pwInput) return;
 
-    // Reset de staat voor een nieuwe zoekopdracht
     personalStoryData = null;
     chapterOneFinished = false;
 
-    // 1. Toon meteen Hoofdstuk 1 en start de typewriter
     showChapterOne(output);
-
-    // 2. Start de achtergrond-zoektocht naar het persoonlijke verhaal
     pollForPersonalStory(nameInput, pwInput);
 }
 
@@ -307,7 +304,6 @@ async function pollForPersonalStory(name, pw, attempt = 0) {
             };
             checkIfReadyToReveal();
         } else {
-            // Nog niet gevonden? Wacht 5 sec en probeer opnieuw
             setTimeout(() => pollForPersonalStory(name, pw, attempt + 1), 5000);
         }
     } catch (e) { console.error("Poll error", e); }
