@@ -1,5 +1,5 @@
 /* ==========================================================================
-   VERSION: PHILIPPE 50 - TOTAL ENGINE (V4.0 - Image & Translation Sync)
+   VERSION: PHILIPPE 50 - TOTAL ENGINE (V4.2 - Scroll Image Fix)
    ========================================================================== */
 
 const config = {
@@ -72,7 +72,7 @@ const config = {
             "placeholder-obstacle": "ex: Le wifi est coupé, une roue du waveboard est cassée...",
             "placeholder-soundtrack": "Artiste - Titre",
             "chapter1-title": "Chapitre 1: Le Gramophone",
-            "chapter1-text": "Un matin, Philippe dégustait tranquillement son café dans la véranda, sa playlist Spotify en fond sonore. Les yeux fermés, il profitait du soleil sur son visage.\n\nLe combiné vidéo-DVD leva les yeux au ciel et le vieux gramophone sous le téléviseur grogna : encore cette musique 'moderne'. Soudain, un glitch temporel survint et le gramophone sursauta. Sous le choc, le saphir se déplaça sur un vieux disque et atterrit sur un sillon. Le glitch revint de plus belle et la pièce commença à tourner.\n\nAu lieu de Spotify, les notes du tube 'Fernando' d'ABBA résonnèrent au loin. Il ouvrit les yeux. Il était toujours dans son fauteuil, mais la pièce n'était plus celle de sa maison à Kessel-Lo. Le journal sur la table affichait une date surprenante : 14 avril 1976, 13h30 précises.\n\nPropulsé 50 ans en arrière. Comment reviendra-t-il vers le futur ?",
+            "chapter1-text": "Un morning, Philippe dégustait tranquillement son café dans la véranda, sa playlist Spotify en fond sonore. Les yeux fermés, il profitait du soleil sur son visage.\n\nLe combiné vidéo-DVD leva les yeux au ciel et le vieux gramophone sous le téléviseur grogna : encore cette musique 'moderne'. Soudain, un glitch temporel survint et le gramophone sursauta. Sous le choc, le saphir se déplaça sur un vieux disque et atterrit sur un sillon. Le glitch revint de plus belle et la pièce commença à tourner.\n\nAu lieu de Spotify, les notes du tube 'Fernando' d'ABBA résonnèrent au loin. Il ouvrit les yeux. Il était toujours dans son fauteuil, maar la pièce n'était plus celle de sa maison à Kessel-Lo. Le journal sur la table affichait une date surprenante : 14 avril 1976, 13h30 précises.\n\nPropulsé 50 ans en arrière. Comment reviendra-t-il vers le futur ?",
             "loader-phrases": ["Le saphir cherche le bon sillon...", "Stabilisation du glitch...", "La légende s'écrit..."],
             "sync-msg": "Le chronomètre se synchronise avec 1976... La chronologie se stabilise.",
             "no-match": "Aucune correspondance trouvée. Vérifiez votre nickname et mot secret.",
@@ -180,10 +180,10 @@ async function fetchStory() {
             const imgURL = getDirectDriveLink(cleanCSVValue(cols[10])); // Kolom K
 
             if (text) {
-                let imgHTML = imgURL ? `<img src="${imgURL}" style="width:100%; border-radius:10px; margin-bottom:15px; border:1px solid rgba(0,242,255,0.2);">` : "";
+                let imgHTML = imgURL ? `<img src="${imgURL}" style="width:100%; border-radius:10px; margin: 15px 0; border:1px solid rgba(0,242,255,0.2);">` : "";
                 html += `<div class="story-entry glass-card" style="margin-bottom:30px; padding:20px; background:rgba(255,255,255,0.05); border-radius:15px;">
-                            ${imgHTML}
                             <h3 style="color:#00f2ff;">${chapLabel} ${index + 1}: ${title}</h3>
+                            ${imgHTML}
                             <div style="white-space:pre-wrap;">${text}</div>
                          </div>`;
             }
@@ -210,10 +210,11 @@ async function startLiveScroll() {
             const textRaw = cleanCSVValue(cols[1]);
             const imgURL = getDirectDriveLink(cleanCSVValue(cols[10])); // Kolom K
 
-            let imgHTML = imgURL ? `<img src="${imgURL}" style="width:100%; border-radius:10px; margin-bottom:10px;">` : "";
+            let imgHTML = imgURL ? `<img src="${imgURL}" style="width:100%; border-radius:10px; margin: 10px 0;">` : "";
             
-            nlHTML += `<div class="scroll-entry">${imgHTML}<h3>HOOFDSTUK ${index + 1}: ${titleNl}</h3><p>${getLanguageSpecificText(textRaw, 'nl')}</p></div>`;
-            frHTML += `<div class="scroll-entry">${imgHTML}<h3>CHAPITRE ${index + 1}: ${titleFr}</h3><p>${getLanguageSpecificText(textRaw, 'fr')}</p></div>`;
+            // AFBEELDING TUSSEN TITEL EN TEKST
+            nlHTML += `<div class="scroll-entry"><h3>HOOFDSTUK ${index + 1}: ${titleNl}</h3>${imgHTML}<p>${getLanguageSpecificText(textRaw, 'nl')}</p></div>`;
+            frHTML += `<div class="scroll-entry"><h3>CHAPITRE ${index + 1}: ${titleFr}</h3>${imgHTML}<p>${getLanguageSpecificText(textRaw, 'fr')}</p></div>`;
         });
 
         nlCol.innerHTML = nlHTML;
@@ -258,7 +259,8 @@ async function findPersonalStory() {
 
             setTimeout(() => {
                 let imgHTML = imgURL ? `<img src="${imgURL}" style="width:100%; border-radius:15px; margin:20px 0; border:1px solid rgba(0,242,255,0.3);">` : "";
-                typewriterOutput.innerHTML = `${imgHTML}<h3 style="color:#00f2ff;">${chapLabel} ${foundIndex + 1}: ${title}</h3><div id="typing-area" style="white-space:pre-wrap; color:white;"></div>`;
+                // AFBEELDING TUSSEN TITEL EN TYPEWRITER TEKST
+                typewriterOutput.innerHTML = `<h3 style="color:#00f2ff;">${chapLabel} ${foundIndex + 1}: ${title}</h3>${imgHTML}<div id="typing-area" style="white-space:pre-wrap; color:white;"></div>`;
                 typeWriter(text, "typing-area", 30);
             }, 1000);
         } else {
