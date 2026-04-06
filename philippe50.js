@@ -368,3 +368,13 @@ function typeWriter(text, elementId, speed) {
     }
     type();
 }
+
+
+
+function getDirectDriveLink(url) {
+    if (!url || !url.includes("drive.google.com")) return url;
+    // Haal het ID uit de link (werkt voor /d/ links en id= links)
+    const fileId = url.split('/d/')[1]?.split('/')[0] || url.split('id=')[1]?.split('&')[0];
+    // Gebruik de snelle Google-render link
+    return fileId ? `https://lh3.googleusercontent.com/d/${fileId}` : url;
+}
