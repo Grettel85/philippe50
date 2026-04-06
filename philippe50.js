@@ -1,5 +1,5 @@
 /* ==========================================================================
-   VERSION: PHILIPPE 50 - TOTAL ENGINE (V3.6 - The Final Flow)
+   VERSION: PHILIPPE 50 - TOTAL ENGINE (V4.0 - Image & Translation Sync)
    ========================================================================== */
 
 const config = {
@@ -28,17 +28,14 @@ const config = {
             "lookup-desc": "Voer je nickname en het geheime woord in.",
             "show-story-btn": "Toon mijn verhaal",
             "back-link": "← Terug naar de start",
-            // Placeholders
             "placeholder-pw-code": "Wachtwoord...",
             "placeholder-name": "Nickname...",
             "placeholder-pw": "Geheim woord...",
             "placeholder-setting": "bijv. 1984, de toekomst, disco-tijd...",
             "placeholder-obstacle": "bijv. De wifi is weg, wiel van waveboard stuk...",
             "placeholder-soundtrack": "Artiest - Titel",
-            // Hoofdstuk 1
             "chapter1-title": "Hoofdstuk 1: De Grammofoonspeler",
             "chapter1-text": "Philippe zat op een ochtend thuis in de veranda rustig van een tasje koffie te genieten, met zijn spotify playlist op de achtergrond. Zijn ogen gesloten genoot hij van de zon op zijn gezicht.\n\nDe combi video en DVD-speler rolde met zijn ogen en de oude grammofoonspeler onder de televisie kreunde, weeral die 'moderne' muziek. Toen kwam er plots een tijdsglitch langs en de grammofoonspeler schrikte op. Door de schok verplaatste de naald die nog op een oude grammofoonplaat lag, en kwam bovenop een van de ribbels terecht. De grammofoonspeler probeerde de naald terug in de juiste groef te schudden, maar de tijdsglitch keerde onverwacht terug en de kamer begon plots te draaien.\n\nPhilippe hoorde de muziek van Spotify niet meer, maar er klonken langzaamaan vanuit de verte de klanken van de bekende ABBA hit 'Fernando' door de kamer. Hij opende zijn ogen en zag dat hij nog steeds in de zetel zat. Maar de kamer rondom hem, was niet meer de kamer van zijn huis in Kessel-Lo. De datum op de krant vertelde hem dat hij beland was in 14 april 1976 om exact 13:30.\n\n50j terug in de tijd. Hoe geraakt hij terug naar de toekomst?",
-            // Loader & Feedback
             "loader-phrases": ["De naald zoekt de juiste groef...", "Tijdsglitch stabiliseren...", "De legende wordt geschreven..."],
             "sync-msg": "De chronometer synchroniseert met 1976... De tijdlijn stabiliseert bijna.",
             "no-match": "Geen match gevonden. Controleer je nickname en geheim woord.",
@@ -68,17 +65,14 @@ const config = {
             "lookup-desc": "Entrez votre nickname et le mot secret.",
             "show-story-btn": "Afficher mon histoire",
             "back-link": "← Retour au début",
-            // Placeholders
             "placeholder-pw-code": "Mot de passe...",
             "placeholder-name": "Nickname...",
             "placeholder-pw": "Mot secret...",
             "placeholder-setting": "ex: 1984, le futur, l'époque disco...",
             "placeholder-obstacle": "ex: Le wifi est coupé, une roue du waveboard est cassée...",
             "placeholder-soundtrack": "Artiste - Titre",
-            // Hoofdstuk 1
             "chapter1-title": "Chapitre 1: Le Gramophone",
             "chapter1-text": "Un matin, Philippe dégustait tranquillement son café dans la véranda, sa playlist Spotify en fond sonore. Les yeux fermés, il profitait du soleil sur son visage.\n\nLe combiné vidéo-DVD leva les yeux au ciel et le vieux gramophone sous le téléviseur grogna : encore cette musique 'moderne'. Soudain, un glitch temporel survint et le gramophone sursauta. Sous le choc, le saphir se déplaça sur un vieux disque et atterrit sur un sillon. Le glitch revint de plus belle et la pièce commença à tourner.\n\nAu lieu de Spotify, les notes du tube 'Fernando' d'ABBA résonnèrent au loin. Il ouvrit les yeux. Il était toujours dans son fauteuil, mais la pièce n'était plus celle de sa maison à Kessel-Lo. Le journal sur la table affichait une date surprenante : 14 avril 1976, 13h30 précises.\n\nPropulsé 50 ans en arrière. Comment reviendra-t-il vers le futur ?",
-            // Loader & Feedback
             "loader-phrases": ["Le saphir cherche le bon sillon...", "Stabilisation du glitch...", "La légende s'écrit..."],
             "sync-msg": "Le chronomètre se synchronise avec 1976... La chronologie se stabilise.",
             "no-match": "Aucune correspondance trouvée. Vérifiez votre nickname et mot secret.",
@@ -93,7 +87,35 @@ const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR8NcRn-YMmbVu
 const makeWebhookURL = "https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f"; 
 
 /* =========================================
-    CORE LOGIC & NAVIGATION
+    HELPERS & UTILS
+   ========================================= */
+
+function getDirectDriveLink(url) {
+    if (!url || !url.includes("drive.google.com")) return url;
+    const fileId = url.split('/d/')[1]?.split('/')[0] || url.split('id=')[1]?.split('&')[0];
+    return fileId ? `https://lh3.googleusercontent.com/d/${fileId}` : url;
+}
+
+function cleanCSVValue(val) {
+    return val ? val.replace(/^"|"$/g, '').replace(/""/g, '"').trim() : "";
+}
+
+function getLanguageSpecificText(fullText, lang) {
+    if (!fullText || !fullText.includes('***')) return fullText;
+    const parts = fullText.split('***');
+    return (lang === 'fr') ? (parts[1] ? parts[1].trim() : parts[0].trim()) : parts[0].trim();
+}
+
+function getCSVRows(csvData) {
+    return csvData.split(/\r?\n(?=(?:[^"]*"[^"]*")*[^"]*$)/).filter(row => row.trim() !== "");
+}
+
+function splitCSVRow(row) {
+    return row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+}
+
+/* =========================================
+    CORE LOGIC
    ========================================= */
 
 function setLanguage(lang) {
@@ -138,8 +160,137 @@ function openSecureScroll() {
 }
 
 /* =========================================
-    FORM SUBMISSION
+    DATA FETCHING & DISPLAY
    ========================================= */
+
+async function fetchStory() {
+    const container = document.getElementById('story-content');
+    if (!container) return;
+    try {
+        const res = await fetch(sheetURL + '&cb=' + Date.now());
+        const rows = getCSVRows(await res.text()).slice(1);
+        let html = "";
+        const chapLabel = config.currentLang === 'nl' ? 'HOOFDSTUK' : 'CHAPITRE';
+        
+        rows.forEach((row, index) => {
+            const cols = splitCSVRow(row);
+            const titleRaw = cleanCSVValue(cols[2]);
+            const title = getLanguageSpecificText(titleRaw, config.currentLang);
+            const text = getLanguageSpecificText(cleanCSVValue(cols[1]), config.currentLang);
+            const imgURL = getDirectDriveLink(cleanCSVValue(cols[10])); // Kolom K
+
+            if (text) {
+                let imgHTML = imgURL ? `<img src="${imgURL}" style="width:100%; border-radius:10px; margin-bottom:15px; border:1px solid rgba(0,242,255,0.2);">` : "";
+                html += `<div class="story-entry glass-card" style="margin-bottom:30px; padding:20px; background:rgba(255,255,255,0.05); border-radius:15px;">
+                            ${imgHTML}
+                            <h3 style="color:#00f2ff;">${chapLabel} ${index + 1}: ${title}</h3>
+                            <div style="white-space:pre-wrap;">${text}</div>
+                         </div>`;
+            }
+        });
+        container.innerHTML = html || (config.currentLang === 'nl' ? "Nog geen verhalen." : "Pas encore d'histoires.");
+    } catch (e) { container.innerHTML = "Fout bij laden."; }
+}
+
+async function startLiveScroll() {
+    const nlCol = document.getElementById('scroll-nl');
+    const frCol = document.getElementById('scroll-fr');
+    if (!nlCol || !frCol) return;
+
+    try {
+        const res = await fetch(sheetURL + '&cb=' + Date.now());
+        const rows = getCSVRows(await res.text()).slice(1);
+        let nlHTML = ""; let frHTML = "";
+
+        rows.forEach((row, index) => {
+            const cols = splitCSVRow(row);
+            const titleRaw = cleanCSVValue(cols[2]);
+            const titleNl = getLanguageSpecificText(titleRaw, 'nl');
+            const titleFr = getLanguageSpecificText(titleRaw, 'fr');
+            const textRaw = cleanCSVValue(cols[1]);
+            const imgURL = getDirectDriveLink(cleanCSVValue(cols[10])); // Kolom K
+
+            let imgHTML = imgURL ? `<img src="${imgURL}" style="width:100%; border-radius:10px; margin-bottom:10px;">` : "";
+            
+            nlHTML += `<div class="scroll-entry">${imgHTML}<h3>HOOFDSTUK ${index + 1}: ${titleNl}</h3><p>${getLanguageSpecificText(textRaw, 'nl')}</p></div>`;
+            frHTML += `<div class="scroll-entry">${imgHTML}<h3>CHAPITRE ${index + 1}: ${titleFr}</h3><p>${getLanguageSpecificText(textRaw, 'fr')}</p></div>`;
+        });
+
+        nlCol.innerHTML = nlHTML;
+        frCol.innerHTML = frHTML;
+
+        const speed = 15; 
+        const height = Math.max(nlCol.scrollHeight, frCol.scrollHeight);
+        const duration = (height + window.innerHeight) / speed;
+
+        [nlCol, frCol].forEach(col => {
+            col.style.transition = `transform ${duration}s linear`;
+            col.style.transform = `translateY(-${height + 100}px)`;
+        });
+    } catch (e) { console.error("Scroll error:", e); }
+}
+
+async function findPersonalStory() {
+    const nameInput = document.getElementById('lookup-name').value.trim().toLowerCase();
+    const pwInput = document.getElementById('lookup-pw').value.trim().toLowerCase();
+    const typewriterOutput = document.getElementById('typewriter-output');
+    
+    if (!nameInput || !pwInput) return;
+    if (typewriterOutput) typewriterOutput.innerHTML = `<p><em>${config.translations[config.currentLang]["sync-msg"]}</em></p>`;
+
+    try {
+        const res = await fetch(sheetURL + '&cb=' + Date.now());
+        const rows = getCSVRows(await res.text()).slice(1); 
+        let foundRow = null; let foundIndex = -1;
+
+        rows.forEach((row, index) => {
+            const cols = splitCSVRow(row);
+            if (cleanCSVValue(cols[2]).toLowerCase() === nameInput && cleanCSVValue(cols[4]).toLowerCase() === pwInput) {
+                foundRow = cols; foundIndex = index;
+            }
+        });
+
+        if (foundRow) {
+            const text = getLanguageSpecificText(cleanCSVValue(foundRow[1]), config.currentLang);
+            const title = getLanguageSpecificText(cleanCSVValue(foundRow[2]), config.currentLang);
+            const imgURL = getDirectDriveLink(cleanCSVValue(foundRow[10]));
+            const chapLabel = config.currentLang === 'nl' ? 'HOOFDSTUK' : 'CHAPITRE';
+
+            setTimeout(() => {
+                let imgHTML = imgURL ? `<img src="${imgURL}" style="width:100%; border-radius:15px; margin:20px 0; border:1px solid rgba(0,242,255,0.3);">` : "";
+                typewriterOutput.innerHTML = `${imgHTML}<h3 style="color:#00f2ff;">${chapLabel} ${foundIndex + 1}: ${title}</h3><div id="typing-area" style="white-space:pre-wrap; color:white;"></div>`;
+                typeWriter(text, "typing-area", 30);
+            }, 1000);
+        } else {
+            typewriterOutput.innerHTML = `<p style='color:#ff4d4d;'>${config.translations[config.currentLang]["no-match"]}</p>`;
+        }
+    } catch (e) { console.error(e); }
+}
+
+/* =========================================
+    INITIALIZATION & UTILS
+   ========================================= */
+
+document.addEventListener('DOMContentLoaded', () => {
+    setLanguage('nl'); 
+    if (document.getElementById('story-content')) fetchStory();
+    if (document.getElementById('scroll-nl')) startLiveScroll();
+});
+
+function typeWriter(text, elementId, speed) {
+    let i = 0;
+    const element = document.getElementById(elementId);
+    if (!element) return;
+    function type() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+            if (elementId === "typing-area") window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+    }
+    type();
+}
 
 async function submitForm() {
     const data = {
@@ -159,222 +310,9 @@ async function submitForm() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
         });
-
         if (response.ok) {
             alert(config.translations[config.currentLang]["success-alert"]);
             window.location.href = "mijn-verhaal.html";
-        } else {
-            alert(config.translations[config.currentLang]["error-alert"]);
         }
-    } catch (error) {
-        alert(config.translations[config.currentLang]["error-alert"]);
-    }
-}
-
-/* =========================================
-    CSV & DATA HANDLING
-   ========================================= */
-
-function getCSVRows(csvData) {
-    return csvData.split(/\r?\n(?=(?:[^"]*"[^"]*")*[^"]*$)/).filter(row => row.trim() !== "");
-}
-
-function splitCSVRow(row) {
-    return row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-}
-
-function cleanCSVValue(val) {
-    return val ? val.replace(/^"|"$/g, '').replace(/""/g, '"').trim() : "";
-}
-
-function getLanguageSpecificText(fullText, lang) {
-    if (!fullText || !fullText.includes('***')) return fullText;
-    const parts = fullText.split('***');
-    return (lang === 'fr') ? (parts[1] ? parts[1].trim() : parts[0].trim()) : parts[0].trim();
-}
-
-/* Voor legende.html */
-async function fetchStory() {
-    const container = document.getElementById('story-content');
-    if (!container) return;
-    try {
-        const res = await fetch(sheetURL + '&cb=' + Date.now());
-        const rows = getCSVRows(await res.text()).slice(1);
-        let html = "";
-        const chapLabel = config.currentLang === 'nl' ? 'HOOFDSTUK' : 'CHAPITRE';
-        
-        rows.forEach((row, index) => {
-            const cols = splitCSVRow(row);
-            const text = getLanguageSpecificText(cleanCSVValue(cols[1]), config.currentLang);
-            if (text) {
-                html += `<div class="story-entry glass-card" style="margin-bottom:20px; padding:20px; background:rgba(255,255,255,0.05); border-radius:15px;">
-                            <h3 style="color:#00f2ff;">${chapLabel} ${index + 1}: ${cleanCSVValue(cols[2])}</h3>
-                            <div style="white-space:pre-wrap;">${text}</div>
-                         </div>`;
-            }
-        });
-        container.innerHTML = html || (config.currentLang === 'nl' ? "Nog geen verhalen." : "Pas encore d'histoires.");
-    } catch (e) { container.innerHTML = "Fout bij laden."; }
-}
-
-/* Voor scroll.html */
-async function startLiveScroll() {
-    const nlCol = document.getElementById('scroll-nl');
-    const frCol = document.getElementById('scroll-fr');
-    if (!nlCol || !frCol) return;
-
-    try {
-        const res = await fetch(sheetURL + '&cb=' + Date.now());
-        const rows = getCSVRows(await res.text()).slice(1);
-        
-        let nlHTML = ""; 
-        let frHTML = "";
-
-        rows.forEach((row, index) => {
-            const cols = splitCSVRow(row);
-            const name = cleanCSVValue(cols[2]);
-            const textRaw = cleanCSVValue(cols[1]);
-            
-            // NL kolom met HOOFDSTUK, FR kolom met CHAPITRE
-            nlHTML += `<div class="scroll-entry"><h3>HOOFDSTUK ${index + 1}: ${name}</h3><p>${getLanguageSpecificText(textRaw, 'nl')}</p></div>`;
-            frHTML += `<div class="scroll-entry"><h3>CHAPITRE ${index + 1}: ${name}</h3><p>${getLanguageSpecificText(textRaw, 'fr')}</p></div>`;
-        });
-
-        nlCol.innerHTML = nlHTML;
-        frCol.innerHTML = frHTML;
-
-        const speed = 15; 
-        const height = Math.max(nlCol.scrollHeight, frCol.scrollHeight);
-        const duration = (height + window.innerHeight) / speed;
-
-        [nlCol, frCol].forEach(col => {
-            col.style.transition = `transform ${duration}s linear`;
-            col.style.transform = `translateY(-${height + 100}px)`;
-        });
-
-    } catch (e) { console.error("Scroll error:", e); }
-}
-
-/* Zoekfunctie voor mijn-verhaal.html */
-async function findPersonalStory() {
-    const nameInput = document.getElementById('lookup-name').value.trim().toLowerCase();
-    const pwInput = document.getElementById('lookup-pw').value.trim().toLowerCase();
-    const typewriterOutput = document.getElementById('typewriter-output');
-    
-    if (!nameInput || !pwInput) {
-        alert(config.currentLang === 'nl' ? "Vul beide velden in." : "Veuillez remplir les deux champs.");
-        return;
-    }
-
-    if (typewriterOutput) {
-        typewriterOutput.innerHTML = `<p><em>${config.translations[config.currentLang]["sync-msg"]}</em></p>`;
-    }
-
-    try {
-        const res = await fetch(sheetURL + '&cb=' + Date.now());
-        const rows = getCSVRows(await res.text()).slice(1); 
-        let foundRow = null;
-        let foundIndex = -1;
-
-        rows.forEach((row, index) => {
-            const cols = splitCSVRow(row);
-            if (cleanCSVValue(cols[2]).toLowerCase() === nameInput && cleanCSVValue(cols[4]).toLowerCase() === pwInput) {
-                foundRow = cols;
-                foundIndex = index;
-            }
-        });
-
-        if (foundRow) {
-            const text = getLanguageSpecificText(cleanCSVValue(foundRow[1]), config.currentLang);
-            const chapterTitle = cleanCSVValue(foundRow[2]);
-            const chapLabel = config.currentLang === 'nl' ? 'HOOFDSTUK' : 'CHAPITRE';
-
-            setTimeout(() => {
-                const fullOutput = `<h3 style="color:#00f2ff; margin-top:20px;">${chapLabel} ${foundIndex + 1}: ${chapterTitle}</h3><div id="typing-area" style="white-space:pre-wrap; color: white; line-height:1.6;"></div>`;
-                if (typewriterOutput) {
-                    typewriterOutput.innerHTML = fullOutput;
-                    typeWriter(text, "typing-area", 30);
-                }
-            }, 1000);
-        } else {
-            if (typewriterOutput) typewriterOutput.innerHTML = `<p style='color: #ff4d4d;'>${config.translations[config.currentLang]["no-match"]}</p>`;
-        }
-    } catch (e) {
-        console.error(e);
-    }
-}
-
-/* INITIALIZATION */
-document.addEventListener('DOMContentLoaded', () => {
-    setLanguage('nl'); 
-
-    // TYPEWRITER VOOR HOOFDSTUK 1 (Op mijn-verhaal.html)
-    const h1VastText = document.querySelector('[data-i18n="chapter1-text"]');
-    const h1VastTitle = document.querySelector('[data-i18n="chapter1-title"]');
-    
-    if (h1VastText) {
-        const h1Container = document.getElementById('hoofdstuk-vast');
-        if (h1Container) h1Container.style.display = 'block';
-        
-        const titel = config.translations[config.currentLang]["chapter1-title"];
-        const tekst = config.translations[config.currentLang]["chapter1-text"];
-        
-        h1VastTitle.innerText = titel;
-        // Gebruik bestaande ID of fallback naar data-i18n element
-        typeWriter(tekst, h1VastText.getAttribute('id') || 'chapter1-display', 20);
-    }
-
-    if (document.getElementById('story-content')) fetchStory();
-    if (document.getElementById('scroll-nl')) startLiveScroll();
-});
-
-/* UTILS */
-function copyPassword() {
-    const passwordField = document.getElementById("deelnemer_ww");
-    if (passwordField && passwordField.value) {
-        navigator.clipboard.writeText(passwordField.value).then(() => {
-            const btn = document.querySelector('.copy-btn');
-            const originalIcon = btn.innerText;
-            btn.innerText = "✅";
-            setTimeout(() => { btn.innerText = originalIcon; }, 2000);
-        });
-    }
-}
-
-let wakeLock = null;
-const requestWakeLock = async () => {
-  try {
-    if ('wakeLock' in navigator) {
-      wakeLock = await navigator.wakeLock.request('screen');
-    }
-  } catch (err) {}
-};
-document.addEventListener('click', requestWakeLock);
-
-function typeWriter(text, elementId, speed) {
-    let i = 0;
-    const element = document.getElementById(elementId);
-    if (!element) return;
-    function type() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-            // Alleen scrollen als het element op de pagina staat (voorkomt springen op home)
-            if (elementId === "typing-area") {
-                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-            }
-        }
-    }
-    type();
-}
-
-
-
-function getDirectDriveLink(url) {
-    if (!url || !url.includes("drive.google.com")) return url;
-    // Haal het ID uit de link (werkt voor /d/ links en id= links)
-    const fileId = url.split('/d/')[1]?.split('/')[0] || url.split('id=')[1]?.split('&')[0];
-    // Gebruik de snelle Google-render link
-    return fileId ? `https://lh3.googleusercontent.com/d/${fileId}` : url;
+    } catch (error) { alert(config.translations[config.currentLang]["error-alert"]); }
 }
