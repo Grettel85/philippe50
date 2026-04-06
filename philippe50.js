@@ -1,5 +1,5 @@
 /* ==========================================================================
-   VERSION: PHILIPPE 50 - TOTAL ENGINE (V4.2 - Scroll Image Fix)
+   VERSION: PHILIPPE 50 - TOTAL ENGINE (V5.0 - Sequential Flow & Background Polling)
    ========================================================================== */
 
 const config = {
@@ -36,7 +36,7 @@ const config = {
             "placeholder-soundtrack": "Artiest - Titel",
             "chapter1-title": "Hoofdstuk 1: De Grammofoonspeler",
             "chapter1-text": "Philippe zat op een ochtend thuis in de veranda rustig van een tasje koffie te genieten, met zijn spotify playlist op de achtergrond. Zijn ogen gesloten genoot hij van de zon op zijn gezicht.\n\nDe combi video en DVD-speler rolde met zijn ogen en de oude grammofoonspeler onder de televisie kreunde, weeral die 'moderne' muziek. Toen kwam er plots een tijdsglitch langs en de grammofoonspeler schrikte op. Door de schok verplaatste de naald die nog op een oude grammofoonplaat lag, en kwam bovenop een van de ribbels terecht. De grammofoonspeler probeerde de naald terug in de juiste groef te schudden, maar de tijdsglitch keerde onverwacht terug en de kamer begon plots te draaien.\n\nPhilippe hoorde de muziek van Spotify niet meer, maar er klonken langzaamaan vanuit de verte de klanken van de bekende ABBA hit 'Fernando' door de kamer. Hij opende zijn ogen en zag dat hij nog steeds in de zetel zat. Maar de kamer rondom hem, was niet meer de kamer van zijn huis in Kessel-Lo. De datum op de krant vertelde hem dat hij beland was in 14 april 1976 om exact 13:30.\n\n50j terug in de tijd. Hoe geraakt hij terug naar de toekomst?",
-            "loader-phrases": ["De naald zoekt de juiste groef...", "Tijdsglitch stabiliseren...", "De legende wordt geschreven..."],
+            "loader-phrases": ["De naald zoekt de juiste groef...", "Tijdsglitch stabiliseren...", "De legende wordt geschreven...", "De chronometer synchroniseert met 1976..."],
             "sync-msg": "De chronometer synchroniseert met 1976... De tijdlijn stabiliseert bijna.",
             "no-match": "Geen match gevonden. Controleer je nickname en geheim woord.",
             "success-alert": "Je hoofdstuk wordt geschreven!",
@@ -86,6 +86,9 @@ const config = {
 const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR8NcRn-YMmbVuxKlYx_WT9_QZEB5eaFbiygWphB86Ya2mzMswKVwVlqFpBDe5ewM6f1uFh2wi8nIDk/pub?output=csv';
 const makeWebhookURL = "https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f"; 
 
+let personalStoryData = null; 
+let chapterOneFinished = false;
+
 /* =========================================
     HELPERS & UTILS
    ========================================= */
@@ -93,7 +96,7 @@ const makeWebhookURL = "https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h
 function getDirectDriveLink(url) {
     if (!url || !url.includes("drive.google.com")) return url;
     const fileId = url.split('/d/')[1]?.split('/')[0] || url.split('id=')[1]?.split('&')[0];
-    return fileId ? `https://lh3.googleusercontent.com/d/${fileId}` : url;
+    return fileId ? `https://drive.google.com/uc?export=view&id=${fileId}` : url;
 }
 
 function cleanCSVValue(val) {
@@ -115,7 +118,7 @@ function splitCSVRow(row) {
 }
 
 /* =========================================
-    CORE LOGIC
+    CORE LOGIC (Language, Password, Flow)
    ========================================= */
 
 function setLanguage(lang) {
@@ -177,7 +180,7 @@ async function fetchStory() {
             const titleRaw = cleanCSVValue(cols[2]);
             const title = getLanguageSpecificText(titleRaw, config.currentLang);
             const text = getLanguageSpecificText(cleanCSVValue(cols[1]), config.currentLang);
-            const imgURL = getDirectDriveLink(cleanCSVValue(cols[10])); // Kolom K
+            const imgURL = getDirectDriveLink(cleanCSVValue(cols[10])); 
 
             if (text) {
                 let imgHTML = imgURL ? `<img src="${imgURL}" style="width:100%; border-radius:10px; margin: 15px 0; border:1px solid rgba(0,242,255,0.2);">` : "";
@@ -208,11 +211,10 @@ async function startLiveScroll() {
             const titleNl = getLanguageSpecificText(titleRaw, 'nl');
             const titleFr = getLanguageSpecificText(titleRaw, 'fr');
             const textRaw = cleanCSVValue(cols[1]);
-            const imgURL = getDirectDriveLink(cleanCSVValue(cols[10])); // Kolom K
+            const imgURL = getDirectDriveLink(cleanCSVValue(cols[10])); 
 
             let imgHTML = imgURL ? `<img src="${imgURL}" style="width:100%; border-radius:10px; margin: 10px 0;">` : "";
             
-            // AFBEELDING TUSSEN TITEL EN TEKST
             nlHTML += `<div class="scroll-entry"><h3>HOOFDSTUK ${index + 1}: ${titleNl}</h3>${imgHTML}<p>${getLanguageSpecificText(textRaw, 'nl')}</p></div>`;
             frHTML += `<div class="scroll-entry"><h3>CHAPITRE ${index + 1}: ${titleFr}</h3>${imgHTML}<p>${getLanguageSpecificText(textRaw, 'fr')}</p></div>`;
         });
@@ -231,42 +233,105 @@ async function startLiveScroll() {
     } catch (e) { console.error("Scroll error:", e); }
 }
 
+/* =========================================
+    SEQUENTIAL STORY LOGIC (New & Polling)
+   ========================================= */
+
 async function findPersonalStory() {
     const nameInput = document.getElementById('lookup-name').value.trim().toLowerCase();
     const pwInput = document.getElementById('lookup-pw').value.trim().toLowerCase();
-    const typewriterOutput = document.getElementById('typewriter-output');
+    const output = document.getElementById('typewriter-output');
     
     if (!nameInput || !pwInput) return;
-    if (typewriterOutput) typewriterOutput.innerHTML = `<p><em>${config.translations[config.currentLang]["sync-msg"]}</em></p>`;
+
+    // Reset de staat voor een nieuwe zoekopdracht
+    personalStoryData = null;
+    chapterOneFinished = false;
+
+    // 1. Toon meteen Hoofdstuk 1 en start de typewriter
+    showChapterOne(output);
+
+    // 2. Start de achtergrond-zoektocht naar het persoonlijke verhaal
+    pollForPersonalStory(nameInput, pwInput);
+}
+
+function showChapterOne(container) {
+    const title = config.translations[config.currentLang]["chapter1-title"];
+    const text = config.translations[config.currentLang]["chapter1-text"];
+    const introImg = "https://images.unsplash.com/photo-1532188978303-4bfac6a39c44?q=80&w=1000&auto=format&fit=crop"; 
+
+    container.innerHTML = `
+        <div id="chapter-1-block">
+            <h3 style="color:#00f2ff;">${title}</h3>
+            <img src="${introImg}" style="width:100%; border-radius:15px; margin:20px 0; border:1px solid rgba(0,242,255,0.3);">
+            <div id="typing-chapter-1" style="white-space:pre-wrap; color:white; margin-bottom:40px;"></div>
+        </div>
+        <div id="loader-area" style="color:#00f2ff; font-style:italic; margin-top:20px;"></div>
+        <div id="personal-chapter-block"></div>
+    `;
+
+    typeWriter(text, "typing-chapter-1", 25, () => {
+        chapterOneFinished = true;
+        checkIfReadyToReveal();
+    });
+}
+
+async function pollForPersonalStory(name, pw, attempt = 0) {
+    const loaderArea = document.getElementById('loader-area');
+    const phrases = config.translations[config.currentLang]["loader-phrases"];
+    
+    if (loaderArea) {
+        loaderArea.innerText = phrases[attempt % phrases.length];
+    }
 
     try {
         const res = await fetch(sheetURL + '&cb=' + Date.now());
-        const rows = getCSVRows(await res.text()).slice(1); 
-        let foundRow = null; let foundIndex = -1;
+        const rows = getCSVRows(await res.text()).slice(1);
+        let found = null;
+        let index = -1;
 
-        rows.forEach((row, index) => {
+        rows.forEach((row, i) => {
             const cols = splitCSVRow(row);
-            if (cleanCSVValue(cols[2]).toLowerCase() === nameInput && cleanCSVValue(cols[4]).toLowerCase() === pwInput) {
-                foundRow = cols; foundIndex = index;
+            if (cleanCSVValue(cols[2]).toLowerCase() === name && cleanCSVValue(cols[4]).toLowerCase() === pw) {
+                found = cols;
+                index = i;
             }
         });
 
-        if (foundRow) {
-            const text = getLanguageSpecificText(cleanCSVValue(foundRow[1]), config.currentLang);
-            const title = getLanguageSpecificText(cleanCSVValue(foundRow[2]), config.currentLang);
-            const imgURL = getDirectDriveLink(cleanCSVValue(foundRow[10]));
-            const chapLabel = config.currentLang === 'nl' ? 'HOOFDSTUK' : 'CHAPITRE';
-
-            setTimeout(() => {
-                let imgHTML = imgURL ? `<img src="${imgURL}" style="width:100%; border-radius:15px; margin:20px 0; border:1px solid rgba(0,242,255,0.3);">` : "";
-                // AFBEELDING TUSSEN TITEL EN TYPEWRITER TEKST
-                typewriterOutput.innerHTML = `<h3 style="color:#00f2ff;">${chapLabel} ${foundIndex + 1}: ${title}</h3>${imgHTML}<div id="typing-area" style="white-space:pre-wrap; color:white;"></div>`;
-                typeWriter(text, "typing-area", 30);
-            }, 1000);
+        if (found) {
+            personalStoryData = { 
+                title: getLanguageSpecificText(cleanCSVValue(found[2]), config.currentLang),
+                text: getLanguageSpecificText(cleanCSVValue(found[1]), config.currentLang),
+                img: getDirectDriveLink(cleanCSVValue(found[10])),
+                number: index + 1
+            };
+            checkIfReadyToReveal();
         } else {
-            typewriterOutput.innerHTML = `<p style='color:#ff4d4d;'>${config.translations[config.currentLang]["no-match"]}</p>`;
+            // Nog niet gevonden? Wacht 5 sec en probeer opnieuw
+            setTimeout(() => pollForPersonalStory(name, pw, attempt + 1), 5000);
         }
-    } catch (e) { console.error(e); }
+    } catch (e) { console.error("Poll error", e); }
+}
+
+function checkIfReadyToReveal() {
+    if (chapterOneFinished && personalStoryData) {
+        const loaderArea = document.getElementById('loader-area');
+        if (loaderArea) loaderArea.style.display = 'none';
+
+        const container = document.getElementById('personal-chapter-block');
+        const chapLabel = config.currentLang === 'nl' ? 'HOOFDSTUK' : 'CHAPITRE';
+        
+        let imgHTML = personalStoryData.img ? `<img src="${personalStoryData.img}" style="width:100%; border-radius:15px; margin:20px 0; border:1px solid rgba(0,242,255,0.3);">` : "";
+        
+        container.innerHTML = `
+            <hr style="border:0; border-top:1px dashed #00f2ff; margin:40px 0;">
+            <h3 style="color:#00f2ff;">${chapLabel} ${personalStoryData.number}: ${personalStoryData.title}</h3>
+            ${imgHTML}
+            <div id="typing-personal" style="white-space:pre-wrap; color:white;"></div>
+        `;
+
+        typeWriter(personalStoryData.text, "typing-personal", 30);
+    }
 }
 
 /* =========================================
@@ -279,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('scroll-nl')) startLiveScroll();
 });
 
-function typeWriter(text, elementId, speed) {
+function typeWriter(text, elementId, speed, callback) {
     let i = 0;
     const element = document.getElementById(elementId);
     if (!element) return;
@@ -288,7 +353,9 @@ function typeWriter(text, elementId, speed) {
             element.innerHTML += text.charAt(i);
             i++;
             setTimeout(type, speed);
-            if (elementId === "typing-area") window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            if (elementId.startsWith("typing-")) window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        } else {
+            if (callback) callback();
         }
     }
     type();
