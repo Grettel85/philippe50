@@ -195,6 +195,24 @@ button:hover, .submit-btn:hover {
     padding: 20px;
     will-change: transform;
 }
+
+/* Zorg voor witruimte en leesbaarheid in de scroll */
+.scroll-entry {
+    margin-bottom: 60px; /* Ruimte tussen de verschillende hoofdstukken */
+    text-align: left;
+}
+
+.scroll-entry h3 {
+    margin-bottom: 15px; /* Ruimte tussen de titel en de tekst */
+    color: #00f2ff;
+}
+
+.scroll-entry p {
+    white-space: pre-wrap; /* DIT IS DE KEY: behoudt enters uit de spreadsheet */
+    line-height: 1.8;      /* Maakt de tekst prettiger leesbaar */
+    color: #ffffff;
+}
+
 /* =========================================
     8. ANIMATIES & UTILS
    ========================================= */
