@@ -302,3 +302,61 @@ button:hover, .submit-btn:hover {
 .copy-btn:active {
     transform: scale(0.9);
 }
+
+
+
+
+.help-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: rgba(0, 242, 255, 0.2); /* Transparant blauw */
+    border: 2px solid #00f2ff; /* Neon blauwe rand */
+    color: #00f2ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    z-index: 9999;
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.help-button:hover {
+    background: #00f2ff;
+    color: #000;
+    box-shadow: 0 0 25px rgba(0, 242, 255, 0.8);
+    transform: scale(1.1);
+}
+
+/* De tekst die verschijnt bij hover */
+.help-tooltip {
+    visibility: hidden;
+    width: 180px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #00f2ff;
+    text-align: center;
+    border: 1px solid #00f2ff;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Boven de knop */
+    right: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 14px;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.help-button:hover .help-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
