@@ -290,7 +290,7 @@ async function findPersonalStory() {
             const chapLabel = config.currentLang === 'nl' ? 'HOOFDSTUK' : 'CHAPITRE';
 
             setTimeout(() => {
-                const fullOutput = `<h3 style="color:#00f2ff; margin-top:20px;">${chapLabel} ${foundIndex + 2}: ${chapterTitle}</h3><div id="typing-area" style="white-space:pre-wrap; color: white; line-height:1.6;"></div>`;
+                const fullOutput = `<h3 style="color:#00f2ff; margin-top:20px;">${chapLabel} ${foundIndex + 1}: ${chapterTitle}</h3><div id="typing-area" style="white-space:pre-wrap; color: white; line-height:1.6;"></div>`;
                 if (typewriterOutput) {
                     typewriterOutput.innerHTML = fullOutput;
                     typeWriter(text, "typing-area", 30);
