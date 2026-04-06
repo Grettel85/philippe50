@@ -1,5 +1,5 @@
 /* ==========================================================================
-   VERSION: PHILIPPE 50 - TOTAL ENGINE (V3.5 - Bilingual Time Traveler)
+   VERSION: PHILIPPE 50 - TOTAL ENGINE (V3.6 - The Final Flow)
    ========================================================================== */
 
 const config = {
@@ -93,7 +93,7 @@ const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR8NcRn-YMmbVu
 const makeWebhookURL = "https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f"; 
 
 /* =========================================
-   CORE LOGIC & NAVIGATION
+    CORE LOGIC & NAVIGATION
    ========================================= */
 
 function setLanguage(lang) {
@@ -138,7 +138,7 @@ function openSecureScroll() {
 }
 
 /* =========================================
-   FORM SUBMISSION
+    FORM SUBMISSION
    ========================================= */
 
 async function submitForm() {
@@ -172,7 +172,7 @@ async function submitForm() {
 }
 
 /* =========================================
-   CSV & DATA HANDLING
+    CSV & DATA HANDLING
    ========================================= */
 
 function getCSVRows(csvData) {
@@ -235,6 +235,7 @@ async function startLiveScroll() {
             const name = cleanCSVValue(cols[2]);
             const textRaw = cleanCSVValue(cols[1]);
             
+            // NL kolom met HOOFDSTUK, FR kolom met CHAPITRE
             nlHTML += `<div class="scroll-entry"><h3>HOOFDSTUK ${index + 1}: ${name}</h3><p>${getLanguageSpecificText(textRaw, 'nl')}</p></div>`;
             frHTML += `<div class="scroll-entry"><h3>CHAPITRE ${index + 1}: ${name}</h3><p>${getLanguageSpecificText(textRaw, 'fr')}</p></div>`;
         });
@@ -259,7 +260,6 @@ async function findPersonalStory() {
     const nameInput = document.getElementById('lookup-name').value.trim().toLowerCase();
     const pwInput = document.getElementById('lookup-pw').value.trim().toLowerCase();
     const typewriterOutput = document.getElementById('typewriter-output');
-    const hoofdstukVast = document.getElementById('hoofdstuk-vast');
     
     if (!nameInput || !pwInput) {
         alert(config.currentLang === 'nl' ? "Vul beide velden in." : "Veuillez remplir les deux champs.");
@@ -285,7 +285,6 @@ async function findPersonalStory() {
         });
 
         if (foundRow) {
-            if (hoofdstukVast) hoofdstukVast.style.display = 'block';
             const text = getLanguageSpecificText(cleanCSVValue(foundRow[1]), config.currentLang);
             const chapterTitle = cleanCSVValue(foundRow[2]);
             const chapLabel = config.currentLang === 'nl' ? 'HOOFDSTUK' : 'CHAPITRE';
@@ -308,6 +307,23 @@ async function findPersonalStory() {
 /* INITIALIZATION */
 document.addEventListener('DOMContentLoaded', () => {
     setLanguage('nl'); 
+
+    // TYPEWRITER VOOR HOOFDSTUK 1 (Op mijn-verhaal.html)
+    const h1VastText = document.querySelector('[data-i18n="chapter1-text"]');
+    const h1VastTitle = document.querySelector('[data-i18n="chapter1-title"]');
+    
+    if (h1VastText) {
+        const h1Container = document.getElementById('hoofdstuk-vast');
+        if (h1Container) h1Container.style.display = 'block';
+        
+        const titel = config.translations[config.currentLang]["chapter1-title"];
+        const tekst = config.translations[config.currentLang]["chapter1-text"];
+        
+        h1VastTitle.innerText = titel;
+        // Gebruik bestaande ID of fallback naar data-i18n element
+        typeWriter(tekst, h1VastText.getAttribute('id') || 'chapter1-display', 20);
+    }
+
     if (document.getElementById('story-content')) fetchStory();
     if (document.getElementById('scroll-nl')) startLiveScroll();
 });
@@ -344,7 +360,10 @@ function typeWriter(text, elementId, speed) {
             element.innerHTML += text.charAt(i);
             i++;
             setTimeout(type, speed);
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            // Alleen scrollen als het element op de pagina staat (voorkomt springen op home)
+            if (elementId === "typing-area") {
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            }
         }
     }
     type();
