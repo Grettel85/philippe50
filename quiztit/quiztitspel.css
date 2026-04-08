@@ -1,274 +1,244 @@
+/* =========================================
+   QUIZTITSPEL: NEON-FUTURISTIC STYLE
+   Based on Image References
+   ========================================= */
+
+:root {
+    --bg-color: #050015; /* Diep donkerblauw/violet */
+    --text-color: #fff;
+    --neon-cyan: #00f2ff;
+    --neon-magenta: #ff00de;
+    --neon-yellow: #fff200;
+    --glass-bg: rgba(10, 5, 30, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --font-family: 'Exo 2', 'Segoe UI', sans-serif; /* Strak, modern lettertype */
+}
+
 body {
-    background-color: #050510;
-    color: #fff;
-    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
     display: flex;
     justify-content: center;
+    align-items: center;
     padding: 20px;
     min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+    position: relative;
 }
 
-/* Aangepast naar 800px voor een betere zij-aan-zij weergave op PC */
-.game-container { width: 100%; max-width: 800px; }
+/* --- De Geanimeerde Laser Achtergrond (Ref. Img 4/6) --- */
+.stars-container {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+    background: radial-gradient(circle at center, #1a0033 0%, #050015 100%);
+    overflow: hidden;
+}
+
+/* We simuleren laserstralen met pseudo-elementen */
+.stars-container::before,
+.stars-container::after {
+    content: '';
+    position: absolute;
+    width: 200%; height: 200%;
+    top: -50%; left: -50%;
+    background-image: 
+        linear-gradient(90deg, transparent 49%, var(--neon-cyan) 50%, transparent 51%),
+        linear-gradient(0deg, transparent 49%, var(--neon-magenta) 50%, transparent 51%);
+    background-size: 50px 50px;
+    opacity: 0.15;
+    animation: laserDrift 20s linear infinite;
+}
+
+.stars-container::after {
+    background-image: 
+        linear-gradient(90deg, transparent 49%, var(--neon-yellow) 50%, transparent 51%);
+    background-size: 80px 80px;
+    opacity: 0.1;
+    animation: laserDrift 15s linear infinite reverse;
+}
+
+@keyframes laserDrift {
+    0% { transform: rotate(0deg) translate(-5%, -5%); }
+    100% { transform: rotate(5deg) translate(5%, 5%); }
+}
+
+/* --- Game Container & Glass Card (Updated) --- */
+.game-container {
+    width: 100%;
+    max-width: 800px;
+    z-index: 1;
+}
 
 .glass-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px);
-    padding: 30px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    padding: 40px;
+    border-radius: 25px;
+    border: 1px solid var(--glass-border);
     text-align: center;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 
+                inset 0 0 15px rgba(255, 255, 255, 0.05);
+    position: relative;
 }
 
-/* NIEUW: Wrapper voor compacte layout */
+/* Hoofdtitel met Neon Gloed (Ref. Img 4 Titel) */
+.glass-card h1 {
+    font-size: 2.8rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #fff;
+    text-shadow: 0 0 10px #fff, 
+                 0 0 20px var(--neon-cyan), 
+                 0 0 30px var(--neon-cyan);
+    margin-bottom: 30px;
+}
+
+/* --- Game Header (Badges) --- */
+.game-header {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.badge {
+    background: rgba(0, 242, 255, 0.15);
+    color: var(--neon-cyan);
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    border: 1px solid var(--neon-cyan);
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+    text-transform: uppercase;
+}
+
+.badge-score {
+    background: rgba(255, 0, 222, 0.15);
+    color: var(--neon-magenta);
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    border: 1px solid var(--neon-magenta);
+    box-shadow: 0 0 10px rgba(255, 0, 222, 0.3);
+}
+
+/* --- Game Main Content Layout (Behouden) --- */
 .game-main-content {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    margin-top: 20px;
+    gap: 25px;
 }
 
-/* PC-LAYOUT: Nummers links (3 kolommen), Tips rechts */
 @media (min-width: 768px) {
-    .game-main-content {
-        flex-direction: row;
-        align-items: stretch;
-        gap: 30px;
-    }
-    
-    .numbers-grid {
-        flex: 0 0 180px; /* Smallere breedte voor 3 kolommen */
-        grid-template-columns: repeat(3, 1fr) !important;
-        margin: 0 !important;
-        align-content: start;
-    }
-    
-    .hints-container {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    .hints-box {
-        min-height: 300px !important;
-    }
+    .game-main-content { flex-direction: row; }
+    .numbers-grid { flex: 0 0 220px; grid-template-columns: repeat(3, 1fr) !important;}
+    .hints-container { flex: 1; }
 }
 
+/* --- Numbers Grid (Cyan Neon - Ref. Img 4 Pads) --- */
 .numbers-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 8px; /* Iets compacter */
-    margin: 20px 0;
+    gap: 10px;
 }
 
 .num-btn {
     aspect-ratio: 1;
-    background: rgba(0, 242, 255, 0.1);
-    border: 1px solid #00f2ff;
-    color: #00f2ff;
+    background: rgba(0, 242, 255, 0.05);
+    border: 2px solid var(--neon-cyan);
+    color: var(--neon-cyan);
+    font-size: 1.3rem;
     font-weight: bold;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
-    transition: 0.2s;
-    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
 }
 
-.num-btn:hover:not(:disabled) { 
-    background: #00f2ff; 
-    color: #000; 
-    transform: translateY(-2px);
-    box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+.num-btn:hover:not(:disabled) {
+    background: var(--neon-cyan);
+    color: #000;
+    box-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan);
+    transform: translateY(-3px) scale(1.05);
 }
 
 .num-btn.used {
-    border-color: #444;
-    color: #444;
-    background: transparent;
+    border-color: #333;
+    color: #555;
+    background: rgba(0,0,0,0.2);
+    box-shadow: none;
     cursor: default;
-    transform: none !important;
-    box-shadow: none !important;
 }
 
-/* HINTS GRID: Compacter gemaakt */
+/* --- Hints Box (Updated Glass) --- */
 .hints-box {
-    background: rgba(255, 255, 255, 0.03);
-    padding: 20px;
-    border-radius: 15px;
-    min-height: 200px; 
-    margin-bottom: 10px;
-    border: 1px solid rgba(0, 242, 255, 0.2);
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    align-content: start;
-    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
-}
-
-@media (min-width: 480px) {
-    .hints-box {
-        grid-template-columns: repeat(3, 1fr);
-    }
+    background: rgba(0, 0, 0, 0.3);
+    padding: 25px;
+    border-radius: 18px;
+    min-height: 250px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4);
 }
 
 .revealed-tip {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 5px;
-    padding: 10px;
-    font-size: 0.85rem;
-    line-height: 1.3;
-    color: #fff;
-    border-left: 3px solid #ff00de;
-    display: flex;
-    align-items: center;
-    text-align: left;
-    min-height: 45px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #e0e0e0;
+    border-left: 3px solid var(--neon-magenta);
+    padding-left: 15px;
 }
 
-#hint-text {
-    grid-column: span 2;
-    text-align: center;
-    color: rgba(255, 255, 255, 0.4);
-    font-style: italic;
-    margin-top: 20px;
-}
-
-@media (min-width: 480px) {
-    #hint-text { grid-column: span 3; }
-}
-
-/* GUESS SECTION: Compacter onder de tips */
+/* --- Guess Section (Magenta Neon - Ref. Img 4 Skateboard) --- */
 .guess-section {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 10px;
-    background: rgba(0, 242, 255, 0.05);
-    padding: 15px;
-    border-radius: 15px;
-    border: 1px solid rgba(0, 242, 255, 0.1);
-}
-
-@media (min-width: 600px) {
-    .guess-section {
-        flex-direction: row;
-    }
+    background: rgba(255, 0, 222, 0.03);
+    border: 1px solid rgba(255, 0, 222, 0.1);
+    border-radius: 18px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 input#guess-input {
-    flex-grow: 1;
-    padding: 12px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    color: white;
-    outline: none;
-    font-size: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 2px solid var(--glass-border);
+    transition: border-color 0.3s;
+}
+
+input#guess-input:focus {
+    border-color: var(--neon-magenta);
+    box-shadow: 0 0 10px rgba(255, 0, 222, 0.3);
 }
 
 .guess-btn {
-    background: #ff00de;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 8px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
+    background: var(--neon-magenta);
+    box-shadow: 0 0 15px rgba(255, 0, 222, 0.4);
 }
 
-.guess-btn:disabled { background: #444; cursor: not-allowed; }
-
-.badge { background: #00f2ff; color: #000; padding: 5px 15px; border-radius: 20px; font-weight: bold; }
-.badge-score { background: #ff00de; color: #fff; padding: 5px 15px; border-radius: 20px; font-weight: bold; }
-
-.main-btn {
-    background: linear-gradient(90deg, #ff00de, #00f2ff);
-    border: none;
-    padding: 15px 30px;
-    border-radius: 50px;
-    font-weight: bold;
-    cursor: pointer;
-    text-transform: uppercase;
+.guess-btn:hover:not(:disabled) {
+    box-shadow: 0 0 25px var(--neon-magenta), 0 0 50px var(--neon-magenta);
 }
 
-/* =========================================
-   WIN-POPUP (MODAL) STYLES
-   ========================================= */
-
-.modal-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(10px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    opacity: 0;
-    animation: fadeInOverlay 0.5s forwards;
-}
-
+/* --- Win Popup (Updated Neon) --- */
 .modal-content {
-    text-align: center;
-    padding: 40px;
-    max-width: 500px;
-    width: 90%;
-    border: 2px solid #00f2ff;
-    box-shadow: 0 0 30px rgba(0, 242, 255, 0.6);
-    background: #050510;
+    border: 2px solid var(--neon-cyan);
+    box-shadow: 0 0 30px rgba(0, 242, 255, 0.6), 
+                inset 0 0 15px rgba(0, 242, 255, 0.2);
+    background: #08001a;
 }
 
-.confetti { font-size: 3rem; margin-bottom: 20px; animation: pulse 1s infinite; }
-.win-title { font-size: 2.5rem; color: #00ff00; text-shadow: 0 0 20px rgba(0, 255, 0, 0.7); margin-bottom: 10px; }
-.win-antwoord { font-size: 1.1rem; color: #fff; margin-bottom: 30px; }
-#popup-antwoord { color: #00f2ff; text-transform: uppercase; letter-spacing: 2px; }
+.win-title {
+    color: var(--neon-yellow);
+    text-shadow: 0 0 15px var(--neon-yellow), 0 0 30px var(--neon-yellow);
+}
+
+#popup-antwoord {
+    color: var(--neon-cyan);
+    text-shadow: 0 0 10px var(--neon-cyan);
+}
 
 .score-display {
-    background: rgba(255, 0, 222, 0.1);
-    border: 1px solid #ff00de;
-    border-radius: 15px;
-    padding: 20px;
-    margin-bottom: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.score-label { font-size: 0.9rem; color: #ff00de; text-transform: uppercase; }
-.score-number { font-size: 4rem; font-weight: 900; color: #fff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); line-height: 1; margin: 10px 0; }
-
-@keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
-@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-@keyframes fadeInAnim { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.fade-in { animation: fadeInAnim 0.4s ease forwards; }
-
-
-.pass-btn {
-    background: transparent;
-    border: 2px solid #ff00de;
-    padding: 10px 20px;
-    border-radius: 8px;
-    color: #ff00de;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-    text-transform: uppercase;
-}
-
-.pass-btn:hover {
-    background: #ff00de;
-    color: #fff;
-    box-shadow: 0 0 15px rgba(255, 0, 222, 0.5);
-}
-
-.modal-content.is-failure {
-    border-color: #ff00de;
-    box-shadow: 0 0 30px rgba(255, 0, 222, 0.6);
-}
-
-.confetti.no-animation {
-    animation: none;
-    font-size: 5rem;
+    border: 2px solid var(--neon-magenta);
+    background: rgba(255, 0, 222, 0.05);
+    box-shadow: 0 0 20px rgba(255, 0, 222, 0.3);
 }
