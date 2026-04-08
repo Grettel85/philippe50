@@ -7,14 +7,37 @@ document.addEventListener('DOMContentLoaded', () => {
     // VERGEET NIET: Plak hier je nieuwe Make.com Webhook URL
     const webhookURL = "https://hook.eu1.make.com/dt1nh8ty3ocscahv7fsymv4djww9aog3"; 
 
-    // Genereer de 15 invoervelden automatisch
+    // De lijst met 15 unieke voorbeelden
+    const placeholders = [
+        "Ik ben geboren in de 19e eeuw.",
+        "Ik sta bekend om mijn iconische hoofddeksel.",
+        "Men associeert mij vaak met een specifiek dier.",
+        "Er is een wereldberoemd pretpark naar mij vernoemd.",
+        "Ik besta al duizenden jaren.",
+        "Ik word over de hele wereld geconsumeerd.",
+        "Mijn hoofdbestanddeel is een graansoort.",
+        "In België word ik vaak met een dikke schuimkraag geserveerd.",
+        "Ik bevind me in Europa.",
+        "Ik ben gebouwd voor een wereldtentoonstelling.",
+        "Ik ben gemaakt van ijzer en staal.",
+        "Ik ben het symbool van de stad van de liefde.",
+        "Ik ben een uitvinding uit de 20e eeuw die de wereld veranderde.",
+        "Vroeger was ik een log apparaat, maar tegenwoordig ben ik plat en hang ik vaak aan de muur.",
+        "Je gebruikt een afstandsbediening om naar mijn verschillende zenders te kijken."
+    ];
+
+    // Genereer de 15 invoervelden automatisch met unieke placeholders
     for (let i = 1; i <= 15; i++) {
         const div = document.createElement('div');
         div.className = 'input-group tip-input fade-in';
         div.style.animationDelay = `${i * 0.05}s`;
+        
+        // Pak de bijbehorende zin uit de lijst (i-1 omdat een lijst bij 0 begint)
+        const placeholderText = placeholders[i - 1];
+
         div.innerHTML = `
             <label>Tip ${i}:</label>
-            <input type="text" id="tip_${i}" required placeholder="Typ hier een hint...">
+            <input type="text" id="tip_${i}" required placeholder="${placeholderText}">
         `;
         tipsContainer.appendChild(div);
     }
