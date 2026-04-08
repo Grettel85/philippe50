@@ -155,6 +155,17 @@ function checkAnswer() {
         document.getElementById('popup-antwoord').innerText = currentData.oplossing;
         document.getElementById('popup-score').innerText = eindScore;
         
+        const winTitle = document.querySelector('.win-title');
+        winTitle.innerText = "GEVONDEN!";
+        winTitle.style.color = "#00ff00";
+
+        // Reset naar winst-uitstraling
+        const confettiElement = document.querySelector('.confetti');
+        confettiElement.innerHTML = "🎉🏆🎉";
+        confettiElement.classList.remove('no-animation');
+        document.querySelector('.modal-content').classList.remove('is-failure');
+        document.querySelector('.score-label').innerText = "GEWONNEN PUNTEN";
+
         const popup = document.getElementById('win-popup');
         popup.style.display = 'flex'; 
         
@@ -189,9 +200,20 @@ if (passBtnElement) {
             winTitle.style.color = "#ff00de";
         }
         
+        // Helaas-uitstraling aanpassen
+        const confettiElement = document.querySelector('.confetti');
+        confettiElement.innerHTML = "💥😓💥"; 
+        confettiElement.classList.add('no-animation');
+        document.querySelector('.modal-content').classList.add('is-failure');
+        document.querySelector('.score-label').innerText = "EIND-SCORE";
+
         const popup = document.getElementById('win-popup');
         popup.style.display = 'flex';
         
         document.getElementById('pass-btn').style.display = 'none';
+
+        document.getElementById('guess-input').disabled = true;
+        document.getElementById('guess-btn').disabled = true;
+        document.querySelectorAll('.num-btn').forEach(b => b.disabled = true);
     });
 }
