@@ -194,3 +194,19 @@ input#guess-input {
     color: #fff;
     box-shadow: 0 0 15px rgba(255, 0, 222, 0.5);
 }
+
+
+
+/* --- HELAAS POP-UP STYLES --- */
+
+/* Nieuwe klasse voor de helaas-stand van de modal-content */
+.modal-content.is-failure {
+    border-color: #ff00de; /* Roze neon rand in plaats van blauw */
+    box-shadow: 0 0 30px rgba(255, 0, 222, 0.6);
+}
+
+/* Een klasse om de confetti-animatie uit te zetten */
+.confetti.no-animation {
+    animation: none;
+    font-size: 5rem; /* Iets groter om de emoticon te benadrukken */
+}
