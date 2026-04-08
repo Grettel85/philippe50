@@ -103,6 +103,9 @@ function createGrid() {
 function revealTip(btn) {
     if (availableTips.length === 0) return;
 
+    // Maak de foutmelding leeg zodra een nieuwe tip wordt gevraagd
+    document.getElementById('message-box').innerText = "";
+
     const randomIndex = Math.floor(Math.random() * availableTips.length);
     const tip = availableTips.splice(randomIndex, 1)[0];
 
