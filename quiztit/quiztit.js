@@ -9,21 +9,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // De lijst met 15 unieke voorbeelden
     const placeholders = [
-        "Ik ben geboren in de 19e eeuw.",
-        "Ik sta bekend om mijn iconische hoofddeksel.",
-        "Men associeert mij vaak met een specifiek dier.",
-        "Er is een wereldberoemd pretpark naar mij vernoemd.",
-        "Ik besta al duizenden jaren.",
-        "Ik word over de hele wereld geconsumeerd.",
-        "Mijn hoofdbestanddeel is een graansoort.",
-        "In België word ik vaak met een dikke schuimkraag geserveerd.",
-        "Ik bevind me in Europa.",
-        "Ik ben gebouwd voor een wereldtentoonstelling.",
-        "Ik ben gemaakt van ijzer en staal.",
-        "Ik ben het symbool van de stad van de liefde.",
-        "Ik ben een uitvinding uit de 20e eeuw die de wereld veranderde.",
-        "Vroeger was ik een log apparaat, maar tegenwoordig ben ik plat en hang ik vaak aan de muur.",
-        "Je gebruikt een afstandsbediening om naar mijn verschillende zenders te kijken."
+        "vb. Ik ben geboren in de 19e eeuw.",
+        "vb. Ik sta bekend om mijn iconische hoofddeksel.",
+        "vb. Men associeert mij vaak met een specifiek dier.",
+        "vb. Er is een wereldberoemd pretpark naar mij vernoemd.",
+        "vb. Ik besta al duizenden jaren.",
+        "vb. Ik word over de hele wereld geconsumeerd.",
+        "vb. Mijn hoofdbestanddeel is een graansoort.",
+        "vb. In België word ik vaak met een dikke schuimkraag geserveerd.",
+        "vb. Ik bevind me in Europa.",
+        "vb. Ik ben gebouwd voor een wereldtentoonstelling.",
+        "vb. Ik ben gemaakt van ijzer en staal.",
+        "vb. Ik ben het symbool van de stad van de liefde.",
+        "vb. Ik ben een uitvinding uit de 20e eeuw die de wereld veranderde.",
+        "vb. Vroeger was ik een log apparaat, maar tegenwoordig ben ik plat en hang ik vaak aan de muur.",
+        "vb. Je gebruikt een afstandsbediening om naar mijn verschillende zenders te kijken."
     ];
 
     // Genereer de 15 invoervelden automatisch met unieke placeholders
