@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Maker - De 15 Tips</title>
+    <link rel="stylesheet" href="quiztit.css">
+</head>
+<body>
+    <div class="stars-container"></div> <div class="quiz-container">
+        <div class="glass-card fade-in">
+            <h1>Maak een Raadsel</h1>
+            <p>Help Philippe de weg terug te vinden door een raadsel toe te voegen.</p>
+
+            <form id="quiz-form">
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Jouw Naam:</label>
+                        <input type="text" id="maker_naam" required placeholder="Wie ben je?">
+                    </div>
+                    <div class="input-group">
+                        <label>Categorie:</label>
+                        <select id="categorie" required>
+                            <option value="Wie">WIE (Persoon)</option>
+                            <option value="Wat">WAT (Voorwerp/Hobby)</option>
+                            <option value="Waar">WAAR (Locatie)</option>
+                            <option value="Wanneer">WANNEER (Tijdperk)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>De Oplossing (Het Geheime Woord):</label>
+                    <input type="text" id="oplossing" required placeholder="Wat moeten ze raden?">
+                </div>
+
+                <hr>
+
+                <h3>De 15 Tips</h3>
+                <p class="hint">Geef 15 verschillende hints. De volgorde maakt niet uit, ze worden willekeurig getoond.</p>
+                
+                <div class="tips-grid">
+                    <div id="tips-fields"></div>
+                </div>
+
+                <button type="submit" id="submit-btn">Voeg toe aan de Quiz</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="quiztit.js"></script>
+</body>
+</html>

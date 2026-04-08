@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Het Philippe Mysterie - Speel het Spel</title>
+    <link rel="stylesheet" href="quiztitspel.css">
+</head>
+<body>
+    <div class="stars-container"></div>
+
+    <div class="game-container">
+        <div class="glass-card">
+            <h1>Het Philippe Mysterie</h1>
+            
+            <div id="setup-area">
+                <button id="start-btn" class="main-btn">Nieuwe Kaart Trekken</button>
+            </div>
+
+            <div id="game-area" style="display: none;">
+                <div class="game-header">
+                    <span id="display-categorie" class="badge">...</span>
+                    <span id="display-score" class="badge-score">Punten: 15</span>
+                </div>
+
+                <div id="hints-display" class="hints-box">
+                    <p id="hint-text">Klik op een nummer om een tip te onthullen...</p>
+                </div>
+
+                <div id="numbers-grid" class="numbers-grid">
+                    </div>
+
+<div class="guess-section">
+    <input type="text" id="guess-input" placeholder="Typ je antwoord..." disabled>
+    <button id="guess-btn" class="guess-btn" disabled>Check</button>
+    <button id="pass-btn" class="pass-btn" style="display: none;">Passen</button>
+</div>
+
+                <div id="message-box"></div>
+            </div>
+        </div>
+    </div>
+
+<div id="win-popup" class="modal-overlay" style="display: none;">
+        <div class="modal-content glass-card fade-in">
+            <div class="confetti">🎉🎈🎊</div>
+            <h1 class="win-title">GEVONDEN!</h1>
+            <p class="win-antwoord">Het antwoord was: <strong id="popup-antwoord">...</strong></p>
+            <div class="score-display">
+                <span class="score-label">Je score:</span>
+                <span id="popup-score" class="score-number">15</span>
+                <span class="score-label">Punten</span>
+            </div>
+            <button id="play-again-btn" class="main-btn">Speel Nog Een Keer</button>
+        </div>
+    </div>
+
+    <script src="quiztitspel.js"></script>
+</body>
+</html>
