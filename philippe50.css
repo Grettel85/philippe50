@@ -360,3 +360,42 @@ button:hover, .submit-btn:hover {
     visibility: visible;
     opacity: 1;
 }
+
+
+
+/* =========================================
+    9. TIJDSREIS PLACEHOLDER STYLING 
+   ========================================= */
+
+.img-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 50px;
+}
+
+.img-placeholder {
+    width: 100%;
+    height: 250px; /* Geeft een mooie hoogte aan het tekstblok */
+    background: rgba(255, 255, 255, 0.03); /* Subtiele achtergrond */
+    border: 2px dashed rgba(0, 242, 255, 0.2); /* Neon stippellijn */
+    border-radius: 15px;
+    display: flex; /* Zorgt dat de tekst netjes in het midden staat */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    color: rgba(0, 242, 255, 0.7);
+    font-style: italic;
+    font-family: 'Courier New', Courier, monospace; /* Typmachine look voor de glitch */
+    margin: 20px 0;
+    box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.05);
+}
+
+/* Zorg dat afbeeldingen binnen de story-entries ook de neon rand krijgen */
+.story-entry img, #chapter-1-block img, #personal-chapter-block img {
+    width: 100%;
+    border-radius: 15px;
+    margin: 20px 0;
+    border: 1px solid rgba(0, 242, 255, 0.3);
+    display: block;
+}
