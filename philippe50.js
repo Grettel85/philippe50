@@ -1,5 +1,5 @@
 /* ==========================================================================
-   VERSION: PHILIPPE 50 - TOTAL ENGINE (V6.0 - Smart Image Integration)
+   VERSION: PHILIPPE 50 - TOTAL ENGINE (V6.1 - Text & Image Fix)
    ========================================================================== */
 
 const config = {
