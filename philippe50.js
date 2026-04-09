@@ -41,7 +41,8 @@ const config = {
             "no-match": "Geen match gevonden. Controleer je nickname en geheim woord.",
             "success-alert": "Je hoofdstuk wordt geschreven!",
             "error-alert": "Fout bij verzenden van data.",
-            "wait-longer": "Het duurt iets langer... ververs de pagina even."
+            "wait-longer": "Het duurt iets langer... ververs de pagina even.",
+           "img-coming-soon": "Beeldfragment nog in ontwikkeling door tijdsglitch... Even geduld."
         },
         fr: {
             "welcome": "Bienvenue chez Philippe 50",
@@ -78,7 +79,8 @@ const config = {
             "no-match": "Aucune correspondance trouvée. Vérifiez votre nickname et mot secret.",
             "success-alert": "Votre chapitre est en cours d'écriture !",
             "error-alert": "Erreur lors de l'envoi des données.",
-            "wait-longer": "C'est un peu long... rafraîchissez la page."
+            "wait-longer": "C'est un peu long... rafraîchissez la page.",
+           "img-coming-soon": "Fragment d'image en cours de développement suite à un glitch temporel... Patience."
         }
     }
 };
