@@ -399,3 +399,37 @@ button:hover, .submit-btn:hover {
     border: 1px solid rgba(0, 242, 255, 0.3);
     display: block;
 }
+
+
+
+/* =========================================
+    10. AUDIO PLAYER STYLING
+   ========================================= */
+.audio-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.audio-btn {
+    background: rgba(0, 242, 255, 0.1);
+    border: 2px solid #00f2ff;
+    color: #00f2ff;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.audio-btn:hover {
+    background: #00f2ff;
+    color: #000;
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
+}
+
+audio {
+    display: none; /* We verbergen de standaard player en gebruiken onze knop */
+}
