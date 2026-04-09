@@ -95,9 +95,12 @@ let chapterOneFinished = false;
 
 function getDirectDriveLink(url) {
     if (!url || !url.includes("drive.google.com")) return url;
+    
+    // We vissen het unieke ID uit de verschillende soorten Google Drive links
     const fileId = url.split('/d/')[1]?.split('/')[0] || url.split('id=')[1]?.split('&')[0];
-    // Gebruik de stabiele googleusercontent methode
-    return fileId ? `https://lh3.googleusercontent.com/d/${fileId}` : url;
+    
+    // Gebruik de officiële Google Drive export link die browsers wél begrijpen als afbeelding
+    return fileId ? `https://drive.google.com/uc?export=view&id=${fileId}` : url;
 }
 
 function cleanCSVValue(val) {
