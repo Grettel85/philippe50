@@ -1,5 +1,5 @@
 /* ==========================================================================
-   VERSION: PHILIPPE 50 - TOTAL ENGINE (V5.1 - Image Fix & Sequential Flow)
+   VERSION: PHILIPPE 50 - TOTAL ENGINE (V6.0 - Smart Image Integration)
    ========================================================================== */
 
 const config = {
@@ -42,7 +42,7 @@ const config = {
             "success-alert": "Je hoofdstuk wordt geschreven!",
             "error-alert": "Fout bij verzenden van data.",
             "wait-longer": "Het duurt iets langer... ververs de pagina even.",
-           "img-coming-soon": "Beeldfragment nog in ontwikkeling door tijdsglitch... Even geduld."
+            "img-coming-soon": "Beeldfragment nog in ontwikkeling door tijdsglitch... Even geduld."
         },
         fr: {
             "welcome": "Bienvenue chez Philippe 50",
@@ -80,7 +80,7 @@ const config = {
             "success-alert": "Votre chapitre est en cours d'écriture !",
             "error-alert": "Erreur lors de l'envoi des données.",
             "wait-longer": "C'est un peu long... rafraîchissez la page.",
-           "img-coming-soon": "Fragment d'image en cours de développement suite à un glitch temporel... Patience."
+            "img-coming-soon": "Fragment d'image en cours de développement suite à un glitch temporel... Patience."
         }
     }
 };
@@ -95,14 +95,29 @@ let chapterOneFinished = false;
     HELPERS & UTILS
    ========================================= */
 
-function getDirectDriveLink(url) {
-    if (!url || !url.includes("drive.google.com")) return url;
-    
-    // We vissen het unieke ID uit de verschillende soorten Google Drive links
-    const fileId = url.split('/d/')[1]?.split('/')[0] || url.split('id=')[1]?.split('&')[0];
-    
-    // Gebruik de officiële Google Drive export link die browsers wél begrijpen als afbeelding
-    return fileId ? `https://drive.google.com/uc?export=view&id=${fileId}` : url;
+function getSmartImage(input) {
+    const placeholderText = config.translations[config.currentLang]["img-coming-soon"];
+    if (!input || input.trim() === "") {
+        return `<div class="img-placeholder">${placeholderText}</div>`;
+    }
+
+    let src = "";
+    if (input.includes("drive.google.com")) {
+        const fileId = input.split('/d/')[1]?.split('/')[0] || input.split('id=')[1]?.split('&')[0];
+        src = `https://drive.google.com/thumbnail?authuser=0&sz=w1200&id=${fileId}`;
+    } else if (input.startsWith('http')) {
+        src = input;
+    } else {
+        src = `img/${input}`;
+    }
+
+    return `
+        <div class="img-wrapper">
+            <img src="${src}" 
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" 
+                 style="width:100%; border-radius:15px; margin: 20px 0; border:1px solid rgba(0,242,255,0.3); display: block;">
+            <div class="img-placeholder" style="display:none;">${placeholderText}</div>
+        </div>`;
 }
 
 function cleanCSVValue(val) {
@@ -186,10 +201,10 @@ async function fetchStory() {
             const titleRaw = cleanCSVValue(cols[2]);
             const title = getLanguageSpecificText(titleRaw, config.currentLang);
             const text = getLanguageSpecificText(cleanCSVValue(cols[1]), config.currentLang);
-            const imgURL = getDirectDriveLink(cleanCSVValue(cols[10])); 
+            const imgInput = cleanCSVValue(cols[10]); 
 
             if (text) {
-                let imgHTML = imgURL ? `<img src="${imgURL}" style="width:100%; border-radius:10px; margin: 15px 0; border:1px solid rgba(0,242,255,0.2);">` : "";
+                let imgHTML = getSmartImage(imgInput);
                 html += `<div class="story-entry glass-card" style="margin-bottom:30px; padding:20px; background:rgba(255,255,255,0.05); border-radius:15px;">
                             <h3 style="color:#00f2ff;">${chapLabel} ${index + 1}: ${title}</h3>
                             ${imgHTML}
@@ -217,9 +232,9 @@ async function startLiveScroll() {
             const titleNl = getLanguageSpecificText(titleRaw, 'nl');
             const titleFr = getLanguageSpecificText(titleRaw, 'fr');
             const textRaw = cleanCSVValue(cols[1]);
-            const imgURL = getDirectDriveLink(cleanCSVValue(cols[10])); 
+            const imgInput = cleanCSVValue(cols[10]); 
 
-            let imgHTML = imgURL ? `<img src="${imgURL}" style="width:100%; border-radius:10px; margin: 10px 0;">` : "";
+            let imgHTML = getSmartImage(imgInput);
             
             nlHTML += `<div class="scroll-entry"><h3>HOOFDSTUK ${index + 1}: ${titleNl}</h3>${imgHTML}<p>${getLanguageSpecificText(textRaw, 'nl')}</p></div>`;
             frHTML += `<div class="scroll-entry"><h3>CHAPITRE ${index + 1}: ${titleFr}</h3>${imgHTML}<p>${getLanguageSpecificText(textRaw, 'fr')}</p></div>`;
@@ -260,12 +275,11 @@ async function findPersonalStory() {
 function showChapterOne(container) {
     const title = config.translations[config.currentLang]["chapter1-title"];
     const text = config.translations[config.currentLang]["chapter1-text"];
-    const introImg = "https://images.unsplash.com/photo-1532188978303-4bfac6a39c44?q=80&w=1000&auto=format&fit=crop"; 
 
     container.innerHTML = `
         <div id="chapter-1-block">
             <h3 style="color:#00f2ff;">${title}</h3>
-            <img src="${introImg}" style="width:100%; border-radius:15px; margin:20px 0; border:1px solid rgba(0,242,255,0.3);">
+            ${getSmartImage("1.png")}
             <div id="typing-chapter-1" style="white-space:pre-wrap; color:white; margin-bottom:40px;"></div>
         </div>
         <div id="loader-area" style="color:#00f2ff; font-style:italic; margin-top:20px;"></div>
@@ -304,7 +318,7 @@ async function pollForPersonalStory(name, pw, attempt = 0) {
             personalStoryData = { 
                 title: getLanguageSpecificText(cleanCSVValue(found[2]), config.currentLang),
                 text: getLanguageSpecificText(cleanCSVValue(found[1]), config.currentLang),
-                img: getDirectDriveLink(cleanCSVValue(found[10])),
+                imgInput: cleanCSVValue(found[10]),
                 number: index + 1
             };
             checkIfReadyToReveal();
@@ -322,7 +336,7 @@ function checkIfReadyToReveal() {
         const container = document.getElementById('personal-chapter-block');
         const chapLabel = config.currentLang === 'nl' ? 'HOOFDSTUK' : 'CHAPITRE';
         
-        let imgHTML = personalStoryData.img ? `<img src="${personalStoryData.img}" style="width:100%; border-radius:15px; margin:20px 0; border:1px solid rgba(0,242,255,0.3);">` : "";
+        let imgHTML = getSmartImage(personalStoryData.imgInput);
         
         container.innerHTML = `
             <hr style="border:0; border-top:1px dashed #00f2ff; margin:40px 0;">
