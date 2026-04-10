@@ -6,7 +6,7 @@ body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-/* BEDIENINGSPANEEL (wordt verborgen bij printen) */
+/* BEDIENINGSPANEEL */
 .no-print { 
     background: #fff; 
     padding: 15px; 
@@ -17,20 +17,28 @@ body {
     box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
 
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
 button {
-    padding: 12px 24px; 
-    background: #00f2ff; 
+    padding: 12px 20px; 
     border: none; 
     border-radius: 8px; 
     cursor: pointer; 
     font-weight: bold; 
-    font-size: 16px;
-    transition: background 0.3s;
+    font-size: 14px;
+    transition: transform 0.1s;
 }
 
-button:hover {
-    background: #00dce6;
-}
+button:active { transform: scale(0.95); }
+
+.btn-main { background: #00f2ff; }
+.btn-kids { background: #ffcc00; }
+.btn-print { background: #ccc; }
 
 /* HET A4 BLAD */
 .a4-page {
@@ -38,7 +46,6 @@ button:hover {
     height: 29.7cm;
     margin: 20px auto;
     background-color: white;
-    /* We gaan één map omhoog naar img/ */
     background-image: url('../img/find-someone-bg.JPG'); 
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -46,74 +53,81 @@ button:hover {
     box-shadow: 0 0 25px rgba(0,0,0,0.7);
 }
 
-/* HET ROOSTER (3x4) */
+/* HET ROOSTER */
 .grid-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(4, 1fr);
     position: absolute;
-    /* Afgestemd op jouw JPG titels en voettekst */
     top: 6.2cm;    
     left: 1.8cm;   
     right: 1.8cm;
     bottom: 6.2cm; 
     border: 1.5px solid #000;
-    background: rgba(255, 255, 255, 0.2); /* Subtiele glans */
 }
 
 /* DE CELLEN */
 .cell {
     border: 1px solid #000;
-    padding: 12px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.7);
+    overflow: hidden;
+}
+
+/* Container voor de tekst zodat deze ruimte inneemt en de lijn omlaag duwt */
+.task-wrapper {
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    background: rgba(255, 255, 255, 0.7); /* Zorgt dat tekst leesbaar blijft op achtergrond */
 }
 
 .task-text {
-    font-size: 14px;
+    font-size: 13px; /* Iets kleiner om beide talen goed te laten passen */
     font-weight: bold;
     color: #000;
-    line-height: 1.3;
+    line-height: 1.2;
 }
 
-/* De Franse tekst styling */
+/* Gelijkwaardig Frans */
 .lang-fr {
     display: block;
-    font-weight: normal;
-    font-style: italic;
-    font-size: 11px;
-    margin-top: 5px;
-    color: #333;
+    font-weight: bold;
+    font-style: normal; /* Niet meer schuin */
+    font-size: 13px;
+    margin-top: 4px;
+    color: #000; /* Zelfde kleur als NL */
 }
 
-/* De lijn voor de naam */
+/* De lijn voor de naam met icoontjes */
 .name-line {
-    width: 85%;
-    border-bottom: 1px solid #000;
-    margin-top: 15px;
-    height: 10px;
+    width: 90%;
+    margin: 5px auto 5px auto;
+    border-bottom: 1.5px solid #000;
+    height: 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* De icoontjes voor de lijn */
+.name-line::before {
+    content: "👤 ✍️";
+    font-size: 12px;
+    position: absolute;
+    left: 0;
+    bottom: 2px;
 }
 
 /* PRINT INSTELLINGEN */
 @media print {
-    .no-print { 
-        display: none; 
-    }
-    body { 
-        background: white; 
-        padding: 0; 
-    }
-    .a4-page { 
-        margin: 0; 
-        box-shadow: none; 
-        width: 21cm; 
-        height: 29.7cm; 
-    }
-    /* Zorgt dat kleuren en achtergrondafbeelding geprint worden */
+    .no-print { display: none; }
+    body { background: white; padding: 0; }
+    .a4-page { margin: 0; box-shadow: none; }
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
 }
