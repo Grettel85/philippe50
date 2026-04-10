@@ -6,10 +6,10 @@ body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-/* BEDIENINGSPANEEL - Nu compacter */
+/* BEDIENINGSPANEEL - Extra compact zonder overbodige tekst */
 .no-print { 
     background: #fff; 
-    padding: 10px; /* Iets minder padding */
+    padding: 8px; 
     text-align: center; 
     position: sticky; 
     top: 0; 
@@ -18,24 +18,24 @@ body {
 }
 
 .no-print h1 { 
-    font-size: 18px; /* Kleiner lettertype */
+    font-size: 16px; 
     margin: 0 0 5px 0; 
 }
 
 .button-group {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
     margin-top: 5px;
 }
 
 button {
-    padding: 8px 15px; /* Compacter */
+    padding: 6px 12px; 
     border: none; 
-    border-radius: 8px; 
+    border-radius: 6px; 
     cursor: pointer; 
     font-weight: bold; 
-    font-size: 13px;
+    font-size: 12px;
     transition: transform 0.1s;
 }
 
@@ -48,10 +48,10 @@ button:active { transform: scale(0.95); }
 /* BOEK PREVIEW OP SCHERM */
 .book-container {
     display: flex; 
-    flex-direction: column; /* Onder elkaar op scherm voor overzicht */
+    flex-direction: column; 
     align-items: center;
-    gap: 20px;
-    padding: 20px;
+    gap: 15px;
+    padding: 10px;
 }
 
 /* HET A4 BLAD */
@@ -60,28 +60,22 @@ button:active { transform: scale(0.95); }
     height: 29.7cm;
     background-color: white;
     position: relative;
-    box-shadow: 0 0 25px rgba(0,0,0,0.7);
-    /* Schaling voor schermweergave zodat het document beter past */
-    transform: scale(0.7); 
+    box-shadow: 0 0 20px rgba(0,0,0,0.7);
+    /* Kleiner op scherm voor overzicht */
+    transform: scale(0.6); 
     transform-origin: top center;
-    margin-bottom: -9cm; /* Ruimte corrigeren door de schaling */
-}
-
-/* Specifieke achtergrond alleen voor de bingo pagina */
-.page-bingo {
-    background-image: url('../img/find-someone-bg.JPG'); 
+    margin-bottom: -11cm; 
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
 
-/* Voor de andere witte pagina's */
-.page-content {
-    padding: 2cm;
-    text-align: center;
-    font-size: 20px;
-}
+/* KOPPELING MET JE DIA-AFBEELDINGEN (.PNG) */
+.page-1 { background-image: url('../img/Dia1.PNG'); }
+.page-2 { background-image: url('../img/Dia2.PNG'); }
+.page-3 { background-image: url('../img/Dia3.PNG'); }
+.page-4 { background-image: url('../img/Dia4.PNG'); }
 
-/* HET ROOSTER */
+/* HET ROOSTER (Enkel op Pagina 2) */
 .grid-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -124,34 +118,30 @@ button:active { transform: scale(0.95); }
 .lang-fr {
     display: block;
     font-weight: bold;
-    font-style: normal;
     font-size: 13px;
     margin-top: 2px;
-    color: #000;
 }
 
 .lang-fr::before {
-    content: "---"; /* Het leuke tussenschot */
+    content: "---"; /* Het gevraagde tussenschot */
     display: block;
     color: #888;
     font-weight: normal;
     margin-bottom: 2px;
 }
 
-/* De lijn voor de naam met zwart-wit icoontje */
+/* De lijn voor de naam met zwart-wit handje */
 .name-line {
     width: 90%;
-    margin: 5px auto 5px auto;
+    margin: 5px auto;
     border-bottom: 1.5px solid #000;
-    height: 20px;
+    height: 18px;
     position: relative;
-    display: flex;
-    align-items: center;
 }
 
 .name-line::before {
-    content: "✍️"; /* Alleen het handje */
-    filter: grayscale(100%); /* Maakt het zwart-wit */
+    content: "✍️"; 
+    filter: grayscale(100%); /* Forceert zwart-wit printen */
     font-size: 14px;
     position: absolute;
     left: 0;
@@ -166,8 +156,8 @@ button:active { transform: scale(0.95); }
     .a4-page { 
         margin: 0; 
         box-shadow: none; 
-        transform: scale(1); /* Print op ware grootte */
-        page-break-after: always; /* Zorgt voor 4 aparte vellen voor de printer */
+        transform: scale(1); 
+        page-break-after: always; 
     }
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
