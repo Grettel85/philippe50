@@ -26,6 +26,15 @@ body {
     box-sizing: border-box;
     display: flex; flex-direction: column;
     position: relative; overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* VOORKANT ACHTERGROND */
+.card-front {
+    background-image: url('../img/quiztit-front-bg.png');
+    background-color: #fff;
 }
 
 /* CATEGORIE BALK */
@@ -34,6 +43,7 @@ body {
     display: flex; align-items: center; justify-content: center;
     color: white; font-weight: 900; letter-spacing: 2px;
     text-transform: uppercase; font-size: 18px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 }
 
 /* Kleuren per categorie */
@@ -47,13 +57,17 @@ body {
 .tips-area {
     flex-grow: 1; padding: 0.5cm;
     display: flex; flex-direction: column;
-    background: #fff;
+    /* Semi-transparante achtergrond voor leesbaarheid op de afbeelding */
+    background: rgba(255, 255, 255, 0.85); 
+    margin: 0.2cm 0.4cm;
+    border-radius: 5px;
 }
 
 .tip-row {
     display: flex; margin-bottom: 4px;
     font-size: 11px; line-height: 1.2;
     align-items: flex-start;
+    color: #333;
 }
 
 .tip-num {
@@ -71,8 +85,9 @@ body {
 
 /* ACHTERKANT */
 .card-back {
-    background-image: url('../img/quiztit-back.png');
-    background-size: cover; background-position: center;
+    background-image: url('../img/quiztit-back-bg.jpg');
+    background-size: cover; 
+    background-position: center;
 }
 
 /* PRINT CONTROLS */
@@ -85,4 +100,8 @@ body {
     .no-print { display: none; }
     body { background: white; }
     .a4-page { margin: 0; box-shadow: none; }
+    * { 
+        -webkit-print-color-adjust: exact !important; 
+        print-color-adjust: exact !important; 
+    }
 }
