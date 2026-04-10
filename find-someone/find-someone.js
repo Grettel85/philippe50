@@ -8,11 +8,13 @@ let tasks = [];
  */
 async function loadData() {
     try {
+        const statusMsg = document.getElementById('status-msg');
+        
         // Cachebust voorkomt dat de browser een oude versie van je spreadsheet laat zien
         const response = await fetch(csvUrl + '&cachebust=' + Date.now());
         const data = await response.text();
         
-        // Splits de rijen (werkt voor zowel Windows als Mac/Linux enters)
+        // Splits de rijen
         const rows = data.split(/\r?\n/).slice(1); 
 
         tasks = rows.map(row => {
@@ -24,28 +26,41 @@ async function loadData() {
             };
         }).filter(t => t.text !== '');
 
-        generateGrid();
+        if (statusMsg) statusMsg.innerText = "Data succesvol geladen. Kies een mix!";
+        
+        // Eerste keer laden: standaard mix
+        generateGrid('mix');
     } catch (error) {
         console.error("Fout bij het laden van de spreadsheet:", error);
+        const statusMsg = document.getElementById('status-msg');
+        if (statusMsg) statusMsg.innerText = "Fout bij laden van data.";
     }
 }
 
 /**
  * Selecteert 12 opdrachten en bouwt het rooster
+ * @param {string} mode - 'mix' voor volwassenen (1,2,3) of 'kids' voor kinderen (1,2)
  */
-function generateGrid() {
+function generateGrid(mode = 'mix') {
     const grid = document.getElementById('bingo-grid');
     if (!grid) return;
     
     grid.innerHTML = '';
+    let finalSelection = [];
 
-    // We selecteren 4 willekeurige opdrachten per niveau
-    const n1 = tasks.filter(t => t.level === 1).sort(() => 0.5 - Math.random()).slice(0, 4);
-    const n2 = tasks.filter(t => t.level === 2).sort(() => 0.5 - Math.random()).slice(0, 4);
-    const n3 = tasks.filter(t => t.level === 3).sort(() => 0.5 - Math.random()).slice(0, 4);
-
-    // Combineer en hussel de uiteindelijke 12 items
-    const finalSelection = [...n1, ...n2, ...n3].sort(() => 0.5 - Math.random());
+    if (mode === 'kids') {
+        // Kindermix: We nemen 8 items van niveau 1 en 4 items van niveau 2 (Totaal 12)
+        // We skippen niveau 3 volledig
+        const n1_kids = tasks.filter(t => t.level === 1).sort(() => 0.5 - Math.random()).slice(0, 8);
+        const n2_kids = tasks.filter(t => t.level === 2).sort(() => 0.5 - Math.random()).slice(0, 4);
+        finalSelection = [...n1_kids, ...n2_kids].sort(() => 0.5 - Math.random());
+    } else {
+        // Volwassenen Mix: 4 items per niveau (1, 2 en 3)
+        const n1 = tasks.filter(t => t.level === 1).sort(() => 0.5 - Math.random()).slice(0, 4);
+        const n2 = tasks.filter(t => t.level === 2).sort(() => 0.5 - Math.random()).slice(0, 4);
+        const n3 = tasks.filter(t => t.level === 3).sort(() => 0.5 - Math.random()).slice(0, 4);
+        finalSelection = [...n1, ...n2, ...n3].sort(() => 0.5 - Math.random());
+    }
 
     finalSelection.forEach(task => {
         const cell = document.createElement('div');
@@ -53,7 +68,7 @@ function generateGrid() {
         
         let contentHtml = "";
         
-        // Als er een '/' in de tekst staat, splitsen we NL en FR
+        // Splitsen van NL en FR voor gelijke waardigheid
         if (task.text.includes('/')) {
             const parts = task.text.split('/');
             const nlText = parts[0].trim();
@@ -67,8 +82,11 @@ function generateGrid() {
             contentHtml = `<div class="task-text">${task.text}</div>`;
         }
 
+        // We voegen de 'task-wrapper' toe zodat de CSS de naamlijn mooi onderaan kan pinnen
         cell.innerHTML = `
-            ${contentHtml}
+            <div class="task-wrapper">
+                ${contentHtml}
+            </div>
             <div class="name-line"></div>
         `;
         grid.appendChild(cell);
