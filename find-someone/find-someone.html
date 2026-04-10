@@ -4,48 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find Someone Who - Philippe 50</title>
-    
     <link rel="stylesheet" href="find-someone.css">
 </head>
 <body>
 
     <div class="no-print">
         <h1>Bingo Generator</h1>
-        <p>Kies een doelgroep voor een nieuw rooster:</p>
         
         <div class="button-group">
-            <button onclick="generateGrid('mix')" class="btn-main">Volwassenen Mix (N1, N2, N3)</button>
-            <button onclick="generateGrid('kids')" class="btn-kids" style="background: #ffcc00;">Kindermix (N1 & N2)</button>
+            <button onclick="generateGrid('mix')" class="btn-main">Volwassenen Mix</button>
+            <button onclick="generateGrid('kids')" class="btn-kids" style="background: #ffcc00;">Kindermix</button>
             <button onclick="window.print()" style="background: #ccc; margin-left: 10px;">🖨️ Printen</button>
         </div>
         
-        <p id="status-msg" style="font-size: 12px; margin-top: 10px; color: #666;">Data wordt geladen...</p>
+        <p id="status-msg" style="font-size: 11px; margin-top: 5px; color: #666; margin-bottom: 0;">Laden...</p>
     </div>
 
     <div class="book-container">
         
-        <div class="a4-page page-front">
-            <div class="page-content">
-                <p>Voorkant van het boekje (Pagina 1)</p>
-            </div>
-        </div>
+        <div class="a4-page page-1"></div>
 
-        <div class="a4-page page-bingo">
+        <div class="a4-page page-2">
             <div class="grid-container" id="bingo-grid">
                 </div>
         </div>
 
-        <div class="a4-page page-inner">
-            <div class="page-content">
-                <p>Extra informatie (Pagina 3)</p>
-            </div>
-        </div>
+        <div class="a4-page page-3"></div>
 
-        <div class="a4-page page-back">
-            <div class="page-content">
-                <p>Bedankt! (Pagina 4)</p>
-            </div>
-        </div>
+        <div class="a4-page page-4"></div>
 
     </div>
 
