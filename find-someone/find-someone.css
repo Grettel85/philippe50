@@ -6,7 +6,7 @@ body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-/* BEDIENINGSPANEEL - Extra compact zonder overbodige tekst */
+/* BEDIENINGSPANEEL */
 .no-print { 
     background: #fff; 
     padding: 8px; 
@@ -17,29 +17,14 @@ body {
     box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
 
-.no-print h1 { 
-    font-size: 16px; 
-    margin: 0 0 5px 0; 
-}
+.no-print h1 { font-size: 16px; margin: 0 0 5px 0; }
 
-.button-group {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 5px;
-}
+.button-group { display: flex; justify-content: center; gap: 8px; margin-top: 5px; }
 
 button {
-    padding: 6px 12px; 
-    border: none; 
-    border-radius: 6px; 
-    cursor: pointer; 
-    font-weight: bold; 
-    font-size: 12px;
-    transition: transform 0.1s;
+    padding: 6px 12px; border: none; border-radius: 6px; 
+    cursor: pointer; font-weight: bold; font-size: 12px;
 }
-
-button:active { transform: scale(0.95); }
 
 .btn-main { background: #00f2ff; }
 .btn-kids { background: #ffcc00; }
@@ -54,14 +39,13 @@ button:active { transform: scale(0.95); }
     padding: 10px;
 }
 
-/* HET A4 BLAD */
+/* DE 4 A4 PAGINA'S */
 .a4-page {
     width: 21cm;
     height: 29.7cm;
     background-color: white;
     position: relative;
     box-shadow: 0 0 20px rgba(0,0,0,0.7);
-    /* Kleiner op scherm voor overzicht */
     transform: scale(0.6); 
     transform-origin: top center;
     margin-bottom: -11cm; 
@@ -81,21 +65,16 @@ button:active { transform: scale(0.95); }
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(4, 1fr);
     position: absolute;
-    top: 6.2cm;    
-    left: 1.8cm;   
-    right: 1.8cm;
-    bottom: 6.2cm; 
+    top: 6.2cm; left: 1.8cm; right: 1.8cm; bottom: 6.2cm; 
     border: 1.5px solid #000;
 }
 
-/* DE CELLEN */
 .cell {
     border: 1px solid #000;
     padding: 10px;
     display: flex;
     flex-direction: column;
     background: rgba(255, 255, 255, 0.7);
-    overflow: hidden;
 }
 
 .task-wrapper {
@@ -107,45 +86,29 @@ button:active { transform: scale(0.95); }
     text-align: center;
 }
 
-.task-text {
-    font-size: 13px;
-    font-weight: bold;
-    color: #000;
-    line-height: 1.2;
-}
+.task-text { font-size: 13px; font-weight: bold; color: #000; line-height: 1.2; }
 
-/* Gelijkwaardig Frans met tussenschot */
-.lang-fr {
-    display: block;
-    font-weight: bold;
-    font-size: 13px;
-    margin-top: 2px;
-}
-
+/* Tussenschot */
+.lang-fr { display: block; font-weight: bold; font-size: 13px; margin-top: 2px; }
 .lang-fr::before {
-    content: "---"; /* Het gevraagde tussenschot */
+    content: "---"; 
     display: block;
     color: #888;
     font-weight: normal;
     margin-bottom: 2px;
 }
 
-/* De lijn voor de naam met zwart-wit handje */
+/* Naamlijn met zwart-wit handje */
 .name-line {
-    width: 90%;
-    margin: 5px auto;
-    border-bottom: 1.5px solid #000;
-    height: 18px;
-    position: relative;
+    width: 90%; margin: 5px auto; border-bottom: 1.5px solid #000;
+    height: 18px; position: relative;
 }
 
 .name-line::before {
     content: "✍️"; 
-    filter: grayscale(100%); /* Forceert zwart-wit printen */
+    filter: grayscale(100%); 
     font-size: 14px;
-    position: absolute;
-    left: 0;
-    bottom: 2px;
+    position: absolute; left: 0; bottom: 2px;
 }
 
 /* PRINT INSTELLINGEN */
@@ -159,6 +122,4 @@ button:active { transform: scale(0.95); }
         transform: scale(1); 
         page-break-after: always; 
     }
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
 }
