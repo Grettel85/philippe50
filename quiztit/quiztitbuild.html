@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizt'it Builder - Kaarten Generator</title>
+    
+    <link rel="stylesheet" href="quiztitbuild.css">
+</head>
+<body>
+
+    <div class="no-print">
+        <div class="header-content">
+            <h1>Quizt'it Generator</h1>
+            <p>Formaat: 7,5cm x 13,5cm (4 kaarten per A4)</p>
+            
+            <div class="button-group">
+                <button onclick="renderCards('front')" class="btn-front">toon VOORKANTEN</button>
+                <button onclick="renderCards('back')" class="btn-back">toon ACHTERKANTEN</button>
+                <button onclick="window.print()" class="btn-print">🖨️ Nu Printen</button>
+            </div>
+            
+            <p id="status-msg" class="status">Data uit spreadsheet laden...</p>
+        </div>
+    </div>
+
+    <div id="print-container">
+        <div class="loading-placeholder">
+            Maak verbinding met je Google Sheet om de kaarten te zien.
+        </div>
+    </div>
+
+    <script src="quiztitbuild.js"></script>
+</body>
+</html>
