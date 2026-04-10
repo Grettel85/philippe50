@@ -11,9 +11,15 @@
 
     <div class="no-print">
         <h1>Bingo Generator</h1>
-        <p>Klik op de knop voor een nieuwe mix van niveaus.</p>
-        <button onclick="generateGrid()">Nieuw Rooster</button>
-        <button onclick="window.print()" style="background: #ccc; margin-left: 10px;">🖨️ Printen</button>
+        <p>Kies een doelgroep voor een nieuw rooster:</p>
+        
+        <div class="button-group">
+            <button onclick="generateGrid('mix')" class="btn-main">Volwassenen Mix (N1, N2, N3)</button>
+            <button onclick="generateGrid('kids')" class="btn-kids" style="background: #ffcc00;">Kindermix (N1 & N2)</button>
+            <button onclick="window.print()" style="background: #ccc; margin-left: 10px;">🖨️ Printen</button>
+        </div>
+        
+        <p id="status-msg" style="font-size: 12px; margin-top: 10px; color: #666;">Data wordt geladen...</p>
     </div>
 
     <div class="a4-page">
