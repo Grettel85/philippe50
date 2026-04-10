@@ -6,31 +6,36 @@ body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-/* BEDIENINGSPANEEL */
+/* BEDIENINGSPANEEL - Nu compacter */
 .no-print { 
     background: #fff; 
-    padding: 15px; 
+    padding: 10px; /* Iets minder padding */
     text-align: center; 
     position: sticky; 
     top: 0; 
-    z-index: 100; 
+    z-index: 1000; 
     box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.no-print h1 { 
+    font-size: 18px; /* Kleiner lettertype */
+    margin: 0 0 5px 0; 
 }
 
 .button-group {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 button {
-    padding: 12px 20px; 
+    padding: 8px 15px; /* Compacter */
     border: none; 
     border-radius: 8px; 
     cursor: pointer; 
     font-weight: bold; 
-    font-size: 14px;
+    font-size: 13px;
     transition: transform 0.1s;
 }
 
@@ -40,17 +45,40 @@ button:active { transform: scale(0.95); }
 .btn-kids { background: #ffcc00; }
 .btn-print { background: #ccc; }
 
+/* BOEK PREVIEW OP SCHERM */
+.book-container {
+    display: flex; 
+    flex-direction: column; /* Onder elkaar op scherm voor overzicht */
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+
 /* HET A4 BLAD */
 .a4-page {
     width: 21cm;
     height: 29.7cm;
-    margin: 20px auto;
     background-color: white;
+    position: relative;
+    box-shadow: 0 0 25px rgba(0,0,0,0.7);
+    /* Schaling voor schermweergave zodat het document beter past */
+    transform: scale(0.7); 
+    transform-origin: top center;
+    margin-bottom: -9cm; /* Ruimte corrigeren door de schaling */
+}
+
+/* Specifieke achtergrond alleen voor de bingo pagina */
+.page-bingo {
     background-image: url('../img/find-someone-bg.JPG'); 
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    position: relative;
-    box-shadow: 0 0 25px rgba(0,0,0,0.7);
+}
+
+/* Voor de andere witte pagina's */
+.page-content {
+    padding: 2cm;
+    text-align: center;
+    font-size: 20px;
 }
 
 /* HET ROOSTER */
@@ -76,7 +104,6 @@ button:active { transform: scale(0.95); }
     overflow: hidden;
 }
 
-/* Container voor de tekst zodat deze ruimte inneemt en de lijn omlaag duwt */
 .task-wrapper {
     flex-grow: 1;
     display: flex;
@@ -87,23 +114,31 @@ button:active { transform: scale(0.95); }
 }
 
 .task-text {
-    font-size: 13px; /* Iets kleiner om beide talen goed te laten passen */
+    font-size: 13px;
     font-weight: bold;
     color: #000;
     line-height: 1.2;
 }
 
-/* Gelijkwaardig Frans */
+/* Gelijkwaardig Frans met tussenschot */
 .lang-fr {
     display: block;
     font-weight: bold;
-    font-style: normal; /* Niet meer schuin */
+    font-style: normal;
     font-size: 13px;
-    margin-top: 4px;
-    color: #000; /* Zelfde kleur als NL */
+    margin-top: 2px;
+    color: #000;
 }
 
-/* De lijn voor de naam met icoontjes */
+.lang-fr::before {
+    content: "---"; /* Het leuke tussenschot */
+    display: block;
+    color: #888;
+    font-weight: normal;
+    margin-bottom: 2px;
+}
+
+/* De lijn voor de naam met zwart-wit icoontje */
 .name-line {
     width: 90%;
     margin: 5px auto 5px auto;
@@ -114,10 +149,10 @@ button:active { transform: scale(0.95); }
     align-items: center;
 }
 
-/* De icoontjes voor de lijn */
 .name-line::before {
-    content: "👤 ✍️";
-    font-size: 12px;
+    content: "✍️"; /* Alleen het handje */
+    filter: grayscale(100%); /* Maakt het zwart-wit */
+    font-size: 14px;
     position: absolute;
     left: 0;
     bottom: 2px;
@@ -127,7 +162,13 @@ button:active { transform: scale(0.95); }
 @media print {
     .no-print { display: none; }
     body { background: white; padding: 0; }
-    .a4-page { margin: 0; box-shadow: none; }
+    .book-container { padding: 0; gap: 0; display: block; }
+    .a4-page { 
+        margin: 0; 
+        box-shadow: none; 
+        transform: scale(1); /* Print op ware grootte */
+        page-break-after: always; /* Zorgt voor 4 aparte vellen voor de printer */
+    }
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
 }
