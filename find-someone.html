@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Someone Who - Philippe 50</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f4f4f4; }
+        .no-print { background: white; padding: 20px; border-radius: 10px; text-align: center; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
+        /* A4 Layout */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 0;
+            width: 21cm;
+            min-height: 27cm; /* Iets korter dan A4 voor marges */
+            margin: 0 auto;
+            background: white;
+            border: 2px solid #000;
+        }
+
+        .cell {
+            border: 1px solid #000;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+        }
+
+        .task-text { font-size: 16px; font-weight: bold; margin-top: 20px; color: #333; }
+        .name-line { width: 85%; border-bottom: 1.5px solid #000; margin-bottom: 10px; height: 30px; }
+
+        button { padding: 12px 25px; font-size: 16px; cursor: pointer; background: #00f2ff; border: none; border-radius: 8px; font-weight: bold; }
+
+        @media print {
+            .no-print { display: none; }
+            body { background: white; padding: 0; }
+            .grid-container { width: 100%; height: 98vh; border: 2px solid black; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print">
+        <h1>Bingo Generator</h1>
+        <p>Klik op de knop voor een nieuwe mix van niveaus.</p>
+        <button onclick="generateGrid()">Nieuw Rooster</button>
+        <button onclick="window.print()" style="background: #ccc; margin-left: 10px;">🖨️ Printen</button>
+    </div>
+
+    <div class="grid-container" id="bingo-grid"></div>
+
+    <script>
+        // PLAK HIER JOUW CSV LINK (tussen de quotes)
+        const csvUrl = 'JOUW_GEKOPIEERDE_CSV_LINK_HIER';
+
+        let tasks = [];
+
+        async function loadData() {
+            try {
+                const response = await fetch(csvUrl + '&cachebust=' + Date.now());
+                const data = await response.text();
+                const rows = data.split('\n').slice(1); // Skip header
+
+                tasks = rows.map(row => {
+                    // Splitst CSV correct, ook als er komma's in de tekst staan
+                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    return {
+                        text: cols[0] ? cols[0].replace(/"/g, '').trim() : '',
+                        level: parseInt(cols[1]) || 1
+                    };
+                }).filter(t => t.text !== '');
+
+                generateGrid();
+            } catch (error) {
+                console.error("Fout bij laden:", error);
+            }
+        }
+
+        function generateGrid() {
+            const grid = document.getElementById('bingo-grid');
+            grid.innerHTML = '';
+
+            // We halen 4 opdrachten van elk niveau
+            const n1 = tasks.filter(t => t.level === 1).sort(() => 0.5 - Math.random()).slice(0, 4);
+            const n2 = tasks.filter(t => t.level === 2).sort(() => 0.5 - Math.random()).slice(0, 4);
+            const n3 = tasks.filter(t => t.level === 3).sort(() => 0.5 - Math.random()).slice(0, 4);
+
+            // Mix ze door elkaar voor het blad
+            const finalSelection = [...n1, ...n2, ...n3].sort(() => 0.5 - Math.random());
+
+            finalSelection.forEach(task => {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.innerHTML = `
+                    <div class="task-text">${task.text}</div>
+                    <div class="name-line"></div>
+                `;
+                grid.appendChild(cell);
+            });
+        }
+
+        window.onload = loadData;
+    </script>
+</body>
+</html>
