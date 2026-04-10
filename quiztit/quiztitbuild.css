@@ -1,0 +1,88 @@
+/* BASIS INSTELLINGEN */
+body { 
+    margin: 0; padding: 0; background: #f0f0f0; 
+    font-family: 'Helvetica Neue', Arial, sans-serif; 
+}
+
+/* DE A4 PAGINA */
+.a4-page {
+    width: 21cm; height: 29.7cm;
+    background: white; margin: 1cm auto;
+    display: grid;
+    grid-template-columns: 7.5cm 7.5cm;
+    grid-template-rows: 13.5cm 13.5cm;
+    gap: 0; /* Geen gap voor perfecte aansluiting bij snijden */
+    justify-content: center;
+    align-content: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    page-break-after: always;
+    position: relative;
+}
+
+/* DE KAART */
+.card {
+    width: 7.5cm; height: 13.5cm;
+    border: 0.2px solid #eee; /* Zeer lichte lijn als snijhulp */
+    box-sizing: border-box;
+    display: flex; flex-direction: column;
+    position: relative; overflow: hidden;
+}
+
+/* CATEGORIE BALK */
+.cat-header {
+    height: 1.2cm;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 900; letter-spacing: 2px;
+    text-transform: uppercase; font-size: 18px;
+}
+
+/* Kleuren per categorie */
+.cat-wie { background-color: #e74c3c; }
+.cat-wat { background-color: #3498db; }
+.cat-waar { background-color: #2ecc71; }
+.cat-wanneer { background-color: #f1c40f; color: #000; }
+.cat-raadsel { background-color: #9b59b6; }
+
+/* TIPS SECTIE */
+.tips-area {
+    flex-grow: 1; padding: 0.5cm;
+    display: flex; flex-direction: column;
+    background: #fff;
+}
+
+.tip-row {
+    display: flex; margin-bottom: 4px;
+    font-size: 11px; line-height: 1.2;
+    align-items: flex-start;
+}
+
+.tip-num {
+    width: 18px; font-weight: bold; color: #888;
+    flex-shrink: 0; font-size: 10px;
+}
+
+/* OPLOSSING SECTIE */
+.solution-area {
+    height: 1.5cm; border-top: 1px dashed #ccc;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; font-weight: bold; font-size: 14px;
+    transform: rotate(180deg); /* Ondersteboven voor de spanning */
+}
+
+/* ACHTERKANT */
+.card-back {
+    background-image: url('../img/quiztit-back.png');
+    background-size: cover; background-position: center;
+}
+
+/* PRINT CONTROLS */
+.no-print {
+    background: #fff; padding: 15px; text-align: center;
+    position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #ccc;
+}
+
+@media print {
+    .no-print { display: none; }
+    body { background: white; }
+    .a4-page { margin: 0; box-shadow: none; }
+}
