@@ -53,10 +53,10 @@ button:hover {
     grid-template-rows: repeat(4, 1fr);
     position: absolute;
     /* Afgestemd op jouw JPG titels en voettekst */
-    top: 7.4cm;    
+    top: 6.2cm;    
     left: 1.8cm;   
     right: 1.8cm;
-    bottom: 6.6cm; 
+    bottom: 4.2cm; 
     border: 1.5px solid #000;
     background: rgba(255, 255, 255, 0.2); /* Subtiele glans */
 }
