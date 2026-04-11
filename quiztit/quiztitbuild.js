@@ -42,7 +42,7 @@ function renderCards(view) {
 
         batch.forEach(rowData => {
             const card = document.createElement('div');
-            card.className = (view === 'front') ? 'card' : 'card card-back';
+            card.className = (view === 'front') ? 'card card-front' : 'card card-back';
 
             if (view === 'front') {
                 const categorie = rowData[2] ? rowData[2].trim() : "WAT";
