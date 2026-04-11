@@ -13,7 +13,7 @@ body {
     grid-template-columns: 8.9cm 8.9cm;
     /* XL Hoogte voor 2 rijen (Bridge ratio) */
     grid-template-rows: 13.85cm 13.85cm;
-    gap: 0; /* Geen gap voor perfecte aansluiting bij snijden */
+    gap: 0; 
     justify-content: center;
     align-content: center;
     box-shadow: 0 0 10px rgba(0,0,0,0.85);
@@ -23,23 +23,20 @@ body {
 
 /* DE KAART */
 .card {
-    /* Aangepast naar XL Bridge formaat */
     width: 8.9cm; height: 13.85cm;
-    border: 0.2px solid #eee; /* Zeer lichte lijn als snijhulp */
+    border: 0.2px solid #eee; 
     box-sizing: border-box;
     display: flex; flex-direction: column;
     position: relative; overflow: hidden;
-    /* FIX: 100% 100% zorgt dat je nieuwe Bridge-afbeeldingen exact passen */
     background-size: 100% 100%; 
     background-position: center;
     background-repeat: no-repeat;
 }
 
-/* VOORKANT met TEKST ACHTERGROND */
+/* VOORKANT */
 .card-front {
     background-image: url('../img/quiztit-front-bg.png');
     background-color: #fff;
-    /* Consistent met de kaart schaling */
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
@@ -48,55 +45,34 @@ body {
 /* CATEGORIE OVALEN */
 .cat-header {
     height: 1.1cm;
-    width: 50%; /* Smaller voor de ovaal-vorm */
-    margin: 0.6cm auto 0.2cm auto; /* Iets lager van de bovenrand, maar dichter op de tekst */
-    border-radius: 50px; /* Maakt het een perfecte ovaal */
+    width: 50%; 
+    margin: 0.6cm auto 0.3cm auto; /* Afstand tot bovenrand gelijk aan oplossing onderaan */
+    border-radius: 50px; 
     display: flex; align-items: center; justify-content: center;
     color: white; font-weight: 900; letter-spacing: 2px;
     text-transform: uppercase; font-size: 16px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     border: 2px solid rgba(255,255,255,0.2);
+    flex-shrink: 0;
 }
 
-/* NEON KLEUREN (Aangepast aan de skateboarder afbeelding) */
-.cat-wie { background-color: #ff5e00; }     /* Oranje-Rood */
-.cat-wat { background-color: #00e5ff; color: #000; } /* Cyaan */
-.cat-waar { background-color: #39ff14; color: #000; } /* Neon Groen */
-.cat-wanneer { background-color: #fff000; color: #000; } /* Fel Geel */
-.cat-raadsel { background-color: #bc13fe; }  /* Neon Paars */
+/* NEON KLEUREN */
+.cat-wie { background-color: #ff5e00; }     
+.cat-wat { background-color: #00e5ff; color: #000; } 
+.cat-waar { background-color: #39ff14; color: #000; } 
+.cat-wanneer { background-color: #fff000; color: #000; } 
+.cat-raadsel { background-color: #bc13fe; }  
 
 /* WIT TEKSTVLAK */
 .tips-area {
-    height: 7.5cm; /* Vaste hoogte voor uniformiteit */
-    width: 7.2cm;  /* Smaller gemaakt zodat de rand van de BG zichtbaar is */
-    margin: 0 auto; /* Gecentreerd */
-    padding: 0.6cm;
-    background: rgba(255, 255, 255, 0.9); /* Iets minder doorzichtig voor leesbaarheid */
+    height: 8.5cm; /* Langer gemaakt */
+    width: 6.8cm;  /* Smaller gemaakt voor betere marge links/rechts */
+    margin: 0 auto; 
+    padding: 0.5cm 0.6cm;
+    background: rgba(255, 255, 255, 0.9); 
     border-radius: 15px;
     display: flex; flex-direction: column;
-}
-
-/* OPSOMMING */
-.tip-num {
-    width: 22px; 
-    font-weight: 900; 
-    color: #000; /* Getallen vallen nu meer op */
-    font-size: 13px;
-}
-
-/* OPLOSSING CAPSULE */
-.solution-area {
-    height: 1.2cm;
-    width: 7.2cm;
-    margin: 0.3cm auto;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 10px; /* Iets minder rond dan de titel voor contrast */
-    display: flex; align-items: center; justify-content: center;
-    text-align: center; 
-    font-weight: 900; 
-    font-size: 16px;
-    color: #333;
-    /* Geen transform meer: staat nu gewoon recht */
+    box-sizing: border-box;
 }
 
 .tip-row {
@@ -104,6 +80,30 @@ body {
     font-size: 11px; line-height: 1.2;
     align-items: flex-start;
     color: #333;
+}
+
+/* OPSOMMING */
+.tip-num {
+    width: 22px; 
+    font-weight: 900; 
+    color: #000; 
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+/* OPLOSSING CAPSULE */
+.solution-area {
+    height: 1.2cm;
+    width: 6.8cm; /* Zelfde breedte als tekstvlak voor eenheid */
+    margin: 0.3cm auto 0.6cm auto; /* Onderste marge nu gelijk aan bovenste marge titel */
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px; 
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; 
+    font-weight: 900; 
+    font-size: 16px;
+    color: #333;
+    flex-shrink: 0;
 }
 
 /* ACHTERKANT */
@@ -120,12 +120,12 @@ body {
 }
 
 @media print {
-.no-print { display: none; }
+    .no-print { display: none; }
     body { background: white; margin: 0; }
     .a4-page { 
         margin: 0 !important; 
         box-shadow: none !important; 
-        page-break-after: always !important; /* Dwingt een nieuwe pagina af na elke A4 */
+        page-break-after: always !important; 
     }
     * { 
         -webkit-print-color-adjust: exact !important; 
