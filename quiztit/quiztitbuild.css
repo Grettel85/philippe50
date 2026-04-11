@@ -109,9 +109,13 @@ body {
 }
 
 @media print {
-    .no-print { display: none; }
-    body { background: white; }
-    .a4-page { margin: 0; box-shadow: none; }
+.no-print { display: none; }
+    body { background: white; margin: 0; }
+    .a4-page { 
+        margin: 0 !important; 
+        box-shadow: none !important; 
+        page-break-after: always !important; /* Dwingt een nieuwe pagina af na elke A4 */
+    }
     * { 
         -webkit-print-color-adjust: exact !important; 
         print-color-adjust: exact !important; 
