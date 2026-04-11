@@ -16,55 +16,73 @@ async function init() {
     }
 }
 
+// Hulpfunctie om een pagina te maken (behoudt jouw exacte logica en klassen)
+function createPage(batch, view) {
+    const page = document.createElement('div');
+    page.className = 'a4-page';
+    
+    let currentBatch = [...batch];
+
+    if (view === 'back') {
+        // SPIEGELEN VOOR DUBBELZIJDIG PRINTEN:
+        let mirroredBatch = [];
+        if (currentBatch[1]) mirroredBatch[0] = currentBatch[1];
+        if (currentBatch[0]) mirroredBatch[1] = currentBatch[0];
+        if (currentBatch[3]) mirroredBatch[2] = currentBatch[3];
+        if (currentBatch[2]) mirroredBatch[3] = currentBatch[2];
+        currentBatch = mirroredBatch;
+    }
+
+    currentBatch.forEach(rowData => {
+        if (!rowData) return;
+        const card = document.createElement('div');
+        card.className = (view === 'front') ? 'card card-front' : 'card card-back';
+
+        if (view === 'front') {
+            const categorie = rowData[2] ? rowData[2].trim() : "WAT";
+            const oplossing = rowData[3] ? rowData[3].trim() : "";
+            const tips = rowData[4] ? rowData[4].split('|') : [];
+
+            let tipsHtml = tips.map((t, idx) => `
+                <div class="tip-row">
+                    <span class="tip-num">${idx + 1}</span>
+                    <span>${t.trim()}</span>
+                </div>
+            `).join('');
+
+            card.innerHTML = `
+                <div class="cat-header cat-${categorie.toLowerCase()}">${categorie}</div>
+                <div class="tips-area">${tipsHtml}</div>
+                <div class="solution-area">${oplossing}</div>
+            `;
+        }
+        page.appendChild(card);
+    });
+    return page;
+}
+
 function renderCards(view) {
     const container = document.getElementById('print-container');
     container.innerHTML = '';
-    document.getElementById('status-msg').innerHTML = view === 'front' ? "Aan het laden: VOORKANTEN" : "Aan het laden: ACHTERKANTEN";
+    
+    const status = document.getElementById('status-msg');
 
-    // Verdeel data in blokken van 4 (voor 1 A4)
-    for (let i = 0; i < allData.length; i += 4) {
-        const page = document.createElement('div');
-        page.className = 'a4-page';
-        
-        let batch = allData.slice(i, i + 4);
-
-        if (view === 'back') {
-            // SPIEGELEN VOOR DUBBELZIJDIG PRINTEN:
-            // Voorkant: [1, 2]  -> Achterkant: [2, 1]
-            //           [3, 4]                 [4, 3]
-            let mirroredBatch = [];
-            if (batch[1]) mirroredBatch[0] = batch[1];
-            if (batch[0]) mirroredBatch[1] = batch[0];
-            if (batch[3]) mirroredBatch[2] = batch[3];
-            if (batch[2]) mirroredBatch[3] = batch[2];
-            batch = mirroredBatch;
+    if (view === 'print-all') {
+        status.innerHTML = "🖨️ Modus: VOORKANT - ACHTERKANT afwisselend (klaar voor print)";
+        // Verdeel data in blokken van 4 en genereer telkens een front én een back pagina
+        for (let i = 0; i < allData.length; i += 4) {
+            const batch = allData.slice(i, i + 4);
+            // Voeg de voorkant pagina toe
+            container.appendChild(createPage(batch, 'front'));
+            // Voeg de bijbehorende achterkant pagina toe
+            container.appendChild(createPage(batch, 'back'));
         }
-
-        batch.forEach(rowData => {
-            const card = document.createElement('div');
-            card.className = (view === 'front') ? 'card card-front' : 'card card-back';
-
-            if (view === 'front') {
-                const categorie = rowData[2] ? rowData[2].trim() : "WAT";
-                const oplossing = rowData[3] ? rowData[3].trim() : "";
-                const tips = rowData[4] ? rowData[4].split('|') : [];
-
-                let tipsHtml = tips.map((t, idx) => `
-                    <div class="tip-row">
-                        <span class="tip-num">${idx + 1}</span>
-                        <span>${t.trim()}</span>
-                    </div>
-                `).join('');
-
-                card.innerHTML = `
-                    <div class="cat-header cat-${categorie.toLowerCase()}">${categorie}</div>
-                    <div class="tips-area">${tipsHtml}</div>
-                    <div class="solution-area">${oplossing}</div>
-                `;
-            }
-            page.appendChild(card);
-        });
-        container.appendChild(page);
+    } else {
+        status.innerHTML = view === 'front' ? "Aan het laden: VOORKANTEN" : "Aan het laden: ACHTERKANTEN";
+        for (let i = 0; i < allData.length; i += 4) {
+            const batch = allData.slice(i, i + 4);
+            container.appendChild(createPage(batch, view));
+        }
     }
 }
 
