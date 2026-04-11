@@ -45,34 +45,58 @@ body {
     background-position: center;
 }
 
-/* CATEGORIE BADGE (Vervangt de Balk) */
+/* CATEGORIE OVALEN */
 .cat-header {
-    height: 1.0cm; /* Iets minder hoog */
-    width: 60%;    /* Breekt de breedte, wordt een label */
-    margin: 0.4cm auto; /* Zweeft nu bovenaan in het midden */
-    border-radius: 6px; /* Zachte hoeken voor de badge look */
+    height: 1.1cm;
+    width: 50%; /* Smaller voor de ovaal-vorm */
+    margin: 0.6cm auto 0.2cm auto; /* Iets lager van de bovenrand, maar dichter op de tekst */
+    border-radius: 50px; /* Maakt het een perfecte ovaal */
     display: flex; align-items: center; justify-content: center;
     color: white; font-weight: 900; letter-spacing: 2px;
     text-transform: uppercase; font-size: 16px;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Geeft diepte op de achtergrond */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    border: 2px solid rgba(255,255,255,0.2);
 }
 
-/* Kleuren per categorie blijven, maar vullen nu enkel de badge */
-.cat-wie { background-color: #e74c3c; }
-.cat-wat { background-color: #3498db; }
-.cat-waar { background-color: #2ecc71; }
-.cat-wanneer { background-color: #f1c40f; color: #000; }
-.cat-raadsel { background-color: #9b59b6; }
+/* NEON KLEUREN (Aangepast aan de skateboarder afbeelding) */
+.cat-wie { background-color: #ff5e00; }     /* Oranje-Rood */
+.cat-wat { background-color: #00e5ff; color: #000; } /* Cyaan */
+.cat-waar { background-color: #39ff14; color: #000; } /* Neon Groen */
+.cat-wanneer { background-color: #fff000; color: #000; } /* Fel Geel */
+.cat-raadsel { background-color: #bc13fe; }  /* Neon Paars */
 
-/* TIPS SECTIE */
+/* WIT TEKSTVLAK */
 .tips-area {
-    flex-grow: 1; padding: 0.5cm;
+    height: 7.5cm; /* Vaste hoogte voor uniformiteit */
+    width: 7.2cm;  /* Smaller gemaakt zodat de rand van de BG zichtbaar is */
+    margin: 0 auto; /* Gecentreerd */
+    padding: 0.6cm;
+    background: rgba(255, 255, 255, 0.9); /* Iets minder doorzichtig voor leesbaarheid */
+    border-radius: 15px;
     display: flex; flex-direction: column;
-    /* Semi-transparante achtergrond voor leesbaarheid op de afbeelding */
-    background: rgba(255, 255, 255, 0.85); 
-    margin: 0.2cm 0.4cm;
-    border-radius: 5px;
+}
+
+/* OPSOMMING */
+.tip-num {
+    width: 22px; 
+    font-weight: 900; 
+    color: #000; /* Getallen vallen nu meer op */
+    font-size: 13px;
+}
+
+/* OPLOSSING CAPSULE */
+.solution-area {
+    height: 1.2cm;
+    width: 7.2cm;
+    margin: 0.3cm auto;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px; /* Iets minder rond dan de titel voor contrast */
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; 
+    font-weight: 900; 
+    font-size: 16px;
+    color: #333;
+    /* Geen transform meer: staat nu gewoon recht */
 }
 
 .tip-row {
@@ -80,19 +104,6 @@ body {
     font-size: 11px; line-height: 1.2;
     align-items: flex-start;
     color: #333;
-}
-
-.tip-num {
-    width: 18px; font-weight: bold; color: #888;
-    flex-shrink: 0; font-size: 10px;
-}
-
-/* OPLOSSING SECTIE */
-.solution-area {
-    height: 1.5cm; border-top: 1px dashed #ccc;
-    display: flex; align-items: center; justify-content: center;
-    text-align: center; font-weight: bold; font-size: 14px;
-    transform: rotate(180deg); /* Ondersteboven voor de spanning */
 }
 
 /* ACHTERKANT */
