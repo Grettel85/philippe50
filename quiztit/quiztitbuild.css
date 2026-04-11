@@ -14,7 +14,7 @@ body {
     gap: 0; /* Geen gap voor perfecte aansluiting bij snijden */
     justify-content: center;
     align-content: center;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    box-shadow: 0 0 10px rgba(0,0,0,0.85);
     page-break-after: always;
     position: relative;
 }
