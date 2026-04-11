@@ -45,18 +45,20 @@ body {
     background-position: center;
 }
 
-/* CATEGORIE BALK */
+/* CATEGORIE BADGE (Vervangt de Balk) */
 .cat-header {
-    height: 1.2cm;
+    height: 1.0cm; /* Iets minder hoog */
+    width: 60%;    /* Breekt de breedte, wordt een label */
+    margin: 0.4cm auto; /* Zweeft nu bovenaan in het midden */
+    border-radius: 6px; /* Zachte hoeken voor de badge look */
     display: flex; align-items: center; justify-content: center;
     color: white; font-weight: 900; letter-spacing: 2px;
-    text-transform: uppercase; font-size: 18px;
+    text-transform: uppercase; font-size: 16px;
     text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-    margin: 0;
-    padding: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Geeft diepte op de achtergrond */
 }
 
-/* Kleuren per categorie */
+/* Kleuren per categorie blijven, maar vullen nu enkel de badge */
 .cat-wie { background-color: #e74c3c; }
 .cat-wat { background-color: #3498db; }
 .cat-waar { background-color: #2ecc71; }
@@ -96,7 +98,6 @@ body {
 /* ACHTERKANT */
 .card-back {
     background-image: url('../img/quiztit-back-bg.png');
-    /* Ook hier 100% zodat de skateboarder de kaart vult */
     background-size: 100% 100%; 
     background-position: center;
 }
@@ -111,7 +112,6 @@ body {
     .no-print { display: none; }
     body { background: white; }
     .a4-page { margin: 0; box-shadow: none; }
-    /* Zorgt dat kleuren en BG afbeeldingen geprint worden */
     * { 
         -webkit-print-color-adjust: exact !important; 
         print-color-adjust: exact !important; 
