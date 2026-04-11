@@ -66,7 +66,7 @@ body {
 /* WIT TEKSTVLAK */
 .tips-area {
     height: 10.5cm;    /* <--- Pas dit aan voor de LENGTE (hoger getal = langer) */
-    width: 7.6cm;     /* <--- Pas dit aan voor de BREEDTE (hoger getal = breder) */
+    width: 7.8cm;     /* <--- Pas dit aan voor de BREEDTE (hoger getal = breder) */
     margin: 0 auto; 
     padding: 0.5cm 0.6cm;
     background: rgba(255, 255, 255, 0.9); 
