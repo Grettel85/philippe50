@@ -35,6 +35,7 @@ body {
 .card-front {
     background-image: url('../img/quiztit-front-bg.png');
     background-color: #fff;
+    background-size: cover;
 }
 
 /* CATEGORIE BALK */
@@ -58,7 +59,7 @@ body {
     flex-grow: 1; padding: 0.5cm;
     display: flex; flex-direction: column;
     /* Semi-transparante achtergrond voor leesbaarheid op de afbeelding */
-    background: rgba(255, 255, 255, 0.85); 
+    background: rgba(255, 255, 255, 0.2); 
     margin: 0.2cm 0.4cm;
     border-radius: 5px;
 }
