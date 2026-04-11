@@ -9,8 +9,10 @@ body {
     width: 21cm; height: 29.7cm;
     background: white; margin: 1cm auto;
     display: grid;
-    grid-template-columns: 7.5cm 7.5cm;
-    grid-template-rows: 13.5cm 13.5cm;
+    /* XL Breedte voor 2 kolommen */
+    grid-template-columns: 8.9cm 8.9cm;
+    /* XL Hoogte voor 2 rijen (Bridge ratio) */
+    grid-template-rows: 13.85cm 13.85cm;
     gap: 0; /* Geen gap voor perfecte aansluiting bij snijden */
     justify-content: center;
     align-content: center;
@@ -21,12 +23,14 @@ body {
 
 /* DE KAART */
 .card {
-    width: 7.5cm; height: 13.5cm;
+    /* Aangepast naar XL Bridge formaat */
+    width: 8.9cm; height: 13.85cm;
     border: 0.2px solid #eee; /* Zeer lichte lijn als snijhulp */
     box-sizing: border-box;
     display: flex; flex-direction: column;
     position: relative; overflow: hidden;
-    background-size: cover;
+    /* FIX: 100% 100% zorgt dat je nieuwe Bridge-afbeeldingen exact passen */
+    background-size: 100% 100%; 
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -35,14 +39,10 @@ body {
 .card-front {
     background-image: url('../img/quiztit-front-bg.png');
     background-color: #fff;
-    background-size: cover;
-    background-image: url('../img/quiztit-front-bg.png'); /* of je nieuwe PNG-naam */
-    
-    /* FIX: Dwing de afbeelding om te vullen */
-    background-size: cover;
+    /* Consistent met de kaart schaling */
+    background-size: 100% 100%;
     background-repeat: no-repeat;
-    /* FIX: Positioneer vanuit de bovenkant, zodat het patroon daar begint */
-    background-position: top center;
+    background-position: center;
 }
 
 /* CATEGORIE BALK */
@@ -96,7 +96,8 @@ body {
 /* ACHTERKANT */
 .card-back {
     background-image: url('../img/quiztit-back-bg.png');
-    background-size: cover; 
+    /* Ook hier 100% zodat de skateboarder de kaart vult */
+    background-size: 100% 100%; 
     background-position: center;
 }
 
@@ -110,6 +111,7 @@ body {
     .no-print { display: none; }
     body { background: white; }
     .a4-page { margin: 0; box-shadow: none; }
+    /* Zorgt dat kleuren en BG afbeeldingen geprint worden */
     * { 
         -webkit-print-color-adjust: exact !important; 
         print-color-adjust: exact !important; 
