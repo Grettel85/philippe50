@@ -87,3 +87,41 @@ function renderCards(view) {
 }
 
 init();
+
+
+
+// Nieuwe functie die de omzetting en het printen combineert
+function combinePrint() {
+    // 1. Zet alles klaar voor dubbelzijdig printen
+    renderCards('print-all');
+    
+    // 2. Geef de browser heel even de tijd om de afbeeldingen te renderen (100ms)
+    // en open dan pas het printvenster
+    setTimeout(() => {
+        window.print();
+    }, 150);
+}
+
+// In de bestaande renderCards functie kun je de status-meldingen eventueel 
+// helemaal weghalen of leeglaten voor een cleaner resultaat.
+function renderCards(view) {
+    const container = document.getElementById('print-container');
+    container.innerHTML = '';
+    
+    const status = document.getElementById('status-msg');
+    // Status leegmaken voor compactheid
+    status.innerHTML = ""; 
+
+    if (view === 'print-all') {
+        for (let i = 0; i < allData.length; i += 4) {
+            const batch = allData.slice(i, i + 4);
+            container.appendChild(createPage(batch, 'front'));
+            container.appendChild(createPage(batch, 'back'));
+        }
+    } else {
+        for (let i = 0; i < allData.length; i += 4) {
+            const batch = allData.slice(i, i + 4);
+            container.appendChild(createPage(batch, view));
+        }
+    }
+}
