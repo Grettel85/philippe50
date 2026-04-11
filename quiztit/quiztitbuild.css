@@ -85,7 +85,7 @@ body {
 
 /* ACHTERKANT */
 .card-back {
-    background-image: url('../img/quiztit-back-bg.jpg');
+    background-image: url('../img/quiztit-back-bg.png');
     background-size: cover; 
     background-position: center;
 }
