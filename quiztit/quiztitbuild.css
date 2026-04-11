@@ -31,7 +31,7 @@ body {
     background-repeat: no-repeat;
 }
 
-/* VOORKANT ACHTERGROND */
+/* VOORKANT met TEKST ACHTERGROND */
 .card-front {
     background-image: url('../img/quiztit-front-bg.png');
     background-color: #fff;
