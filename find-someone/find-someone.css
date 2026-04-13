@@ -112,7 +112,7 @@ button {
 .rules-block ul { list-style: none; padding: 0; margin: 0; }
 
 .rules-block li { 
-    font-size: 14px; /* was 11.5px */
+    font-size: 11.5px; /* was 11.5px */
     margin-bottom: 12px; /* Meer witruimte tussen zinnen */
     line-height: 1.5; 
     font-weight: 300; 
