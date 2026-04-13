@@ -35,7 +35,7 @@ button {
     padding: 10px;
 }
 
-/* DE 4 A4 PAGINA'S */
+/* DE A4 PAGINA'S (Nu als spreads) */
 .a4-page {
     width: 21cm;
     height: 29.7cm;
@@ -45,48 +45,63 @@ button {
     transform: scale(0.6); 
     transform-origin: top center;
     margin-bottom: -11cm; 
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
+    
+    /* NIEUW: Twee A5 helften naast elkaar */
+    display: grid;
+    grid-template-columns: 10.5cm 10.5cm;
+    overflow: hidden;
 }
 
-.page-1 { background-image: url('../img/Dia1.PNG'); }
-.page-2 { background-image: url('../img/Dia2.PNG'); }
-.page-3 { 
+/* DE A5 HELFTEN */
+.a5-side {
+    width: 10.5cm;
+    height: 29.7cm;
+    position: relative;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+}
+
+/* ACHTERGRONDEN PER PAGINA (nu op de A5 helften) */
+.side-1 { background-image: url('../img/Dia1.PNG'); }
+.side-2 { background-image: url('../img/Dia2.PNG'); }
+.side-3 { 
     background-image: url('../img/Dia3.PNG'); 
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.page-4 { background-image: url('../img/Dia4.PNG'); }
+.side-4 { background-image: url('../img/Dia4.PNG'); }
 
-/* HET ROOSTER (Pagina 2) */
+/* HET ROOSTER (Nu binnen de A5 container) */
 .grid-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(4, 1fr);
     position: absolute;
-    top: 6.2cm; left: 1.8cm; right: 1.8cm; bottom: 6.2cm; 
+    /* Marges aangepast voor de smallere A5 breedte */
+    top: 6.2cm; left: 0.8cm; right: 0.8cm; bottom: 6.2cm; 
     border: 1.5px solid #000;
 }
 .cell {
     border: 1px solid #000;
-    padding: 8px;
+    padding: 4px; /* Iets minder padding voor A5 */
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* DIT IS DE KEY: tekst boven, lijn onder */
+    justify-content: space-between;
     background: rgba(255, 255, 255, 0.7);
     height: 100%; 
     box-sizing: border-box;
 }
-.task-text { font-size: 13px; font-weight: bold; overflow: hidden; text-align: center; line-height: 1.1; }
-.lang-fr::before { content: "---"; display: block; color: #888; font-weight: normal; margin: 2px 0; }
-.name-line { width: 90%; margin: 5px auto; border-bottom: 1.5px solid #000; height: 18px; position: relative; }
-.name-line::before { content: "✍️"; filter: grayscale(100%); font-size: 14px; position: absolute; left: 0; bottom: 2px; }
+.task-text { font-size: 11px; font-weight: bold; overflow: hidden; text-align: center; line-height: 1.1; }
+.lang-fr::before { content: "---"; display: block; color: #888; font-weight: normal; margin: 1px 0; }
+.name-line { width: 90%; margin: 3px auto; border-bottom: 1.5px solid #000; height: 14px; position: relative; }
+.name-line::before { content: "✍️"; filter: grayscale(100%); font-size: 10px; position: absolute; left: 0; bottom: 1px; }
 
-/* LOGBOEK STYLING (Pagina 3) */
+/* LOGBOEK STYLING (Aangepast voor A5 breedte) */
 .rules-container { 
-    width: 70%; 
-    padding: 0.5cm 0.5cm; 
+    width: 90%; /* Breder op A5 voor leesbaarheid */
+    padding: 0.3cm 0.3cm; 
     background: rgba(255, 255, 255, 0.75); 
     font-family: 'Exo 2', sans-serif;
     position: relative;
@@ -95,77 +110,71 @@ button {
 
 .log-header { 
     display: flex; justify-content: space-between; 
-    font-family: 'Courier New', monospace; font-size: 10px; 
-    border-bottom: 1px solid #000; margin-bottom: 0.8cm; 
+    font-family: 'Courier New', monospace; font-size: 8px; 
+    border-bottom: 1px solid #000; margin-bottom: 0.4cm; 
 }
 
 .rules-block h2 { 
     font-family: 'Orbitron', sans-serif; 
-    font-size: 18px; 
+    font-size: 14px; 
     text-transform: uppercase; 
     text-align: center; 
-    margin-bottom: 15px; 
-    letter-spacing: 2px; 
+    margin-bottom: 8px; 
+    letter-spacing: 1px; 
 }
 
 .rules-block ul { list-style: none; padding: 0; margin: 0; }
 
 .rules-block li { 
-    font-size: 11.5px; 
-    margin-bottom: 12px; 
-    line-height: 1.5; 
+    font-size: 9px; 
+    margin-bottom: 6px; 
+    line-height: 1.3; 
     font-weight: 300; 
 }
 
-.rules-block li strong { font-weight: 600; font-size: 10.5px; text-transform: uppercase; }
+.rules-block li strong { font-weight: 600; font-size: 8.5px; text-transform: uppercase; }
 
 .inline-chrono {
-    margin-top: 10px !important;
+    margin-top: 5px !important;
     font-family: 'Courier New', monospace;
-    font-size: 10px !important;
+    font-size: 8px !important;
     opacity: 0.8;
     border-top: 1px dashed rgba(0,0,0,0.1);
-    padding-top: 5px;
+    padding-top: 3px;
 }
 
 .symbol-divider {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin: 25px 0;
-    padding: 0 30px;
+    margin: 10px 0;
+    padding: 0 15px;
     filter: grayscale(100%); 
     opacity: 0.7;
 }
 
-.symbol-divider span {
-    font-size: 18px;
-}
+.symbol-divider span { font-size: 12px; }
 
 .log-footer { 
-    margin-top: 0.5cm; 
+    margin-top: 0.3cm; 
     position: relative; 
-    height: 60px; 
+    height: 40px; 
 }
 
 .mission-stamp {
     position: absolute; bottom: -5px; right: 0;
-    border: 3px double #b32d2e; color: #b32d2e;
-    padding: 4px; transform: rotate(-6deg);
+    border: 2px double #b32d2e; color: #b32d2e;
+    padding: 2px; transform: rotate(-6deg) scale(0.8);
     background: rgba(255,255,255,0.9); mix-blend-mode: multiply;
 }
-.stamp-inner { border: 1px solid #b32d2e; padding: 4px 12px; text-align: center; }
-.stamp-top { font-size: 7px; font-weight: bold; display: block; }
-.stamp-main { font-family: 'Orbitron', sans-serif; font-size: 19px; font-weight: 900; display: block; margin: 2px 0; }
-.stamp-bottom { font-size: 7px; display: block; }
+.stamp-inner { border: 1px solid #b32d2e; padding: 2px 8px; text-align: center; }
+.stamp-top { font-size: 6px; font-weight: bold; display: block; }
+.stamp-main { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 900; display: block; margin: 1px 0; }
+.stamp-bottom { font-size: 6px; display: block; }
 
 /* PRINT INSTELLINGEN */
-/* PRINT INSTELLINGEN */
 @media print {
-    /* Verberg UI */
-    .no-print, .no-print * { 
-        display: none !important; 
-    }
+    .no-print, .no-print * { display: none !important; }
 
     body { 
         background: white !important; 
@@ -179,14 +188,9 @@ button {
         display: block !important;
     }
 
-    /* Voorkom extra witte pagina's na een set */
-    .book-set {
-        page-break-after: avoid !important;
-    }
-
     .a4-page { 
         width: 21cm !important;
-        height: 29.6cm !important; /* 1mm korter om de extra lege pagina te killen */
+        height: 29.6cm !important; 
         margin: 0 !important; 
         padding: 0 !important;
         box-shadow: none !important; 
@@ -194,25 +198,25 @@ button {
         border: none !important;
         page-break-after: always !important;
         page-break-inside: avoid !important;
-        display: flex !important; /* Forceer flexbox ook tijdens print */
-        background-size: 100% 100% !important;
+        display: grid !important;
+        grid-template-columns: 10.5cm 10.5cm !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
 
-    /* Specifieke fix voor centrering Pagina 3 tijdens print */
-    .page-3 {
+    .a5-side {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .side-3 {
         justify-content: center !important;
         align-items: center !important;
     }
 
-    /* Zorg dat de container in het midden blijft staan */
     .rules-container {
         margin: auto !important;
-        width: 70% !important; /* Behoud jouw breedte */
-        position: relative !important;
-        left: auto !important;
-        top: auto !important;
+        width: 90% !important;
     }
 
     .a4-page:last-child { 
