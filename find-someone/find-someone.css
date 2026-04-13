@@ -160,22 +160,67 @@ button {
 .stamp-bottom { font-size: 7px; display: block; }
 
 /* PRINT INSTELLINGEN */
+/* PRINT INSTELLINGEN */
 @media print {
-    .no-print { display: none; }
-    body { background: white; padding: 0; margin: 0; }
-    .book-container { padding: 0; gap: 0; display: block; }
-    
-    /* Forceert dat elk nieuw gegenereerd boekje op een nieuwe pagina start */
+    /* Verberg UI */
+    .no-print, .no-print * { 
+        display: none !important; 
+    }
+
+    body { 
+        background: white !important; 
+        margin: 0 !important; 
+        padding: 0 !important; 
+    }
+
+    .book-container { 
+        padding: 0 !important; 
+        margin: 0 !important; 
+        display: block !important;
+    }
+
+    /* Voorkom extra witte pagina's na een set */
     .book-set {
-        page-break-after: always;
+        page-break-after: avoid !important;
     }
-    
+
     .a4-page { 
-        margin: 0; box-shadow: none; transform: scale(1); 
-        page-break-after: always; border: none; 
-        display: block !important; /* Zorgt dat pagina's zichtbaar blijven bij print */
+        width: 21cm !important;
+        height: 29.6cm !important; /* 1mm korter om de extra lege pagina te killen */
+        margin: 0 !important; 
+        padding: 0 !important;
+        box-shadow: none !important; 
+        transform: scale(1) !important; 
+        border: none !important;
+        page-break-after: always !important;
+        page-break-inside: avoid !important;
+        display: flex !important; /* Forceer flexbox ook tijdens print */
+        background-size: 100% 100% !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
     }
-    
-    .a4-page:last-child { page-break-after: auto; }
-    @page { margin: 0; size: auto; }
+
+    /* Specifieke fix voor centrering Pagina 3 tijdens print */
+    .page-3 {
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    /* Zorg dat de container in het midden blijft staan */
+    .rules-container {
+        margin: auto !important;
+        width: 70% !important; /* Behoud jouw breedte */
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+    }
+
+    .a4-page:last-child { 
+        page-break-after: auto !important; 
+    }
+
+    @page { 
+        size: A4 portrait; 
+        margin: 0; 
+    }
 }
