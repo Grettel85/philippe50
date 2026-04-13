@@ -87,7 +87,7 @@ button {
 
 .rules-container { 
     width: 60%; /* Smaller zodat de achtergrond beter zichtbaar is */
-    padding: 1cm 1cm; 
+    padding: 0.5cm 0.5cm; 
     background: rgba(255, 255, 255, 0.75); /* Iets meer transparant */
     font-family: 'Exo 2', sans-serif;
     position: relative;
