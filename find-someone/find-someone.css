@@ -86,7 +86,7 @@ button {
 .bottom-right { bottom: 1.5cm; right: 1.5cm; border-left: none; border-top: none; }
 
 .rules-container { 
-    width: 65%; /* Smaller zodat de achtergrond beter zichtbaar is */
+    width: 60%; /* Smaller zodat de achtergrond beter zichtbaar is */
     padding: 1.2cm 1.5cm; 
     background: rgba(255, 255, 255, 0.75); /* Iets meer transparant */
     font-family: 'Exo 2', sans-serif;
@@ -112,7 +112,7 @@ button {
 .rules-block ul { list-style: none; padding: 0; margin: 0; }
 
 .rules-block li { 
-    font-size: 11.5px; 
+    font-size: 14px; /* was 11.5px */
     margin-bottom: 12px; /* Meer witruimte tussen zinnen */
     line-height: 1.5; 
     font-weight: 300; 
