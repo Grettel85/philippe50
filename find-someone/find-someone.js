@@ -38,22 +38,27 @@ async function loadData() {
 
 /**
  * Selecteert 12 opdrachten en bouwt het rooster op Pagina 2
- * @param {string} mode - 'mix' (volwassenen 1,2,3) of 'kids' (kinderen 1,2)
+ * @param {string} mode - 'mix' of 'kids'
  */
 function generateGrid(mode = 'mix') {
     const grid = document.getElementById('bingo-grid');
     if (!grid) return;
     
     grid.innerHTML = '';
+    fillGridWithTasks(grid, mode);
+}
+
+/**
+ * Hulpfunctie om een specifieke grid-container te vullen met taken
+ */
+function fillGridWithTasks(targetGrid, mode) {
     let finalSelection = [];
 
     if (mode === 'kids') {
-        // Kindermix: 8 items van niveau 1 en 4 items van niveau 2
         const n1_kids = tasks.filter(t => t.level === 1).sort(() => 0.5 - Math.random()).slice(0, 8);
         const n2_kids = tasks.filter(t => t.level === 2).sort(() => 0.5 - Math.random()).slice(0, 4);
         finalSelection = [...n1_kids, ...n2_kids].sort(() => 0.5 - Math.random());
     } else {
-        // Volwassenen Mix: 4 items per niveau (1, 2 en 3)
         const n1 = tasks.filter(t => t.level === 1).sort(() => 0.5 - Math.random()).slice(0, 4);
         const n2 = tasks.filter(t => t.level === 2).sort(() => 0.5 - Math.random()).slice(0, 4);
         const n3 = tasks.filter(t => t.level === 3).sort(() => 0.5 - Math.random()).slice(0, 4);
@@ -65,30 +70,24 @@ function generateGrid(mode = 'mix') {
         cell.className = 'cell';
         
         let contentHtml = "";
-        
-        // Als de tekst een "/" bevat, splitsen we deze op voor NL en FR
         if (task.text.includes('/')) {
             const parts = task.text.split('/');
-            const nlText = parts[0].trim();
-            const frText = parts[1].trim();
-            contentHtml = `
-                <div class="task-text">
-                    ${nlText}
-                    <span class="lang-fr">${frText}</span>
-                </div>`;
+            contentHtml = `<div class="task-text">${parts[0].trim()}<span class="lang-fr">${parts[1].trim()}</span></div>`;
         } else {
             contentHtml = `<div class="task-text">${task.text}</div>`;
         }
 
-        // De cel opbouwen volgens de styling-structuur
         cell.innerHTML = `
             <div class="task-wrapper">
                 ${contentHtml}
             </div>
             <div class="name-line"></div>
         `;
-        grid.appendChild(cell);
+        targetGrid.appendChild(cell);
     });
+
+    // Pas tekstgrootte aan na vullen
+    setTimeout(fitTextInCells, 50);
 }
 
 /**
@@ -103,11 +102,11 @@ function fitTextInCells() {
         
         if (!wrapper || !taskText) return;
 
-        let fontSize = 13; // De startgrootte in pixels (gelijk aan je CSS)
-        const minFontSize = 8; // De ondergrens, anders wordt het onleesbaar
+        let fontSize = 13; 
+        const minFontSize = 8; 
 
-        // Zolang de tekst hoger is dan de beschikbare ruimte in de wrapper
-        // en we boven de minimumgrootte zitten: verlaag font-size.
+        taskText.style.fontSize = fontSize + "px";
+
         while (taskText.scrollHeight > wrapper.clientHeight && fontSize > minFontSize) {
             fontSize -= 0.5;
             taskText.style.fontSize = fontSize + "px";
@@ -115,6 +114,46 @@ function fitTextInCells() {
     });
 }
 
+/**
+ * Genereert meerdere boekjes en opent daarna het printvenster
+ */
+async function prepareAndPrint(mode) {
+    const count = parseInt(document.getElementById('print-count').value) || 1;
+    const container = document.querySelector('.book-container');
+    const statusMsg = document.getElementById('status-msg');
+    
+    // Bewaar de huidige pagina 3 inhoud om deze te dupliceren
+    const page3Content = document.querySelector('.page-3').innerHTML;
+    
+    container.innerHTML = ''; 
+    statusMsg.innerText = `Bezig met genereren van ${count} unieke boekjes...`;
+
+    for (let i = 0; i < count; i++) {
+        const bookSet = document.createElement('div');
+        bookSet.className = 'book-set'; 
+        
+        bookSet.innerHTML = `
+            <div class="a4-page page-1"></div>
+            <div class="a4-page page-2">
+                <div class="grid-container"></div>
+            </div>
+            <div class="a4-page page-3">
+                ${page3Content}
+            </div>
+            <div class="a4-page page-4"></div>
+        `;
+
+        container.appendChild(bookSet);
+        const currentGrid = bookSet.querySelector('.grid-container');
+        fillGridWithTasks(currentGrid, mode); 
+    }
+
+    statusMsg.innerText = "Klaar! Printer opent nu...";
+    
+    setTimeout(() => {
+        window.print();
+    }, 1000);
+}
 
 // Initialiseer het script
 window.onload = loadData;
