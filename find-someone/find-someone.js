@@ -91,5 +91,30 @@ function generateGrid(mode = 'mix') {
     });
 }
 
+/**
+ * Past de lettergrootte van de tekst aan zodat deze altijd in de cel past.
+ */
+function fitTextInCells() {
+    const cells = document.querySelectorAll('.cell');
+    
+    cells.forEach(cell => {
+        const wrapper = cell.querySelector('.task-wrapper');
+        const taskText = cell.querySelector('.task-text');
+        
+        if (!wrapper || !taskText) return;
+
+        let fontSize = 13; // De startgrootte in pixels (gelijk aan je CSS)
+        const minFontSize = 8; // De ondergrens, anders wordt het onleesbaar
+
+        // Zolang de tekst hoger is dan de beschikbare ruimte in de wrapper
+        // en we boven de minimumgrootte zitten: verlaag font-size.
+        while (taskText.scrollHeight > wrapper.clientHeight && fontSize > minFontSize) {
+            fontSize -= 0.5;
+            taskText.style.fontSize = fontSize + "px";
+        }
+    });
+}
+
+
 // Initialiseer het script
 window.onload = loadData;
