@@ -8,16 +8,11 @@ let tasks = [];
 async function loadData() {
     try {
         const statusMsg = document.getElementById('status-msg');
-        
-        // Fetch de data met een cachebust om de meest recente spreadsheet-versie te krijgen
         const response = await fetch(csvUrl + '&cachebust=' + Date.now());
         const data = await response.text();
-        
-        // Splits de rijen (header overslaan)
         const rows = data.split(/\r?\n/).slice(1); 
 
         tasks = rows.map(row => {
-            // Regex om CSV correct te splitsen, rekening houdend met komma's binnen aanhalingstekens
             const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             return {
                 text: cols[0] ? cols[0].replace(/"/g, '').trim() : '',
@@ -26,8 +21,6 @@ async function loadData() {
         }).filter(t => t.text !== '');
 
         if (statusMsg) statusMsg.innerText = "Data succesvol geladen. Kies een mix!";
-        
-        // Standaard de volwassenen mix genereren bij het laden
         generateGrid('mix');
     } catch (error) {
         console.error("Fout bij het laden van de spreadsheet:", error);
@@ -37,19 +30,54 @@ async function loadData() {
 }
 
 /**
- * Selecteert 12 opdrachten en bouwt het rooster op Pagina 2
- * @param {string} mode - 'mix' of 'kids'
+ * Toont een preview op het scherm (enkel voor de interface)
  */
 function generateGrid(mode = 'mix') {
-    const grid = document.getElementById('bingo-grid');
-    if (!grid) return;
+    const container = document.getElementById('main-container');
+    if (!container) return;
     
-    grid.innerHTML = '';
-    fillGridWithTasks(grid, mode);
+    container.innerHTML = '';
+    // Voor de preview op het scherm genereren we gewoon 1 boekje in boek-volgorde
+    createBooklet(container, mode);
 }
 
 /**
- * Hulpfunctie om een specifieke grid-container te vullen met taken
+ * De kern-functie die een boekje opbouwt in PDF-volgorde (impositie)
+ */
+function createBooklet(targetContainer, mode) {
+    // VEL 1: Buitenkant (Links: Pagina 4 | Rechts: Pagina 1)
+    const sheet1 = document.createElement('div');
+    sheet1.className = 'a4-page';
+    sheet1.innerHTML = `
+        <div class="a5-side side-4"></div>
+        <div class="a5-side side-1"></div>
+    `;
+    targetContainer.appendChild(sheet1);
+
+    // VEL 2: Binnenkant (Links: Pagina 2 | Rechts: Pagina 3)
+    const sheet2 = document.createElement('div');
+    sheet2.className = 'a4-page';
+    
+    // We halen de regels uit het template in de HTML
+    const rulesTemplate = document.getElementById('rules-template').innerHTML;
+
+    sheet2.innerHTML = `
+        <div class="a5-side side-2">
+            <div class="grid-container"></div>
+        </div>
+        <div class="a5-side side-3">
+            ${rulesTemplate}
+        </div>
+    `;
+    targetContainer.appendChild(sheet2);
+
+    // Vul het rooster op pagina 2 (linkerhelft van vel 2)
+    const currentGrid = sheet2.querySelector('.grid-container');
+    fillGridWithTasks(currentGrid, mode);
+}
+
+/**
+ * Vult een grid met taken op basis van de gekozen moeilijkheidsgraad
  */
 function fillGridWithTasks(targetGrid, mode) {
     let finalSelection = [];
@@ -78,36 +106,30 @@ function fillGridWithTasks(targetGrid, mode) {
         }
 
         cell.innerHTML = `
-            <div class="task-wrapper">
-                ${contentHtml}
-            </div>
+            ${contentHtml}
             <div class="name-line"></div>
         `;
         targetGrid.appendChild(cell);
     });
 
-    // Pas tekstgrootte aan na vullen
     setTimeout(fitTextInCells, 50);
 }
 
 /**
- * Past de lettergrootte van de tekst aan zodat deze altijd in de cel past.
+ * Past tekstgrootte aan
  */
 function fitTextInCells() {
     const cells = document.querySelectorAll('.cell');
-    
     cells.forEach(cell => {
-        const wrapper = cell.querySelector('.task-wrapper');
         const taskText = cell.querySelector('.task-text');
-        
-        if (!wrapper || !taskText) return;
+        if (!taskText) return;
 
-        let fontSize = 13; 
-        const minFontSize = 8; 
-
+        let fontSize = 11; // Iets kleiner starten omdat A5 kleiner is
+        const minFontSize = 7; 
         taskText.style.fontSize = fontSize + "px";
 
-        while (taskText.scrollHeight > wrapper.clientHeight && fontSize > minFontSize) {
+        // De cel is ongeveer 75-80px hoog op A5
+        while (taskText.scrollHeight > 80 && fontSize > minFontSize) {
             fontSize -= 0.5;
             taskText.style.fontSize = fontSize + "px";
         }
@@ -115,45 +137,25 @@ function fitTextInCells() {
 }
 
 /**
- * Genereert meerdere boekjes en opent daarna het printvenster
+ * Genereert de batch en print
  */
 async function prepareAndPrint(mode) {
     const count = parseInt(document.getElementById('print-count').value) || 1;
-    const container = document.querySelector('.book-container');
+    const container = document.getElementById('main-container');
     const statusMsg = document.getElementById('status-msg');
     
-    // Bewaar de huidige pagina 3 inhoud om deze te dupliceren
-    const page3Content = document.querySelector('.page-3').innerHTML;
-    
     container.innerHTML = ''; 
-    statusMsg.innerText = `Bezig met genereren van ${count} unieke boekjes...`;
+    statusMsg.innerText = `Bezig met genereren van ${count} unieke boekjes voor PDF...`;
 
     for (let i = 0; i < count; i++) {
-        const bookSet = document.createElement('div');
-        bookSet.className = 'book-set'; 
-        
-        bookSet.innerHTML = `
-            <div class="a4-page page-1"></div>
-            <div class="a4-page page-2">
-                <div class="grid-container"></div>
-            </div>
-            <div class="a4-page page-3">
-                ${page3Content}
-            </div>
-            <div class="a4-page page-4"></div>
-        `;
-
-        container.appendChild(bookSet);
-        const currentGrid = bookSet.querySelector('.grid-container');
-        fillGridWithTasks(currentGrid, mode); 
+        createBooklet(container, mode);
     }
 
-    statusMsg.innerText = "Klaar! Printer opent nu...";
+    statusMsg.innerText = "Klaar! Let op: Print dubbelzijdig over de KORTE zijde.";
     
     setTimeout(() => {
         window.print();
     }, 1000);
 }
 
-// Initialiseer het script
 window.onload = loadData;
