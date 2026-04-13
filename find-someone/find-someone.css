@@ -35,7 +35,7 @@ button {
     padding: 10px;
 }
 
-/* DE A4 PAGINA'S (Nu als spreads) */
+/* DE A4 PAGINA'S (Spreads) */
 .a4-page {
     width: 29.7cm;
     height: 21cm;
@@ -44,17 +44,17 @@ button {
     box-shadow: 0 0 20px rgba(0,0,0,0.7);
     transform: scale(0.6); 
     transform-origin: top center;
-    margin-bottom: -11cm; 
+    margin-bottom: -8cm; 
     
     display: grid;
-    grid-template-columns: 10.5cm 10.5cm;
+    grid-template-columns: 1fr 1fr; /* Verdeelt blad in 2 gelijke helften */
     overflow: hidden;
 }
 
 /* DE A5 HELFTEN */
 .a5-side {
-    width: 10.5cm;
-    height: 29.7cm;
+    width: 100%; /* Neemt één grid-kolom in (14.85cm) */
+    height: 21cm; /* Korte kant van A4 */
     position: relative;
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -72,13 +72,13 @@ button {
 }
 .side-4 { background-image: url('../img/Dia4.PNG'); }
 
-/* HET ROOSTER (Binnen A5) */
+/* HET ROOSTER (Binnen A5 helft) */
 .grid-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(4, 1fr);
     position: absolute;
-    top: 6.2cm; left: 0.8cm; right: 0.8cm; bottom: 6.2cm; 
+    top: 5.8cm; left: 1cm; right: 1cm; bottom: 5.8cm; 
     border: 1.5px solid #000;
 }
 .cell {
@@ -170,7 +170,7 @@ button {
 .stamp-main { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 900; display: block; margin: 1px 0; }
 .stamp-bottom { font-size: 6px; display: block; }
 
-/* GEOPTIMALISEERDE PRINT INSTELLINGEN VOOR A5 SPREADS */
+/* FINALE PRINT INSTELLINGEN */
 @media print {
     .no-print, .no-print * { display: none !important; }
 
@@ -193,7 +193,7 @@ button {
 
     .a4-page { 
         width: 29.7cm !important;
-        height: 20.9cm !important; 
+        height: 21cm !important; 
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
         margin: 0 !important;
@@ -207,8 +207,8 @@ button {
     }
 
     .a5-side {
-        width: 14.85cm !important;
-        height: 20.9cm !important;
+        width: 100% !important;
+        height: 21cm !important;
         background-size: 100% 100% !important;
         display: flex !important;
         -webkit-print-color-adjust: exact;
