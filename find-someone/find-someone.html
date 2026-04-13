@@ -13,9 +13,15 @@
         <h1>Bingo Generator</h1>
         
         <div class="button-group">
-            <button onclick="generateGrid('mix')" class="btn-main">Volwassenen Mix</button>
-            <button onclick="generateGrid('kids')" class="btn-kids" style="background: #ffcc00;">Kindermix</button>
-            <button onclick="window.print()" style="background: #ccc; margin-left: 10px;">🖨️ Printen</button>
+            <button onclick="generateGrid('mix')" class="btn-main">Single Mix (Volw.)</button>
+            <button onclick="generateGrid('kids')" class="btn-kids" style="background: #ffcc00;">Single Mix (Kids)</button>
+            
+            <div style="border-left: 1px solid #ccc; margin-left: 10px; padding-left: 10px; display: flex; align-items: center; gap: 8px;">
+                <label for="print-count" style="font-size: 12px; font-weight: bold;">Aantal:</label>
+                <input type="number" id="print-count" value="1" min="1" max="50" style="width: 45px; padding: 5px; border-radius: 4px; border: 1px solid #ccc;">
+                <button onclick="prepareAndPrint('mix')" style="background: #28a745; color: white;">🖨️ Print Batch Volw.</button>
+                <button onclick="prepareAndPrint('kids')" style="background: #ff8800; color: white;">🖨️ Print Batch Kids</button>
+            </div>
         </div>
         
         <p id="status-msg" style="font-size: 11px; margin-top: 5px; color: #666; margin-bottom: 0;">Laden...</p>
