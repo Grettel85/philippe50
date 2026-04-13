@@ -100,8 +100,8 @@ button {
 
 /* LOGBOEK STYLING (Pagina 3) */
 .rules-container { 
-    width: 75%; 
-    padding: 0.4cm; 
+    width: 80%; 
+    padding: 0.3cm; 
     background: rgba(255, 255, 255, 0.8); 
     font-family: 'Exo 2', sans-serif;
     position: relative;
