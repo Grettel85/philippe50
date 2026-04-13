@@ -73,7 +73,7 @@ button {
     padding: 8px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-between; /* DIT IS DE KEY: tekst boven, lijn onder */
     background: rgba(255, 255, 255, 0.7);
     height: 100%; 
     box-sizing: border-box;
@@ -138,7 +138,9 @@ button {
     opacity: 0.7;
 }
 
-.symbol-divider span { font-size: 18px; }
+.symbol-divider span {
+    font-size: 18px;
+}
 
 .log-footer { 
     margin-top: 0.5cm; 
@@ -154,11 +156,13 @@ button {
 }
 .stamp-inner { border: 1px solid #b32d2e; padding: 4px 12px; text-align: center; }
 .stamp-top { font-size: 7px; font-weight: bold; display: block; }
-.stamp-main { font-family: 'Orbitron', sans-serif; font-size: 19px; font-weight: 900; display: block; margin: 1px 0; }
+.stamp-main { font-family: 'Orbitron', sans-serif; font-size: 19px; font-weight: 900; display: block; margin: 2px 0; }
 .stamp-bottom { font-size: 7px; display: block; }
 
-/* PRINT INSTELLINGEN (Portrait) */
+/* PRINT INSTELLINGEN */
+/* PRINT INSTELLINGEN */
 @media print {
+    /* Verberg UI */
     .no-print, .no-print * { 
         display: none !important; 
     }
@@ -175,9 +179,14 @@ button {
         display: block !important;
     }
 
+    /* Voorkom extra witte pagina's na een set */
+    .book-set {
+        page-break-after: avoid !important;
+    }
+
     .a4-page { 
         width: 21cm !important;
-        height: 29.6cm !important; /* Fix voor extra pagina's */
+        height: 29.6cm !important; /* 1mm korter om de extra lege pagina te killen */
         margin: 0 !important; 
         padding: 0 !important;
         box-shadow: none !important; 
@@ -185,21 +194,25 @@ button {
         border: none !important;
         page-break-after: always !important;
         page-break-inside: avoid !important;
-        display: flex !important; 
+        display: flex !important; /* Forceer flexbox ook tijdens print */
         background-size: 100% 100% !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
 
+    /* Specifieke fix voor centrering Pagina 3 tijdens print */
     .page-3 {
         justify-content: center !important;
         align-items: center !important;
     }
 
+    /* Zorg dat de container in het midden blijft staan */
     .rules-container {
         margin: auto !important;
-        width: 70% !important;
+        width: 70% !important; /* Behoud jouw breedte */
         position: relative !important;
+        left: auto !important;
+        top: auto !important;
     }
 
     .a4-page:last-child { 
