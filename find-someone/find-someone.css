@@ -84,7 +84,7 @@ button {
 /* log-corner verwijderd zoals gevraagd */
 
 .rules-container { 
-    width: 55%; /* Nog smaller om de achtergrond te laten ademen */
+    width: 65%; /* Nog smaller om de achtergrond te laten ademen */
     padding: 0.8cm 1.1cm; /* Compactere padding */
     background: rgba(255, 255, 255, 0.7); /* Transparanter voor doorkijk-effect */
     font-family: 'Exo 2', sans-serif;
