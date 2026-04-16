@@ -16,19 +16,21 @@ async function init() {
     }
 }
 
-// Nieuwe hulpfunctie om tekst passend te maken
+// Verbeterde hulpfunctie om tekst passend te maken
 function fitText(card) {
     const area = card.querySelector('.tips-area');
     if (!area) return;
 
     let fontSize = 11; // Startgrootte conform je CSS
-    const minFontSize = 7; // Minimale leesbare grootte
+    const minFontSize = 6; // Verlaagd naar 6 voor kaarten met zeer veel tips (15+)
 
     area.style.fontSize = fontSize + "px";
+    area.style.lineHeight = "1.1"; // Iets compactere regelafstand helpt bij de passing
 
-    // Verklein font-size zolang de inhoud groter is dan de beschikbare hoogte
-    while (area.scrollHeight > area.clientHeight && fontSize > minFontSize) {
-        fontSize -= 0.5;
+    // Loop: verklein tekst zolang scrollHeight groter is dan clientHeight
+    // We gebruiken een kleine marge van 1px
+    while (area.scrollHeight > (area.clientHeight + 1) && fontSize > minFontSize) {
+        fontSize -= 0.3; 
         area.style.fontSize = fontSize + "px";
     }
 }
@@ -73,10 +75,15 @@ function createPage(batch, view) {
                 <div class="solution-area">${oplossing}</div>
             `;
             
-            // Voeg de kaart eerst toe zodat clientHeight/scrollHeight gemeten kunnen worden
+            // Voeg de kaart toe aan de pagina
             page.appendChild(card);
-            // Maak de tekst passend voor deze specifieke kaart
-            fitText(card);
+            
+            // Gebruik een timeout van 0ms om de browser de kans te geven de elementen te tekenen
+            // zodat de hoogtemeting in fitText 100% accuraat is.
+            setTimeout(() => {
+                fitText(card);
+            }, 0);
+
         } else {
             page.appendChild(card);
         }
@@ -107,9 +114,10 @@ function renderCards(view) {
 
 function combinePrint() {
     renderCards('print-all');
+    // Wachttijd iets verhoogd zodat alle fitText berekeningen klaar zijn voor de PDF-generatie
     setTimeout(() => {
         window.print();
-    }, 250); // Iets ruimer genomen voor de fitText berekeningen
+    }, 500); 
 }
 
 init();
