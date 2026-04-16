@@ -8,7 +8,6 @@ async function init() {
         const response = await fetch(csvUrl);
         const text = await response.text();
         const rows = text.split('\n').map(row => row.split(','));
-        // We slaan de header (rij 1) over
         allData = rows.slice(1).filter(r => r.length > 2);
         renderCards('front');
     } catch (err) {
@@ -16,26 +15,29 @@ async function init() {
     }
 }
 
-// Verbeterde hulpfunctie om tekst passend te maken
+// Verbeterde fitText met padding-correctie
 function fitText(card) {
     const area = card.querySelector('.tips-area');
     if (!area) return;
 
-    let fontSize = 11; // Startgrootte conform je CSS
-    const minFontSize = 6; // Verlaagd naar 6 voor kaarten met zeer veel tips (15+)
+    let fontSize = 11; 
+    const minFontSize = 6; 
 
     area.style.fontSize = fontSize + "px";
-    area.style.lineHeight = "1.1"; // Iets compactere regelafstand helpt bij de passing
+    area.style.lineHeight = "1.1";
 
-    // Loop: verklein tekst zolang scrollHeight groter is dan clientHeight
-    // We gebruiken een kleine marge van 1px
-    while (area.scrollHeight > (area.clientHeight + 1) && fontSize > minFontSize) {
-        fontSize -= 0.3; 
+    // We meten de scrollHeight tegenover de clientHeight.
+    // Omdat padding de tekst kan blokkeren, trekken we een veiligheidsmarge van 4px af.
+    const maxHeight = area.clientHeight - 4; 
+
+    let safetyCounter = 0;
+    while (area.scrollHeight > maxHeight && fontSize > minFontSize && safetyCounter < 40) {
+        fontSize -= 0.2;
         area.style.fontSize = fontSize + "px";
+        safetyCounter++;
     }
 }
 
-// Hulpfunctie om een pagina te maken
 function createPage(batch, view) {
     const page = document.createElement('div');
     page.className = 'a4-page';
@@ -43,7 +45,6 @@ function createPage(batch, view) {
     let currentBatch = [...batch];
 
     if (view === 'back') {
-        // SPIEGELEN VOOR DUBBELZIJDIG PRINTEN:
         let mirroredBatch = [];
         if (currentBatch[1]) mirroredBatch[0] = currentBatch[1];
         if (currentBatch[0]) mirroredBatch[1] = currentBatch[0];
@@ -65,7 +66,7 @@ function createPage(batch, view) {
             let tipsHtml = tips.map((t, idx) => `
                 <div class="tip-row">
                     <span class="tip-num">${idx + 1}</span>
-                    <span>${t.trim()}</span>
+                    <span class="tip-text">${t.trim()}</span>
                 </div>
             `).join('');
 
@@ -75,14 +76,12 @@ function createPage(batch, view) {
                 <div class="solution-area">${oplossing}</div>
             `;
             
-            // Voeg de kaart toe aan de pagina
             page.appendChild(card);
             
-            // Gebruik een timeout van 0ms om de browser de kans te geven de elementen te tekenen
-            // zodat de hoogtemeting in fitText 100% accuraat is.
-            setTimeout(() => {
+            // Directe uitvoering én een kleine vertraging voor de zekerheid
+            requestAnimationFrame(() => {
                 fitText(card);
-            }, 0);
+            });
 
         } else {
             page.appendChild(card);
@@ -94,7 +93,6 @@ function createPage(batch, view) {
 function renderCards(view) {
     const container = document.getElementById('print-container');
     container.innerHTML = '';
-    
     const status = document.getElementById('status-msg');
     if (status) status.innerHTML = ""; 
 
@@ -114,10 +112,10 @@ function renderCards(view) {
 
 function combinePrint() {
     renderCards('print-all');
-    // Wachttijd iets verhoogd zodat alle fitText berekeningen klaar zijn voor de PDF-generatie
+    // We wachten 800ms zodat alle 'requestAnimationFrames' zeker klaar zijn
     setTimeout(() => {
         window.print();
-    }, 500); 
+    }, 800); 
 }
 
 init();
