@@ -68,10 +68,11 @@ body {
     height: 10.5cm;    /* <--- Pas dit aan voor de LENGTE (hoger getal = langer) */
     width: 7.8cm;     /* <--- Pas dit aan voor de BREEDTE (hoger getal = breder) */
     margin: 0 auto; 
-    padding: 0.5cm 0.6cm;
+    padding: 0.2cm 0.3cm;
     background: rgba(255, 255, 255, 0.9); 
     border-radius: 15px;
     display: flex; flex-direction: column;
+    justify-content: space-between; /* NIEUW: Verdeelt de regels gelijkmatig over de hoogte */
     box-sizing: border-box;
 }
 
