@@ -72,8 +72,10 @@ body {
     background: rgba(255, 255, 255, 0.9); 
     border-radius: 15px;
     display: flex; flex-direction: column;
-    justify-content: space-between; /* NIEUW: Verdeelt de regels gelijkmatig over de hoogte */
+    justify-content: flex-start; /* NIEUW: Verdeelt de regels gelijkmatig over de hoogte */
+    overflow: hidden;           /* VOORKOMT OVERSCHRIJDING */
     box-sizing: border-box;
+    position: relative;
 }
 
 .tip-row {
