@@ -16,7 +16,24 @@ async function init() {
     }
 }
 
-// Hulpfunctie om een pagina te maken (behoudt jouw exacte logica en klassen)
+// Nieuwe hulpfunctie om tekst passend te maken
+function fitText(card) {
+    const area = card.querySelector('.tips-area');
+    if (!area) return;
+
+    let fontSize = 11; // Startgrootte conform je CSS
+    const minFontSize = 7; // Minimale leesbare grootte
+
+    area.style.fontSize = fontSize + "px";
+
+    // Verklein font-size zolang de inhoud groter is dan de beschikbare hoogte
+    while (area.scrollHeight > area.clientHeight && fontSize > minFontSize) {
+        fontSize -= 0.5;
+        area.style.fontSize = fontSize + "px";
+    }
+}
+
+// Hulpfunctie om een pagina te maken
 function createPage(batch, view) {
     const page = document.createElement('div');
     page.className = 'a4-page';
@@ -55,8 +72,14 @@ function createPage(batch, view) {
                 <div class="tips-area">${tipsHtml}</div>
                 <div class="solution-area">${oplossing}</div>
             `;
+            
+            // Voeg de kaart eerst toe zodat clientHeight/scrollHeight gemeten kunnen worden
+            page.appendChild(card);
+            // Maak de tekst passend voor deze specifieke kaart
+            fitText(card);
+        } else {
+            page.appendChild(card);
         }
-        page.appendChild(card);
     });
     return page;
 }
@@ -66,62 +89,27 @@ function renderCards(view) {
     container.innerHTML = '';
     
     const status = document.getElementById('status-msg');
+    if (status) status.innerHTML = ""; 
 
     if (view === 'print-all') {
-        status.innerHTML = "🖨️ Modus: VOORKANT - ACHTERKANT afwisselend (klaar voor print)";
-        // Verdeel data in blokken van 4 en genereer telkens een front én een back pagina
         for (let i = 0; i < allData.length; i += 4) {
             const batch = allData.slice(i, i + 4);
-            // Voeg de voorkant pagina toe
             container.appendChild(createPage(batch, 'front'));
-            // Voeg de bijbehorende achterkant pagina toe
             container.appendChild(createPage(batch, 'back'));
         }
     } else {
-        status.innerHTML = view === 'front' ? "Aan het laden: VOORKANTEN" : "Aan het laden: ACHTERKANTEN";
         for (let i = 0; i < allData.length; i += 4) {
             const batch = allData.slice(i, i + 4);
             container.appendChild(createPage(batch, view));
         }
     }
+}
+
+function combinePrint() {
+    renderCards('print-all');
+    setTimeout(() => {
+        window.print();
+    }, 250); // Iets ruimer genomen voor de fitText berekeningen
 }
 
 init();
-
-
-
-// Nieuwe functie die de omzetting en het printen combineert
-function combinePrint() {
-    // 1. Zet alles klaar voor dubbelzijdig printen
-    renderCards('print-all');
-    
-    // 2. Geef de browser heel even de tijd om de afbeeldingen te renderen (100ms)
-    // en open dan pas het printvenster
-    setTimeout(() => {
-        window.print();
-    }, 150);
-}
-
-// In de bestaande renderCards functie kun je de status-meldingen eventueel 
-// helemaal weghalen of leeglaten voor een cleaner resultaat.
-function renderCards(view) {
-    const container = document.getElementById('print-container');
-    container.innerHTML = '';
-    
-    const status = document.getElementById('status-msg');
-    // Status leegmaken voor compactheid
-    status.innerHTML = ""; 
-
-    if (view === 'print-all') {
-        for (let i = 0; i < allData.length; i += 4) {
-            const batch = allData.slice(i, i + 4);
-            container.appendChild(createPage(batch, 'front'));
-            container.appendChild(createPage(batch, 'back'));
-        }
-    } else {
-        for (let i = 0; i < allData.length; i += 4) {
-            const batch = allData.slice(i, i + 4);
-            container.appendChild(createPage(batch, view));
-        }
-    }
-}
