@@ -1,5 +1,5 @@
 /* ==========================================================================
-   VERSION: PHILIPPE 50 - TOTAL ENGINE (V6.1 - Text & Image Fix)
+   VERSION: PHILIPPE 50 - TOTAL ENGINE (V6.2 - Loop Scroll Update)
    ========================================================================== */
 
 const config = {
@@ -184,7 +184,7 @@ function openSecureScroll() {
 }
 
 /* =========================================
-    DATA FETCHING & DISPLAY
+    DATA FETCHING & DISPLAY (Scroll with Loop)
    ========================================= */
 
 async function fetchStory() {
@@ -240,18 +240,40 @@ async function startLiveScroll() {
             frHTML += `<div class="scroll-entry"><h3>CHAPITRE ${index + 1}: ${titleFr}</h3>${imgHTML}<p>${getLanguageSpecificText(textRaw, 'fr')}</p></div>`;
         });
 
-        nlCol.innerHTML = nlHTML;
-        frCol.innerHTML = frHTML;
+        // Loop-Logic: Dupliceer de HTML voor een naadloze overgang
+        nlCol.innerHTML = nlHTML + nlHTML;
+        frCol.innerHTML = frHTML + frHTML;
 
-        const speed = 15; 
-        const height = Math.max(nlCol.scrollHeight, frCol.scrollHeight);
-        const duration = (height + window.innerHeight) / speed;
-
+        // Reset posities
         [nlCol, frCol].forEach(col => {
-            col.style.transition = `transform ${duration}s linear`;
-            col.style.transform = `translateY(-${height + 100}px)`;
+            col.style.transition = 'none';
+            col.style.transform = 'translateY(0)';
         });
+
+        // Start de animatie motor
+        setTimeout(() => {
+            const speed = 40; // Pixels per seconde
+            const halfHeight = nlCol.scrollHeight / 2;
+            
+            animateScroll(nlCol, halfHeight, speed);
+            animateScroll(frCol, halfHeight, speed);
+        }, 100);
+
     } catch (e) { console.error("Scroll error:", e); }
+}
+
+// Hulpmiddel voor oneindige loop
+function animateScroll(element, limit, speed) {
+    let currentY = 0;
+    function step() {
+        currentY -= speed / 60; // Gebaseerd op 60fps
+        if (Math.abs(currentY) >= limit) {
+            currentY = 0;
+        }
+        element.style.transform = `translateY(${currentY}px)`;
+        requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
 }
 
 /* =========================================
