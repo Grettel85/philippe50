@@ -1,5 +1,5 @@
 /* ==========================================================================
-   VERSION: PHILIPPE 50 - TOTAL ENGINE (V6.2 - Loop Scroll Update)
+   VERSION: PHILIPPE 50 - TOTAL ENGINE (V6.3 - Visitor Tracking Update)
    ========================================================================== */
 
 const config = {
@@ -92,8 +92,39 @@ let personalStoryData = null;
 let chapterOneFinished = false;
 
 /* =========================================
-    HELPERS & UTILS
+   HELPERS & UTILS
    ========================================= */
+
+// Nieuwe functie voor bezoekersstatistieken
+async function trackVisitor() {
+    const trackingURL = "https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f"; // Vul hier je nieuwe Make URL in
+    
+    try {
+        let visitorID = localStorage.getItem('philippe_uid');
+        let status = "terugkerend";
+
+        if (!visitorID) {
+            visitorID = 'phil-' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('philippe_uid', visitorID);
+            status = "nieuw";
+        }
+
+        const data = {
+            visitor_id: visitorID,
+            status: status,
+            pagina: window.location.pathname.split("/").pop() || "index.html",
+            referrer: document.referrer || "direct",
+            tijdstip: new Date().toLocaleString('nl-BE'),
+            taal: config.currentLang
+        };
+
+        fetch(trackingURL, {
+            method: "POST",
+            mode: "no-cors",
+            body: JSON.stringify(data)
+        });
+    } catch (e) { /* Discreet falen */ }
+}
 
 function getSmartImage(input) {
     const placeholderText = config.translations[config.currentLang]["img-coming-soon"];
@@ -139,7 +170,7 @@ function splitCSVRow(row) {
 }
 
 /* =========================================
-    CORE LOGIC (Language, Password, Flow)
+   CORE LOGIC (Language, Password, Flow)
    ========================================= */
 
 function setLanguage(lang) {
@@ -184,7 +215,7 @@ function openSecureScroll() {
 }
 
 /* =========================================
-    DATA FETCHING & DISPLAY (Scroll with Loop)
+   DATA FETCHING & DISPLAY (Scroll with Loop)
    ========================================= */
 
 async function fetchStory() {
@@ -240,19 +271,16 @@ async function startLiveScroll() {
             frHTML += `<div class="scroll-entry"><h3>CHAPITRE ${index + 1}: ${titleFr}</h3>${imgHTML}<p>${getLanguageSpecificText(textRaw, 'fr')}</p></div>`;
         });
 
-        // Loop-Logic: Dupliceer de HTML voor een naadloze overgang
         nlCol.innerHTML = nlHTML + nlHTML;
         frCol.innerHTML = frHTML + frHTML;
 
-        // Reset posities
         [nlCol, frCol].forEach(col => {
             col.style.transition = 'none';
             col.style.transform = 'translateY(0)';
         });
 
-        // Start de animatie motor
         setTimeout(() => {
-            const speed = 40; // Pixels per seconde
+            const speed = 40; 
             const halfHeight = nlCol.scrollHeight / 2;
             
             animateScroll(nlCol, halfHeight, speed);
@@ -262,11 +290,10 @@ async function startLiveScroll() {
     } catch (e) { console.error("Scroll error:", e); }
 }
 
-// Hulpmiddel voor oneindige loop
 function animateScroll(element, limit, speed) {
     let currentY = 0;
     function step() {
-        currentY -= speed / 60; // Gebaseerd op 60fps
+        currentY -= speed / 60; 
         if (Math.abs(currentY) >= limit) {
             currentY = 0;
         }
@@ -277,7 +304,7 @@ function animateScroll(element, limit, speed) {
 }
 
 /* =========================================
-    SEQUENTIAL STORY LOGIC (New & Polling)
+   SEQUENTIAL STORY LOGIC (New & Polling)
    ========================================= */
 
 async function findPersonalStory() {
@@ -372,13 +399,16 @@ function checkIfReadyToReveal() {
 }
 
 /* =========================================
-    INITIALIZATION & UTILS
+   INITIALIZATION & UTILS
    ========================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
     setLanguage('nl'); 
     if (document.getElementById('story-content')) fetchStory();
     if (document.getElementById('scroll-nl')) startLiveScroll();
+    
+    // Start bezoekersteller
+    trackVisitor();
 });
 
 function typeWriter(text, elementId, speed, callback) {
