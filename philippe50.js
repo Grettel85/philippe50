@@ -1,5 +1,5 @@
 /* ==========================================================================
-   VERSION: PHILIPPE 50 - TOTAL ENGINE (V6.3 - Visitor Tracking Update)
+   VERSION: PHILIPPE 50 - TOTAL ENGINE (V7.0 - Dashboard & Persistent Login)
    ========================================================================== */
 
 const config = {
@@ -95,9 +95,8 @@ let chapterOneFinished = false;
    HELPERS & UTILS
    ========================================= */
 
-// Nieuwe functie voor bezoekersstatistieken
 async function trackVisitor() {
-    const trackingURL = "https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f"; // Vul hier je nieuwe Make URL in
+    const trackingURL = "https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f"; 
     
     try {
         let visitorID = localStorage.getItem('philippe_uid');
@@ -182,7 +181,7 @@ function setLanguage(lang) {
             if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
                 el.placeholder = translation;
             } else {
-                el.innerText = translation;
+                el.innerHTML = translation;
             }
         }
     });
@@ -190,23 +189,41 @@ function setLanguage(lang) {
 }
 
 function updateLangButtons(lang) {
-    const btnNl = document.getElementById('btn-nl');
-    const btnFr = document.getElementById('btn-fr');
-    if (btnNl && btnFr) {
-        btnNl.classList.toggle('active-lang', lang === 'nl');
-        btnFr.classList.toggle('active-lang', lang === 'fr');
-    }
+    const btns = document.querySelectorAll('#btn-nl, #btn-fr, .language-switch-nav button');
+    btns.forEach(btn => {
+        const targetLang = btn.id.includes('nl') || btn.innerText.toLowerCase().includes('nl') ? 'nl' : 'fr';
+        btn.classList.toggle('active-lang', lang === targetLang);
+    });
 }
 
 function checkPassword() {
     const input = document.getElementById('password-input').value.trim().toLowerCase();
-    if (input === "admin50") { window.location.href = "legende.html"; return; }
+    
+    // Admin check
+    if (input === "admin50") { 
+        localStorage.setItem('phil_access', 'granted');
+        window.location.href = "legende.html"; 
+        return; 
+    }
+    
+    // Hoofdwachtwoord check
     if (input === config.password.toLowerCase()) {
-        document.getElementById('password-gate').style.display = 'none';
-        document.getElementById('form-section').style.display = 'block';
+        localStorage.setItem('phil_access', 'granted');
+        showDashboard();
     } else {
         document.getElementById('error-msg').style.display = 'block';
     }
+}
+
+function showDashboard() {
+    const gate = document.getElementById('password-gate');
+    const dashboard = document.getElementById('dashboard-section');
+    if (gate) gate.style.display = 'none';
+    if (dashboard) dashboard.style.display = 'block';
+}
+
+function navigateTo(page) {
+    window.location.href = page;
 }
 
 function openSecureScroll() {
@@ -403,11 +420,19 @@ function checkIfReadyToReveal() {
    ========================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Stel taal in
     setLanguage('nl'); 
+    
+    // 2. Persistent Login Check
+    if (localStorage.getItem('phil_access') === 'granted') {
+        showDashboard();
+    }
+
+    // 3. Start page-specifieke functies
     if (document.getElementById('story-content')) fetchStory();
     if (document.getElementById('scroll-nl')) startLiveScroll();
     
-    // Start bezoekersteller
+    // 4. Tracking
     trackVisitor();
 });
 
