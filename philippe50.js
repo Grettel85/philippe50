@@ -1,5 +1,5 @@
 /* ==========================================================================
-   VERSION: PHILIPPE 50 - TOTAL ENGINE (V7.0 - Dashboard & Persistent Login)
+   VERSION: PHILIPPE 50 - TOTAL ENGINE (V7.1 - Final Access Control)
    ========================================================================== */
 
 const config = {
@@ -90,6 +90,7 @@ const makeWebhookURL = "https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h
 
 let personalStoryData = null; 
 let chapterOneFinished = false;
+let pendingAction = null;
 
 /* =========================================
    HELPERS & UTILS
@@ -168,11 +169,9 @@ function splitCSVRow(row) {
     return row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
 }
 
-/* ==========================================================================
-   UPDATED CORE LOGIC: Philippe 50 - Multi-Level Access
-   ========================================================================== */
-
-let pendingAction = null;
+/* =========================================
+   ACCESS LOGIC (Wachtwoorden & Navigatie)
+   ========================================= */
 
 function setLanguage(lang) {
     config.currentLang = lang;
@@ -198,12 +197,10 @@ function updateLangButtons(lang) {
     });
 }
 
-// De verkeersleider voor alle knoppen op de index
 function handleAccess(action) {
     const isGuestAuthed = localStorage.getItem('phil_access') === 'granted';
     const isAdminAuthed = sessionStorage.getItem('admin_access') === 'granted';
 
-    // 🔒 Admin acties checken
     if (action.startsWith('admin-')) {
         if (isAdminAuthed) {
             executeAction(action);
@@ -214,7 +211,6 @@ function handleAccess(action) {
         return;
     }
 
-    // 🔑 Gewone acties checken
     if (isGuestAuthed) {
         executeAction(action);
     } else {
@@ -228,30 +224,33 @@ function showGate(customTitle = null) {
     if (customTitle) {
         document.getElementById('gate-title').innerText = customTitle;
     }
-    gate.style.display = 'block';
-    gate.scrollIntoView({ behavior: 'smooth' });
+    if (gate) {
+        gate.style.display = 'block';
+        gate.scrollIntoView({ behavior: 'smooth' });
+    }
 }
 
-// De functie die wordt aangeroepen door de Login knop
 function checkAccess() {
     const input = document.getElementById('password-input').value.trim().toLowerCase();
     const errorMsg = document.getElementById('error-msg');
 
     if (input === "admin50") {
         sessionStorage.setItem('admin_access', 'granted');
-        localStorage.setItem('phil_access', 'granted'); // Admin is ook automatisch gast
+        localStorage.setItem('phil_access', 'granted'); 
         proceedAfterLogin();
     } else if (input === config.password.toLowerCase()) {
         localStorage.setItem('phil_access', 'granted');
         proceedAfterLogin();
     } else {
-        errorMsg.style.display = 'block';
+        if (errorMsg) errorMsg.style.display = 'block';
     }
 }
 
 function proceedAfterLogin() {
-    document.getElementById('password-gate').style.display = 'none';
-    document.getElementById('error-msg').style.display = 'none';
+    const gate = document.getElementById('password-gate');
+    const errorMsg = document.getElementById('error-msg');
+    if (gate) gate.style.display = 'none';
+    if (errorMsg) errorMsg.style.display = 'none';
     if (pendingAction) {
         executeAction(pendingAction);
         pendingAction = null;
@@ -261,47 +260,39 @@ function proceedAfterLogin() {
 function executeAction(action) {
     switch(action) {
         case 'verhaal':
-            document.getElementById('form-section').style.display = 'block';
-            document.getElementById('form-section').scrollIntoView({ behavior: 'smooth' });
+            const formSection = document.getElementById('form-section');
+            if (formSection) {
+                formSection.style.display = 'block';
+                formSection.scrollIntoView({ behavior: 'smooth' });
+            }
             break;
         case 'admin-someone':
-            window.location.href = "someone-admin.html";
+            window.location.href = "find-someone/find-someone.html";
             break;
         case 'mysterie-tips':
-            window.location.href = "tips-invoeren.html";
+            window.location.href = "quiztit/quiztit.html";
             break;
         case 'admin-mysterie':
-            window.location.href = "mysterie-admin.html";
+            window.location.href = "quiztit/quiztitbuild.html";
+            break;
+        case 'admin-scroll':
+            window.location.href = "scroll.html";
             break;
         default:
             console.warn("Actie niet gedefinieerd:", action);
     }
 }
 
-// Voor de "Speel Online" knop die geen wachtwoord nodig heeft
 function openMysteriePlay() {
-    window.location.href = "bestemming-play.html";
+    window.location.href = "quiztit/quiztitspel.html";
 }
 
 function openSecureScroll() {
-    const isAdmin = sessionStorage.getItem('admin_access') === 'granted';
-    if (isAdmin) {
-        window.location.href = "scroll.html";
-    } else {
-        handleAccess('admin-scroll'); // Dit zal de gate triggeren voor admin50
-    }
+    handleAccess('admin-scroll');
 }
 
-// Pas ook de DOMContentLoaded aan voor de juiste check
-document.addEventListener('DOMContentLoaded', () => {
-    setLanguage('nl'); 
-    trackVisitor();
-    
-    // We tonen de secties op index.html altijd, handleAccess regelt de kliks
-    // (Optioneel: je kunt hier secties verbergen als je wilt dat men eerst MOET inloggen)
-});
 /* =========================================
-   DATA FETCHING & DISPLAY (Scroll with Loop)
+   DATA FETCHING & DISPLAY
    ========================================= */
 
 async function fetchStory() {
@@ -368,7 +359,6 @@ async function startLiveScroll() {
         setTimeout(() => {
             const speed = 40; 
             const halfHeight = nlCol.scrollHeight / 2;
-            
             animateScroll(nlCol, halfHeight, speed);
             animateScroll(frCol, halfHeight, speed);
         }, 100);
@@ -390,7 +380,7 @@ function animateScroll(element, limit, speed) {
 }
 
 /* =========================================
-   SEQUENTIAL STORY LOGIC (New & Polling)
+   SEQUENTIAL STORY LOGIC
    ========================================= */
 
 async function findPersonalStory() {
@@ -489,19 +479,14 @@ function checkIfReadyToReveal() {
    ========================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Stel taal in
     setLanguage('nl'); 
     
-    // 2. Persistent Login Check
-    if (localStorage.getItem('phil_access') === 'granted') {
-        showDashboard();
-    }
-
-    // 3. Start page-specifieke functies
+    // Alleen dashboard tonen als men al gast-auth heeft (voor altijd)
+    // De index knoppen gebruiken handleAccess, dus het dashboard mag in principe altijd zichtbaar zijn
+    
     if (document.getElementById('story-content')) fetchStory();
     if (document.getElementById('scroll-nl')) startLiveScroll();
     
-    // 4. Tracking
     trackVisitor();
 });
 
