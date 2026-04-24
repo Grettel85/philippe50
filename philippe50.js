@@ -168,9 +168,11 @@ function splitCSVRow(row) {
     return row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
 }
 
-/* =========================================
-   CORE LOGIC (Language, Password, Flow)
-   ========================================= */
+/* ==========================================================================
+   UPDATED CORE LOGIC: Philippe 50 - Multi-Level Access
+   ========================================================================== */
+
+let pendingAction = null;
 
 function setLanguage(lang) {
     config.currentLang = lang;
@@ -196,41 +198,108 @@ function updateLangButtons(lang) {
     });
 }
 
-function checkPassword() {
-    const input = document.getElementById('password-input').value.trim().toLowerCase();
-    
-    // Admin check
-    if (input === "admin50") { 
-        localStorage.setItem('phil_access', 'granted');
-        window.location.href = "legende.html"; 
-        return; 
+// De verkeersleider voor alle knoppen op de index
+function handleAccess(action) {
+    const isGuestAuthed = localStorage.getItem('phil_access') === 'granted';
+    const isAdminAuthed = sessionStorage.getItem('admin_access') === 'granted';
+
+    // 🔒 Admin acties checken
+    if (action.startsWith('admin-')) {
+        if (isAdminAuthed) {
+            executeAction(action);
+        } else {
+            pendingAction = action;
+            showGate("Voer Admin Code in / Entrez le code Admin");
+        }
+        return;
     }
-    
-    // Hoofdwachtwoord check
-    if (input === config.password.toLowerCase()) {
-        localStorage.setItem('phil_access', 'granted');
-        showDashboard();
+
+    // 🔑 Gewone acties checken
+    if (isGuestAuthed) {
+        executeAction(action);
     } else {
-        document.getElementById('error-msg').style.display = 'block';
+        pendingAction = action;
+        showGate();
     }
 }
 
-function showDashboard() {
+function showGate(customTitle = null) {
     const gate = document.getElementById('password-gate');
-    const dashboard = document.getElementById('dashboard-section');
-    if (gate) gate.style.display = 'none';
-    if (dashboard) dashboard.style.display = 'block';
+    if (customTitle) {
+        document.getElementById('gate-title').innerText = customTitle;
+    }
+    gate.style.display = 'block';
+    gate.scrollIntoView({ behavior: 'smooth' });
 }
 
-function navigateTo(page) {
-    window.location.href = page;
+// De functie die wordt aangeroepen door de Login knop
+function checkAccess() {
+    const input = document.getElementById('password-input').value.trim().toLowerCase();
+    const errorMsg = document.getElementById('error-msg');
+
+    if (input === "admin50") {
+        sessionStorage.setItem('admin_access', 'granted');
+        localStorage.setItem('phil_access', 'granted'); // Admin is ook automatisch gast
+        proceedAfterLogin();
+    } else if (input === config.password.toLowerCase()) {
+        localStorage.setItem('phil_access', 'granted');
+        proceedAfterLogin();
+    } else {
+        errorMsg.style.display = 'block';
+    }
+}
+
+function proceedAfterLogin() {
+    document.getElementById('password-gate').style.display = 'none';
+    document.getElementById('error-msg').style.display = 'none';
+    if (pendingAction) {
+        executeAction(pendingAction);
+        pendingAction = null;
+    }
+}
+
+function executeAction(action) {
+    switch(action) {
+        case 'verhaal':
+            document.getElementById('form-section').style.display = 'block';
+            document.getElementById('form-section').scrollIntoView({ behavior: 'smooth' });
+            break;
+        case 'admin-someone':
+            window.location.href = "someone-admin.html";
+            break;
+        case 'mysterie-tips':
+            window.location.href = "tips-invoeren.html";
+            break;
+        case 'admin-mysterie':
+            window.location.href = "mysterie-admin.html";
+            break;
+        default:
+            console.warn("Actie niet gedefinieerd:", action);
+    }
+}
+
+// Voor de "Speel Online" knop die geen wachtwoord nodig heeft
+function openMysteriePlay() {
+    window.location.href = "bestemming-play.html";
 }
 
 function openSecureScroll() {
-    const pw = prompt("Geheime code / Code secret:");
-    if (pw && pw.toLowerCase() === "admin50") window.location.href = "scroll.html";
+    const isAdmin = sessionStorage.getItem('admin_access') === 'granted';
+    if (isAdmin) {
+        window.location.href = "scroll.html";
+    } else {
+        handleAccess('admin-scroll'); // Dit zal de gate triggeren voor admin50
+    }
 }
 
+// Pas ook de DOMContentLoaded aan voor de juiste check
+document.addEventListener('DOMContentLoaded', () => {
+    setLanguage('nl'); 
+    trackVisitor();
+    
+    // We tonen de secties op index.html altijd, handleAccess regelt de kliks
+    // (Optioneel: je kunt hier secties verbergen als je wilt dat men eerst MOET inloggen)
+});
 /* =========================================
    DATA FETCHING & DISPLAY (Scroll with Loop)
    ========================================= */
