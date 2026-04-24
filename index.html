@@ -8,62 +8,88 @@
 </head>
 <body>
     <div class="stars-container"></div>
-    <div class="card-container">
-        <div class="language-switch">
-            <button onclick="setLanguage('nl')" id="btn-nl" class="active-lang">NL</button>
-            <button onclick="setLanguage('fr')" id="btn-fr">FR</button>
-        </div>
 
-        <div id="password-gate" class="glass-card fade-in">
-            <h1 data-i18n="welcome">Welkom bij Philippe 50</h1>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">PHILIPPE <span class="accent">50</span></a>
+            <div class="nav-menu">
+                <a href="#section-verhaal" class="nav-link" data-i18n="nav-verhaal">Het Verhaal</a>
+                <a href="#section-someone" class="nav-link" data-i18n="nav-someone">Find Someone</a>
+                <a href="#section-mysterie" class="nav-link" data-i18n="nav-mysterie">Bestemming50</a>
+            </div>
+            <div class="language-switch-nav">
+                <button onclick="setLanguage('nl')" id="btn-nl" class="active-lang">NL</button>
+                <button onclick="setLanguage('fr')" id="btn-fr">FR</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="card-container main-dashboard">
+        
+        <section id="section-verhaal" class="glass-card section-card fade-in">
+            <h2 data-i18n="nav-verhaal">Het Verhaal</h2>
+            <p data-i18n="desc-verhaal">Deel een herinnering of bekijk jouw eigen hoofdstuk in de tijdlijn.</p>
+            <div class="button-group">
+                <button onclick="handleAccess('verhaal')" data-i18n="btn-write">Schrijf mee 🔑</button>
+                <a href="mijn-verhaal.html" class="submit-btn-alt" data-i18n="view-chapter">Bekijk jouw hoofdstuk</a>
+            </div>
+        </section>
+
+        <section id="section-someone" class="glass-card section-card fade-in">
+            <h2 data-i18n="nav-someone">Find Someone Who</h2>
+            <p data-i18n="desc-someone">De ultieme ijsbreker. Wie van de gasten matcht met de stelling?</p>
+            <button onclick="handleAccess('admin-someone')" data-i18n="btn-play">Speel het Spel 🔒</button>
+        </section>
+
+        <section id="section-mysterie" class="glass-card section-card fade-in">
+            <h2 data-i18n="nav-mysterie">Bestemming50</h2>
+            <p data-i18n="desc-mysterie">15 tips, één doel. Ontrafel jij de coördinaten van Philippe?</p>
+            <div class="button-group-grid">
+                <button onclick="openMysteriePlay()" data-i18n="btn-play-online">Speel Online</button>
+                <button onclick="handleAccess('mysterie-tips')" data-i18n="btn-input">Tips Invoeren 🔑</button>
+                <button onclick="handleAccess('admin-mysterie')" data-i18n="btn-gen">Kaarten Generator 🔒</button>
+            </div>
+        </section>
+
+        <hr style="margin: 50px 0; border: 0; opacity: 0;">
+
+        <div id="password-gate" class="glass-card fade-in" style="display: none;">
+            <h1 id="gate-title" data-i18n="welcome">Welkom bij Philippe 50</h1>
             <p data-i18n="enter-code">Voer de geheime code in om deel te nemen:</p>
             <div class="input-group">
                 <input type="password" id="password-input" placeholder="Wachtwoord..." data-i18n="placeholder-pw-code">
             </div>
-            <button onclick="checkPassword()" data-i18n="login-btn">Log in</button>
+            <button onclick="checkAccess()" data-i18n="login-btn">Log in</button>
             <p id="error-msg" style="color: #ff00de; display: none; margin-top: 10px;" data-i18n="wrong-pwd">Onjuiste code.</p>
-            
-            <hr style="margin: 30px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.1);">
-            
-            <a href="mijn-verhaal.html" class="submit-btn-alt" data-i18n="view-chapter">
-                Bekijk jouw hoofdstuk
-            </a>
         </div>
 
         <div id="form-section" class="glass-card fade-in" style="display: none;">
             <h2 data-i18n="form-title">Het verhaal van Philippe</h2>
             <form id="dragon-form" onsubmit="event.preventDefault(); submitForm();">
-                
                 <div class="input-group">
                     <label data-i18n="label-name">Jouw Nickname:</label>
                     <input type="text" id="deelnemer_naam" required data-i18n="placeholder-name">
                 </div>
-
                 <div class="input-group">
                     <label data-i18n="label-setting">Waar en/of wanneer is Philippe beland?</label>
                     <input type="text" id="input-setting" placeholder="bijv. 1984, de toekomst, disco-tijd..." required data-i18n="placeholder-setting">
                 </div>
-
                 <div class="input-group">
                     <label data-i18n="label-obstacle">Welk probleem heeft hij daar?</label>
                     <input type="text" id="input-obstacle" placeholder="bijv. De platenspeler hapert, wifi is weg, er brak een wiel van zijn waveboard, ..." required data-i18n="placeholder-obstacle">
                 </div>
-
                 <div class="input-group">
                     <label data-i18n="label-soundtrack">Welk liedje hoort bij dit avontuur?</label>
                     <input type="text" id="input-soundtrack" placeholder="Artiest - Titel" required data-i18n="placeholder-soundtrack">
                 </div>
-
                 <div class="input-group">
                     <label data-i18n="label-memory">Beschrijf je leukste herinnering met Philippe:</label>
                     <textarea id="philippe_herinnering" rows="3" required></textarea>
                 </div>
-
                 <div class="input-group">
                     <label data-i18n="label-email">Jouw E-mailadres:</label>
                     <input type="email" id="deelnemer_email" required>
                 </div>
-
                 <div class="input-group">
                     <label data-i18n="label-band">Welk woord doet je aan Philippe denken:</label>
                     <p style="font-size: 0.7rem; color: #ff00de;" data-i18n="band-note">(Dit is je wachtwoord voor later)</p>
@@ -75,7 +101,6 @@
                         </button>
                     </div>
                 </div>
-
                 <button type="submit" class="submit-btn" data-i18n="submit-btn">Verstuur naar de Legende</button>
             </form>
         </div>
@@ -87,11 +112,9 @@
         <span class="legend-icon">📜</span>
     </button>
 
-
-<a href="mailto:jolan.spelletjes@gmail.com?subject=HELP%20ME%20AUB%20/%20AIDEZ%20MOI%20SVP" class="help-button">
-    <span class="help-tooltip">Hulp nodig? / Besoin d'aide?</span>
-    ?
-</a>
-    
+    <a href="mailto:jolan.spelletjes@gmail.com?subject=HELP%20ME%20AUB%20/%20AIDEZ%20MOI%20SVP" class="help-button">
+        <span class="help-tooltip">Hulp nodig? / Besoin d'aide?</span>
+        ?
+    </a>
 </body>
 </html>
