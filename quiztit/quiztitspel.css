@@ -294,3 +294,37 @@ input#guess-input {
     border-radius: 4px;
     border-left: 2px solid rgba(255, 255, 255, 0.2);
 }
+
+
+
+/* --- ANIMATIES --- */
+
+/* Schudden bij fout antwoord */
+.shake {
+    animation: shakeAnim 0.4s ease-in-out;
+}
+
+@keyframes shakeAnim {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    50% { transform: translateX(8px); }
+    75% { transform: translateX(-4px); }
+}
+
+/* Score die even 'popt' als er een punt afgaat */
+.score-pop {
+    animation: popAnim 0.3s ease-out;
+}
+
+@keyframes popAnim {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); color: #fff; }
+    100% { transform: scale(1); }
+}
+
+/* De nummers laten oplichten als ze gebruikt zijn */
+.num-btn.used {
+    transform: scale(0.9);
+    opacity: 0.6;
+    box-shadow: none;
+}
