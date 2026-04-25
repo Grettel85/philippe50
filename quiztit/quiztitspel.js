@@ -113,7 +113,8 @@ function revealTip(btn) {
     
     // Verberg placeholder tekst bij de eerste tip
     if (openedTipsCount === 0) {
-        document.getElementById('hint-text').style.display = 'none';
+        const hintText = document.getElementById('hint-text');
+        if (hintText) hintText.style.display = 'none';
     }
 
     // Maak een DIV voor het 3-kolommen grid
@@ -133,11 +134,11 @@ function revealTip(btn) {
     document.getElementById('guess-btn').disabled = false;
     document.getElementById('guess-input').focus();
 
-    // --- FOCUS-FIX TOEGEVOEGD ---
+    // --- FOCUS-FIX ---
     hintDisplay.scrollIntoView({ behavior: 'smooth', block: 'center' });
     hintDisplay.classList.add('highlight-hint');
     setTimeout(() => hintDisplay.classList.remove('highlight-hint'), 500);
-    // ----------------------------
+    // -----------------
 
     // Toon de pass-knop als alle 15 tips open zijn
     if (openedTipsCount === 15) {
