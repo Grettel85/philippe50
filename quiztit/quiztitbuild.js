@@ -1,19 +1,43 @@
-// VERVANG DEZE URL door je eigen Google Sheets CSV Link
-const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSbgWdp6pG7lbbrWC35FvNLwH756-cr1JvGf8LIau3DuLXlk8ninpYwa6tA8eLapPaK1KmvsZcYervP/pub?output=csv';
+/* =========================================
+   QUIZTIT BUILDER - UPDATED WITH LANGUAGE & COLOR MAPPING
+   ========================================= */
+
+const baseSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSbgWdp6pG7lbbrWC35FvNLwH756-cr1JvGf8LIau3DuLXlk8ninpYwa6tA8eLapPaK1KmvsZcYervP/pub?output=csv";
+
+const gids = {
+    nl: "209829391",
+    fr: "243220785"
+};
 
 let allData = [];
+let currentLang = 'nl'; // Standaard op NL
 
 async function init() {
+    // URL wordt nu dynamisch opgebouwd op basis van taal
+    const url = `${baseSheetURL}&gid=${gids[currentLang]}&single=true`;
+    
     try {
-        const response = await fetch(csvUrl);
+        const response = await fetch(url + '&cb=' + Date.now());
         const text = await response.text();
-        const rows = text.split('\n').map(row => row.split(','));
-        allData = rows.slice(1).filter(r => r.length > 2);
+        
+        // VEILIGERE SPLIT: Eerst regels splitsen, dan kolommen
+        const lines = text.split(/\r?\n/);
+        allData = lines.slice(1)
+            .map(row => row.split(','))
+            .filter(r => r.length > 2);
+
         renderCards('front');
+        console.log(`Generator geladen voor: ${currentLang}`);
     } catch (err) {
         document.getElementById('status-msg').innerHTML = "❌ Fout bij laden: " + err;
     }
 }
+
+// Functie om van taal te wisselen via de knoppen
+window.switchLanguage = function(lang) {
+    currentLang = lang;
+    init();
+};
 
 // Verbeterde fitText met padding-correctie
 function fitText(card) {
@@ -26,8 +50,6 @@ function fitText(card) {
     area.style.fontSize = fontSize + "px";
     area.style.lineHeight = "1.1";
 
-    // We meten de scrollHeight tegenover de clientHeight.
-    // Omdat padding de tekst kan blokkeren, trekken we een veiligheidsmarge van 4px af.
     const maxHeight = area.clientHeight - 4; 
 
     let safetyCounter = 0;
@@ -59,9 +81,21 @@ function createPage(batch, view) {
         card.className = (view === 'front') ? 'card card-front' : 'card card-back';
 
         if (view === 'front') {
-            const categorie = rowData[2] ? rowData[2].trim() : "WAT";
+            const rawCat = rowData[2] ? rowData[2].trim() : "WAT";
             const oplossing = rowData[3] ? rowData[3].trim() : "";
             const tips = rowData[4] ? rowData[4].split('|') : [];
+
+            // Mapping van Franse termen naar de juiste CSS neon-kleuren
+            const colorMap = {
+                'QUI': 'wie',
+                'QUOI': 'wat',
+                'OU': 'waar',
+                'QUAND': 'wanneer',
+                'ENIGME': 'raadsel'
+            };
+            
+            // Zoek de kleur op, anders gebruik de tekst zelf (voor NL)
+            const colorClass = colorMap[rawCat.toUpperCase()] || rawCat.toLowerCase();
 
             let tipsHtml = tips.map((t, idx) => `
                 <div class="tip-row">
@@ -71,14 +105,13 @@ function createPage(batch, view) {
             `).join('');
 
             card.innerHTML = `
-                <div class="cat-header cat-${categorie.toLowerCase()}">${categorie}</div>
+                <div class="cat-header cat-${colorClass}">${rawCat}</div>
                 <div class="tips-area">${tipsHtml}</div>
                 <div class="solution-area">${oplossing}</div>
             `;
             
             page.appendChild(card);
             
-            // Directe uitvoering én een kleine vertraging voor de zekerheid
             requestAnimationFrame(() => {
                 fitText(card);
             });
@@ -112,7 +145,6 @@ function renderCards(view) {
 
 function combinePrint() {
     renderCards('print-all');
-    // We wachten 800ms zodat alle 'requestAnimationFrames' zeker klaar zijn
     setTimeout(() => {
         window.print();
     }, 800); 
