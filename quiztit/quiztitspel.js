@@ -1,14 +1,12 @@
 /* =========================================
-   QUIZTITSPEL ENGINE - VOLLEDIGE VERSIE
+   QUIZTITSPEL ENGINE - FIXED VERSION
    ========================================= */
 
-// --- CONFIGURATIE & KOPPELING ---
 const baseSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSbgWdp6pG7lbbrWC35FvNLwH756-cr1JvGf8LIau3DuLXlk8ninpYwa6tA8eLapPaK1KmvsZcYervP/pub?output=csv";
 
-// GID codes voor NL en FR (Vul de FR GID in zodra je die hebt)
 const gids = {
     nl: "209829391",
-    fr: "209829391" // Voorlopig even dezelfde als NL om fouten te voorkomen
+    fr: "209829391" 
 };
 
 let realGameData = []; 
@@ -18,26 +16,27 @@ let openedTipsCount = 0;
 let solution = "";
 let currentLang = localStorage.getItem('preferred_lang') || 'nl';
 
-// Functie om de data uit Google Sheets te laden op basis van taal
 async function loadSheetData() {
     const url = `${baseSheetURL}&gid=${gids[currentLang]}&single=true`;
     try {
         const response = await fetch(url + '&cb=' + Date.now());
         const csvText = await response.text();
         
-        // Slimme CSV split die rekening houdt met komma's binnen aanhalingstekens
-        const rows = csvText.split(/\r?\n(?=(?:[^"]*"){2})*[^"]*$)/).slice(1);
+        // VEILIGERE SPLIT: Eerst regels splitsen, dan kolommen
+        const lines = csvText.split(/\r?\n/);
+        const rows = lines.slice(1); // Koptekst eraf
         
         realGameData = rows.map(row => {
-            const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(col => col.replace(/^"(.*)"$/, '$1').trim()); 
+            // Simpele split op komma (werkt zolang er geen komma's IN je tekstvakken staan)
+            const columns = row.split(',').map(col => col.replace(/^"(.*)"$/, '$1').trim()); 
             return {
-                categorie: columns[2], // Kolom C
-                oplossing: columns[3], // Kolom D
-                tips: columns[4]       // Kolom E
+                categorie: columns[2], 
+                oplossing: columns[3], 
+                tips: columns[4]       
             };
         }).filter(item => item.oplossing && item.tips); 
 
-        console.log(`Data (${currentLang}) succesvol geladen`);
+        console.log("Data succesvol geladen");
         const startBtn = document.getElementById('start-btn');
         if(startBtn) startBtn.innerText = currentLang === 'nl' ? "START HET SPEL" : "COMMENCER LE JEU";
         updateLanguageUI();
@@ -46,7 +45,6 @@ async function loadSheetData() {
     }
 }
 
-// Taal wisselen en onthouden
 window.setLanguage = function(lang) {
     currentLang = lang;
     localStorage.setItem('preferred_lang', lang);
@@ -58,12 +56,7 @@ function updateLanguageUI() {
     document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
     const activeBtn = document.getElementById(`btn-${currentLang}`);
     if (activeBtn) activeBtn.classList.add('active');
-    
-    const bestLabel = document.querySelector('.badge-best');
-    if (bestLabel) bestLabel.childNodes[0].textContent = currentLang === 'nl' ? "Beste: " : "Meilleur: ";
 }
-
-// --- HET SPEL MECHANISME ---
 
 window.onload = () => {
     loadSheetData();
@@ -72,36 +65,21 @@ window.onload = () => {
     if(highScoreEl) highScoreEl.innerText = high;
 };
 
-// Enter-toets in het invoerveld
-const guessInput = document.getElementById('guess-input');
-if(guessInput) {
-    guessInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && !document.getElementById('guess-btn').disabled) {
-            checkAnswer();
-        }
-    });
-}
-
+// Event Listeners
 document.getElementById('start-btn').addEventListener('click', startNewGame);
 document.getElementById('guess-btn').addEventListener('click', checkAnswer);
+document.getElementById('guess-input').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && !document.getElementById('guess-btn').disabled) {
+        checkAnswer();
+    }
+});
 
 function startNewGame() {
-    if (realGameData.length === 0) {
-        alert(currentLang === 'nl' ? "Momentje, laden..." : "Attendez, chargement...");
-        return;
-    }
+    if (realGameData.length === 0) return;
     
     const randomGame = realGameData[Math.floor(Math.random() * realGameData.length)];
     
-    const winTitle = document.querySelector('.win-title');
-    if (winTitle) {
-        winTitle.innerText = currentLang === 'nl' ? "GEVONDEN!" : "TROUVÉ !";
-        winTitle.style.color = "#00ff00";
-    }
-    
-    const passBtn = document.getElementById('pass-btn');
-    if (passBtn) passBtn.style.display = 'none';
-
+    if (document.getElementById('pass-btn')) document.getElementById('pass-btn').style.display = 'none';
     document.getElementById('answer-history').innerHTML = "";
     setupGame(randomGame);
 }
@@ -116,10 +94,8 @@ function setupGame(data) {
     document.getElementById('game-area').style.display = 'block';
     document.getElementById('display-categorie').innerText = data.categorie;
     document.getElementById('display-score').innerText = `Punten: 15`;
+    document.getElementById('hints-display').innerHTML = `<p id="hint-text">Klik op een nummer...</p>`;
     
-    document.getElementById('hints-display').innerHTML = `<p id="hint-text">${currentLang === 'nl' ? 'Klik op een nummer...' : 'Cliquez sur un numéro...'}</p>`;
-    
-    document.getElementById('message-box').innerText = "";
     const input = document.getElementById('guess-input');
     input.value = "";
     input.disabled = true;
@@ -140,12 +116,11 @@ function createGrid() {
     }
 }
 
-// DE "LIDWOORD- & ACCENT-WASMACHINE"
 function cleanInput(text) {
     const stopWords = /\b(un|une|le|la|les|des|de|du|d'|l'|het|de|een)\b/gi;
     return text.toLowerCase()
-               .normalize("NFD") // Accenten decomponeren
-               .replace(/[\u0300-\u036f]/g, "") // Accenten verwijderen
+               .normalize("NFD")
+               .replace(/[\u0300-\u036f]/g, "") 
                .replace(stopWords, '')
                .replace(/['’]/g, '')
                .replace(/\s+/g, '') 
@@ -155,22 +130,18 @@ function cleanInput(text) {
 
 function revealTip(btn) {
     if (availableTips.length === 0) return;
-
-    document.getElementById('answer-history').innerHTML = "";
     document.getElementById('message-box').innerText = "";
 
     const randomIndex = Math.floor(Math.random() * availableTips.length);
     const tip = availableTips.splice(randomIndex, 1)[0];
 
-    const hintDisplay = document.getElementById('hints-display');
     const placeholder = document.getElementById('hint-text');
     if (placeholder) placeholder.style.display = 'none';
 
     const newTipDiv = document.createElement('div');
     newTipDiv.className = 'revealed-tip fade-in';
     newTipDiv.innerText = tip;
-    
-    hintDisplay.appendChild(newTipDiv);
+    document.getElementById('hints-display').appendChild(newTipDiv);
     
     openedTipsCount++;
     btn.disabled = true;
@@ -182,11 +153,8 @@ function revealTip(btn) {
     document.getElementById('guess-btn').disabled = false;
     input.focus();
 
-    hintDisplay.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
     if (openedTipsCount === 15) {
-        const passBtn = document.getElementById('pass-btn');
-        if (passBtn) passBtn.style.display = 'block';
+        if (document.getElementById('pass-btn')) document.getElementById('pass-btn').style.display = 'block';
     }
 }
 
@@ -194,11 +162,8 @@ function checkAnswer() {
     const userInput = document.getElementById('guess-input').value.trim();
     if (!userInput) return;
 
-    const msg = document.getElementById('message-box');
-
     if (cleanInput(userInput) === cleanInput(solution)) {
         const eindScore = 15 - openedTipsCount + 1;
-        
         document.getElementById('popup-antwoord').innerText = currentData.oplossing;
         document.getElementById('popup-score').innerText = eindScore;
         
@@ -209,13 +174,10 @@ function checkAnswer() {
         }
 
         document.getElementById('win-popup').style.display = 'flex'; 
-        trackGameEvent("win", eindScore);
     } else {
         const li = document.createElement('li');
         li.innerText = `❌ ${userInput}`;
         document.getElementById('answer-history').prepend(li);
-        
-        msg.innerHTML = `<span style="color: #ff00de; font-weight: bold;">Niet juist...</span>`;
         document.getElementById('guess-input').value = "";
     }
 }
@@ -224,22 +186,3 @@ document.getElementById('play-again-btn').addEventListener('click', () => {
     document.getElementById('win-popup').style.display = 'none';
     startNewGame();
 });
-
-const passBtn = document.getElementById('pass-btn');
-if (passBtn) {
-    passBtn.addEventListener('click', () => {
-        document.getElementById('popup-antwoord').innerText = currentData.oplossing;
-        document.getElementById('popup-score').innerText = "0";
-        document.getElementById('win-popup').style.display = 'flex';
-        trackGameEvent("pass", 0);
-    });
-}
-
-function trackGameEvent(type, val) {
-    const webhookURL = "https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f";
-    fetch(webhookURL, {
-        method: "POST",
-        mode: "no-cors",
-        body: JSON.stringify({ event: type, score: val, lang: currentLang, timestamp: new Date().toISOString() })
-    });
-}
