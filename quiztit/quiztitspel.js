@@ -6,7 +6,7 @@ const baseSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSbgWdp6pG
 
 const gids = {
     nl: "209829391",
-    fr: "209829391" 
+    fr: "243220785" 
 };
 
 let realGameData = []; 
