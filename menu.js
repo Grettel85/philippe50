@@ -6,11 +6,15 @@ function loadMenu() {
     const placeholder = document.getElementById('nav-placeholder');
     if (!placeholder) return;
 
-    // We gebruiken relatieve links (geen / ervoor) voor GitHub Pages compatibiliteit
+    // Dynamische basis-URL bepalen voor GitHub Pages (voorkomt 404's)
+    const pathArray = window.location.pathname.split('/');
+    const repoName = pathArray[1]; 
+    const baseUrl = window.location.origin + '/' + repoName + '/';
+
     placeholder.innerHTML = `
     <nav class="top-nav">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo">PHILIPPE <span class="accent">50</span></a>
+            <a href="${baseUrl}index.html" class="nav-logo">PHILIPPE <span class="accent">50</span></a>
             
             <button class="mobile-nav-toggle" onclick="toggleMobileMenu()" aria-label="Menu">
                 <span></span>
@@ -19,9 +23,9 @@ function loadMenu() {
             </button>
 
             <div class="nav-menu" id="nav-menu">
-                <a href="index.html#section-verhaal" class="nav-link" data-i18n="nav-verhaal">Het Verhaal</a>
-                <a href="index.html#section-someone" class="nav-link" data-i18n="nav-someone">Find Someone</a>
-                <a href="index.html#section-mysterie" class="nav-link" data-i18n="nav-mysterie">Bestemming50</a>
+                <a href="${baseUrl}index.html#section-verhaal" class="nav-link" data-i18n="nav-verhaal">Het Verhaal</a>
+                <a href="${baseUrl}index.html#section-someone" class="nav-link" data-i18n="nav-someone">Find Someone</a>
+                <a href="${baseUrl}index.html#section-mysterie" class="nav-link" data-i18n="nav-mysterie">Bestemming50</a>
             </div>
 
             <div class="language-switch-nav">
@@ -33,7 +37,9 @@ function loadMenu() {
 
     // Direct de taal synchroniseren nadat het menu is opgebouwd
     if (typeof setLanguage === 'function') {
-        setLanguage(config.currentLang || 'nl');
+        // Gebruik de taal uit de config, of val terug op Nederlands
+        const currentLang = (typeof config !== 'undefined' && config.currentLang) ? config.currentLang : 'nl';
+        setLanguage(currentLang);
     }
 }
 
@@ -46,7 +52,7 @@ function toggleMobileMenu() {
     }
 }
 
-// Zorg dat het menu sluit als je op een link klikt (belangrijk voor mobiel)
+// Zorg dat het menu sluit als je op een link klikt
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('nav-link')) {
         const menu = document.getElementById('nav-menu');
