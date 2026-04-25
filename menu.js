@@ -6,10 +6,9 @@ function loadMenu() {
     const placeholder = document.getElementById('nav-placeholder');
     if (!placeholder) return;
 
-    // Dynamische basis-URL bepalen voor GitHub Pages (voorkomt 404's)
-    const pathArray = window.location.pathname.split('/');
-    const repoName = pathArray[1]; 
-    const baseUrl = window.location.origin + '/' + repoName + '/';
+    // We stellen de basis-URL vast in op jouw specifieke GitHub adres
+    // Dit voorkomt dat submappen de weg kwijtraken
+    const baseUrl = window.location.origin + '/philippe50/';
 
     placeholder.innerHTML = `
     <nav class="top-nav">
@@ -37,7 +36,6 @@ function loadMenu() {
 
     // Direct de taal synchroniseren nadat het menu is opgebouwd
     if (typeof setLanguage === 'function') {
-        // Gebruik de taal uit de config, of val terug op Nederlands
         const currentLang = (typeof config !== 'undefined' && config.currentLang) ? config.currentLang : 'nl';
         setLanguage(currentLang);
     }
