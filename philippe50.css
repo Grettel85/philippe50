@@ -317,16 +317,38 @@ button:hover, .submit-btn:hover {
     cursor: pointer !important;
     transition: transform 0.2s ease-in-out !important;
     box-shadow: 0 0 20px rgba(255, 0, 222, 0.7) !important;
+    font-size: 24px;
 }
 
 .help-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    z-index: 9999;
-    /* (rest behouden) */
+    position: fixed !important;
+    bottom: 30px !important;
+    right: 30px !important;
+    width: 60px !important;
+    height: 60px !important;
+    background: rgba(0, 242, 255, 0.1) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid #00f2ff !important;
+    border-radius: 50% !important;
+    color: #00f2ff !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    font-size: 28px !important;
+    font-weight: bold !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.4) !important;
+}
+
+.help-button:hover {
+    background: #00f2ff !important;
+    color: #000 !important;
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 0 25px rgba(0, 242, 255, 0.8) !important;
 }
 
 /* =========================================
@@ -334,7 +356,7 @@ button:hover, .submit-btn:hover {
    ========================================= */
 @media (max-width: 768px) {
     .nav-menu {
-        display: none; /* Verberg standaard menu op mobiel */
+        display: none; 
         position: absolute;
         top: 100%;
         left: 0;
@@ -348,7 +370,7 @@ button:hover, .submit-btn:hover {
     }
 
     .nav-menu.active {
-        display: flex; /* Toon als 'active' class via JS is toegevoegd */
+        display: flex; 
     }
 
     .mobile-nav-toggle {
@@ -361,7 +383,7 @@ button:hover, .submit-btn:hover {
     }
 
     .main-dashboard {
-        grid-template-columns: 1fr; /* Altijd 1 kolom op mobiel */
+        grid-template-columns: 1fr;
         gap: 20px;
     }
 
@@ -380,10 +402,10 @@ button:hover, .submit-btn:hover {
     }
 
     .help-button {
-        width: 40px;
-        height: 40px;
-        bottom: 15px;
-        right: 15px;
-        font-size: 18px;
+        width: 50px !important;
+        height: 50px !important;
+        bottom: 20px !important;
+        right: 20px !important;
+        font-size: 24px !important;
     }
 }
