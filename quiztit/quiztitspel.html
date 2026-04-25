@@ -5,14 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Het Philippe Mysterie - Speel het Spel</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../philippe50.css">
     <link rel="stylesheet" href="quiztitspel.css">
 </head>
 <body>
-    <div class="stars-container"></div>
+    <div id="nav-placeholder"></div> <div class="stars-container"></div>
 
     <div class="game-container">
         <div class="glass-card">
             <h1>Het Philippe Mysterie</h1>
+
+            <div id="language-select" style="margin-bottom: 20px;">
+                <button onclick="setLanguage('nl')" id="btn-nl" class="lang-btn">NL</button>
+                <button onclick="setLanguage('fr')" id="btn-fr" class="lang-btn">FR</button>
+            </div>
             
             <div id="setup-area">
                 <button id="start-btn" class="main-btn">Nieuwe Kaart Trekken</button>
@@ -22,10 +28,10 @@
                 <div class="game-header">
                     <span id="display-categorie" class="badge">...</span>
                     <span id="display-score" class="badge-score">Punten: 15</span>
+                    <span class="badge-best">Beste: <span id="high-score">0</span></span>
                 </div>
 
                 <div class="game-main-content">
-                    
                     <div id="numbers-grid" class="numbers-grid"></div>
 
                     <div class="hints-container">
@@ -36,9 +42,14 @@
                         <div class="guess-section">
                             <input type="text" id="guess-input" placeholder="Typ je antwoord..." disabled>
                             <button id="guess-btn" class="guess-btn" disabled>Check</button>
-                            <button id="pass-btn" class="pass-btn" style="display: none;">Passen</button>
+                            <button id="pass-btn" class="pass-btn">Passen</button>
                         </div>
                         
+                        <div id="history-area" style="margin-top: 15px; text-align: left;">
+                            <small style="opacity: 0.7;">Eerdere pogingen:</small>
+                            <ul id="answer-history" style="list-style: none; padding: 0; font-size: 0.85rem; opacity: 0.6;"></ul>
+                        </div>
+
                         <div id="message-box" style="margin-top: 10px;"></div>
                     </div>
                 </div>
@@ -60,6 +71,7 @@
         </div>
     </div>
 
+    <script src="../philippe50.js"></script>
     <script src="quiztitspel.js"></script>
 </body>
 </html>
