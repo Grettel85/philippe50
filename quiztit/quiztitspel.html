@@ -5,9 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Het Philippe Mysterie - Speel het Spel</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="quiztitspel.css">
+
+    <style>
+        /* Specifieke correcties voor integratie met de menubalk */
+        body {
+            background-color: #050510;
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+            display: block; /* Gewijzigd van flex naar block voor menu-positionering */
+            padding: 0;
+            margin: 0;
+            min-height: 100vh;
+            padding-top: 80px; /* Ruimte voor de vaste menubalk */
+        }
+
+        #nav-placeholder {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10000; /* Zorgt dat menu boven alles staat */
+        }
+
+        .game-container { 
+            width: 100%; 
+            max-width: 800px; 
+            margin: 0 auto; /* Centreert de container */
+            padding: 20px;
+        }
+
+        /* Zorg dat de sterren achter de content blijven */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+    </style>
 </head>
 <body>
+    <div id="nav-placeholder"></div>
+
     <div class="stars-container"></div>
 
     <div class="game-container">
@@ -25,7 +68,6 @@
                 </div>
 
                 <div class="game-main-content">
-                    
                     <div id="numbers-grid" class="numbers-grid"></div>
 
                     <div class="hints-container">
@@ -60,6 +102,29 @@
         </div>
     </div>
 
+    <script src="../philippe50.js"></script>
     <script src="quiztitspel.js"></script>
+
+    <script>
+        // Menu injectie specifiek voor submap structuur
+        document.addEventListener('DOMContentLoaded', () => {
+            const placeholder = document.getElementById('nav-placeholder');
+            if (placeholder) {
+                fetch('../menu.html')
+                    .then(response => {
+                        if (!response.ok) throw new Error('Menu niet gevonden');
+                        return response.text();
+                    })
+                    .then(data => {
+                        placeholder.innerHTML = data;
+                        // Activeer taalinstellingen vanuit de centrale philippe50.js
+                        if (typeof setLanguage === 'function' && typeof config !== 'undefined') {
+                            setLanguage(config.currentLang);
+                        }
+                    })
+                    .catch(err => console.error("Menu laadfout:", err));
+            }
+        });
+    </script>
 </body>
 </html>
