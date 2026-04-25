@@ -1,5 +1,5 @@
 /* ==========================================================================
-   VERSION: PHILIPPE 50 - TOTAL ENGINE (V7.1 - Final Access Control)
+   VERSION: PHILIPPE 50 - TOTAL ENGINE (V7.2 - Mobile & UX Optimized)
    ========================================================================== */
 
 const config = {
@@ -93,12 +93,49 @@ let chapterOneFinished = false;
 let pendingAction = null;
 
 /* =========================================
-   HELPERS & UTILS
+   1. MOBIELE NAVIGATIE & UI
+   ========================================= */
+
+function toggleMobileMenu() {
+    const menu = document.getElementById('nav-menu');
+    const toggle = document.querySelector('.mobile-nav-toggle');
+    if (menu) {
+        menu.classList.toggle('active');
+        toggle.classList.toggle('open'); // Voor animatie van streepjes
+    }
+}
+
+// Sluit menu bij klik op link (voor mobiel)
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('nav-link')) {
+        const menu = document.getElementById('nav-menu');
+        if (menu && menu.classList.contains('active')) {
+            toggleMobileMenu();
+        }
+    }
+});
+
+function closeGate() {
+    const gate = document.getElementById('password-gate');
+    const errorMsg = document.getElementById('error-msg');
+    if (gate) gate.style.display = 'none';
+    if (errorMsg) errorMsg.style.display = 'none';
+    pendingAction = null;
+}
+
+function closeForm() {
+    const formSection = document.getElementById('form-section');
+    if (formSection) {
+        formSection.style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+/* =========================================
+   2. HELPERS & UTILS
    ========================================= */
 
 async function trackVisitor() {
-    const trackingURL = "https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f"; 
-    
     try {
         let visitorID = localStorage.getItem('philippe_uid');
         let status = "terugkerend";
@@ -118,12 +155,12 @@ async function trackVisitor() {
             taal: config.currentLang
         };
 
-        fetch(trackingURL, {
+        fetch(makeWebhookURL, {
             method: "POST",
             mode: "no-cors",
             body: JSON.stringify(data)
         });
-    } catch (e) { /* Discreet falen */ }
+    } catch (e) { }
 }
 
 function getSmartImage(input) {
@@ -170,7 +207,7 @@ function splitCSVRow(row) {
 }
 
 /* =========================================
-   ACCESS LOGIC (Wachtwoorden & Navigatie)
+   3. ACCESS LOGIC
    ========================================= */
 
 function setLanguage(lang) {
@@ -221,18 +258,29 @@ function handleAccess(action) {
 
 function showGate(customTitle = null) {
     const gate = document.getElementById('password-gate');
+    const input = document.getElementById('password-input');
     if (customTitle) {
         document.getElementById('gate-title').innerText = customTitle;
     }
     if (gate) {
         gate.style.display = 'block';
         gate.scrollIntoView({ behavior: 'smooth' });
+        if (input) input.focus();
     }
 }
 
+// Luister naar Enter-toets in wachtwoordveld
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && document.activeElement.id === 'password-input') {
+        checkAccess();
+    }
+});
+
 function checkAccess() {
-    const input = document.getElementById('password-input').value.trim().toLowerCase();
+    const inputField = document.getElementById('password-input');
+    const input = inputField ? inputField.value.trim().toLowerCase() : "";
     const errorMsg = document.getElementById('error-msg');
+    const errorContainer = document.getElementById('error-container');
 
     if (input === "admin50") {
         sessionStorage.setItem('admin_access', 'granted');
@@ -243,14 +291,21 @@ function checkAccess() {
         proceedAfterLogin();
     } else {
         if (errorMsg) errorMsg.style.display = 'block';
+        if (errorContainer) errorContainer.style.display = 'block';
+        if (inputField) {
+            inputField.value = "";
+            inputField.focus();
+        }
     }
 }
 
 function proceedAfterLogin() {
     const gate = document.getElementById('password-gate');
     const errorMsg = document.getElementById('error-msg');
+    const errorContainer = document.getElementById('error-container');
     if (gate) gate.style.display = 'none';
     if (errorMsg) errorMsg.style.display = 'none';
+    if (errorContainer) errorContainer.style.display = 'none';
     if (pendingAction) {
         executeAction(pendingAction);
         pendingAction = null;
@@ -292,7 +347,7 @@ function openSecureScroll() {
 }
 
 /* =========================================
-   DATA FETCHING & DISPLAY
+   4. DATA FETCHING & DISPLAY (Tijdlijn & Scroll)
    ========================================= */
 
 async function fetchStory() {
@@ -380,7 +435,7 @@ function animateScroll(element, limit, speed) {
 }
 
 /* =========================================
-   SEQUENTIAL STORY LOGIC
+   5. SEQUENTIAL STORY LOGIC
    ========================================= */
 
 async function findPersonalStory() {
@@ -475,18 +530,13 @@ function checkIfReadyToReveal() {
 }
 
 /* =========================================
-   INITIALIZATION & UTILS
+   6. INITIALIZATION & FORMS
    ========================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
     setLanguage('nl'); 
-    
-    // Alleen dashboard tonen als men al gast-auth heeft (voor altijd)
-    // De index knoppen gebruiken handleAccess, dus het dashboard mag in principe altijd zichtbaar zijn
-    
     if (document.getElementById('story-content')) fetchStory();
     if (document.getElementById('scroll-nl')) startLiveScroll();
-    
     trackVisitor();
 });
 
@@ -508,6 +558,9 @@ function typeWriter(text, elementId, speed, callback) {
 }
 
 async function submitForm() {
+    const btn = document.querySelector('.submit-btn');
+    if (btn) btn.disabled = true;
+
     const data = {
         nickname: document.getElementById('deelnemer_naam').value,
         setting: document.getElementById('input-setting').value,
@@ -529,5 +582,20 @@ async function submitForm() {
             alert(config.translations[config.currentLang]["success-alert"]);
             window.location.href = "mijn-verhaal.html";
         }
-    } catch (error) { alert(config.translations[config.currentLang]["error-alert"]); }
+    } catch (error) { 
+        alert(config.translations[config.currentLang]["error-alert"]); 
+        if (btn) btn.disabled = false;
+    }
+}
+
+function copyPassword() {
+    const copyText = document.getElementById("deelnemer_ww");
+    if (copyText) {
+        copyText.type = "text";
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        copyText.type = "password";
+        alert("Wachtwoord gekopieerd! / Mot de passe copié !");
+    }
 }
