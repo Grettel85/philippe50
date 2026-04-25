@@ -1,5 +1,6 @@
 /* ==========================================================================
    VERSION: PHILIPPE 50 - TOTAL ENGINE (V7.2 - Mobile & UX Optimized)
+   MODIFIED: Menu Injection & Multi-language Sync
    ========================================================================== */
 
 const config = {
@@ -7,6 +8,9 @@ const config = {
     currentLang: 'nl',
     translations: {
         nl: {
+            "nav-verhaal": "Het Verhaal",
+            "nav-someone": "Find Someone",
+            "nav-mysterie": "Bestemming50",
             "welcome": "Welkom bij Philippe 50",
             "enter-code": "Voer de geheime code in om deel te nemen:",
             "login-btn": "Log in",
@@ -45,6 +49,9 @@ const config = {
             "img-coming-soon": "Beeldfragment nog in ontwikkeling door tijdsglitch... Even geduld."
         },
         fr: {
+            "nav-verhaal": "L'Histoire",
+            "nav-someone": "Trouver quelqu'un",
+            "nav-mysterie": "Destination50",
             "welcome": "Bienvenue chez Philippe 50",
             "enter-code": "Entrez le code secret pour participer :",
             "login-btn": "Se connecter",
@@ -93,19 +100,32 @@ let chapterOneFinished = false;
 let pendingAction = null;
 
 /* =========================================
-   1. MOBIELE NAVIGATIE & UI
+   1. MOBIELE NAVIGATIE & UI (Inclusief Menu Loader)
    ========================================= */
+
+function loadMenu() {
+    const placeholder = document.getElementById('nav-placeholder');
+    if (!placeholder) return;
+
+    fetch('/menu.html')
+        .then(response => response.text())
+        .then(data => {
+            placeholder.innerHTML = data;
+            // Na het laden de teksten in de navigatie vertalen
+            setLanguage(config.currentLang);
+        })
+        .catch(err => console.error("Menu laadfout:", err));
+}
 
 function toggleMobileMenu() {
     const menu = document.getElementById('nav-menu');
     const toggle = document.querySelector('.mobile-nav-toggle');
     if (menu) {
         menu.classList.toggle('active');
-        toggle.classList.toggle('open'); // Voor animatie van streepjes
+        toggle.classList.toggle('open'); 
     }
 }
 
-// Sluit menu bij klik op link (voor mobiel)
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('nav-link')) {
         const menu = document.getElementById('nav-menu');
@@ -207,7 +227,7 @@ function splitCSVRow(row) {
 }
 
 /* =========================================
-   3. ACCESS LOGIC
+   3. ACCESS LOGIC & LANGUAGE
    ========================================= */
 
 function setLanguage(lang) {
@@ -227,9 +247,12 @@ function setLanguage(lang) {
 }
 
 function updateLangButtons(lang) {
+    // Zoek knoppen op de hoofdpagina én in de genavigeerde menu-bar
     const btns = document.querySelectorAll('#btn-nl, #btn-fr, .language-switch-nav button');
     btns.forEach(btn => {
-        const targetLang = btn.id.includes('nl') || btn.innerText.toLowerCase().includes('nl') ? 'nl' : 'fr';
+        const btnId = btn.id || "";
+        const btnText = btn.innerText.toLowerCase();
+        const targetLang = (btnId.includes('nl') || btnText.includes('nl')) ? 'nl' : 'fr';
         btn.classList.toggle('active-lang', lang === targetLang);
     });
 }
@@ -269,7 +292,6 @@ function showGate(customTitle = null) {
     }
 }
 
-// Luister naar Enter-toets in wachtwoordveld
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && document.activeElement.id === 'password-input') {
         checkAccess();
@@ -322,16 +344,16 @@ function executeAction(action) {
             }
             break;
         case 'admin-someone':
-            window.location.href = "find-someone/find-someone.html";
+            window.location.href = "/find-someone/find-someone.html";
             break;
         case 'mysterie-tips':
-            window.location.href = "quiztit/quiztit.html";
+            window.location.href = "/quiztit/quiztit.html";
             break;
         case 'admin-mysterie':
-            window.location.href = "quiztit/quiztitbuild.html";
+            window.location.href = "/quiztit/quiztitbuild.html";
             break;
         case 'admin-scroll':
-            window.location.href = "scroll.html";
+            window.location.href = "/scroll.html";
             break;
         default:
             console.warn("Actie niet gedefinieerd:", action);
@@ -339,7 +361,7 @@ function executeAction(action) {
 }
 
 function openMysteriePlay() {
-    window.location.href = "quiztit/quiztitspel.html";
+    window.location.href = "/quiztit/quiztitspel.html";
 }
 
 function openSecureScroll() {
@@ -534,7 +556,13 @@ function checkIfReadyToReveal() {
    ========================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Menu laden
+    loadMenu();
+    
+    // 2. Init taal
     setLanguage('nl'); 
+    
+    // 3. Andere functies starten
     if (document.getElementById('story-content')) fetchStory();
     if (document.getElementById('scroll-nl')) startLiveScroll();
     trackVisitor();
@@ -580,7 +608,7 @@ async function submitForm() {
         });
         if (response.ok) {
             alert(config.translations[config.currentLang]["success-alert"]);
-            window.location.href = "mijn-verhaal.html";
+            window.location.href = "/mijn-verhaal.html";
         }
     } catch (error) { 
         alert(config.translations[config.currentLang]["error-alert"]); 
