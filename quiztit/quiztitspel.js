@@ -147,7 +147,13 @@ function revealTip(btn) {
     btn.disabled = true;
     btn.classList.add('used');
     
-    document.getElementById('display-score').innerText = `Punten: ${15 - openedTipsCount + 1}`;
+    // SCORE ANIMATIE TRIGGER
+    const scoreBadge = document.getElementById('display-score');
+    scoreBadge.innerText = `Punten: ${15 - openedTipsCount + 1}`;
+    scoreBadge.classList.remove('score-pop');
+    void scoreBadge.offsetWidth; 
+    scoreBadge.classList.add('score-pop');
+
     const input = document.getElementById('guess-input');
     input.disabled = false;
     document.getElementById('guess-btn').disabled = false;
@@ -175,6 +181,12 @@ function checkAnswer() {
 
         document.getElementById('win-popup').style.display = 'flex'; 
     } else {
+        // FOUT ANTWOORD: SCHUD-ANIMATIE TRIGGER
+        const gameCard = document.querySelector('.glass-card');
+        gameCard.classList.remove('shake');
+        void gameCard.offsetWidth; 
+        gameCard.classList.add('shake');
+
         const li = document.createElement('li');
         li.innerText = `❌ ${userInput}`;
         document.getElementById('answer-history').prepend(li);
