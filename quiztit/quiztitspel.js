@@ -76,6 +76,10 @@ function startNewGame() {
     
     const randomGame = realGameData[Math.floor(Math.random() * realGameData.length)];
     
+    // TAALKNOPPEN VERBERGEN
+    const langSelector = document.querySelector('.language-selector');
+    if (langSelector) langSelector.style.display = 'none';
+
     // Passen-knop direct tonen vanaf het begin
     const passBtn = document.getElementById('pass-btn');
     if (passBtn) passBtn.style.display = 'block';
@@ -153,7 +157,6 @@ function revealTip(btn) {
     void scoreBadge.offsetWidth; 
     scoreBadge.classList.add('score-pop');
 
-    // Input en check-knop activeren na elke nieuwe tip
     const input = document.getElementById('guess-input');
     input.disabled = false;
     document.getElementById('guess-btn').disabled = false;
@@ -186,7 +189,6 @@ function checkAnswer() {
         li.innerText = `❌ ${userInput}`;
         document.getElementById('answer-history').prepend(li);
         
-        // Input weer blokkeren na fout antwoord tot nieuwe tip is gekozen
         document.getElementById('guess-input').value = "";
         document.getElementById('guess-input').disabled = true;
         document.getElementById('guess-btn').disabled = true;
@@ -196,10 +198,14 @@ function checkAnswer() {
 
 document.getElementById('play-again-btn').addEventListener('click', () => {
     document.getElementById('win-popup').style.display = 'none';
+    
+    // TAALKNOPPEN WEER TONEN VOOR HET VOLGENDE SPEL
+    const langSelector = document.querySelector('.language-selector');
+    if (langSelector) langSelector.style.display = 'flex';
+
     startNewGame();
 });
 
-// Passen-knop functionaliteit (was ook essentieel)
 const passBtn = document.getElementById('pass-btn');
 if (passBtn) {
     passBtn.addEventListener('click', () => {
