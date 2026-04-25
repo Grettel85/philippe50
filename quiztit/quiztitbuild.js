@@ -85,17 +85,23 @@ function createPage(batch, view) {
             const oplossing = rowData[3] ? rowData[3].trim() : "";
             const tips = rowData[4] ? rowData[4].split('|') : [];
 
+            // REINIGING: Accent-wasmachine en hoofdletters voor de kleur-check
+            const cleanCat = rawCat.toUpperCase()
+                                   .normalize("NFD")
+                                   .replace(/[\u0300-\u036f]/g, ""); 
+
             // Mapping van Franse termen naar de juiste CSS neon-kleuren
             const colorMap = {
                 'QUI': 'wie',
+                'QUE': 'wat',
                 'QUOI': 'wat',
-                'OU': 'waar',
+                'OU': 'waar',     // Matched nu ook OÙ
                 'QUAND': 'wanneer',
                 'ENIGME': 'raadsel'
             };
             
-            // Zoek de kleur op, anders gebruik de tekst zelf (voor NL)
-            const colorClass = colorMap[rawCat.toUpperCase()] || rawCat.toLowerCase();
+            // Zoek de kleur op via de mapping, anders gebruik de tekst zelf (voor NL)
+            const colorClass = colorMap[cleanCat] || cleanCat.toLowerCase();
 
             let tipsHtml = tips.map((t, idx) => `
                 <div class="tip-row">
