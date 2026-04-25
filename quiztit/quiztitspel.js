@@ -1,5 +1,5 @@
 /* =========================================
-   QUIZTITSPEL ENGINE - FIXED VERSION
+   QUIZTITSPEL ENGINE - UPDATED VERSION
    ========================================= */
 
 const baseSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSbgWdp6pG7lbbrWC35FvNLwH756-cr1JvGf8LIau3DuLXlk8ninpYwa6tA8eLapPaK1KmvsZcYervP/pub?output=csv";
@@ -22,12 +22,10 @@ async function loadSheetData() {
         const response = await fetch(url + '&cb=' + Date.now());
         const csvText = await response.text();
         
-        // VEILIGERE SPLIT: Eerst regels splitsen, dan kolommen
         const lines = csvText.split(/\r?\n/);
-        const rows = lines.slice(1); // Koptekst eraf
+        const rows = lines.slice(1);
         
         realGameData = rows.map(row => {
-            // Simpele split op komma (werkt zolang er geen komma's IN je tekstvakken staan)
             const columns = row.split(',').map(col => col.replace(/^"(.*)"$/, '$1').trim()); 
             return {
                 categorie: columns[2], 
@@ -65,7 +63,6 @@ window.onload = () => {
     if(highScoreEl) highScoreEl.innerText = high;
 };
 
-// Event Listeners
 document.getElementById('start-btn').addEventListener('click', startNewGame);
 document.getElementById('guess-btn').addEventListener('click', checkAnswer);
 document.getElementById('guess-input').addEventListener('keypress', (e) => {
@@ -79,7 +76,10 @@ function startNewGame() {
     
     const randomGame = realGameData[Math.floor(Math.random() * realGameData.length)];
     
-    if (document.getElementById('pass-btn')) document.getElementById('pass-btn').style.display = 'none';
+    // Passen-knop direct tonen vanaf het begin
+    const passBtn = document.getElementById('pass-btn');
+    if (passBtn) passBtn.style.display = 'block';
+
     document.getElementById('answer-history').innerHTML = "";
     setupGame(randomGame);
 }
@@ -147,21 +147,17 @@ function revealTip(btn) {
     btn.disabled = true;
     btn.classList.add('used');
     
-    // SCORE ANIMATIE TRIGGER
     const scoreBadge = document.getElementById('display-score');
     scoreBadge.innerText = `Punten: ${15 - openedTipsCount + 1}`;
     scoreBadge.classList.remove('score-pop');
     void scoreBadge.offsetWidth; 
     scoreBadge.classList.add('score-pop');
 
+    // Input en check-knop activeren na elke nieuwe tip
     const input = document.getElementById('guess-input');
     input.disabled = false;
     document.getElementById('guess-btn').disabled = false;
     input.focus();
-
-    if (openedTipsCount === 15) {
-        if (document.getElementById('pass-btn')) document.getElementById('pass-btn').style.display = 'block';
-    }
 }
 
 function checkAnswer() {
@@ -181,7 +177,6 @@ function checkAnswer() {
 
         document.getElementById('win-popup').style.display = 'flex'; 
     } else {
-        // FOUT ANTWOORD: SCHUD-ANIMATIE TRIGGER
         const gameCard = document.querySelector('.glass-card');
         gameCard.classList.remove('shake');
         void gameCard.offsetWidth; 
@@ -190,7 +185,12 @@ function checkAnswer() {
         const li = document.createElement('li');
         li.innerText = `❌ ${userInput}`;
         document.getElementById('answer-history').prepend(li);
+        
+        // Input weer blokkeren na fout antwoord tot nieuwe tip is gekozen
         document.getElementById('guess-input').value = "";
+        document.getElementById('guess-input').disabled = true;
+        document.getElementById('guess-btn').disabled = true;
+        document.getElementById('message-box').innerText = currentLang === 'nl' ? "Fout! Kies een nieuw nummer voor een nieuwe poging." : "Faux ! Choisissez un nouveau numéro pour un nouvel essai.";
     }
 }
 
@@ -198,3 +198,13 @@ document.getElementById('play-again-btn').addEventListener('click', () => {
     document.getElementById('win-popup').style.display = 'none';
     startNewGame();
 });
+
+// Passen-knop functionaliteit (was ook essentieel)
+const passBtn = document.getElementById('pass-btn');
+if (passBtn) {
+    passBtn.addEventListener('click', () => {
+        document.getElementById('popup-antwoord').innerText = currentData.oplossing;
+        document.getElementById('popup-score').innerText = "0";
+        document.getElementById('win-popup').style.display = 'flex';
+    });
+}
