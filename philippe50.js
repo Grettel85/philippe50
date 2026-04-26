@@ -1,11 +1,12 @@
 /* ==========================================================================
-   VERSION: PHILIPPE 50 - TOTAL ENGINE (V7.2 - Mobile & UX Optimized)
-   MODIFIED: Menu Injection & Multi-language Sync (GitHub Relative Path Fix)
+   VERSION: PHILIPPE 50 - TOTAL ENGINE (V7.3 - Global Language Sync)
+   MODIFIED: Menu Injection & Multi-language Sync (localStorage Fix)
    ========================================================================== */
 
 const config = {
     password: "Philippe50", 
-    currentLang: 'nl',
+    // Haal de taal op uit het geheugen, of standaard naar 'nl'
+    currentLang: localStorage.getItem('preferred_lang') || 'nl',
     translations: {
         nl: {
             "nav-verhaal": "Het Verhaal",
@@ -100,7 +101,7 @@ let chapterOneFinished = false;
 let pendingAction = null;
 
 /* =========================================
-   1. MOBIELE NAVIGATIE & UI (Gecorrigeerd voor GitHub)
+   1. MOBIELE NAVIGATIE & UI
    ========================================= */
 
 function loadMenu() {
@@ -176,7 +177,7 @@ async function trackVisitor() {
 
         fetch(makeWebhookURL, {
             method: "POST",
-            mode: "no-cors",
+            // mode: "no-cors", // Removed for better error handling if needed
             body: JSON.stringify(data)
         });
     } catch (e) { }
@@ -231,6 +232,10 @@ function splitCSVRow(row) {
 
 function setLanguage(lang) {
     config.currentLang = lang;
+    
+    // SLA TAAL OP VOOR SYNC TUSSEN PAGINA'S
+    localStorage.setItem('preferred_lang', lang);
+
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         const translation = config.translations[lang][key];
@@ -555,7 +560,8 @@ function checkIfReadyToReveal() {
 
 document.addEventListener('DOMContentLoaded', () => {
     loadMenu();
-    setLanguage('nl'); 
+    // Gebruik de opgeslagen taal bij het laden
+    setLanguage(config.currentLang); 
     if (document.getElementById('story-content')) fetchStory();
     if (document.getElementById('scroll-nl')) startLiveScroll();
     trackVisitor();
