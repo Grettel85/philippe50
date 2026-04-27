@@ -108,7 +108,8 @@ function loadMenu() {
     const placeholder = document.getElementById('nav-placeholder');
     if (!placeholder) return;
 
-    fetch('menu.html')
+    // Aangepast naar volledig pad voor submappen
+    fetch('https://grettel85.github.io/philippe50/menu.html')
         .then(response => response.text())
         .then(data => {
             placeholder.innerHTML = data;
@@ -177,7 +178,6 @@ async function trackVisitor() {
 
         fetch(makeWebhookURL, {
             method: "POST",
-            // mode: "no-cors", // Removed for better error handling if needed
             body: JSON.stringify(data)
         });
     } catch (e) { }
