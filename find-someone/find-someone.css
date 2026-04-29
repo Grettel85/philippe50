@@ -2,54 +2,75 @@
 body { 
     margin: 0; 
     padding: 0; 
-    background: #333; 
+    background: #0b0b13; 
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: white; /* Tekst buiten de documenten is wit */
 }
 
 /* BEDIENINGSPANEEL */
 .no-print { 
-    background: #fff; 
-    padding: 8px; 
+    background: rgba(15, 15, 25, 0.85); 
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 15px; 
     text-align: center; 
     position: sticky; 
     top: 0; 
     z-index: 1000; 
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+    width: 100%;
+    box-sizing: border-box;
 }
-.no-print h1 { font-size: 16px; margin: 0 0 5px 0; }
-.button-group { display: flex; justify-content: center; gap: 8px; margin-top: 5px; }
+.no-print h1 { font-size: 18px; margin: 0 0 8px 0; font-family: 'Orbitron', sans-serif; color: #00f2ff; }
+.button-group { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 5px; }
 
 button {
     padding: 6px 12px; border: none; border-radius: 6px; 
     cursor: pointer; font-weight: bold; font-size: 12px;
 }
-.btn-main { background: #00f2ff; }
-.btn-kids { background: #ffcc00; }
+.btn-main { background: #00f2ff; color: #0b0b13; }
+.btn-kids { background: #ffcc00; color: #0b0b13; }
 
 /* BOEK PREVIEW OP SCHERM */
 .book-container {
     display: flex; 
     flex-direction: column; 
     align-items: center;
-    gap: 15px;
-    padding: 10px;
+    gap: 25px;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* HET LIGGENDE A4 BLAD (Spread) */
 .a4-page {
     width: 29.7cm;
     height: 21cm;
-    background-color: white;
+    background-color: white !important;
+    color: black !important; /* Forceer tekst in het doc naar zwart */
     position: relative;
     box-shadow: 0 0 20px rgba(0,0,0,0.7);
-    transform: scale(0.5); /* Kleiner op scherm voor overzicht */
-    transform-origin: top center;
-    margin-bottom: -10cm; 
     
     /* Verdeel in twee A5-helften */
     display: grid;
     grid-template-columns: 14.85cm 14.85cm;
     overflow: hidden;
+}
+
+/* RESPONSIVE PREVIEW VOOR MOBIEL */
+@media screen and (max-width: 30cm) {
+    .a4-page {
+        width: 95vw;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+    .a5-side {
+        width: 100% !important;
+        height: 67vw !important; /* Behoudt verhouding op mobiel scherm */
+    }
 }
 
 /* DE INDIVIDUELE A5 PAGINA'S */
@@ -79,7 +100,6 @@ button {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(4, 1fr);
     position: absolute;
-    /* Marges aangepast voor A5 breedte */
     top: 4.5cm; left: 1.2cm; right: 1.2cm; bottom: 4.5cm; 
     border: 1.5px solid #000;
 }
@@ -89,24 +109,25 @@ button {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.7) !important;
     height: 100%; 
     box-sizing: border-box;
 }
-.task-text { font-size: 11px; font-weight: bold; overflow: hidden; text-align: center; line-height: 1.1; }
+.task-text { font-size: 11px; font-weight: bold; overflow: hidden; text-align: center; line-height: 1.1; color: black !important; }
 .lang-fr::before { content: "---"; display: block; color: #888; font-weight: normal; margin: 2px 0; }
-.name-line { width: 90%; margin: 3px auto; border-bottom: 1.5px solid #000; height: 14px; position: relative; }
+.name-line { width: 90%; margin: 3px auto; border-bottom: 1.5px solid #000 !important; height: 14px; position: relative; }
 .name-line::before { content: "✍️"; filter: grayscale(100%); font-size: 12px; position: absolute; left: 0; bottom: 1px; }
 
 /* LOGBOEK STYLING (Pagina 3) */
 .rules-container { 
     width: 80%; 
     padding: 0.3cm; 
-    background: rgba(255, 255, 255, 0.8); 
+    background: rgba(255, 255, 255, 0.8) !important; 
     font-family: 'Exo 2', sans-serif;
     position: relative;
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    margin: 0 auto;         /* Zorgt dat hij netjes in het midden blijft staan */
+    margin: 0 auto;
+    color: black !important;
 }
 
 .log-header { 
@@ -168,7 +189,7 @@ button {
 
 /* PRINT INSTELLINGEN */
 @media print {
-    .no-print { display: none !important; }
+    .no-print, #nav-placeholder { display: none !important; }
 
     body { 
         background: white !important; 
@@ -184,7 +205,7 @@ button {
 
     .a4-page { 
         width: 29.7cm !important;
-        height: 20.9cm !important; /* Voorkom loze pagina door 1mm speling */
+        height: 20.9cm !important;
         margin: 0 !important; 
         padding: 0 !important;
         box-shadow: none !important; 
@@ -198,6 +219,8 @@ button {
     }
 
     .a5-side {
+        width: 14.85cm !important;
+        height: 21cm !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
