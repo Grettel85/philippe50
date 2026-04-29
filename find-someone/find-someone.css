@@ -5,11 +5,13 @@ body {
     background: #0b0b13; 
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: white; /* Tekst buiten de documenten is wit */
-    /* FIX: Dwingt alles onder elkaar */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
+}
+
+/* Zorg dat de menubalk van Philippe altijd bovenaan zichtbaar blijft */
+#nav-placeholder {
+    width: 100%;
+    position: relative;
+    z-index: 2000;
 }
 
 /* BEDIENINGSPANEEL */
@@ -17,26 +19,49 @@ body {
     background: rgba(15, 15, 25, 0.85); 
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    padding: 15px; 
+    padding: 10px 15px; 
     text-align: center; 
     position: sticky; 
-    top: 0; 
+    top: 60px; /* Plaats de balk onder het hoofdmenu (pas aan indien menu hoger is) */
     z-index: 1000; 
     box-shadow: 0 4px 20px rgba(0,0,0,0.6);
     border-bottom: 1px solid rgba(0, 242, 255, 0.3);
-    /* FIX: Garandeert volledige breedte bovenaan */
     width: 100% !important;
     left: 0;
     right: 0;
     box-sizing: border-box;
 }
-.no-print h1 { font-size: 18px; margin: 0 0 8px 0; font-family: 'Orbitron', sans-serif; color: #00f2ff; }
-.button-group { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 5px; }
+
+.no-print h1 { 
+    font-size: 16px; 
+    margin: 0 0 5px 0; 
+    font-family: 'Orbitron', sans-serif; 
+    color: #00f2ff; 
+    line-height: 1;
+}
+
+/* Knoppen compact en op één lijn */
+.button-group { 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    flex-wrap: nowrap; 
+    gap: 8px; 
+    margin-top: 5px; 
+}
 
 button {
-    padding: 6px 12px; border: none; border-radius: 6px; 
-    cursor: pointer; font-weight: bold; font-size: 12px;
+    padding: 6px 12px; 
+    border: none; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    font-size: 11px;
+    white-space: nowrap; /* Voorkomt tekstomloop naar nieuwe regel */
+    width: auto !important; /* Dwingt de knop terug naar zijn eigen tekstbreedte */
+    line-height: 1.2;
 }
+
 .btn-main { background: #00f2ff; color: #0b0b13; }
 .btn-kids { background: #ffcc00; color: #0b0b13; }
 
