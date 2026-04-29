@@ -77,6 +77,7 @@ function createBooklet(targetContainer, mode) {
     targetContainer.appendChild(sheet1);
 
     // SPREAD 2 (BINNENKANT: ROOSTER & LOGBOEK)
+    // FIX: Extra div 'rules-container' verwijderd om oude CSS-layout te herstellen
     const sheet2 = document.createElement('div');
     sheet2.className = 'a4-page';
     sheet2.innerHTML = `
@@ -84,9 +85,7 @@ function createBooklet(targetContainer, mode) {
             <div class="grid-container"></div>
         </div>
         <div class="a5-side side-3">
-            <div class="rules-container">
-                ${rulesTemplate}
-            </div>
+            ${rulesTemplate}
         </div>
     `;
     targetContainer.appendChild(sheet2);
