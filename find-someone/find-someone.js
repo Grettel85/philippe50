@@ -1,19 +1,28 @@
+/* ==========================================================================
+   MODULE: FIND SOMEONE WHO - ENGINE
+   INTEGRATION: Compatible with Philippe50.js (Language Sync & Event Safety)
+   ========================================================================== */
+
 const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ5D9KFGXhWV3gpCccVGzsNJAJi-rrqjtkxxJjNvJcI6TTJbXvm8bN--WCNE9LbDob1ZOo4vdNOE1NV/pub?gid=0&single=true&output=csv';
 
 let tasks = [];
 
 /**
- * Laadt de data in bij het openen van de pagina
+ * Laadt de data in bij het openen van de pagina.
+ * Gesynchroniseerd met de taalvoorkeur van Philippe50.
  */
 async function loadData() {
+    const statusMsg = document.getElementById('status-msg');
+    const mainContainer = document.getElementById('main-container');
+
+    // Alleen uitvoeren als de bingo-container aanwezig is op deze pagina
+    if (!mainContainer) return;
+
     try {
-        const statusMsg = document.getElementById('status-msg');
-        
-        // Fetch de data met een cachebust
+        // Fetch de data met een cachebust om spreadsheet-updates direct te zien
         const response = await fetch(csvUrl + '&cachebust=' + Date.now());
         const data = await response.text();
         
-        // Splits de rijen (header overslaan)
         const rows = data.split(/\r?\n/).slice(1); 
 
         tasks = rows.map(row => {
@@ -24,19 +33,22 @@ async function loadData() {
             };
         }).filter(t => t.text !== '');
 
-        if (statusMsg) statusMsg.innerText = "Data succesvol geladen. Kies een mix!";
+        if (statusMsg) {
+            // Check taalvoorkeur uit Philippe50 systeem
+            const currentLang = localStorage.getItem('preferred_lang') || 'nl';
+            statusMsg.innerText = (currentLang === 'fr') ? "Données chargées. Choisissez un mix!" : "Data succesvol geladen. Kies een mix!";
+        }
         
-        // Initial preview
+        // Genereer de eerste preview
         generateGrid('mix');
     } catch (error) {
         console.error("Fout bij het laden van de spreadsheet:", error);
-        const statusMsg = document.getElementById('status-msg');
         if (statusMsg) statusMsg.innerText = "Fout bij laden van data.";
     }
 }
 
 /**
- * Maakt één enkel boekje aan voor de preview op het scherm
+ * Maakt de preview zichtbaar op het scherm
  */
 function generateGrid(mode = 'mix') {
     const container = document.getElementById('main-container');
@@ -47,12 +59,15 @@ function generateGrid(mode = 'mix') {
 }
 
 /**
- * De kernfunctie die de pagina's in de juiste "spread" volgorde zet
+ * Creëert de A4 spreads (Pagina 4/1 en 2/3)
  */
 function createBooklet(targetContainer, mode) {
-    const rulesTemplate = document.getElementById('rules-template').innerHTML;
+    const rulesTemplateElem = document.getElementById('rules-template');
+    if (!rulesTemplateElem) return;
 
-    // SPREAD 1 (VOOR- & ACHTERKANT): Links Pagina 4, Rechts Pagina 1
+    const rulesTemplate = rulesTemplateElem.innerHTML;
+
+    // SPREAD 1 (VOOR- & ACHTERKANT)
     const sheet1 = document.createElement('div');
     sheet1.className = 'a4-page';
     sheet1.innerHTML = `
@@ -61,7 +76,7 @@ function createBooklet(targetContainer, mode) {
     `;
     targetContainer.appendChild(sheet1);
 
-    // SPREAD 2 (BINNENKANT): Links Pagina 2, Rechts Pagina 3
+    // SPREAD 2 (BINNENKANT: ROOSTER & LOGBOEK)
     const sheet2 = document.createElement('div');
     sheet2.className = 'a4-page';
     sheet2.innerHTML = `
@@ -69,18 +84,19 @@ function createBooklet(targetContainer, mode) {
             <div class="grid-container"></div>
         </div>
         <div class="a5-side side-3">
-            ${rulesTemplate}
+            <div class="rules-container">
+                ${rulesTemplate}
+            </div>
         </div>
     `;
     targetContainer.appendChild(sheet2);
 
-    // Vul het rooster op de linkerhelft van de tweede spread (Pagina 2)
     const grid = sheet2.querySelector('.grid-container');
     fillGridWithTasks(grid, mode);
 }
 
 /**
- * Selecteert taken en vult de grid
+ * Filtert taken op basis van niveau en vult de cellen
  */
 function fillGridWithTasks(targetGrid, mode) {
     let finalSelection = [];
@@ -101,6 +117,7 @@ function fillGridWithTasks(targetGrid, mode) {
         cell.className = 'cell';
         
         let contentHtml = "";
+        // Split NL/FR indien aanwezig met een '/'
         if (task.text.includes('/')) {
             const parts = task.text.split('/');
             contentHtml = `<div class="task-text">${parts[0].trim()}<span class="lang-fr">${parts[1].trim()}</span></div>`;
@@ -115,16 +132,14 @@ function fillGridWithTasks(targetGrid, mode) {
         targetGrid.appendChild(cell);
     });
 
-    // Pas lettergrootte aan
     setTimeout(() => fitTextInCells(targetGrid), 50);
 }
 
 /**
- * Past tekstgrootte aan per grid om overloop te voorkomen
+ * Voorkomt dat tekst uit de vakjes loopt
  */
 function fitTextInCells(grid) {
     const cells = grid.querySelectorAll('.cell');
-    
     cells.forEach(cell => {
         const taskText = cell.querySelector('.task-text');
         if (!taskText) return;
@@ -133,8 +148,6 @@ function fitTextInCells(grid) {
         const minFontSize = 7; 
         taskText.style.fontSize = fontSize + "px";
 
-        // Controleer of tekst buiten de cel (box-sizing) komt
-        // We gebruiken een harde grens omdat scrollHeight soms lastig is op A5
         while (taskText.offsetHeight > (cell.clientHeight - 25) && fontSize > minFontSize) {
             fontSize -= 0.5;
             taskText.style.fontSize = fontSize + "px";
@@ -143,27 +156,33 @@ function fitTextInCells(grid) {
 }
 
 /**
- * Genereert de volledige batch en opent printmenu
+ * Genereert de batch voor de printer
  */
 async function prepareAndPrint(mode) {
-    const count = parseInt(document.getElementById('print-count').value) || 1;
+    const countInput = document.getElementById('print-count');
+    const count = countInput ? parseInt(countInput.value) : 1;
     const container = document.getElementById('main-container');
     const statusMsg = document.getElementById('status-msg');
     
-    container.innerHTML = ''; 
-    statusMsg.innerText = `Bezig met genereren van ${count} unieke boekjes...`;
+    if (!container) return;
 
-    // Genereer het gevraagde aantal boekjes
+    container.innerHTML = ''; 
+    const currentLang = localStorage.getItem('preferred_lang') || 'nl';
+    const waitMsg = (currentLang === 'fr') ? `Génération de ${count} livrets uniques...` : `Bezig met genereren van ${count} unieke boekjes...`;
+    
+    if (statusMsg) statusMsg.innerText = waitMsg;
+
     for (let i = 0; i < count; i++) {
         createBooklet(container, mode);
     }
 
-    statusMsg.innerText = "Klaar! Let op: Print de PDF dubbelzijdig over de KORTE zijde.";
+    const readyMsg = (currentLang === 'fr') ? "Prêt! Note: Imprimez en recto-verso sur le bord COURT." : "Klaar! Let op: Print de PDF dubbelzijdig over de KORTE zijde.";
+    if (statusMsg) statusMsg.innerText = readyMsg;
     
     setTimeout(() => {
         window.print();
     }, 1000);
 }
 
-// Start het laden
-window.onload = loadData;
+// VEILIGE INITIALISATIE: Werkt samen met Philippe50.js
+window.addEventListener('load', loadData);
