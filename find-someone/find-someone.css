@@ -5,6 +5,8 @@ body {
     background: #0b0b13; 
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: white; /* Tekst buiten de documenten is wit */
+    /* FIX: Geen flex op body om layout-conflicten met Philippe50 te vermijden */
+    display: block; 
 }
 
 /* Zorg dat de menubalk van Philippe altijd bovenaan zichtbaar blijft */
@@ -22,7 +24,7 @@ body {
     padding: 10px 15px; 
     text-align: center; 
     position: sticky; 
-    top: 60px; /* Plaats de balk onder het hoofdmenu (pas aan indien menu hoger is) */
+    top: 65px; /* Plakt onder de Philippe nav-balk */
     z-index: 1000; 
     box-shadow: 0 4px 20px rgba(0,0,0,0.6);
     border-bottom: 1px solid rgba(0, 242, 255, 0.3);
@@ -30,6 +32,8 @@ body {
     left: 0;
     right: 0;
     box-sizing: border-box;
+    /* Extra marge om ruimte te maken voor de vaste top-nav */
+    margin-top: 65px; 
 }
 
 .no-print h1 { 
@@ -50,16 +54,18 @@ body {
     margin-top: 5px; 
 }
 
-button {
+/* Specifieke reset voor knoppen in de bingo-balk */
+.no-print button {
     padding: 6px 12px; 
     border: none; 
     border-radius: 6px; 
     cursor: pointer; 
     font-weight: bold; 
     font-size: 11px;
-    white-space: nowrap; /* Voorkomt tekstomloop naar nieuwe regel */
-    width: auto !important; /* Dwingt de knop terug naar zijn eigen tekstbreedte */
+    white-space: nowrap; 
+    width: auto !important; 
     line-height: 1.2;
+    display: inline-block;
 }
 
 .btn-main { background: #00f2ff; color: #0b0b13; }
@@ -81,9 +87,10 @@ button {
     width: 29.7cm;
     height: 21cm;
     background-color: white !important;
-    color: black !important; /* Forceer tekst in het doc naar zwart */
+    color: black !important; 
     position: relative;
     box-shadow: 0 0 20px rgba(0,0,0,0.7);
+    margin: 0 auto;
     
     /* Verdeel in twee A5-helften */
     display: grid;
@@ -102,7 +109,7 @@ button {
     }
     .a5-side {
         width: 100% !important;
-        height: 67vw !important; /* Behoudt verhouding op mobiel scherm */
+        height: 67vw !important; 
     }
 }
 
@@ -222,7 +229,7 @@ button {
 
 /* PRINT INSTELLINGEN */
 @media print {
-    .no-print, #nav-placeholder { display: none !important; }
+    .no-print, .top-nav, #nav-placeholder { display: none !important; }
 
     body { 
         background: white !important; 
