@@ -15,10 +15,15 @@
         
         <section id="section-verhaal" class="glass-card section-card fade-in">
             <h2 data-i18n="nav-verhaal">Het Verhaal</h2>
-            <p data-i18n="desc-verhaal">Deel een herinnering of bekijk jouw eigen hoofdstuk in de tijdlijn.</p>
-            <div class="button-group">
-                <button onclick="handleAccess('verhaal')" data-i18n="btn-write">Schrijf mee 🔑</button>
-                <a href="mijn-verhaal.html" class="submit-btn-alt" data-i18n="view-chapter">Bekijk jouw hoofdstuk</a>
+            <p data-i18n="desc-verhaal">Ontdek de legende, deel een herinnering of bekijk jouw eigen hoofdstuk.</p>
+            <div class="button-group-vertical">
+                <a href="Legende.html" class="submit-btn" style="text-decoration: none; display: block; margin-bottom: 10px;">
+                    <span data-i18n="btn-read-legend">Lees De Legende</span>
+                </a>
+                <button onclick="handleAccess('verhaal-admin')" style="margin-bottom: 10px;">
+                    <span data-i18n="btn-write">Schrijf mee</span> 🔑
+                </button>
+                <a href="mijn-verhaal.html" class="submit-btn-alt" style="text-decoration: none; display: block;" data-i18n="view-chapter">Bekijk jouw hoofdstuk</a>
             </div>
         </section>
 
