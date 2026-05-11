@@ -224,7 +224,7 @@ input:focus, textarea:focus {
 /* =========================================
     6. KNOPPEN (NEON STIJL)
    ========================================= */
-button, .submit-btn {
+button, .submit-btn, .submit-btn-alt {
     width: 100%;
     padding: 15px;
     margin-top: 10px;
@@ -238,11 +238,26 @@ button, .submit-btn {
     letter-spacing: 1px;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
+    text-align: center;
+    display: block;
+    text-decoration: none;
 }
 
-button:hover, .submit-btn:hover {
+.submit-btn-alt {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+button:hover, .submit-btn:hover, .submit-btn-alt:hover {
     transform: translateY(-2px);
     box-shadow: 0 0 20px rgba(0, 242, 255, 0.6);
+}
+
+.button-group-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .btn-cancel {
@@ -299,7 +314,7 @@ button:hover, .submit-btn:hover {
     right: 30px !important;
     width: 85px !important;
     height: 85px !important;
-    background: rgba(0, 242, 255, 0.05) !important; /* Bijna transparant */
+    background: rgba(0, 242, 255, 0.05) !important; 
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 2px solid #00f2ff !important;
@@ -317,7 +332,6 @@ button:hover, .submit-btn:hover {
     text-align: center;
 }
 
-/* Het vraagteken */
 .help-button::before {
     content: "?";
     font-size: 32px;
@@ -326,7 +340,6 @@ button:hover, .submit-btn:hover {
     transition: opacity 0.3s, transform 0.3s;
 }
 
-/* De tekst binnen de cirkel */
 .help-tooltip {
     all: unset;
     font-size: 11px;
@@ -341,7 +354,6 @@ button:hover, .submit-btn:hover {
     display: block;
 }
 
-/* Hover effecten */
 .help-button:hover {
     background: rgba(0, 242, 255, 0.2) !important;
     box-shadow: 0 0 25px rgba(0, 242, 255, 0.6) !important;
