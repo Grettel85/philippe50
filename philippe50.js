@@ -12,6 +12,15 @@ const config = {
             "nav-verhaal": "Het Verhaal",
             "nav-someone": "Find Someone",
             "nav-mysterie": "Bestemming50",
+            "desc-verhaal": "Ontdek de legende, deel een herinnering of bekijk jouw eigen hoofdstuk.",
+            "btn-read-legend": "Lees De Legende",
+            "btn-write": "Schrijf mee",
+            "desc-someone": "De ultieme ijsbreker. Wie van de gasten matcht met de stelling?",
+            "btn-play": "Speel het Spel 🔒",
+            "desc-mysterie": "15 tips, één doel. Ontrafel jij de coördinaten van Philippe?",
+            "btn-play-online": "Speel Online",
+            "btn-input": "Tips Invoeren 🔑",
+            "btn-gen": "Kaarten Generator 🔒",
             "welcome": "Welkom bij Philippe 50",
             "enter-code": "Voer de geheime code in om deel te nemen:",
             "login-btn": "Log in",
@@ -53,6 +62,15 @@ const config = {
             "nav-verhaal": "L'Histoire",
             "nav-someone": "Trouver quelqu'un",
             "nav-mysterie": "Destination50",
+            "desc-verhaal": "Découvrez la légende, partagez un souvenir ou consultez votre propre chapitre.",
+            "btn-read-legend": "Lire La Légende",
+            "btn-write": "Schrijf mee",
+            "desc-someone": "Le brise-glace ultime. Quel invité correspond à l'affirmation ?",
+            "btn-play": "Jouez au Jeu 🔒",
+            "desc-mysterie": "15 indices, un seul objectif. Arriverez-vous à déchiffrer les coordonnées ?",
+            "btn-play-online": "Jouez en Ligne",
+            "btn-input": "Entrer les Indices 🔑",
+            "btn-gen": "Générateur de Cartes 🔒",
             "welcome": "Bienvenue chez Philippe 50",
             "enter-code": "Entrez le code secret pour participer :",
             "login-btn": "Se connecter",
@@ -81,7 +99,7 @@ const config = {
             "placeholder-obstacle": "ex: Le wifi est coupé, une roue du waveboard est cassée...",
             "placeholder-soundtrack": "Artiste - Titre",
             "chapter1-title": "Chapitre 1: Le Gramophone",
-            "chapter1-text": "Un morning, Philippe dégustait tranquillement son café dans la véranda, sa playlist Spotify en fond sonore. Les yeux fermés, il profitait du soleil sur son visage.\n\nLe combiné vidéo-DVD leva les yeux au ciel et le vieux gramophone sous le téléviseur grogna : encore cette musique 'moderne'. Soudain, un glitch temporel survint et le gramophone sursauta. Sous le choc, le saphir se déplaça sur un vieux disque et atterrit sur un sillon. Le glitch revint de plus belle et la pièce commença à tourner.\n\nAu lieu de Spotify, les notes du tube 'Fernando' d'ABBA résonnèrent au loin. Il ouvrit les yeux. Il était toujours dans son fauteuil, maar la pièce n'était plus celle de sa maison à Kessel-Lo. Le journal sur la table affichait une date surprenante : 14 avril 1976, 13h30 précises.\n\nPropulsé 50 ans en arrière. Comment reviendra-t-il vers le futur ?",
+            "chapter1-text": "Un matin, Philippe dégustait tranquillement son café dans la véranda, sa playlist Spotify en fond sonore. Les yeux fermés, il profitait du soleil sur son visage.\n\nLe combiné vidéo-DVD leva les yeux au ciel et le vieux gramophone sous le téléviseur grogna : encore cette musique 'moderne'. Soudain, un glitch temporel survint et le gramophone sursauta. Sous le choc, le saphir se déplaça sur un vieux disque et atterrit sur un sillon. Le glitch revint de plus belle et la pièce commença à tourner.\n\nAu lieu de Spotify, les notes du tube 'Fernando' d'ABBA résonnèrent au loin. Il ouvrit les yeux. Il était toujours dans son fauteuil, mais la pièce n'était plus celle de sa maison à Kessel-Lo. Le journal sur la table affichait une date surprenante : 14 avril 1976, 13h30 précises.\n\nPropulsé 50 ans en arrière. Comment reviendra-t-il vers le futur ?",
             "loader-phrases": ["Le saphir cherche le bon sillon...", "Stabilisation du glitch...", "La légende s'écrit..."],
             "sync-msg": "Le chronomètre se synchronise avec 1976... La chronologie se stabilise.",
             "no-match": "Aucune correspondance trouvée. Vérifiez votre nickname et mot secret.",
@@ -336,6 +354,7 @@ function proceedAfterLogin() {
 
 function executeAction(action) {
     switch(action) {
+        case 'verhaal-admin':
         case 'verhaal':
             const formSection = document.getElementById('form-section');
             if (formSection) {
