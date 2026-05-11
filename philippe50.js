@@ -108,7 +108,6 @@ function loadMenu() {
     const placeholder = document.getElementById('nav-placeholder');
     if (!placeholder) return;
 
-    // Aangepast naar volledig pad voor submappen
     fetch('https://grettel85.github.io/philippe50/menu.html')
         .then(response => response.text())
         .then(data => {
@@ -232,8 +231,6 @@ function splitCSVRow(row) {
 
 function setLanguage(lang) {
     config.currentLang = lang;
-    
-    // SLA TAAL OP VOOR SYNC TUSSEN PAGINA'S
     localStorage.setItem('preferred_lang', lang);
 
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -560,7 +557,6 @@ function checkIfReadyToReveal() {
 
 document.addEventListener('DOMContentLoaded', () => {
     loadMenu();
-    // Gebruik de opgeslagen taal bij het laden
     setLanguage(config.currentLang); 
     if (document.getElementById('story-content')) fetchStory();
     if (document.getElementById('scroll-nl')) startLiveScroll();
