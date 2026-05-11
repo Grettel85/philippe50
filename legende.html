@@ -8,12 +8,10 @@
 </head>
 <body>
     <div class="stars-container"></div>
-    <div class="card-container" style="max-width: 800px;">
-        <div class="language-switch">
-            <button onclick="setLanguage('nl'); fetchStory();" id="btn-nl">NL</button>
-            <button onclick="setLanguage('fr'); fetchStory();" id="btn-fr">FR</button>
-        </div>
 
+    <div id="nav-placeholder"></div>
+
+    <div class="card-container" style="max-width: 800px; margin-top: 100px;">
         <h1 data-i18n="story-title" style="text-align: center; margin-bottom: 40px;">De Legende van Philippe</h1>
         
         <div id="story-content" class="fade-in">
@@ -24,6 +22,8 @@
             <a href="index.html" class="submit-btn-alt" data-i18n="back-link">← Terug naar de start</a>
         </div>
     </div>
+
+    <script src="menu.js"></script>
     <script src="philippe50.js"></script>
 </body>
 </html>
