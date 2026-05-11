@@ -8,12 +8,10 @@
 </head>
 <body>
     <div class="stars-container"></div>
-    <div class="card-container">
-        <div class="language-switch">
-            <button onclick="setLanguage('nl')" id="btn-nl">NL</button>
-            <button onclick="setLanguage('fr')" id="btn-fr">FR</button>
-        </div>
 
+    <div id="nav-placeholder"></div>
+
+    <div class="card-container" style="margin-top: 100px;">
         <div class="glass-card fade-in">
             <h1 data-i18n="lookup-title">Ontgrendel jouw hoofdstuk</h1>
             <p data-i18n="lookup-desc">Voer je nickname en het geheime woord in.</p>
@@ -43,6 +41,8 @@
             </a>
         </div>
     </div>
+
+    <script src="menu.js"></script>
     <script src="philippe50.js"></script>
 </body>
 </html>
