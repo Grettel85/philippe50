@@ -1,10 +1,10 @@
 /* ==========================================================================
-   PHILIPPE 50 - SOUNDTRACK ENGINE
+   PHILIPPE 50 - SOUNDTRACK ENGINE (FINAL COMBINED VERSION)
    ========================================================================== */
 
-// 1. DE DATABASE (Hier vul je alle 27 hoofdstukken aan)
+// 1. DE DATABASE - Alle 27 hoofdstukken
 const soundtrackData = [
-   {
+    {
         id: 1,
         titel: "De Grammofoonspeler",
         videoA: "qaqIeK0jHSQ",
@@ -13,8 +13,9 @@ const soundtrackData = [
         driveB: "https://drive.google.com/file/d/13ZUXXTrSHUe6lqgh40vw0MoICrxanlyv/view?usp=drive_link",
         tekst: `I. 
 [Verse 1]
-Philippe zit in de zon,
-Met een kopje koffie in zijn hand. Spotify klinkt zacht, In dit vertrouwde land. De naald die verschuift, Een glitch in de tijd. De kamer draait rond, Hij raakt zijn wereld kwijt.
+Philippe zit in de zon, met een kopje koffie in zijn hand. 
+Spotify klinkt zacht, In dit vertrouwde land. De naald die verschuift, Een glitch in de tijd. 
+De kamer draait rond, Hij raakt zijn wereld kwijt.
 
 [Verse 2] 
 Les notes de Fernando, Résonnent dans le salon. Le journal sur la table, Parle d'une autre saison.
@@ -27,273 +28,37 @@ Een sprong in het duister, Een leven dat begint. Comment retourner, Pour se retr
 [Outro] 
 De radio kraakt... Hoe keert hij terug?`
     },
-   
-    {
-        id: 2,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-       {
-        id: 3,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 4,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 5,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 6,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 7,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 8,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 9,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 10,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 11,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 12,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 13,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 14,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 15,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 16,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 17,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 18,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 19,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 20,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 21,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 22,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 23,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 24,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 25,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 26,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-
-    {
-        id: 27,
-        titel: "Het Tweede Hoofdstuk",
-        videoA: "VIDEO_ID_HIER", 
-        videoB: "VIDEO_ID_HIER", 
-        driveA: "LINK_HIER", 
-        driveB: "LINK_HIER",
-        tekst: "Tekst voor hoofdstuk 2..."
-    }
-    // Kopieer het blokje hierboven telkens voor hoofdstuk 3, 4, etc.
+    { id: 2, titel: "Het Tweede Hoofdstuk", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 3, titel: "Hoofdstuk 3", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 4, titel: "Hoofdstuk 4", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 5, titel: "Hoofdstuk 5", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 6, titel: "Hoofdstuk 6", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 7, titel: "Hoofdstuk 7", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 8, titel: "Hoofdstuk 8", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 9, titel: "Hoofdstuk 9", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 10, titel: "Hoofdstuk 10", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 11, titel: "Hoofdstuk 11", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 12, titel: "Hoofdstuk 12", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 13, titel: "Hoofdstuk 13", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 14, titel: "Hoofdstuk 14", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 15, titel: "Hoofdstuk 15", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 16, titel: "Hoofdstuk 16", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 17, titel: "Hoofdstuk 17", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 18, titel: "Hoofdstuk 18", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 19, titel: "Hoofdstuk 19", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 20, titel: "Hoofdstuk 20", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 21, titel: "Hoofdstuk 21", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 22, titel: "Hoofdstuk 22", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 23, titel: "Hoofdstuk 23", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 24, titel: "Hoofdstuk 24", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 25, titel: "Hoofdstuk 25", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 26, titel: "Hoofdstuk 26", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+    { id: 27, titel: "Hoofdstuk 27", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." }
 ];
 
-// 2. TOEGANGSCONTROLE (Beveiliging)
+// 2. TOEGANGSCONTROLE
 function checkAccess() {
     const access = sessionStorage.getItem('soundtrack_access');
-    
     if (access === 'granted') {
         renderSoundtracks();
     } else {
@@ -301,24 +66,23 @@ function checkAccess() {
         if (password && password.toLowerCase() === "philippe50") {
             sessionStorage.setItem('soundtrack_access', 'granted');
             renderSoundtracks();
-        } else {
-            alert("Onjuist wachtwoord. Je wordt teruggeleid naar de startpagina.");
+        } else if (password !== null) {
+            alert("Onjuist wachtwoord. Je wordt teruggeleid.");
             window.location.href = "../index.html";
         }
     }
 }
 
-// 3. DE GENERATOR (Bouwt de HTML op het scherm)
+// 3. DE GENERATOR
 function renderSoundtracks() {
     const container = document.getElementById('soundtrack-list');
     if (!container) return;
 
     let htmlGerecht = ""; 
-
     soundtrackData.forEach(item => {
         htmlGerecht += `
             <section class="story-soundtrack">
-                <h2 style="text-transform: uppercase; letter-spacing: 1px;">Hoofdstuk ${item.id}: ${item.titel}</h2>
+                <h2 style="text-transform: uppercase;">Hoofdstuk ${item.id}: ${item.titel}</h2>
                 <div class="soundtrack-grid">
                     <div>
                         <div class="video-container">
@@ -333,7 +97,6 @@ function renderSoundtracks() {
                         <a href="${item.driveB}" target="_blank" class="download-link">💾 Download MP3 (Versie B)</a>
                     </div>
                 </div>
-                
                 <button onclick="toggleLyrics('lyrics-h${item.id}')" class="submit-btn-alt" style="margin-top: 20px; width: auto; padding: 8px 20px;">
                     📜 Toon Liedtekst
                 </button>
@@ -343,24 +106,21 @@ function renderSoundtracks() {
             </section>
         `;
     });
-
     container.innerHTML = htmlGerecht;
 }
 
-// 4. INTERACTIE (Open/dicht klappen van tekst)
+// 4. INTERACTIE (Met scroll-fix van jouw origineel)
 function toggleLyrics(id) {
     const el = document.getElementById(id);
     if (el) {
         const isOpen = el.style.display === "block";
         el.style.display = isOpen ? "none" : "block";
         
-        // Scroll automatisch naar de tekst als deze geopend wordt
         if (!isOpen) {
             el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
     }
 }
 
-// 5. STARTPUNT
-// In plaats van direct renderSoundtracks, starten we nu met de checkAccess
+// 5. START
 document.addEventListener('DOMContentLoaded', checkAccess);
