@@ -75,30 +75,7 @@
             <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 30px 0;">
 
             <div id="soundtrack-list">
-                <section class="story-soundtrack">
-                    <h2>Hoofdstuk 1: De Grammofoonspeler</h2>
-                    <div class="soundtrack-grid">
-                        <div>
-                            <div class="video-container">
-                                <iframe src="https://www.youtube.com/embed/VIDEO_ID_HIER" allowfullscreen title="Muziek video 1"></iframe>
-                            </div>
-                            <a href="LINK_NAAR_DRIVE_1" target="_blank" class="download-link">💾 Download MP3 (Versie A)</a>
-                        </div>
-                        <div>
-                            <div class="video-container">
-                                <iframe src="https://www.youtube.com/embed/VIDEO_ID_HIER" allowfullscreen title="Muziek video 2"></iframe>
-                            </div>
-                            <a href="LINK_NAAR_DRIVE_2" target="_blank" class="download-link">💾 Download MP3 (Versie B)</a>
-                        </div>
-                    </div>
-                    
-                    <button onclick="toggleLyrics('lyrics-h1')" class="submit-btn-alt" style="margin-top: 20px; width: auto; padding: 8px 20px;">
-                        📜 Toon Liedtekst / Paroles
-                    </button>
-                    <div id="lyrics-h1" class="lyrics-section">
-                        <p style="white-space: pre-wrap;">Hier komt de tekst van je liedje...</p>
-                    </div>
-                </section>
+                <p style="text-align: center; font-style: italic; color: rgba(255,255,255,0.5);">De instrumenten worden gestemd...</p>
             </div>
 
             <div style="text-align: center; margin-top: 40px;">
@@ -109,22 +86,7 @@
 
     <script src="../menu.js"></script>
     <script src="../philippe50.js"></script>
-
-    <script>
-        // Functie om liedtekst open en dicht te klappen
-        function toggleLyrics(id) {
-            const el = document.getElementById(id);
-            const isVisible = el.style.display === "block";
-            el.style.display = isVisible ? "none" : "block";
-            
-            // Scroll een klein beetje mee als het openklapt
-            if (!isVisible) {
-                el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-        }
-
-        // Tip voor later: We kunnen hier een 'const songs = [...]' array maken 
-        // om alle 27 hoofdstukken automatisch in de 'soundtrack-list' div te laden.
-    </script>
+    
+    <script src="soundtrack.js"></script>
 </body>
 </html>
