@@ -6,8 +6,6 @@ function loadMenu() {
     const placeholder = document.getElementById('nav-placeholder');
     if (!placeholder) return;
 
-    // We stellen de basis-URL vast in op jouw specifieke GitHub adres
-    // Dit voorkomt dat submappen de weg kwijtraken
     const baseUrl = window.location.origin + '/philippe50/';
 
     placeholder.innerHTML = `
@@ -23,8 +21,9 @@ function loadMenu() {
 
             <div class="nav-menu" id="nav-menu">
                 <a href="${baseUrl}index.html#section-verhaal" class="nav-link" data-i18n="nav-verhaal">Het Verhaal</a>
-                <a href="${baseUrl}index.html#section-someone" class="nav-link" data-i18n="nav-someone">Find Someone</a>
-                <a href="${baseUrl}index.html#section-mysterie" class="nav-link" data-i18n="nav-mysterie">Bestemming50</a>
+                <a href="${baseUrl}find-someone/find-someone.html" class="nav-link" data-i18n="nav-someone">Find Someone</a>
+                <a href="${baseUrl}quiztit/quiztitspel.html" class="nav-link" data-i18n="nav-mysterie">Bestemming50</a>
+                <a href="${baseUrl}soundtrack/soundtrack.html" class="nav-link" data-i18n="nav-soundtrack">Soundtrack</a>
             </div>
 
             <div class="language-switch-nav">
@@ -34,7 +33,6 @@ function loadMenu() {
         </div>
     </nav>`;
 
-    // Direct de taal synchroniseren nadat het menu is opgebouwd
     if (typeof setLanguage === 'function') {
         const currentLang = (typeof config !== 'undefined' && config.currentLang) ? config.currentLang : 'nl';
         setLanguage(currentLang);
@@ -50,7 +48,6 @@ function toggleMobileMenu() {
     }
 }
 
-// Zorg dat het menu sluit als je op een link klikt
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('nav-link')) {
         const menu = document.getElementById('nav-menu');
@@ -60,5 +57,4 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Start de injectie
 document.addEventListener('DOMContentLoaded', loadMenu);
