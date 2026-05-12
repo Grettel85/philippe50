@@ -33,7 +33,7 @@ function checkAccess() {
         renderSoundtracks();
     } else {
         const password = prompt("Voer het wachtwoord in om de muziek te beluisteren:", "");
-        if (password === "Philippe50") {
+        if (password && password.toLowerCase() === "philippe50") {
             sessionStorage.setItem('soundtrack_access', 'granted');
             renderSoundtracks();
         } else {
