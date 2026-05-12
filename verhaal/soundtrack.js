@@ -34,8 +34,8 @@ De radio kraakt... Hoe keert hij terug?`
         titel: "De Grote Mand van de Verwarring",
         videoA: "DEVv_LFmnzI",
         videoB: "aYGEfj6YZNg", 
-        driveA: "https://drive.google.com/file/d/169YDs4fVib5h-qXJnkCtSK92rUOAl2m-/view?usp=drive_link", 
-        driveB: "https://drive.google.com/file/d/1nBW4AnLOFMXuMBMdqlsSUmdgbC3u0boB/view?usp=drive_link",
+        driveB: "https://drive.google.com/file/d/169YDs4fVib5h-qXJnkCtSK92rUOAl2m-/view?usp=drive_link", 
+        driveA: "https://drive.google.com/file/d/1nBW4AnLOFMXuMBMdqlsSUmdgbC3u0boB/view?usp=drive_link",
         tekst: `II.
 [Verse 1]
 Philippe wankelt door de deur,
@@ -71,11 +71,137 @@ Pour se retrouver ?
 De wereld kantelt nu...
 Hoe keert hij terug?`
     },
-    
-    { id: 3, titel: "Hoofdstuk 3", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 4, titel: "Hoofdstuk 4", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 5, titel: "Hoofdstuk 5", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 6, titel: "Hoofdstuk 6", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+
+{
+        id: 3,
+        titel: "De Tuinman van de Nieuwe Wereld",
+        videoA: "ncZsbZckZhQ",
+        videoB: "ncZsbZckZhQ", 
+        driveA: "https://drive.google.com/file/d/1lb4H6Y0Jy5pNthuuhe6Uprrzgv0320mX/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/14FimBWngP8kErw03dotgX-TugEXOEuWH/view?usp=drive_link",
+        tekst: `III.
+[Verse 1]
+Lichtgevend mos vangt hem op,
+De geur van ozon en jasmijn.
+Louis Neefs zingt uit de bloemen,
+Het moet een teken zijn.
+Laat ons een bloem en wat gras,
+De natuur zingt mee.
+Philippe leidt de mensen,
+Door de blauwe bloemenzee.
+
+[Verse 2]
+Juno attend dans le vent,
+Sa robe respire le temps.
+Les arbres de cristal,
+S'élèvent vers les firmaments.
+La forêt de Champlon,
+Une force pure et guérie.
+Toucher la terre with respect,
+Au coeur de cette vie.
+
+[Chorus]
+Laat ons een bloem en gras,
+Un peu de soleil nécessaire.
+Neuf cents ans du futur,
+Quelle étrange réalité.
+De robots dansen in het rond,
+Philippe vindt de vrede.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+De plaat begint te draaien...
+Hoe keert hij terug?`
+    },
+
+{
+        id: 4,
+        titel: "De Zoete Smaak van Silex",
+        videoA: "SXQZ8BIzcyQ",
+        videoB: "xDjSAIXkvO4", 
+        driveA: "https://drive.google.com/file/d/1jClRzkJ5GjjdnfWnSF9mbWsle22TyhTh/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1RW_lbtM6c2EBYu-yqUfms-1aY4rtum8C/view?usp=drive_link",
+        tekst: `IV.
+[Verse 1]
+Mieke op een blok graniet,
+Gekleed in ruw en leder.
+De lucht ruikt naar zwavel,
+De zon wordt almaar heter.
+Geen suikerbakker te bekennen,
+Alleen maar honing en steen.
+Philippe bakt een oer-pannenkoek,
+Voor hen twee alleen.
+
+[Verse 2]
+Le miel et les fruits des bois,
+Une crêpe sur la pierre brûlante.
+Elle rit dans la cuisine,
+Une mémoire si touchante.
+La montagne de vaisselle,
+Un bonheur au quotidien.
+Le goût du passé,
+Pour retrouver son propre chemin.
+
+[Chorus]
+Yabba-dabba-doo oerkracht,
+Le sol commence à se fendre.
+Douze mille ans en arrière,
+Quelle réalité.
+Philippe grijpt de diepte,
+Terwijl de grond hem verslindt.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+Vulkanische beving...
+Hoe keert hij terug?`
+    },
+
+   {
+        id: 5,
+        titel: "Een Goudgele Terugkeer",
+        videoA: "SGcdCG-qyt0",
+        videoB: "aKYhTEA8eZs", 
+        driveA: "https://drive.google.com/file/d/19JC4hkGiRCdXDz7eReAJT_L2t2fsdXHu/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1x3urzq3ok-_oQFbAiE_FpBIgiZ8MTJXG/view?usp=drive_link",
+        tekst: `V.
+[Verse 1]
+Asfalt en felle neon,
+McGyver prutst aan een motor.
+Met een paperclip en kauwgom,
+Maakt hij de hoop weer groter.
+Velden van goud klinken zacht,
+In de nevel van de stad.
+Philippe zoekt de juiste trilling,
+Die hij vroeger al eens had.
+
+[Verse 2]
+Champs d'or de Wezembeek,
+Un lever de soleil doré.
+La fréquence de la musique,
+Pour enfin tout réparer.
+Le ruban noir et l'antenne,
+Pour briser toutes les chaînes.
+Un adieu dans le parking,
+Pour apaiser ses peines.
+
+[Chorus]
+Fields of gold klinken luid,
+La bande magnétique tourne.
+Trente-six ans du futur,
+Quelle réalité.
+Een blauwe lichtflits tilt hem op,
+Door de ruit van de tijd.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+Succes Philippe...
+Hoe keert hij terug?`
+    },
+   
+   { id: 6, titel: "Hoofdstuk 6", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
     { id: 7, titel: "Hoofdstuk 7", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
     { id: 8, titel: "Hoofdstuk 8", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
     { id: 9, titel: "Hoofdstuk 9", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
