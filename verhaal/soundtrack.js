@@ -7,8 +7,8 @@ const soundtrackData = [
     {
         id: 1,
         titel: "De Grammofoonspeler",
-        videoA: "https://youtu.be/qaqIeK0jHSQ", 
-        videoB: "https://youtu.be/8R_cRtpbzCQ", 
+        videoA: "qaqIeK0jHSQ"
+         videoB: "8R_cRtpbzCQ", 
         driveA: "https://drive.google.com/file/d/1va3RzQA-P54tQDffsl6Ka5fyZJm0rm7W/view?usp=drive_link", 
         driveB: "https://drive.google.com/file/d/13ZUXXTrSHUe6lqgh40vw0MoICrxanlyv/view?usp=drive_link",
         tekst: "Hier plak je de tekst uit je spreadsheet\n\nMet extra witregels."
