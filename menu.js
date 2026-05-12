@@ -1,44 +1,38 @@
 /* ==========================================================================
-   PHILIPPE 50 - MENU ENGINE (Injected via menu.js)
+   PHILIPPE 50 - MENU LOADER (Haalt menu.html op)
    ========================================================================== */
 
 function loadMenu() {
     const placeholder = document.getElementById('nav-placeholder');
     if (!placeholder) return;
 
-    const baseUrl = window.location.origin + '/philippe50/';
-
-    placeholder.innerHTML = `
-    <nav class="top-nav">
-        <div class="nav-container">
-            <a href="${baseUrl}index.html" class="nav-logo">PHILIPPE <span class="accent">50</span></a>
+    // We halen het centrale menu.html bestand op
+    // Let op: ../menu.html werkt als je in een submap zit (zoals /verhaal/)
+    // Als dit niet werkt voor index.html, gebruik dan 'menu.html'
+    fetch('https://grettel85.github.io/philippe50/menu.html')
+        .then(response => {
+            if (!response.ok) throw new Error('Menu niet gevonden');
+            return response.text();
+        })
+        .then(data => {
+            placeholder.innerHTML = data;
             
-            <button class="mobile-nav-toggle" onclick="toggleMobileMenu()" aria-label="Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            // Nadat het menu geladen is, kijken we of we de taal moeten instellen
+            if (typeof setLanguage === 'function') {
+                const currentLang = (typeof config !== 'undefined' && config.currentLang) ? config.currentLang : 'nl';
+                setLanguage(currentLang);
+            }
 
-            <div class="nav-menu" id="nav-menu">
-                <a href="${baseUrl}index.html#section-verhaal" class="nav-link" data-i18n="nav-verhaal">Het Verhaal</a>
-                <a href="${baseUrl}find-someone/find-someone.html" class="nav-link" data-i18n="nav-someone">Find Someone</a>
-                <a href="${baseUrl}quiztit/quiztitspel.html" class="nav-link" data-i18n="nav-mysterie">Bestemming50</a>
-                <a href="${baseUrl}soundtrack/soundtrack.html" class="nav-link" data-i18n="nav-soundtrack">De Soundtrack</a>
-            </div>
-
-            <div class="language-switch-nav">
-                <button onclick="setLanguage('nl')" id="btn-nl-nav">NL</button>
-                <button onclick="setLanguage('fr')" id="btn-fr-nav">FR</button>
-            </div>
-        </div>
-    </nav>`;
-
-    if (typeof setLanguage === 'function') {
-        const currentLang = (typeof config !== 'undefined' && config.currentLang) ? config.currentLang : 'nl';
-        setLanguage(currentLang);
-    }
+            // CRUCIAAL: Als we op de soundtrack pagina zijn, tekenen we nu de tracks
+            // Dit lost het flikkeren/verdwijnen op!
+            if (window.location.pathname.includes('soundtrack') && typeof renderSoundtracks === 'function') {
+                renderSoundtracks();
+            }
+        })
+        .catch(error => console.error('Fout bij laden menu:', error));
 }
 
+// Deze functies blijven nodig voor de werking van de knoppen in het menu
 function toggleMobileMenu() {
     const menu = document.getElementById('nav-menu');
     const toggle = document.querySelector('.mobile-nav-toggle');
@@ -48,6 +42,7 @@ function toggleMobileMenu() {
     }
 }
 
+// Zorg dat de mobiele knop werkt, ook al is het menu later geladen
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('nav-link')) {
         const menu = document.getElementById('nav-menu');
@@ -57,4 +52,5 @@ document.addEventListener('click', (e) => {
     }
 });
 
+// Start de lader
 document.addEventListener('DOMContentLoaded', loadMenu);
