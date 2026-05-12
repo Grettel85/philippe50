@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>De Soundtrack - Philippe 50</title>
-    <link rel="stylesheet" href="philippe50.css">
+    <link rel="stylesheet" href="../philippe50.css">
     <style>
-        /* Specifieke stijlen voor de soundtrack pagina */
         .soundtrack-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -15,11 +14,12 @@
         }
         .video-container {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
             border-radius: 10px;
             background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
         }
         .video-container iframe {
             position: absolute;
@@ -31,25 +31,40 @@
         }
         .lyrics-section {
             background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
+            padding: 20px;
             border-radius: 8px;
             margin-top: 15px;
             font-style: italic;
-            font-size: 0.9rem;
-            display: none; /* Standaard verborgen */
+            font-size: 0.95rem;
+            line-height: 1.6;
+            display: none;
+            border-left: 3px solid #ff00de;
         }
         .download-link {
             display: inline-block;
             margin-top: 10px;
             color: #00f2ff;
             text-decoration: none;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            background: rgba(0, 242, 255, 0.1);
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: 0.3s;
         }
-        .download-link:hover { text-decoration: underline; }
+        .download-link:hover { 
+            background: rgba(0, 242, 255, 0.2);
+            text-decoration: none;
+        }
+        .story-soundtrack {
+            margin-bottom: 60px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
     </style>
 </head>
 <body>
     <div class="stars-container"></div>
+    
     <div id="nav-placeholder"></div>
 
     <div class="card-container" style="max-width: 1000px; margin-top: 100px;">
@@ -59,47 +74,57 @@
             
             <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 30px 0;">
 
-            <section class="story-soundtrack" style="margin-bottom: 50px;">
-                <h2>Hoofdstuk 1: De Grammofoonspeler</h2>
-                <div class="soundtrack-grid">
-                    <div>
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/VIDEO_ID_1" allowfullscreen></iframe>
+            <div id="soundtrack-list">
+                <section class="story-soundtrack">
+                    <h2>Hoofdstuk 1: De Grammofoonspeler</h2>
+                    <div class="soundtrack-grid">
+                        <div>
+                            <div class="video-container">
+                                <iframe src="https://www.youtube.com/embed/VIDEO_ID_HIER" allowfullscreen title="Muziek video 1"></iframe>
+                            </div>
+                            <a href="LINK_NAAR_DRIVE_1" target="_blank" class="download-link">💾 Download MP3 (Versie A)</a>
                         </div>
-                        <a href="GOOGLE_DRIVE_LINK_1" target="_blank" class="download-link">💾 Download MP3 (Versie 1)</a>
-                    </div>
-                    <div>
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/VIDEO_ID_2" allowfullscreen></iframe>
+                        <div>
+                            <div class="video-container">
+                                <iframe src="https://www.youtube.com/embed/VIDEO_ID_HIER" allowfullscreen title="Muziek video 2"></iframe>
+                            </div>
+                            <a href="LINK_NAAR_DRIVE_2" target="_blank" class="download-link">💾 Download MP3 (Versie B)</a>
                         </div>
-                        <a href="GOOGLE_DRIVE_LINK_2" target="_blank" class="download-link">💾 Download MP3 (Versie 2)</a>
                     </div>
-                </div>
-                
-                <button onclick="toggleLyrics('lyrics-h1')" class="submit-btn-alt" style="margin-top: 15px; width: auto; padding: 5px 15px;">
-                    📜 Toon Liedtekst
-                </button>
-                <div id="lyrics-h1" class="lyrics-section">
-                    Hier komt de tekst van het liedje voor hoofdstuk 1...<br>
-                    Regel 2...<br>
-                    Regel 3...
-                </div>
-            </section>
-
+                    
+                    <button onclick="toggleLyrics('lyrics-h1')" class="submit-btn-alt" style="margin-top: 20px; width: auto; padding: 8px 20px;">
+                        📜 Toon Liedtekst / Paroles
+                    </button>
+                    <div id="lyrics-h1" class="lyrics-section">
+                        <p style="white-space: pre-wrap;">Hier komt de tekst van je liedje...</p>
+                    </div>
+                </section>
             </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="../index.html" class="submit-btn-alt">← Terug naar de start</a>
+            </div>
+        </div>
     </div>
 
-    <script src="menu.js"></script>
+    <script src="../menu.js"></script>
+    <script src="../philippe50.js"></script>
+
     <script>
-        // Simpele functie om tekst te tonen/verbergen
+        // Functie om liedtekst open en dicht te klappen
         function toggleLyrics(id) {
             const el = document.getElementById(id);
-            if (el.style.display === "block") {
-                el.style.display = "none";
-            } else {
-                el.style.display = "block";
+            const isVisible = el.style.display === "block";
+            el.style.display = isVisible ? "none" : "block";
+            
+            // Scroll een klein beetje mee als het openklapt
+            if (!isVisible) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         }
+
+        // Tip voor later: We kunnen hier een 'const songs = [...]' array maken 
+        // om alle 27 hoofdstukken automatisch in de 'soundtrack-list' div te laden.
     </script>
 </body>
 </html>
