@@ -28,7 +28,50 @@ Een sprong in het duister, Een leven dat begint. Comment retourner, Pour se retr
 [Outro] 
 De radio kraakt... Hoe keert hij terug?`
     },
-    { id: 2, titel: "Het Tweede Hoofdstuk", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+
+{
+        id: 2,
+        titel: "De Grote Mand van de Verwarring",
+        videoA: "DEVv_LFmnzI",
+        videoB: "aYGEfj6YZNg", 
+        driveA: "https://drive.google.com/file/d/169YDs4fVib5h-qXJnkCtSK92rUOAl2m-/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1nBW4AnLOFMXuMBMdqlsSUmdgbC3u0boB/view?usp=drive_link",
+        tekst: `II.
+[Verse 1]
+Philippe wankelt door de deur,
+De vloer is nu van riet.
+Een hondenmand vol kussens,
+Wat hij in de keuken ziet.
+Agatha zoekt haar Gertje weer,
+Haar trainingspak is paars.
+De saxofoon rolt door de kamer,
+Alles lijkt onbedaarlijk dwaars.
+
+[Verse 2]
+Le panier sent le biscuit,
+La basse fait vibrer l'osier.
+Philippe veut s'échapper,
+Mais Agatha veut le garder.
+Sa maman parlait d'horizon,
+Pour retrouver son foyer.
+Regarder loin devant soi,
+Sans jamais se noyer.
+
+[Chorus]
+You can leave your hat on,
+Philippe is de weg kwijt.
+Kessel-Lo s'éloigne,
+Dans cette étrange réalité.
+Vijftig jaar van nu vandaan,
+Een sprong in het duister.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+De wereld kantelt nu...
+Hoe keert hij terug?`
+    },
+    
     { id: 3, titel: "Hoofdstuk 3", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
     { id: 4, titel: "Hoofdstuk 4", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
     { id: 5, titel: "Hoofdstuk 5", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
