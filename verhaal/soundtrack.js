@@ -1,28 +1,59 @@
-// 1. De "Database" met al je liedjes
+/* ==========================================================================
+   PHILIPPE 50 - SOUNDTRACK ENGINE
+   ========================================================================== */
+
+// 1. DE DATABASE (Hier vul je alle 27 hoofdstukken aan)
 const soundtrackData = [
     {
         id: 1,
         titel: "De Grammofoonspeler",
-        videoA: "dQw4w9WgXcQ", // De code na v= in de YouTube link
+        videoA: "dQw4w9WgXcQ", 
         videoB: "dQw4w9WgXcQ", 
-        driveA: "https://drive.google.com/...", // Je MP3 link
+        driveA: "https://drive.google.com/...", 
         driveB: "https://drive.google.com/...",
         tekst: "Hier plak je de tekst uit je spreadsheet\n\nMet extra witregels."
     },
-    // Kopieer dit blokje voor elk hoofdstuk (2, 3, 4...)
+    {
+        id: 2,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+    // Kopieer het blokje hierboven telkens voor hoofdstuk 3, 4, etc.
 ];
 
-// 2. De functie die de HTML bouwt
+// 2. TOEGANGSCONTROLE (Beveiliging)
+function checkAccess() {
+    const access = sessionStorage.getItem('soundtrack_access');
+    
+    if (access === 'granted') {
+        renderSoundtracks();
+    } else {
+        const password = prompt("Voer het wachtwoord in om de muziek te beluisteren:", "");
+        if (password === "Philippe50") {
+            sessionStorage.setItem('soundtrack_access', 'granted');
+            renderSoundtracks();
+        } else {
+            alert("Onjuist wachtwoord. Je wordt teruggeleid naar de startpagina.");
+            window.location.href = "../index.html";
+        }
+    }
+}
+
+// 3. DE GENERATOR (Bouwt de HTML op het scherm)
 function renderSoundtracks() {
     const container = document.getElementById('soundtrack-list');
     if (!container) return;
 
-    let htmlGerecht = ""; // Hier verzamelen we alle stukjes HTML
+    let htmlGerecht = ""; 
 
     soundtrackData.forEach(item => {
         htmlGerecht += `
             <section class="story-soundtrack">
-                <h2>Hoofdstuk ${item.id}: ${item.titel}</h2>
+                <h2 style="text-transform: uppercase; letter-spacing: 1px;">Hoofdstuk ${item.id}: ${item.titel}</h2>
                 <div class="soundtrack-grid">
                     <div>
                         <div class="video-container">
@@ -38,7 +69,7 @@ function renderSoundtracks() {
                     </div>
                 </div>
                 
-                <button onclick="toggleLyrics('lyrics-h${item.id}')" class="submit-btn-alt" style="margin-top: 20px; width: auto;">
+                <button onclick="toggleLyrics('lyrics-h${item.id}')" class="submit-btn-alt" style="margin-top: 20px; width: auto; padding: 8px 20px;">
                     📜 Toon Liedtekst
                 </button>
                 <div id="lyrics-h${item.id}" class="lyrics-section">
@@ -51,14 +82,20 @@ function renderSoundtracks() {
     container.innerHTML = htmlGerecht;
 }
 
-// 3. Zorg dat de tekst open/dicht klapt
+// 4. INTERACTIE (Open/dicht klappen van tekst)
 function toggleLyrics(id) {
     const el = document.getElementById(id);
     if (el) {
         const isOpen = el.style.display === "block";
         el.style.display = isOpen ? "none" : "block";
+        
+        // Scroll automatisch naar de tekst als deze geopend wordt
+        if (!isOpen) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
     }
 }
 
-// 4. Start alles op als de pagina klaar is
-document.addEventListener('DOMContentLoaded', renderSoundtracks);
+// 5. STARTPUNT
+// In plaats van direct renderSoundtracks, starten we nu met de checkAccess
+document.addEventListener('DOMContentLoaded', checkAccess);
