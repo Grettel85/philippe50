@@ -23,7 +23,7 @@ function loadMenu() {
                 <a href="${baseUrl}index.html#section-verhaal" class="nav-link" data-i18n="nav-verhaal">Het Verhaal</a>
                 <a href="${baseUrl}find-someone/find-someone.html" class="nav-link" data-i18n="nav-someone">Find Someone</a>
                 <a href="${baseUrl}quiztit/quiztitspel.html" class="nav-link" data-i18n="nav-mysterie">Bestemming50</a>
-                <a href="${baseUrl}soundtrack/soundtrack.html" class="nav-link" data-i18n="nav-soundtrack">Soundtrack</a>
+                <a href="${baseUrl}soundtrack/soundtrack.html" class="nav-link" data-i18n="nav-soundtrack">De Soundtrack</a>
             </div>
 
             <div class="language-switch-nav">
