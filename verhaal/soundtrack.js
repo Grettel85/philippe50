@@ -9,8 +9,8 @@ const soundtrackData = [
         titel: "De Grammofoonspeler",
         videoA: "qaqIeK0jHSQ",
         videoB: "8R_cRtpbzCQ", 
-        driveA: "https://drive.google.com/file/d/1va3RzQA-P54tQDffsl6Ka5fyZJm0rm7W/view?usp=drive_link", 
-        driveB: "https://drive.google.com/file/d/13ZUXXTrSHUe6lqgh40vw0MoICrxanlyv/view?usp=drive_link",
+        driveA: "https://drive.google.com/file/d/13ZUXXTrSHUe6lqgh40vw0MoICrxanlyv/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1va3RzQA-P54tQDffsl6Ka5fyZJm0rm7W/view?usp=drive_link",
         tekst: `I. 
 [Verse 1]
 Philippe zit in de zon, met een kopje koffie in zijn hand. 
