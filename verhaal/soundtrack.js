@@ -815,15 +815,425 @@ De hendel klikt...
 Hoe keert hij terug?`
     },
 
+{
+        id: 20,
+        titel: "Het Gezang van het Ijzer",
+        videoA: "",
+        videoB: "", 
+        driveA: "https://drive.google.com/file/d/1W9-RmThxS3Y6W5y9NdtkwTXDNzpjjBSv/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1ntaHc4zw5R_isKoRTAb7vFFpjoshfBSy/view?usp=drive_link",
+        tekst: `XX.
+[Verse 1]
+Philippe landt in mos en slijk,
+De mist hangt kil en zwaar.
+Leyrah trekt hem overeind,
+Gevaar loert hier en daar.
+Ameno, dore,
+Het gezang weerklinkt door elk blad.
+Ridders met hun ijzeren vuist,
+Blokkeren nu het pad.
+
+[Verse 2]
+Un briquet dans la main,
+Comme une flamme sacrée.
+Il prêche un faux dialecte,
+Pour les déconcerter.
+Le souvenir des oncles,
+Dans le fracas des jours.
+Détourner leur attention,
+Pour trouver le secours.
+
+[Chorus]
+Ameno dore,
+Het ijzer zingt zijn lied.
+La magie du briquet,
+Dans deze vreemde realité.
+Philippe springt op het altaar,
+Een blauwe vlam die brandt.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+Het zwaard schampt de stof... L'épée frôle la veste...
+Het altaar gloeit op... L'autel s'embrase...
+Hoe keert hij terug? Comment retourner ?`
+    },   
+
+{
+        id: 21,
+        titel: "De Dans van het Heilige Licht",
+        videoA: "",
+        videoB: "", 
+        driveA: "https://drive.google.com/file/d/114gij8af0ftifH2Z08_Qe7nZSjB0eXG3/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1QEm8FJ-Uzept20tChDkb1HX4gvoFDMTB/view?usp=drive_link",
+        tekst: `XXI.
+[Verse 1]
+Philippe landt in het natte loof,
+De geur van wierook en van leer.
+De nevel spuwt zijn ridders uit,
+Hun zwaarden kletteren telkens weer.
+Ameno dore weerklinkt luid,
+Een koor van schimmen in het bos.
+De leider brult zijn vonnis uit:
+"Geen van de twee komt hier nog los!"
+
+[Verse 2]
+Le souvenir des cris d'enfants,
+Des oncles dans le brouhaha.
+Philippe sort ses feux d'argent,
+Pour stopper ce combat.
+Un flash de lumière électrique,
+Un briquet dans l'air froid.
+Le latin inventé résonne,
+Les guerriers perdent leur foi.
+
+[Chorus]
+Ameno dore,
+Het licht verblindt hun ogen.
+La faille bleue brille,
+Dans deze vreemde realité.
+Philippe grijpt de hand van Leyrah,
+Voor de speer hem doorboort.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+De blauwe leegte roept... Le vide bleu l'appelle...
+De speerpunt snijdt de stof... La lance déchire le tissu...
+Hoe keert hij terug? Comment retourner ?`
+    },
+
+   {
+        id: 22,
+        titel: "Het Grote Kat-en-Muis Spel",
+        videoA: "",
+        videoB: "", 
+        driveA: "https://drive.google.com/file/d/1hICcP1wEjIHnKp-Mv6G4R1fGHzCqRCqd/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1Cv3tq07D0viytQGp8nft1jmiRGAdYIus/view?usp=drive_link",
+        tekst: `XXII.
+[Verse 1]
+Philippe landt op fluweel,
+In een wereld van melk en vis.
+Miaoustouflante roept hem,
+Waar niets meer normaal nu is.
+Tygroo met zijn litteken,
+Droomt van een menselijk maal.
+Gouden harnassen glanzen,
+In dit vreemde kattenverhaal.
+
+[Verse 2]
+Tout le monde veut devenir un Cat,
+La trompette résonne.
+Philippe danse comme un fauve,
+Pour sauver sa personage.
+Un flash du futur lointain,
+Un petit garçon de neufs ans.
+Le ronronnement d'un frigo,
+Pour charmer les méchants.
+
+[Chorus]
+Tout le monde veut devenir un Cat,
+De staarten slaan de maat.
+La reine a faim,
+Dans deze vreemde realité.
+Philippe duikt in de zilveren brij,
+Voor de klauw hem echt raakt.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+De klauwen zijn gescherpt... Les griffes sont acérées...
+De zilveren glinstering lokt... Le reflet d'argent attire...
+Hoe keert hij terug? Comment retourner ?`
+    },
+
+   {
+        id: 23,
+        titel: "De Toverkracht van het Varkenssnuitje",
+        videoA: "",
+        videoB: "", 
+        driveA: "https://drive.google.com/file/d/1B8jLPZ_iAa-338tuxgBMm5iMRknZsMPI/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1DxvvOhBfvBRxd_S1nINAnwgu4_GQPyRo/view?usp=drive_link",
+        tekst: `XXIII.
+[Verse 1]
+De voerbak verdwijnt,
+Philippe valt door de steen.
+In een toren vol mos,
+Met Astrid alleen.
+De heks roert de ketel,
+Een paarse gloed schijnt.
+Salagadoola,
+Tot je mensheid verdwijnt.
+
+[Verse 2]
+Des oreilles de cochon,
+Un groin qui se dessine.
+Mais le flash de familie,
+Le sauve de la cuisine.
+Une poignée d'herbes,
+Jetée dans le feu.
+Des paillettes roses,
+Sous un ciel de dieu.
+
+[Chorus]
+Bibbidi-Bobbidi-Boo,
+De toverkracht ontploft.
+La magie s'effondre,
+Dans deze vreemde realité.
+Philippe grijpt de hand van Astrid,
+In de barst van de tijd.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+Het varkenssnuitje krimpt... Le groin rétrécit...
+De blauwe draaikolk trekt... Le tourbillon bleu les emporte...
+Hoe keert hij terug? Comment retourner ?`
+    },
+
+   {
+        id: 24,
+        titel: "De Onvolmaakte Muze",
+        videoA: "JDGwBNj7SIg",
+        videoB: "JDGwBNj7SIg", 
+        driveA: "https://drive.google.com/file/d/1WP1N_-92WmEYV4fsdB12tTERXFTSTAuZ/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1E8HWa3w8Kip5e7NW4377psbe3DuftV83/view?usp=drive_link",
+        tekst: `XXIV.
+[Verse 1]
+Linnen en verf,
+in een kamer vol licht
+De maestro zoekt schoonheid,
+een goddelijk gezicht
+Philippe houdt zijn trui aan,
+de wol als een schild
+Terwijl de jetset van vroeger,
+naar feesten toe hilt
+
+[Verse 2]
+Run, run, run,
+ils courent après le vent
+Philippe reste assis,
+un simple figurant
+Un corps parfait,
+une âme sans défaut ?
+Il préfère la glace,
+et le trajet au chaud
+
+[Chorus]
+What the hell am I doing here?
+Ik hoor hier niet thuis
+Je ne suis pas spécial,
+in dit gouden gedruis
+De naald schiet uit de groef,
+een snerpend geluid
+Comment retourner
+pour se retrouver ?
+
+[Outro]
+De gouden flits verblindt... l'éclat doré aveugle...
+De trui blijft aan... le pull reste en place...
+Hoe keert hij terug? Comment retourner ?`
+    },
+
+{
+        id: 25,
+        titel: "De Gejaagde Toekomst",
+        videoA: "RKzqNF6r6iE",
+        videoB: "IucMWc3XapQ", 
+        driveA: "https://drive.google.com/file/d/1nc8CFm5q9T2jythkGf2y0Ntg3doMycUz/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1duSZkQOl-zx0w0Xb0iX84aQ9Za2qluyf/view?usp=drive_link",
+        tekst: `XXV.
+[Verse 1]
+Opzij, opzij, opzij,
+de klok tikt naar de nul
+Neonlichten flitsen,
+door al dit tijdsgebrul
+Sielou trekt aan zijn arm,
+de sjaal wordt nu een lijn
+Vissen naar de sleutel,
+zoals het op de kermis kon zijn
+
+[Verse 2]
+Pousse-toi, pousse-toi,
+pousse-toi, le futur est pressé
+Philippe cherche le calme,
+dans son coeur angoissé
+La clé remonte du puits,
+comme un lot de la foire
+La porte s'ouvre enfin,
+pour changer leur histoire
+
+[Chorus]
+We hebben een ongelooflijke haast,
+le temps nous poursuit
+Une cérémonie de lumière,
+dans deze vreemde realité
+De naald slaat op hol,
+in het magnetische vuur
+Comment retourner
+pour se retrouver ?
+
+[Outro]
+De vortex vlamt op... le vortex s'enflamme...
+De toekomst lost op... le futur se dissout...
+Hoe keert hij terug? Comment retourner ?`
+    },   
+
+   {
+        id: 26,
+        titel: "De Bitterzoete Slok",
+        videoA: "UShQ6n_ihOo",
+        videoB: "omb2Hpz9p6Q", 
+        driveA: "https://drive.google.com/file/d/1EL5if1c8vCqERGrSdv0yEGjdi5Dp11VL/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1JpYNH7WaxLVRiE_wHN6uR2mOBaTcVTBd/view?usp=drive_link",
+        tekst: `XXVI.
+[Verse 1]
+Havermelk en neon,
+Sophia lacht hem toe
+Drink de thee van sterrenstof,
+want de naald is moe
+Pommelien zingt luid
+dat ze nu echt moet gaan
+Terwijl de dampen van de beker
+om zijn oren slaan
+
+[Verse 2]
+Un souvenir de Bruxelles,
+une tasse de magie
+Philippe boit le liquide,
+pour sauver sa vie
+La force monte en lui,
+des doigts jusqu'au coeur
+Le gramophone bourdonne,
+apaisant sa peur
+
+[Chorus]
+Ik moet gaan, echt nu gaan,
+de tijd staat niet stil
+Le monde tourbillonne,
+tegen Philippe zijn wil
+Eén jaar van de toekomst,
+de laatste barst verschijnt
+Comment retourner
+pour se retrouver ?
+
+[Outro]
+De stoel valt weg... la chaise s'effondre...
+Tijd wordt vloeibaar... le temps devient liquide...
+Hoe keert hij terug? Comment retourner ?`
+    },
    
-    { id: 20, titel: "Hoofdstuk 20", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 21, titel: "Hoofdstuk 21", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 22, titel: "Hoofdstuk 22", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 23, titel: "Hoofdstuk 23", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 24, titel: "Hoofdstuk 24", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 25, titel: "Hoofdstuk 25", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 26, titel: "Hoofdstuk 26", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 27, titel: "Hoofdstuk 27", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." }
+{
+        id: 27,
+        titel: "Het Sterrenstof voorbij",
+        videoA: "-VFyfoqkN38",
+        videoB: "nrTwZX2hTPE", 
+        driveA: "https://drive.google.com/file/d/1mj_gaRaUqiMQy-ZxSfQ9nl5uViW5_TJ3/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1TIBoz2Diu5vcSCxN8SCIuF8WoZ2ictNz/view?usp=drive_link",
+        tekst: `XXVII.
+[Verse 1]
+De naald sloeg toe, een klap in de nacht
+Gevallen in de leegte, waar geen ster meer op me wacht
+Geen ticket in m'n zakken, geen weg meer uit dit dal
+Ik roep maar niemand antwoordt, in dit zwarte gat van stal
+De eenzaamheid is zwaarder dan elk avontuur voorheen
+Zonder hen rondom mij, voel ik me zo alleen
+
+[Verse 2]
+Le froid s'installe, le silence est si lourd
+Plus de rires, plus de cris, plus de secours
+Mais dans le noir, un souvenir vient briller
+Un thé magique, un rire, pour ne pas m'oublier
+Les visages aimés deviennent des étincelles
+La nuit s'illumine, la vie redevient belle
+
+[Pre-Chorus]
+Een bries langs m'n wang, een licht aan de horizon
+Un souffle de vent, là où tout a commencé
+De cirkel wordt groter, ik ren nu voor m'n leven
+La porte est ouverte, je n'ai plus d'hésitation !
+
+[Chorus]
+Ik spring over het ijzer, door de poort van de tijd
+Je franchis la frontière, loin de l'obscurité
+Geen droom meer, geen chaos, maar warmte en licht
+Un nouveau départ, un sourire sur mon visage
+Eindelijk thuis, le voyage est fini !
+
+[Bridge]
+Hoofdpijn verdwijnt in de geur van brood en kaas
+Le parfum des fleurs, la fin de l'angoisse
+De deurbel klinkt luid, ik gooi de kamer open
+Une explosion de couleurs, ce qu'on n'osait plus espérer !
+
+[Outro]
+Gelukkige verjaardag! Joyeux anniversaire !
+Een hamer in m'n zak, een snuitje in de tuin
+Des regards complices, un mystère souverain
+Adem diep in, de kaarsjes wachten nu...
+Respire fort, souffle tout ce que tu as...
+Hieperdepiep... HOERA!`
+    },
+
+{
+        id: "bonus", // Of een ander ID naar keuze voor het themanummer
+        titel: "Philippe50",
+        videoA: "TYupwx7faqQ",
+        videoB: "", 
+        driveA: "https://drive.google.com/file/d/1CWogamVSqTUfFiPDDU4--tFEd1IV--s2/view?usp=drive_link", 
+        driveB: "",
+        tekst: `[Verse 1]
+Je dacht dat je gewoon een jaartje ouder werd vandaag
+Maar je vloog door de decennia, dat was de grote vraag
+Van disco-beats in de zon naar ridders in het slijk
+Je bouwde met een hamer aan een heel bijzonder rijk
+Je skipte door de tijd met een naald in de groef
+Soms was je een muze, soms een dapper boef!
+
+[Verse 2]
+Tu as couru partout, défiant tous les dangers
+Un voyageur de l'ombre, un héros étranger
+Des plateformes du futur aux ateliers d'antan
+Tu as gardé ton âme, défiant le fil du temps
+Le pull en laine aux épaules, tu n'as jamais cédé
+Contre les vents du sort, tu as su résister !
+
+[Chorus]
+Dus zing opzij, opzij, de tijd die staat nu stil
+Vandaag gebeurt er alles wat de jarige maar wil!
+Pousse-toi, le futur peut bien nous attendre
+Aujourd'hui c'est ta fête, il n'y a rien à craindre !
+Gelukkige verjaardag, de cirkel is nu rond
+Joyeux anniversaire, le coeur vagabond !
+
+[Verse 3]
+Je dronk een kopje thee dat naar sterrenstof rook
+Je ontsnapte aan de heks en de paarse toverrook
+Je dribbelde als een meester op een veld van gras
+En ontdekte dat de vrijheid in je eigen zakken was
+Van skateboard op de weg tot een schip op de oceaan
+Je bent door alle barsten van de tijd gegaan!
+
+[Verse 4]
+La clé montait du puits comme un lot de la foire
+Tu as ouvert la porte pour changer ton histoire
+Tu as dansé avec les chats au milieu du bal
+Fuyant la boue d'argent, ce piège de métal
+De l'écume des vagues jusqu'au ciel étoilé
+C'est ici, dans ton jardin, que tu t'es retrouvé !
+
+[Bridge]
+En ook al was het donker, ook al was je even kwijt
+Même dans le noir total, loin de la réalité
+Er brandde altijd ergens een lichtje in de tijd
+Une flamme pour te ramener, vers cette belle journée.
+
+[Outro]
+Blaas de kaarsjes uit, de reis is nu gedaan
+Souffle les bougies, tu peux enfin t'arrêter
+Hieperdepiep... HOURRA!`
+    },
+   
 ];
 
 // 2. TOEGANGSCONTROLE
