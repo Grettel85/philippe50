@@ -419,16 +419,403 @@ De bloemenzee verdwijnt...
 Hoe keert hij terug?`
     },
 
+   {
+        id: 11,
+        titel: "De Kracht van de Kalk",
+        videoA: "WrrhrYaORp0",
+        videoB: "O4PIqPzORXk", 
+        driveA: "https://drive.google.com/file/d/1LL_Pl7EevR_ovK4xGfreCF8A2ia9ySoW/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1YwV_Y8NSpnVvWEfWFuWYE2JN5RDMUlV8/view?usp=drive_link",
+        tekst: `XI.
+[Verse 1]
+Philippe landt op kasseien,
+In de mist en de rook.
+Kolenas in de lucht,
+De ochtend is grauw en koud ook.
+Han zit op een krat,
+Zijn knie doet hem pijn.
+Een souvenir van de oorlog,
+Hij mag hier niet zijn.
+
+[Verse 2]
+La mandoline vibre,
+Un écho du futur lointain.
+L'odeur de la chaux,
+Le poids du sac dans sa main.
+Philippe saisit le marteau,
+Avec la force de sa mémoire.
+Il aide son ami Han,
+À changer le cours de l'histoire.
+
+[Chorus]
+Losing my religion,
+Tussen de muren van steen.
+Une vie de travail,
+Dans deze vreemde realité.
+Philippe grijpt de hand van Han,
+Terwijl de grond weer beeft.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+Kalk op de schoenen...
+De mist lost op...
+Hoe keert hij terug?`
+    },
    
-    { id: 11, titel: "Hoofdstuk 11", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 12, titel: "Hoofdstuk 12", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 13, titel: "Hoofdstuk 13", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 14, titel: "Hoofdstuk 14", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 15, titel: "Hoofdstuk 15", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 16, titel: "Hoofdstuk 16", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 17, titel: "Hoofdstuk 17", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 18, titel: "Hoofdstuk 18", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 19, titel: "Hoofdstuk 19", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+{
+        id: 12,
+        titel: "Het Ritmische Robot-Relaas",
+        videoA: "elS414g4TuY",
+        videoB: "c42KEB8UOhQ", 
+        driveA: "https://drive.google.com/file/d/1G3RJrXIuf185zzN92qscZ_L9XlMuieQd/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1ZgRohSJTAoUhWppct8eBaGahcYhJoxAU/view?usp=drive_link",
+        tekst: `XII.
+[Verse 1]
+Philippe zingt de woorden,
+Een magisch kabaal.
+Supercalifragilistic,
+Een robot-verhaal.
+Chroom en neon,
+Een ijzeren macht.
+Poppins fluistert zacht,
+In de nacht.
+
+[Verse 2]
+Le rythme van de garage,
+De pingpongbal.
+Les machines s'arrêtent,
+Le calcul est long.
+Des étincelles bleues,
+Un chaos digital.
+Philippe saute dans le vide,
+Un saut final.
+
+[Chorus]
+Supercalifragilisticexpialidocious,
+De robots zijn verward.
+Les circuits surchauffent,
+Dans deze vreemde realité.
+Een blauw licht in de schacht,
+Een sprong in het diepe.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+De wereld kraakt...
+Philippe zingt door...
+Hoe keert hij terug?`
+    },
+
+   
+  {
+        id: 13,
+        titel: "De Graal van het Geduld",
+        videoA: "3AhvNiQyrgE",
+        videoB: "qzyUiKXovQI", 
+        driveA: "https://drive.google.com/file/d/1Hr9oDZH5dhhp3F0wY8ikLxNLDolKBin9/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1k4Guj2id66Ee1wLVCJ2Mx2PRrGoo5Kgl/view?usp=drive_link",
+        tekst: `XIII.
+[Verse 1]
+Arthur eist de Graal,
+In de stenen hal.
+Merlijn kijkt toe,
+Voor de grote val.
+Herman Van Veen zingt,
+Van toveren en rust.
+Philippe wacht geduldig,
+Van zijn kracht bewust.
+
+[Verse 2]
+La cave de sa jeunesse,
+Le Commodore 64.
+Le code se charge,
+Sur le vieux théâtre.
+Charger la lumière,
+Au milieu de la salle.
+Le sacré n'est pas cherché,
+C'est digital.
+
+[Chorus]
+Als ik kon toveren,
+De pixels worden goud.
+Le Graal de la patience,
+Dans deze vreemde realité.
+De kelderherinnering trekt hem,
+Door het zwarte gat.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+Het beeld wordt ruis...
+De vloer lost op...
+Hoe keert hij terug?`
+    },
+
+{
+        id: 14,
+        titel: "De Digitale Kelk van Camelot",
+        videoA: "IF2uYxNAwcg",
+        videoB: "IF2uYxNAwcg", 
+        driveA: "https://drive.google.com/file/d/1Q2m0GTdBMRgME6I2TeZ91T3vS1I6YMvD/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1WMMVoWnjeEVuz6b6VbPPLfYsbkLVGy4t/view?usp=drive_link",
+        tekst: `XIV.
+[Verse 1]
+Camelot smelt weg,
+In een purperen lucht.
+Merlijn bij de put,
+Philippe is op de vlucht.
+De ridders hameren,
+Arthur wacht op pracht.
+De Graal is een glitch,
+Verborgen in de nacht.
+
+[Verse 2]
+Charger le futur,
+Dans le bruit statique.
+Les couleurs reviennent,
+Un moment magique.
+Load Error verschijnt,
+In letters van vuur.
+De magneet trekt hem mee,
+Voorbij de kasteelmuur.
+
+[Chorus]
+Load Error in Camelot,
+De pixels spatten uiteen.
+La mer de bruit numérique,
+Dans deze vreemde realité.
+Philippe vliegt door de muur,
+Van vloeibaar glas.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+Neonlicht flitst...
+Camelot verdwijnt...
+Hoe keert hij terug?`
+    },
+   
+{
+        id: 15,
+        titel: "De Plank van de Profeet",
+        videoA: "O4AAG0Sa6r8",
+        videoB: "CMjXqQJcmb0", 
+        driveA: "https://drive.google.com/file/d/1ggkOcoW6udBTEzF46tcxWwjmCVSk3KJD/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1WL_vHr_fxUDzClhiaPt8z833GUrAsbkx/view?usp=drive_link",
+        tekst: `XV.
+[Verse 1]
+Oranje linoleum,
+De geur van tabak en brood.
+Mary en Claude kijken,
+Philippe is in nood.
+Geen wielen onder de voeten,
+Het skateboard nog een droom.
+Hij timmert aan een plank,
+Aan de rand van de stroom.
+
+[Verse 2]
+Money money money,
+Résonne dans la rue.
+Bon-Papa danse de joie,
+La nouvelle est connue.
+Un petit Philippe est né,
+La joie analogique.
+Il s'élance sur l'asphalte,
+Un moment héroïque.
+
+[Chorus]
+Money money money,
+De plank wiebelt over de weg.
+Le monde s'effiloche,
+Dans deze vreemde realité.
+Kleurrijke slierten trekken hem,
+Weg van de stoep.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+De naald krast...
+De cassetteband rafelt...
+Hoe keert hij terug?`
+    },
+
+   {
+        id: 16,
+        titel: "Het Dilemma van de Discowolken",
+        videoA: "",
+        videoB: "", 
+        driveA: "https://drive.google.com/file/d/1BpbCAlpuh9Af0E_yu_CW6Ll6fNOAZqjp/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/10OI5JnUGnD6Is7JnXROAUveFPYk655Hg/view?usp=drive_link",
+        tekst: `XVI.
+[Verse 1]
+Parelmoeren wolken,
+Een lounge in de lucht.
+Choisy in het wit,
+Een hemelse vlucht.
+Kies je reïncarnatie,
+De kristallen bol wacht.
+Maar Philippe wilt terug,
+Naar de eigen tijdmacht.
+
+[Verse 2]
+Paradis de Santa,
+La guitare espagnole.
+La mousse au chocolat,
+Comme une parabole.
+Battre les blancs en neige,
+Avec légèreté.
+Il tournoie comme un fouet,
+Pour sa liberté.
+
+[Chorus]
+Paradis de Santa,
+Philippe draait in het rond.
+Un cocon de soie,
+Dans deze vreemde realité.
+Hij trapt tegen de zuil,
+Het paradijs trilt.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+De beat dooft uit...
+Het gat in de wolken...
+Hoe keert hij terug?`
+    },
+   
+ {
+        id: 17,
+        titel: "De Meetfout van de Meesterklusser",
+        videoA: "",
+        videoB: "", 
+        driveA: "https://drive.google.com/file/d/1LCceEZ5RgXvjAmG-q09SKA6pzn6PLK1x/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1LkCJ9gAmMlXd2umOJskLcFQkXs-3B5GF/view?usp=drive_link",
+        tekst: `XVII.
+[Verse 1]
+Philippe valt door het glas,
+In het schaafsel en het hout.
+In een schuur in Haillot,
+Waar Bobo aan de toekomst bouwt.
+Een trap die wiebelt,
+Balken uit het lood.
+Claude François zingt van een hamer,
+In de strijd tegen de nood.
+
+[Verse 2]
+Si j'avais un marteau,
+Les mesures seraient perfectas.
+Une vision du futur,
+Une rénovation honnête.
+Philippe lève la masse,
+Il connaît enfin le secret.
+Un coup sur le pivot,
+Pour réparer tous les regrets.
+
+[Chorus]
+Si j'avais un marteau,
+Philippe slaat de splinters rond.
+Le bois tremble de peur,
+Dans deze vreemde realité.
+Blauwe vonken spatten op,
+De vloer wordt rood en heet.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+Een gat onder de bank...
+Philippe valt opnieuw...
+Hoe keert hij terug?`
+    },
+{
+        id: 18,
+        titel: "De Zwevende Bevrijder van Normandië",
+        videoA: "",
+        videoB: "", 
+        driveA: "https://drive.google.com/file/d/1HD2cra62Q4Pb0beuJzsE26Av7dqvWd-H/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1oa6x0AQxb5uZHE2bcfdmDh34eXo5xGO2/view?usp=drive_link",
+        tekst: `XVIII.
+[Verse 1]
+Philippe bungelt aan de riemen,
+In een eik aan de Franse kust.
+Zout water en verbrand rubber,
+De nacht biedt hem geen rust.
+Jenny vecht tegen de koorden,
+De lucht trilt van het geweld.
+Een klaaglijk lied over eenzaamheid,
+Wordt door de wind verteld.
+
+[Verse 2]
+I am so lonely,
+Chante la voix dans le noir.
+Le poids du corps bascule,
+Au creux du désespoir.
+Un mouvement de skate,
+Le secret de l'équilibre.
+Philippe coupe les liens de soie,
+Pour redevenir libre.
+
+[Chorus]
+I am so lonely,
+Ze vallen in de modder neer.
+La lueur d'un projecteur,
+Dans deze vreemde realité.
+Philippe sleurt Jenny mee,
+In het gat bij de wortels.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+Een cirkel die gloeit...
+De geur van benzine...
+Hoe keert hij terug?`
+    },
+   
+{
+        id: 19,
+        titel: "De Dolgedraaide Versnelling",
+        videoA: "KAeGK8gICgw",
+        videoB: "1l-Dl3ZjRMI", 
+        driveA: "https://drive.google.com/file/d/1DMxpGtZHUcYg85Ki4lPOKzRCMGyjBjnl/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1KllehQ78KOhkRvnfIxVK5CZ9yevDN1ly/view?usp=drive_link",
+        tekst: `XIX.
+[Verse 1]
+Philippe landt op oranje rib,
+In een roes van muskus en rook.
+Tempus schreeuwt met grote snor,
+Maar zijn stem versnelt nu ook.
+Lichten flitsen als stroboscopen,
+De wereld draait op topsnelheid.
+Freddie zingt zijn profetie,
+Niemand stopt deze hectische tijd.
+
+[Verse 2]
+Arrête de respirer,
+Murmure l'écho du passé.
+Le prédateur s'éloigne,
+Quand le souffle est glacé.
+Le rythme s'apaise enfin,
+De muziek wordt diep en traag.
+Philippe zoekt de jukebox hendel,
+Voor de vloer hem weer verzwelgt.
+
+[Chorus]
+Don't stop me now,
+De tijd raast door de kamer.
+Le monde s'accélère,
+Dans deze vreemde realité.
+Philippe trekt de jukebox hendel,
+Voor de vloer hem weer verzwelgt.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+Een witte flits...
+De hendel klikt...
+Hoe keert hij terug?`
+    },
+
+   
     { id: 20, titel: "Hoofdstuk 20", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
     { id: 21, titel: "Hoofdstuk 21", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
     { id: 22, titel: "Hoofdstuk 22", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
