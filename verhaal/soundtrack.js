@@ -4,27 +4,30 @@
 
 // 1. DE DATABASE (Hier vul je alle 27 hoofdstukken aan)
 const soundtrackData = [
-    {
+   {
         id: 1,
         titel: "De Grammofoonspeler",
         videoA: "qaqIeK0jHSQ",
-         videoB: "8R_cRtpbzCQ", 
+        videoB: "8R_cRtpbzCQ", 
         driveA: "https://drive.google.com/file/d/1va3RzQA-P54tQDffsl6Ka5fyZJm0rm7W/view?usp=drive_link", 
         driveB: "https://drive.google.com/file/d/13ZUXXTrSHUe6lqgh40vw0MoICrxanlyv/view?usp=drive_link",
-        tekst: 
-"I. 
+        tekst: `I. 
 [Verse 1]
 Philippe zit in de zon,
 Met een kopje koffie in zijn hand. Spotify klinkt zacht, In dit vertrouwde land. De naald die verschuift, Een glitch in de tijd. De kamer draait rond, Hij raakt zijn wereld kwijt.
+
 [Verse 2] 
 Les notes de Fernando, Résonnent dans le salon. Le journal sur la table, Parle d'une autre saison.
 1976, une house de son passé. L'enfant porte son nom, La réalité est effacée.
+
 [Chorus] 
 Er is geen weg terug, Le temps a basculé. Philippe kijkt rond, In deze vreemde realité.
 Een sprong in het duister, Een leven dat begint. Comment retourner, Pour se retrouver ?
+
 [Outro] 
-De radio kraakt... Hoe keert hij terug?"
+De radio kraakt... Hoe keert hij terug?`
     },
+   
     {
         id: 2,
         titel: "Het Tweede Hoofdstuk",
