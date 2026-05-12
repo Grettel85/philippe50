@@ -11,10 +11,272 @@ const soundtrackData = [
          videoB: "8R_cRtpbzCQ", 
         driveA: "https://drive.google.com/file/d/1va3RzQA-P54tQDffsl6Ka5fyZJm0rm7W/view?usp=drive_link", 
         driveB: "https://drive.google.com/file/d/13ZUXXTrSHUe6lqgh40vw0MoICrxanlyv/view?usp=drive_link",
-        tekst: "Hier plak je de tekst uit je spreadsheet\n\nMet extra witregels."
+        tekst: 
+"I. 
+[Verse 1]
+Philippe zit in de zon,
+Met een kopje koffie in zijn hand. Spotify klinkt zacht, In dit vertrouwde land. De naald die verschuift, Een glitch in de tijd. De kamer draait rond, Hij raakt zijn wereld kwijt.
+[Verse 2] 
+Les notes de Fernando, Résonnent dans le salon. Le journal sur la table, Parle d'une autre saison.
+1976, une house de son passé. L'enfant porte son nom, La réalité est effacée.
+[Chorus] 
+Er is geen weg terug, Le temps a basculé. Philippe kijkt rond, In deze vreemde realité.
+Een sprong in het duister, Een leven dat begint. Comment retourner, Pour se retrouver ?
+[Outro] 
+De radio kraakt... Hoe keert hij terug?"
     },
     {
         id: 2,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+       {
+        id: 3,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 4,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 5,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 6,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 7,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 8,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 9,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 10,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 11,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 12,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 13,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 14,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 15,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 16,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 17,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 18,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 19,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 20,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 21,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 22,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 23,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 24,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 25,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 26,
+        titel: "Het Tweede Hoofdstuk",
+        videoA: "VIDEO_ID_HIER", 
+        videoB: "VIDEO_ID_HIER", 
+        driveA: "LINK_HIER", 
+        driveB: "LINK_HIER",
+        tekst: "Tekst voor hoofdstuk 2..."
+    }
+
+    {
+        id: 27,
         titel: "Het Tweede Hoofdstuk",
         videoA: "VIDEO_ID_HIER", 
         videoB: "VIDEO_ID_HIER", 
