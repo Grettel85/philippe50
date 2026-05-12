@@ -120,8 +120,8 @@ Hoe keert hij terug?`
         titel: "De Zoete Smaak van Silex",
         videoA: "SXQZ8BIzcyQ",
         videoB: "xDjSAIXkvO4", 
-        driveA: "https://drive.google.com/file/d/1jClRzkJ5GjjdnfWnSF9mbWsle22TyhTh/view?usp=drive_link", 
-        driveB: "https://drive.google.com/file/d/1RW_lbtM6c2EBYu-yqUfms-1aY4rtum8C/view?usp=drive_link",
+        driveB: "https://drive.google.com/file/d/1jClRzkJ5GjjdnfWnSF9mbWsle22TyhTh/view?usp=drive_link", 
+        driveA: "https://drive.google.com/file/d/1RW_lbtM6c2EBYu-yqUfms-1aY4rtum8C/view?usp=drive_link",
         tekst: `IV.
 [Verse 1]
 Mieke op een blok graniet,
@@ -163,8 +163,8 @@ Hoe keert hij terug?`
         titel: "Een Goudgele Terugkeer",
         videoA: "SGcdCG-qyt0",
         videoB: "aKYhTEA8eZs", 
-        driveA: "https://drive.google.com/file/d/19JC4hkGiRCdXDz7eReAJT_L2t2fsdXHu/view?usp=drive_link", 
-        driveB: "https://drive.google.com/file/d/1x3urzq3ok-_oQFbAiE_FpBIgiZ8MTJXG/view?usp=drive_link",
+        driveB: "https://drive.google.com/file/d/19JC4hkGiRCdXDz7eReAJT_L2t2fsdXHu/view?usp=drive_link", 
+        driveA: "https://drive.google.com/file/d/1x3urzq3ok-_oQFbAiE_FpBIgiZ8MTJXG/view?usp=drive_link",
         tekst: `V.
 [Verse 1]
 Asfalt en felle neon,
@@ -201,11 +201,225 @@ Succes Philippe...
 Hoe keert hij terug?`
     },
    
-   { id: 6, titel: "Hoofdstuk 6", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 7, titel: "Hoofdstuk 7", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 8, titel: "Hoofdstuk 8", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 9, titel: "Hoofdstuk 9", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
-    { id: 10, titel: "Hoofdstuk 10", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
+{
+        id: 6,
+        titel: "De Vloek van de Farao",
+        videoA: "JNGnXhM2OTA",
+        videoB: "sBI-SoOX-Gw", 
+        driveA: "https://drive.google.com/file/d/1sNOtMhiWgz8TDWvLG7B3ZNBHi0PLZxoR/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1JI_7RP0BkiuOoaK--JkpsKxj252UPBat/view?usp=drive_link",
+        tekst: `VI.
+[Verse 1]
+Woestijnzand onder zijn voeten,
+De geur van mirre en wierook.
+Annette grijpt zijn arm nu vast,
+Door de offer-vuur-rook.
+De hogepriesters roepen luid,
+Anubis toont zijn toorn.
+Philippe ziet een gouden masker,
+In dit land verloren en herboren.
+
+[Verse 2]
+Le pharaon sur son trône,
+Une vision de frites dorées.
+Le sel et les pommes de terre,
+Pour la paix retrouvée.
+La magie du ruban noir,
+Danse sur le mur du temple.
+Une bouffée de lucidité,
+Dont le futur est l'exemple.
+
+[Chorus]
+L'Orient résonne de loin,
+Le couteau brille dans l'air.
+Trois mille ans en arrière,
+Quelle réalité.
+Philippe springt in het duister,
+Weg van de mystieke chaos.
+Comment retourner,
+Pour se retrouver?
+
+[Outro]
+De hitte aan zijn hielen...
+Hoe keert hij terug?`
+    },
+   
+{
+        id: 7,
+        titel: "Het Dansende Slagveld",
+        videoA: "pY2xsL9iCxs",
+        videoB: "iAClgME823E", 
+        driveA: "https://drive.google.com/file/d/1pRTmLTRz7x1aZFIJ-Zb8DEaLDWZCb-fo/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/19GIcz9ErVLsdmIQdFKxLVfV3sxATDX-G/view?usp=drive_link",
+        tekst: `VII.
+[Verse 1]
+Modder en maliënkolders,
+Ridders scherpen hun zwaard.
+Camelot Song klinkt absurd,
+Is dit een gevecht wel waard?
+Philippe zingt uit volle borst,
+Gooi de kaas en gooi het brood.
+Een picknick tussen de pijlen,
+Stopt de oorlog en de nood.
+
+[Verse 2]
+Mamy-Dany sur la nappe,
+Un pique-nique dans le parc.
+Le bonheur de sa maman,
+Brise les flèches et les arcs.
+L'absurdité collective,
+Fait danser tous les soldats.
+L'ardeur au combat s'évapore,
+Dans ce joyeux fracas.
+
+[Chorus]
+Dans op de maat Philippe,
+L'absurdité nous sauve.
+Huit cents ans en arrière,
+Quelle réalité.
+Acht eeuwen van de toekomst,
+In een blauwe lichtflits.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+De kar vat vlam...
+Hoe keert hij terug?`
+    },
+   
+ {
+        id: 8,
+        titel: "De Dubbele Echo van Vrijheid",
+        videoA: "faLMliGnf54",
+        videoB: "t6IQJXNkT5o", 
+        driveA: "https://drive.google.com/file/d/1T800aCNoeXMHGNfiUPdvKxYff8l43pQU/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1PuNAsIWXVkxtyib7lhFri512QpWMxFyJ/view?usp=drive_link",
+        tekst: `VIII.
+[Verse 1]
+Philippe valt door de rook,
+Op een vloer van boenwas en hout.
+Oranje bloemen op de muur,
+Een wereld die hij nog herkent en vertrouwt.
+Ti Mousse staat te wachten,
+De ketenen zijn eindelijk door.
+Een plaat op de inductie,
+Maar een oude stem klinkt in zijn oor.
+
+[Verse 2]
+La brume remplace les murs,
+Les poignées s'effacent.
+Philippe bondit comme une gazelle,
+Défiant l'océan.
+Sur le pont du Sea You,
+Il capture les émotions.
+Son chronomètre devient caméra,
+Figeant les époques.
+
+[Chorus]
+Don't stop me now,
+De vrijheid roept zijn naam.
+Une étoile filante,
+Dans deze vreemde realité.
+Philippe houdt Ti Mousse stevig vast,
+Terwijl de kamer flikkert.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+De kamer draait rond...
+Philippe bevriest de tijd...
+Hoe keert hij terug?`
+    },
+   
+ {
+        id: 9,
+        titel: "De Mexicaanse Dribbel van het Lot",
+        videoA: "NjRXvVB76eo",
+        videoB: "XrcAy1IodmU", 
+        driveA: "https://drive.google.com/file/d/1AtfLTauwg-JxdTOkXA6S1dcxgL2dFHoA/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1jaIMwgYlSkw_gMqUcygtbfvePO7DoXk-/view?usp=drive_link",
+        tekst: `IX.
+[Verse 1]
+Philippe landt in het stof,
+De geur van chili en gras.
+Rode en blauwe shirts,
+Mexico viert feest met veel tamtam en pas.
+Takamatsu grijpt zijn arm,
+Sombrero groot en een brede lach.
+Maar het ticket is weg,
+Paniek op deze grote dag.
+
+[Verse 2]
+La chaleur humide de Mexico,
+Walk This Way dans les oreilles.
+Une vision de Louvain,
+Un disque volant onder de zon.
+La courbe du frisbee,
+Le billet caché dans la casquette.
+Philippe sort le papier froissé,
+Juste avant la grande fête.
+
+[Chorus]
+Dribbel van het lot,
+De baslijn pompt door de stad.
+Le stade Aztèque vibre,
+Dans deze vreemde realité.
+Een blauwe flits verschijnt,
+Die hem plotseling verblindt.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+Maradona aan de bal...
+Philippe wordt weer weggezogen...
+Hoe keert hij terug?`
+    },
+   
+{
+        id: 10,
+        titel: "De Dans van de Klaprozen",
+        videoA: "bX_6PugRcVY",
+        videoB: "DLREKOEhWXA", 
+        driveA: "https://drive.google.com/file/d/1QyrAstRbc2IWO52EuPq_D4sh-INPOIDr/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/1YeJo7GpXyofg2wOqyqfofMp6q13WCV3_/view?usp=drive_link",
+        tekst: `X.
+[Verse 1]
+Philippe opent zijn ogen,
+Een rode gloed die zachtjes wiegt.
+Geen beton maar klaprozen,
+Waar de zomerbries door vliegt.
+Babs staart naar de horizon,
+Haar wilde krullen in de wind.
+Een melodie die alles kleurt,
+Die elke bloem aan elkaar bindt.
+
+[Verse 2]
+L'air est lourd de parfums,
+Le vent murmure ses ordres secrets.
+Philippe erre dans le rouge,
+S'enfonçant dans ce champ sacré.
+Soudain la vision d'un homme,
+Un éclair de waarheid pure.
+Il brise enfin l'enchantement,
+Pour quitter cette aventure.
+
+[Chorus]
+Kijk hoe mooi de dag begint,
+De wereld rimpelt als water.
+La mer de fleurs rouges,
+Dans deze vreemde realité.
+Philippe grijpt de hand van Babs,
+Voor het licht hen verslindt.
+Comment retourner,
+Pour se retrouver ?
+
+[Outro]
+De horizon valt weg...
+De bloemenzee verdwijnt...
+Hoe keert hij terug?`
+    },
+
+   
     { id: 11, titel: "Hoofdstuk 11", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
     { id: 12, titel: "Hoofdstuk 12", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
     { id: 13, titel: "Hoofdstuk 13", videoA: "ID", videoB: "ID", driveA: "URL", driveB: "URL", tekst: "Tekst..." },
