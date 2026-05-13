@@ -1260,22 +1260,32 @@ function renderSoundtracks() {
 
     let htmlGerecht = ""; 
     soundtrackData.forEach(item => {
+        // IF-CHECK: Voor de bonustrack
+        const displayTitel = (item.id === 'bonus') ? item.titel : `Hoofdstuk ${item.id}: ${item.titel}`;
+
+        // Hulpmiddelen om lege content te verbergen
+        const videoA_html = item.videoA ? `
+            <div>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/${item.videoA}" loading="lazy" allowfullscreen></iframe>
+                </div>
+                ${item.driveA ? `<a href="${item.driveA}" target="_blank" class="download-link">💾 Download track (A-Kant)</a>` : ''}
+            </div>` : '';
+
+        const videoB_html = item.videoB ? `
+            <div>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/${item.videoB}" loading="lazy" allowfullscreen></iframe>
+                </div>
+                ${item.driveB ? `<a href="${item.driveB}" target="_blank" class="download-link">💾 Download track (B-Kant)</a>` : ''}
+            </div>` : '';
+
         htmlGerecht += `
             <section class="story-soundtrack">
-                <h2 style="text-transform: uppercase;">Hoofdstuk ${item.id}: ${item.titel}</h2>
+                <h2 style="text-transform: uppercase;">${displayTitel}</h2>
                 <div class="soundtrack-grid">
-                    <div>
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/${item.videoA}" allowfullscreen></iframe>
-                        </div>
-                        <a href="${item.driveA}" target="_blank" class="download-link">💾 Download track (Kant A)</a>
-                    </div>
-                    <div>
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/${item.videoB}" allowfullscreen></iframe>
-                        </div>
-                        <a href="${item.driveB}" target="_blank" class="download-link">💾 Download track (Kant B)</a>
-                    </div>
+                    ${videoA_html}
+                    ${videoB_html}
                 </div>
                 <button onclick="toggleLyrics('lyrics-h${item.id}')" class="submit-btn-alt" style="margin-top: 20px; width: auto; padding: 8px 20px;">
                     📜 Toon Liedjestekst
@@ -1288,7 +1298,6 @@ function renderSoundtracks() {
     });
     container.innerHTML = htmlGerecht;
 }
-
 // 4. INTERACTIE (Met scroll-fix van jouw origineel)
 function toggleLyrics(id) {
     const el = document.getElementById(id);
