@@ -313,6 +313,10 @@ button:hover, .submit-btn:hover, .submit-btn-alt:hover {
     background-size: cover;
     background-position: center;
     background-color: #000; /* Zwart vlak als de afbeelding nog laadt */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 
 .video-container iframe {
