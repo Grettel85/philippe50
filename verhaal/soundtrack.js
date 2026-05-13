@@ -1260,30 +1260,10 @@ function renderSoundtracks() {
 
     let htmlGerecht = ""; 
     soundtrackData.forEach(item => {
-        // IF-CHECK: Voor de bonustrack
         const displayTitel = (item.id === 'bonus') ? item.titel : `Hoofdstuk ${item.id}: ${item.titel}`;
 
-        // Hulpmiddel om de Lite Embed te genereren
-        const createVideoHTML = (videoId, driveLink, label) => {
-    if (!videoId) return '';
-    return `
-        <div>
-            <div class="video-container" 
-                 style="background-image: url('https://img.youtube.com/vi/${videoId}/hqdefault.jpg'); cursor: pointer;"
-                 onclick="this.innerHTML='<iframe src=\'https://www.youtube.com/embed/${videoId}?autoplay=1\' allowfullscreen style=\'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;\'></iframe>'">
-                
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); pointer-events: none;">
-                    <div style="font-size: 50px; color: white; background: rgba(255, 0, 222, 0.8); border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(255, 0, 222, 0.5);">
-                        ▶
-                    </div>
-                </div>
-            </div>
-            ${driveLink ? `<a href="${driveLink}" target="_blank" class="download-link">💾 Download track (${label})</a>` : ''}
-        </div>`;
-};
-
-        const videoA_html = createVideoHTML(item.videoA, item.driveA, "A-Kant");
-        const videoB_html = createVideoHTML(item.videoB, item.driveB, "B-Kant");
+        const videoA_html = createVideoBox(item.videoA, item.driveA, "A-Kant");
+        const videoB_html = createVideoBox(item.videoB, item.driveB, "B-Kant");
 
         htmlGerecht += `
             <section class="story-soundtrack">
@@ -1302,14 +1282,50 @@ function renderSoundtracks() {
         `;
     });
     container.innerHTML = htmlGerecht;
+
+    // Activeer de klik-events nadat de HTML is geplaatst
+    setupVideoListeners();
 }
-// 4. INTERACTIE (Met scroll-fix van jouw origineel)
+
+// Hulpmiddel voor de HTML structuur (GEEN onclick hier, dat voorkomt fouten)
+function createVideoBox(videoId, driveLink, label) {
+    if (!videoId) return '';
+    return `
+        <div>
+            <div class="video-container lite-video" data-id="${videoId}" style="background-image: url('https://img.youtube.com/vi/${videoId}/hqdefault.jpg'); cursor: pointer;">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); pointer-events: none;">
+                    <div style="font-size: 50px; color: white; background: rgba(255, 0, 222, 0.8); border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(255, 0, 222, 0.5);">
+                        ▶
+                    </div>
+                </div>
+            </div>
+            ${driveLink ? `<a href="${driveLink}" target="_blank" class="download-link">💾 Download track (${label})</a>` : ''}
+        </div>`;
+}
+
+// DE BELANGRIJKE FIX: Luister naar de kliks op een veilige manier
+function setupVideoListeners() {
+    document.querySelectorAll('.lite-video').forEach(box => {
+        box.addEventListener('click', function() {
+            const videoId = this.getAttribute('data-id');
+            // We bouwen de iframe hier op, veilig buiten de HTML-string
+            const iframe = document.createElement('iframe');
+            iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1`);
+            iframe.setAttribute('allowfullscreen', '');
+            iframe.setAttribute('style', 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;');
+            
+            this.innerHTML = '';
+            this.appendChild(iframe);
+        });
+    });
+}
+
+// 4. INTERACTIE
 function toggleLyrics(id) {
     const el = document.getElementById(id);
     if (el) {
         const isOpen = el.style.display === "block";
         el.style.display = isOpen ? "none" : "block";
-        
         if (!isOpen) {
             el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
