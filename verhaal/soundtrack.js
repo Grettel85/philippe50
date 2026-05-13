@@ -996,8 +996,8 @@ Hoe keert hij terug? Comment retourner ?`
         titel: "De Onvolmaakte Muze",
         videoA: "JDGwBNj7SIg",
         videoB: "JDGwBNj7SIg", 
-        driveA: "https://drive.google.com/file/d/1WP1N_-92WmEYV4fsdB12tTERXFTSTAuZ/view?usp=drive_link", 
-        driveB: "https://drive.google.com/file/d/1E8HWa3w8Kip5e7NW4377psbe3DuftV83/view?usp=drive_link",
+        driveB: "https://drive.google.com/file/d/1WP1N_-92WmEYV4fsdB12tTERXFTSTAuZ/view?usp=drive_link", 
+        driveA: "https://drive.google.com/file/d/1E8HWa3w8Kip5e7NW4377psbe3DuftV83/view?usp=drive_link",
         tekst: `XXIV.
 [Verse 1]
 Linnen en verf,
@@ -1040,8 +1040,8 @@ Hoe keert hij terug? Comment retourner ?`
         titel: "De Gejaagde Toekomst",
         videoA: "RKzqNF6r6iE",
         videoB: "IucMWc3XapQ", 
-        driveA: "https://drive.google.com/file/d/1nc8CFm5q9T2jythkGf2y0Ntg3doMycUz/view?usp=drive_link", 
-        driveB: "https://drive.google.com/file/d/1duSZkQOl-zx0w0Xb0iX84aQ9Za2qluyf/view?usp=drive_link",
+        driveB: "https://drive.google.com/file/d/1nc8CFm5q9T2jythkGf2y0Ntg3doMycUz/view?usp=drive_link", 
+        driveA: "https://drive.google.com/file/d/1duSZkQOl-zx0w0Xb0iX84aQ9Za2qluyf/view?usp=drive_link",
         tekst: `XXV.
 [Verse 1]
 Opzij, opzij, opzij,
@@ -1084,8 +1084,8 @@ Hoe keert hij terug? Comment retourner ?`
         titel: "De Bitterzoete Slok",
         videoA: "UShQ6n_ihOo",
         videoB: "omb2Hpz9p6Q", 
-        driveA: "https://drive.google.com/file/d/1EL5if1c8vCqERGrSdv0yEGjdi5Dp11VL/view?usp=drive_link", 
-        driveB: "https://drive.google.com/file/d/1JpYNH7WaxLVRiE_wHN6uR2mOBaTcVTBd/view?usp=drive_link",
+        driveB: "https://drive.google.com/file/d/1EL5if1c8vCqERGrSdv0yEGjdi5Dp11VL/view?usp=drive_link", 
+        driveA: "https://drive.google.com/file/d/1JpYNH7WaxLVRiE_wHN6uR2mOBaTcVTBd/view?usp=drive_link",
         tekst: `XXVI.
 [Verse 1]
 Havermelk en neon,
@@ -1268,17 +1268,17 @@ function renderSoundtracks() {
                         <div class="video-container">
                             <iframe src="https://www.youtube.com/embed/${item.videoA}" allowfullscreen></iframe>
                         </div>
-                        <a href="${item.driveA}" target="_blank" class="download-link">💾 Download MP3 (Versie A)</a>
+                        <a href="${item.driveA}" target="_blank" class="download-link">💾 Download track (Kant A)</a>
                     </div>
                     <div>
                         <div class="video-container">
                             <iframe src="https://www.youtube.com/embed/${item.videoB}" allowfullscreen></iframe>
                         </div>
-                        <a href="${item.driveB}" target="_blank" class="download-link">💾 Download MP3 (Versie B)</a>
+                        <a href="${item.driveB}" target="_blank" class="download-link">💾 Download track (Kant B)</a>
                     </div>
                 </div>
                 <button onclick="toggleLyrics('lyrics-h${item.id}')" class="submit-btn-alt" style="margin-top: 20px; width: auto; padding: 8px 20px;">
-                    📜 Toon Liedtekst
+                    📜 Toon Liedjestekst
                 </button>
                 <div id="lyrics-h${item.id}" class="lyrics-section">
                     <p style="white-space: pre-wrap;">${item.tekst}</p>
