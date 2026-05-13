@@ -1283,16 +1283,17 @@ function renderSoundtracks() {
     });
     container.innerHTML = htmlGerecht;
 
-    // Activeer de klik-events nadat de HTML is geplaatst
+    // Activeer de klik-events
     setupVideoListeners();
 }
 
-// Hulpmiddel voor de HTML structuur (GEEN onclick hier, dat voorkomt fouten)
 function createVideoBox(videoId, driveLink, label) {
     if (!videoId) return '';
     return `
         <div>
-            <div class="video-container lite-video" data-id="${videoId}" style="background-image: url('https://img.youtube.com/vi/${videoId}/hqdefault.jpg'); cursor: pointer;">
+            <div class="video-container lite-video" 
+                 data-id="${videoId}" 
+                 style="background-image: url('https://img.youtube.com/vi/${videoId}/hqdefault.jpg'); cursor: pointer; position: relative;">
                 <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); pointer-events: none;">
                     <div style="font-size: 50px; color: white; background: rgba(255, 0, 222, 0.8); border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(255, 0, 222, 0.5);">
                         ▶
@@ -1303,16 +1304,21 @@ function createVideoBox(videoId, driveLink, label) {
         </div>`;
 }
 
-// DE BELANGRIJKE FIX: Luister naar de kliks op een veilige manier
 function setupVideoListeners() {
     document.querySelectorAll('.lite-video').forEach(box => {
         box.addEventListener('click', function() {
             const videoId = this.getAttribute('data-id');
-            // We bouwen de iframe hier op, veilig buiten de HTML-string
+            if (!videoId) return;
+
+            // FIX VOOR DE HOOGTE (Omdat CSS height op 0 zet)
+            this.style.height = this.offsetWidth * 0.5625 + "px";
+            this.style.paddingBottom = "0";
+
             const iframe = document.createElement('iframe');
             iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1`);
+            iframe.setAttribute('allow', 'autoplay; encrypted-media');
             iframe.setAttribute('allowfullscreen', '');
-            iframe.setAttribute('style', 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;');
+            iframe.setAttribute('style', 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 10;');
             
             this.innerHTML = '';
             this.appendChild(iframe);
