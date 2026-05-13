@@ -1265,17 +1265,22 @@ function renderSoundtracks() {
 
         // Hulpmiddel om de Lite Embed te genereren
         const createVideoHTML = (videoId, driveLink, label) => {
-            if (!videoId) return '';
-            return `
-                <div>
-                    <div class="video-container" 
-                         style="background-image: url('https://img.youtube.com/vi/${videoId}/hqdefault.jpg'); background-size: cover; background-position: center; cursor: pointer; position: relative; min-height: 200px; display: flex; align-items: center; justify-content: center;"
-                         onclick="this.innerHTML='<iframe src=\'https://www.youtube.com/embed/${videoId}?autoplay=1\' allowfullscreen style=\'position: absolute; top: 0; left: 0; width: 100%; height: 100%;\'></iframe>'">
-                        <div style="font-size: 50px; color: white; background: rgba(0,0,0,0.6); border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">▶</div>
+    if (!videoId) return '';
+    return `
+        <div>
+            <div class="video-container" 
+                 style="background-image: url('https://img.youtube.com/vi/${videoId}/hqdefault.jpg');"
+                 onclick="this.innerHTML='<iframe src=\'https://www.youtube.com/embed/${videoId}?autoplay=1\' allowfullscreen style=\'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;\'></iframe>'">
+                
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2);">
+                    <div style="font-size: 50px; color: white; background: rgba(255, 0, 222, 0.8); border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(255, 0, 222, 0.5);">
+                        ▶
                     </div>
-                    ${driveLink ? `<a href="${driveLink}" target="_blank" class="download-link">💾 Download track (${label})</a>` : ''}
-                </div>`;
-        };
+                </div>
+            </div>
+            ${driveLink ? `<a href="${driveLink}" target="_blank" class="download-link">💾 Download track (${label})</a>` : ''}
+        </div>`;
+};
 
         const videoA_html = createVideoHTML(item.videoA, item.driveA, "A-Kant");
         const videoB_html = createVideoHTML(item.videoB, item.driveB, "B-Kant");
