@@ -1269,10 +1269,10 @@ function renderSoundtracks() {
     return `
         <div>
             <div class="video-container" 
-                 style="background-image: url('https://img.youtube.com/vi/${videoId}/hqdefault.jpg');"
+                 style="background-image: url('https://img.youtube.com/vi/${videoId}/hqdefault.jpg'); cursor: pointer;"
                  onclick="this.innerHTML='<iframe src=\'https://www.youtube.com/embed/${videoId}?autoplay=1\' allowfullscreen style=\'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;\'></iframe>'">
                 
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2);">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); pointer-events: none;">
                     <div style="font-size: 50px; color: white; background: rgba(255, 0, 222, 0.8); border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(255, 0, 222, 0.5);">
                         ▶
                     </div>
