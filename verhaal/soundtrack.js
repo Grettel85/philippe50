@@ -33,7 +33,7 @@ De radio kraakt... Hoe keert hij terug?`
         id: 2,
         titel: "De Grote Mand van de Verwarring",
         videoA: "DEVv_LFmnzI",
-        videoB: "aYGEfj6YZNg", 
+        videoB: "", 
         driveB: "https://drive.google.com/file/d/169YDs4fVib5h-qXJnkCtSK92rUOAl2m-/view?usp=drive_link", 
         driveA: "https://drive.google.com/file/d/1nBW4AnLOFMXuMBMdqlsSUmdgbC3u0boB/view?usp=drive_link",
         tekst: `II.
@@ -76,9 +76,9 @@ Hoe keert hij terug?`
         id: 3,
         titel: "De Tuinman van de Nieuwe Wereld",
         videoA: "ncZsbZckZhQ",
-        videoB: "ncZsbZckZhQ", 
-        driveA: "https://drive.google.com/file/d/1lb4H6Y0Jy5pNthuuhe6Uprrzgv0320mX/view?usp=drive_link", 
-        driveB: "https://drive.google.com/file/d/14FimBWngP8kErw03dotgX-TugEXOEuWH/view?usp=drive_link",
+        videoB: "", 
+        driveA: "", 
+        driveB: "",
         tekst: `III.
 [Verse 1]
 Lichtgevend mos vangt hem op,
@@ -206,8 +206,8 @@ Hoe keert hij terug?`
         titel: "De Vloek van de Farao",
         videoA: "JNGnXhM2OTA",
         videoB: "sBI-SoOX-Gw", 
-        driveA: "https://drive.google.com/file/d/1sNOtMhiWgz8TDWvLG7B3ZNBHi0PLZxoR/view?usp=drive_link", 
-        driveB: "https://drive.google.com/file/d/1JI_7RP0BkiuOoaK--JkpsKxj252UPBat/view?usp=drive_link",
+        driveB: "https://drive.google.com/file/d/1sNOtMhiWgz8TDWvLG7B3ZNBHi0PLZxoR/view?usp=drive_link", 
+        driveA: "https://drive.google.com/file/d/1JI_7RP0BkiuOoaK--JkpsKxj252UPBat/view?usp=drive_link",
         tekst: `VI.
 [Verse 1]
 Woestijnzand onder zijn voeten,
@@ -380,8 +380,8 @@ Hoe keert hij terug?`
         titel: "De Dans van de Klaprozen",
         videoA: "bX_6PugRcVY",
         videoB: "DLREKOEhWXA", 
-        driveA: "https://drive.google.com/file/d/1QyrAstRbc2IWO52EuPq_D4sh-INPOIDr/view?usp=drive_link", 
-        driveB: "https://drive.google.com/file/d/1YeJo7GpXyofg2wOqyqfofMp6q13WCV3_/view?usp=drive_link",
+        driveB: "https://drive.google.com/file/d/1QyrAstRbc2IWO52EuPq_D4sh-INPOIDr/view?usp=drive_link", 
+        driveA: "https://drive.google.com/file/d/1YeJo7GpXyofg2wOqyqfofMp6q13WCV3_/view?usp=drive_link",
         tekst: `X.
 [Verse 1]
 Philippe opent zijn ogen,
@@ -424,8 +424,8 @@ Hoe keert hij terug?`
         titel: "De Kracht van de Kalk",
         videoA: "WrrhrYaORp0",
         videoB: "O4PIqPzORXk", 
-        driveA: "https://drive.google.com/file/d/1LL_Pl7EevR_ovK4xGfreCF8A2ia9ySoW/view?usp=drive_link", 
-        driveB: "https://drive.google.com/file/d/1YwV_Y8NSpnVvWEfWFuWYE2JN5RDMUlV8/view?usp=drive_link",
+        driveB: "https://drive.google.com/file/d/1LL_Pl7EevR_ovK4xGfreCF8A2ia9ySoW/view?usp=drive_link", 
+        driveA: "https://drive.google.com/file/d/1YwV_Y8NSpnVvWEfWFuWYE2JN5RDMUlV8/view?usp=drive_link",
         tekst: `XI.
 [Verse 1]
 Philippe landt op kasseien,
@@ -557,8 +557,8 @@ Hoe keert hij terug?`
         titel: "De Digitale Kelk van Camelot",
 videoA: "RyO3V9Fe92c",
         videoB: "IF2uYxNAwcg",
-        driveA: "https://drive.google.com/file/d/1Q2m0GTdBMRgME6I2TeZ91T3vS1I6YMvD/view?usp=drive_link", 
-        driveB: "https://drive.google.com/file/d/1WMMVoWnjeEVuz6b6VbPPLfYsbkLVGy4t/view?usp=drive_link",
+        driveB: "https://drive.google.com/file/d/1Q2m0GTdBMRgME6I2TeZ91T3vS1I6YMvD/view?usp=drive_link", 
+        driveA: "https://drive.google.com/file/d/1WMMVoWnjeEVuz6b6VbPPLfYsbkLVGy4t/view?usp=drive_link",
         tekst: `XIV.
 [Verse 1]
 Camelot smelt weg,
@@ -643,8 +643,8 @@ Hoe keert hij terug?`
    {
         id: 16,
         titel: "Het Dilemma van de Discowolken",
-         videoA: "vKtoJA66XeY",
-        videoB: "TtNPs7IEpNc",
+videoA: "DHhzgXhaMZo", 
+        videoB: "F3Ixk8SnG_0", 
         driveA: "https://drive.google.com/file/d/1BpbCAlpuh9Af0E_yu_CW6Ll6fNOAZqjp/view?usp=drive_link", 
         driveB: "https://drive.google.com/file/d/10OI5JnUGnD6Is7JnXROAUveFPYk655Hg/view?usp=drive_link",
         tekst: `XVI.
@@ -687,8 +687,8 @@ Hoe keert hij terug?`
  {
         id: 17,
         titel: "De Meetfout van de Meesterklusser",
-       videoA: "G-TtsfZbkJg",
-        videoB: "2lbMxpERA3U",
+videoA: "fm3szde9gEo", 
+        videoB: "YCQgEFqMsQ8", 
         driveA: "https://drive.google.com/file/d/1LCceEZ5RgXvjAmG-q09SKA6pzn6PLK1x/view?usp=drive_link", 
         driveB: "https://drive.google.com/file/d/1LkCJ9gAmMlXd2umOJskLcFQkXs-3B5GF/view?usp=drive_link",
         tekst: `XVII.
@@ -818,8 +818,8 @@ Hoe keert hij terug?`
 {
         id: 20,
         titel: "Het Gezang van het Ijzer",
-videoA: "fm3szde9gEo",
-        videoB: "YCQgEFqMsQ8",
+videoA: "vKtoJA66XeY", 
+        videoB: "2lbMxpERA3U", 
         driveA: "https://drive.google.com/file/d/1W9-RmThxS3Y6W5y9NdtkwTXDNzpjjBSv/view?usp=drive_link", 
         driveB: "https://drive.google.com/file/d/1ntaHc4zw5R_isKoRTAb7vFFpjoshfBSy/view?usp=drive_link",
         tekst: `XX.
@@ -862,8 +862,8 @@ Hoe keert hij terug? Comment retourner ?`
 {
         id: 21,
         titel: "De Dans van het Heilige Licht",
-videoA: "DHhzgXhaMZo",
-        videoB: "F3Ixk8SnG_0",
+videoA: "TtNPs7IEpNc", 
+        videoB: "G-TtsfZbkJg", 
         driveA: "https://drive.google.com/file/d/114gij8af0ftifH2Z08_Qe7nZSjB0eXG3/view?usp=drive_link", 
         driveB: "https://drive.google.com/file/d/1QEm8FJ-Uzept20tChDkb1HX4gvoFDMTB/view?usp=drive_link",
         tekst: `XXI.
