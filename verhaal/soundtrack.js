@@ -555,8 +555,8 @@ Hoe keert hij terug?`
 {
         id: 14,
         titel: "De Digitale Kelk van Camelot",
-        videoA: "IF2uYxNAwcg",
-        videoB: "IF2uYxNAwcg", 
+videoA: "RyO3V9Fe92c",
+        videoB: "IF2uYxNAwcg",
         driveA: "https://drive.google.com/file/d/1Q2m0GTdBMRgME6I2TeZ91T3vS1I6YMvD/view?usp=drive_link", 
         driveB: "https://drive.google.com/file/d/1WMMVoWnjeEVuz6b6VbPPLfYsbkLVGy4t/view?usp=drive_link",
         tekst: `XIV.
@@ -643,8 +643,8 @@ Hoe keert hij terug?`
    {
         id: 16,
         titel: "Het Dilemma van de Discowolken",
-        videoA: "",
-        videoB: "", 
+         videoA: "vKtoJA66XeY",
+        videoB: "TtNPs7IEpNc",
         driveA: "https://drive.google.com/file/d/1BpbCAlpuh9Af0E_yu_CW6Ll6fNOAZqjp/view?usp=drive_link", 
         driveB: "https://drive.google.com/file/d/10OI5JnUGnD6Is7JnXROAUveFPYk655Hg/view?usp=drive_link",
         tekst: `XVI.
@@ -687,8 +687,8 @@ Hoe keert hij terug?`
  {
         id: 17,
         titel: "De Meetfout van de Meesterklusser",
-        videoA: "",
-        videoB: "", 
+       videoA: "G-TtsfZbkJg",
+        videoB: "2lbMxpERA3U",
         driveA: "https://drive.google.com/file/d/1LCceEZ5RgXvjAmG-q09SKA6pzn6PLK1x/view?usp=drive_link", 
         driveB: "https://drive.google.com/file/d/1LkCJ9gAmMlXd2umOJskLcFQkXs-3B5GF/view?usp=drive_link",
         tekst: `XVII.
@@ -730,8 +730,8 @@ Hoe keert hij terug?`
 {
         id: 18,
         titel: "De Zwevende Bevrijder van Normandië",
-        videoA: "",
-        videoB: "", 
+videoA: "XIRe9tX_R3Y",
+        videoB: "99e0WcbjqOE",
         driveA: "https://drive.google.com/file/d/1HD2cra62Q4Pb0beuJzsE26Av7dqvWd-H/view?usp=drive_link", 
         driveB: "https://drive.google.com/file/d/1oa6x0AQxb5uZHE2bcfdmDh34eXo5xGO2/view?usp=drive_link",
         tekst: `XVIII.
@@ -818,8 +818,8 @@ Hoe keert hij terug?`
 {
         id: 20,
         titel: "Het Gezang van het Ijzer",
-        videoA: "",
-        videoB: "", 
+videoA: "fm3szde9gEo",
+        videoB: "YCQgEFqMsQ8",
         driveA: "https://drive.google.com/file/d/1W9-RmThxS3Y6W5y9NdtkwTXDNzpjjBSv/view?usp=drive_link", 
         driveB: "https://drive.google.com/file/d/1ntaHc4zw5R_isKoRTAb7vFFpjoshfBSy/view?usp=drive_link",
         tekst: `XX.
@@ -862,8 +862,8 @@ Hoe keert hij terug? Comment retourner ?`
 {
         id: 21,
         titel: "De Dans van het Heilige Licht",
-        videoA: "",
-        videoB: "", 
+videoA: "DHhzgXhaMZo",
+        videoB: "F3Ixk8SnG_0",
         driveA: "https://drive.google.com/file/d/114gij8af0ftifH2Z08_Qe7nZSjB0eXG3/view?usp=drive_link", 
         driveB: "https://drive.google.com/file/d/1QEm8FJ-Uzept20tChDkb1HX4gvoFDMTB/view?usp=drive_link",
         tekst: `XXI.
