@@ -310,6 +310,9 @@ button:hover, .submit-btn:hover, .submit-btn-alt:hover {
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    background-size: cover;
+    background-position: center;
+    background-color: #000; /* Zwart vlak als de afbeelding nog laadt */
 }
 
 .video-container iframe {
