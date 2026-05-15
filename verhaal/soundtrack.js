@@ -6,7 +6,7 @@
 const soundtrackData = [
     {
         id: 1,
-        titel: "De Grammofoonspeler",
+        titel: "De Grammofoonspeler *** Le Gramophone",
         videoA: "qaqIeK0jHSQ",
         videoB: "8R_cRtpbzCQ", 
         driveA: "https://drive.google.com/file/d/13ZUXXTrSHUe6lqgh40vw0MoICrxanlyv/view?usp=drive_link", 
@@ -31,7 +31,7 @@ De radio kraakt... Hoe keert hij terug?`
 
 {
         id: 2,
-        titel: "De Grote Mand van de Verwarring",
+        titel: "De Grote Mand van de Verwarring *** Le Grand Panier de la Confusion",
         videoA: "DEVv_LFmnzI",
         videoB: "aYGEfj6YZNg", 
         driveB: "https://drive.google.com/file/d/169YDs4fVib5h-qXJnkCtSK92rUOAl2m-/view?usp=drive_link", 
@@ -74,9 +74,9 @@ Hoe keert hij terug?`
 
 {
         id: 3,
-        titel: "De Tuinman van de Nieuwe Wereld",
+        titel: "De Tuinman van de Nieuwe Wereld *** Le Jardinier du Nouveau Monde",
         videoA: "ncZsbZckZhQ",
-        videoB: "https://youtu.be/oErYI0A-TCg", 
+        videoB: "oErYI0A-TCg", 
         driveA: "https://drive.google.com/file/d/1F6mgIpzgwrmz9CkaTQBPVcB9wycNJhZ8/view?usp=drive_link", 
         driveB: "https://drive.google.com/file/d/14FimBWngP8kErw03dotgX-TugEXOEuWH/view?usp=drive_link",
         tekst: `III.
@@ -117,7 +117,7 @@ Hoe keert hij terug?`
 
 {
         id: 4,
-        titel: "De Zoete Smaak van Silex",
+        titel: "De Zoete Smaak van Silex *** La Douce Saveur du Silex",
         videoA: "SXQZ8BIzcyQ",
         videoB: "xDjSAIXkvO4", 
         driveB: "https://drive.google.com/file/d/1jClRzkJ5GjjdnfWnSF9mbWsle22TyhTh/view?usp=drive_link", 
@@ -160,7 +160,7 @@ Hoe keert hij terug?`
 
    {
         id: 5,
-        titel: "Een Goudgele Terugkeer",
+        titel: "Een Goudgele Terugkeer *** Un Retour de l'Or Jaune",
         videoA: "SGcdCG-qyt0",
         videoB: "aKYhTEA8eZs", 
         driveB: "https://drive.google.com/file/d/19JC4hkGiRCdXDz7eReAJT_L2t2fsdXHu/view?usp=drive_link", 
@@ -203,7 +203,7 @@ Hoe keert hij terug?`
    
 {
         id: 6,
-        titel: "De Vloek van de Farao",
+        titel: "De Vloek van de Farao *** La Malédiction du Pharaon",
         videoA: "JNGnXhM2OTA",
         videoB: "sBI-SoOX-Gw", 
         driveB: "https://drive.google.com/file/d/1sNOtMhiWgz8TDWvLG7B3ZNBHi0PLZxoR/view?usp=drive_link", 
@@ -246,7 +246,7 @@ Hoe keert hij terug?`
    
 {
         id: 7,
-        titel: "Het Dansende Slagveld",
+        titel: "Het Dansende Slagveld *** Le Champ de Bataille Dansant",
         videoA: "pY2xsL9iCxs",
         videoB: "iAClgME823E", 
         driveA: "https://drive.google.com/file/d/1pRTmLTRz7x1aZFIJ-Zb8DEaLDWZCb-fo/view?usp=drive_link", 
@@ -289,7 +289,7 @@ Hoe keert hij terug?`
    
  {
         id: 8,
-        titel: "De Dubbele Echo van Vrijheid",
+        titel: "De Dubbele Echo van Vrijheid *** Le Double Écho de la Liberté",
         videoA: "faLMliGnf54",
         videoB: "t6IQJXNkT5o", 
         driveA: "https://drive.google.com/file/d/1T800aCNoeXMHGNfiUPdvKxYff8l43pQU/view?usp=drive_link", 
@@ -333,7 +333,7 @@ Hoe keert hij terug?`
    
  {
         id: 9,
-        titel: "De Mexicaanse Dribbel van het Lot",
+        titel: "De Mexicaanse Dribbel van het Lot *** Le Dribble Mexicain du Destin",
         videoA: "NjRXvVB76eo",
         videoB: "XrcAy1IodmU", 
         driveA: "https://drive.google.com/file/d/1AtfLTauwg-JxdTOkXA6S1dcxgL2dFHoA/view?usp=drive_link", 
@@ -377,7 +377,7 @@ Hoe keert hij terug?`
    
 {
         id: 10,
-        titel: "De Dans van de Klaprozen",
+        titel: "De Dans van de Klaprozen ***  La Danse des Coquelicots",
         videoA: "bX_6PugRcVY",
         videoB: "DLREKOEhWXA", 
         driveB: "https://drive.google.com/file/d/1QyrAstRbc2IWO52EuPq_D4sh-INPOIDr/view?usp=drive_link", 
@@ -421,7 +421,7 @@ Hoe keert hij terug?`
 
    {
         id: 11,
-        titel: "De Kracht van de Kalk",
+        titel: "De Kracht van de Kalk *** La Force de la Chaux",
         videoA: "WrrhrYaORp0",
         videoB: "O4PIqPzORXk", 
         driveB: "https://drive.google.com/file/d/1LL_Pl7EevR_ovK4xGfreCF8A2ia9ySoW/view?usp=drive_link", 
@@ -465,7 +465,7 @@ Hoe keert hij terug?`
    
 {
         id: 12,
-        titel: "Het Ritmische Robot-Relaas",
+        titel: "Het Ritmische Robot-Relaas *** Le Récit Rythmique des Robots",
         videoA: "elS414g4TuY",
         videoB: "c42KEB8UOhQ", 
         driveA: "https://drive.google.com/file/d/1G3RJrXIuf185zzN92qscZ_L9XlMuieQd/view?usp=drive_link", 
@@ -510,7 +510,7 @@ Hoe keert hij terug?`
    
   {
         id: 13,
-        titel: "De Graal van het Geduld",
+        titel: "De Graal van het Geduld *** Le Graal de la Patience",
         videoA: "3AhvNiQyrgE",
         videoB: "qzyUiKXovQI", 
         driveA: "https://drive.google.com/file/d/1Hr9oDZH5dhhp3F0wY8ikLxNLDolKBin9/view?usp=drive_link", 
@@ -554,7 +554,7 @@ Hoe keert hij terug?`
 
 {
         id: 14,
-        titel: "De Digitale Kelk van Camelot",
+        titel: "De Digitale Kelk van Camelot *** Le Calice Digital de Camelot",
 videoA: "RyO3V9Fe92c",
         videoB: "IF2uYxNAwcg",
         driveB: "https://drive.google.com/file/d/1Q2m0GTdBMRgME6I2TeZ91T3vS1I6YMvD/view?usp=drive_link", 
@@ -598,7 +598,7 @@ Hoe keert hij terug?`
    
 {
         id: 15,
-        titel: "De Plank van de Profeet",
+        titel: "De Plank van de Profeet *** La Planche du Prophète",
         videoA: "O4AAG0Sa6r8",
         videoB: "CMjXqQJcmb0", 
         driveA: "https://drive.google.com/file/d/1ggkOcoW6udBTEzF46tcxWwjmCVSk3KJD/view?usp=drive_link", 
@@ -642,7 +642,7 @@ Hoe keert hij terug?`
 
    {
         id: 16,
-        titel: "Het Dilemma van de Discowolken",
+        titel: "Het Dilemma van de Discowolken *** Le Dilemme des Nuages Disco",
 videoA: "DHhzgXhaMZo", 
         videoB: "F3Ixk8SnG_0", 
         driveA: "https://drive.google.com/file/d/1BpbCAlpuh9Af0E_yu_CW6Ll6fNOAZqjp/view?usp=drive_link", 
@@ -686,7 +686,7 @@ Hoe keert hij terug?`
    
  {
         id: 17,
-        titel: "De Meetfout van de Meesterklusser",
+        titel: "De Meetfout van de Meesterklusser *** L Erreur de Mesure du Maître Bricoleur",
 videoA: "fm3szde9gEo", 
         videoB: "YCQgEFqMsQ8", 
         driveA: "https://drive.google.com/file/d/1LCceEZ5RgXvjAmG-q09SKA6pzn6PLK1x/view?usp=drive_link", 
@@ -729,7 +729,7 @@ Hoe keert hij terug?`
     },
 {
         id: 18,
-        titel: "De Zwevende Bevrijder van Normandië",
+        titel: "De Zwevende Bevrijder van Normandië *** Le Libérateur Volant de Normandie",
 videoA: "XIRe9tX_R3Y",
         videoB: "99e0WcbjqOE",
         driveA: "https://drive.google.com/file/d/1HD2cra62Q4Pb0beuJzsE26Av7dqvWd-H/view?usp=drive_link", 
@@ -773,7 +773,7 @@ Hoe keert hij terug?`
    
 {
         id: 19,
-        titel: "De Dolgedraaide Versnelling",
+        titel: "De Dolgedraaide Versnelling *** L Accélération Incontrôlée",
         videoA: "KAeGK8gICgw",
         videoB: "1l-Dl3ZjRMI", 
         driveA: "https://drive.google.com/file/d/1DMxpGtZHUcYg85Ki4lPOKzRCMGyjBjnl/view?usp=drive_link", 
@@ -817,7 +817,7 @@ Hoe keert hij terug?`
 
 {
         id: 20,
-        titel: "Het Gezang van het Ijzer",
+        titel: "Het Gezang van het Ijzer *** Le Chant du Fer",
 videoA: "vKtoJA66XeY", 
         videoB: "2lbMxpERA3U", 
         driveA: "https://drive.google.com/file/d/1W9-RmThxS3Y6W5y9NdtkwTXDNzpjjBSv/view?usp=drive_link", 
@@ -861,7 +861,7 @@ Hoe keert hij terug? Comment retourner ?`
 
 {
         id: 21,
-        titel: "De Dans van het Heilige Licht",
+        titel: "De Dans van het Heilige Licht *** La Danse de la Lumière Sacrée",
 videoA: "TtNPs7IEpNc", 
         videoB: "G-TtsfZbkJg", 
         driveA: "https://drive.google.com/file/d/114gij8af0ftifH2Z08_Qe7nZSjB0eXG3/view?usp=drive_link", 
@@ -905,7 +905,7 @@ Hoe keert hij terug? Comment retourner ?`
 
    {
         id: 22,
-        titel: "Het Grote Kat-en-Muis Spel",
+        titel: "Het Grote Kat-en-Muis Spel ***Le Grand Jeu du Chat et de la Souris",
         videoA: "qmVeiTOWdco",
         videoB: "1XL647pTtc4", 
         driveA: "https://drive.google.com/file/d/1hICcP1wEjIHnKp-Mv6G4R1fGHzCqRCqd/view?usp=drive_link", 
@@ -949,7 +949,7 @@ Hoe keert hij terug? Comment retourner ?`
 
    {
         id: 23,
-        titel: "De Toverkracht van het Varkenssnuitje",
+        titel: "De Toverkracht van het Varkenssnuitje *** Le Sortilège du Groin",
         videoA: "Hi2J7AUI0JA",
         videoB: "sXxykVi1gYE", 
         driveA: "https://drive.google.com/file/d/1B8jLPZ_iAa-338tuxgBMm5iMRknZsMPI/view?usp=drive_link", 
@@ -993,7 +993,7 @@ Hoe keert hij terug? Comment retourner ?`
 
    {
         id: 24,
-        titel: "De Onvolmaakte Muze",
+        titel: "De Onvolmaakte Muze *** La Muse Imparfaite",
         videoA: "JDGwBNj7SIg",
         videoB: "FZOs8c9r7FI", 
         driveB: "https://drive.google.com/file/d/1WP1N_-92WmEYV4fsdB12tTERXFTSTAuZ/view?usp=drive_link", 
@@ -1037,7 +1037,7 @@ Hoe keert hij terug? Comment retourner ?`
 
 {
         id: 25,
-        titel: "De Gejaagde Toekomst",
+        titel: "De Gejaagde Toekomst *** Le Futur Pressé",
         videoA: "RKzqNF6r6iE",
         videoB: "IucMWc3XapQ", 
         driveB: "https://drive.google.com/file/d/1nc8CFm5q9T2jythkGf2y0Ntg3doMycUz/view?usp=drive_link", 
@@ -1081,7 +1081,7 @@ Hoe keert hij terug? Comment retourner ?`
 
    {
         id: 26,
-        titel: "De Bitterzoete Slok",
+        titel: "De Bitterzoete Slok *** La Gorgée Amère",
         videoA: "UShQ6n_ihOo",
         videoB: "omb2Hpz9p6Q", 
         driveB: "https://drive.google.com/file/d/1EL5if1c8vCqERGrSdv0yEGjdi5Dp11VL/view?usp=drive_link", 
@@ -1125,7 +1125,7 @@ Hoe keert hij terug? Comment retourner ?`
    
 {
         id: 27,
-        titel: "Het Sterrenstof voorbij",
+        titel: "Het Sterrenstof voorbij *** Au-delà de la Poussière d'Étoiles",
         videoA: "-VFyfoqkN38",
         videoB: "nrTwZX2hTPE", 
         driveA: "https://drive.google.com/file/d/1mj_gaRaUqiMQy-ZxSfQ9nl5uViW5_TJ3/view?usp=drive_link", 
