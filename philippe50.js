@@ -260,9 +260,6 @@ function setLanguage(lang) {
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         
-        // Zoek de vertaling: 
-        // We kijken eerst of de sleutel in de geladen JSON data zit (window.translationsData),
-        // als dat niet zo is, kijken we in de lokale config.translations.
         const translation = (window.translationsData && window.translationsData[lang] && window.translationsData[lang][key]) 
                             ? window.translationsData[lang][key] 
                             : (config.translations[lang] ? config.translations[lang][key] : null);
@@ -271,22 +268,32 @@ function setLanguage(lang) {
             if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
                 el.placeholder = translation;
             } else {
-                // Essentieel: we gebruiken innerHTML zodat HTML-tags zoals <br> 
-                // daadwerkelijk als witregels worden gerenderd en niet als tekst.
                 el.innerHTML = translation;
             }
         }
     });
 
-// VOEG DIT TOE:
-    // Controleer of de soundtrack render functie bestaat en voer deze uit
+    // --- EXTRA UPDATES VOOR SPECIFIEKE PAGINA'S ---
+
+    // Soundtrack verversen
     if (typeof renderSoundtracks === 'function') {
         renderSoundtracks();
+    }
+
+    // NIEUW: De Spreadsheet Legende-data verversen
+    if (typeof fetchLegendeData === 'function') {
+        fetchLegendeData(lang); 
     }
    
     // 3. De overige UI-updates uitvoeren
     updateLangButtons(lang);
-    updatePDFHub(lang); // Nieuwe toevoeging voor de PDF sync
+    updatePDFHub(lang); 
+}
+
+// 4. De Spreadsheet Legende-data verversen (indien aanwezig op de pagina)
+if (typeof fetchLegendeData === 'function') {
+    // We roepen de functie opnieuw aan met de nieuwe taal
+    fetchLegendeData(lang); 
 }
 
 function updateLangButtons(lang) {
