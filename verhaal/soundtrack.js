@@ -1258,16 +1258,15 @@ function renderSoundtracks() {
     const container = document.getElementById('soundtrack-list');
     if (!container) return;
 
+    // Zorg dat we de taal uit de hoofdconfiguratie halen
+    const currentLanguage = (typeof config !== 'undefined') ? config.currentLang : 'nl';
+
     let htmlGerecht = ""; 
     soundtrackData.forEach(item => {
-        // --- STAP 1: Gebruik de vertaalfunctie voor de titel ---
-        const vertaaldeTitel = getLanguageSpecificText(item.titel);
+        const vertaaldeTitel = getLanguageSpecificText(item.titel, currentLanguage);
         
-        // Bepaal het label (Hoofdstuk / Chapitre)
         const label = (currentLanguage === 'fr') ? "Chapitre" : "Hoofdstuk";
         const displayTitel = (item.id === 'bonus') ? vertaaldeTitel : `${label} ${item.id}: ${vertaaldeTitel}`;
-
-        // Bepaal de knoptekst (Toon Liedjestekst / Afficher les Paroles)
         const btnText = (currentLanguage === 'fr') ? "📜 Afficher les Paroles" : "📜 Toon Liedjestekst";
 
         const videoA_html = createVideoBox(item.videoA, item.driveA, "A-Kant");
@@ -1290,11 +1289,52 @@ function renderSoundtracks() {
         `;
     });
     container.innerHTML = htmlGerecht;
-
-    // Activeer de klik-events
     setupVideoListeners();
 }
 
+// DEZE FUNCTIES MOETEN ERONDER BLIJVEN STAAN:
+function createVideoBox(videoId, driveLink, label) {
+    if (!videoId) return '';
+    return `
+        <div>
+            <div class="video-container lite-video" data-id="${videoId}" 
+                 style="background-image: url('https://img.youtube.com/vi/${videoId}/hqdefault.jpg'); cursor: pointer; position: relative;">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); pointer-events: none;">
+                    <div style="font-size: 50px; color: white; background: rgba(255, 0, 222, 0.8); border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(255, 0, 222, 0.5);">▶</div>
+                </div>
+            </div>
+            ${driveLink ? `<a href="${driveLink}" target="_blank" class="download-link">💾 Download track (${label})</a>` : ''}
+        </div>`;
+}
+
+function setupVideoListeners() {
+    document.querySelectorAll('.lite-video').forEach(box => {
+        box.addEventListener('click', function() {
+            const videoId = this.getAttribute('data-id');
+            if (!videoId) return;
+            this.style.height = this.offsetWidth * 0.5625 + "px";
+            this.style.paddingBottom = "0";
+            const iframe = document.createElement('iframe');
+            iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1`);
+            iframe.setAttribute('allow', 'autoplay; encrypted-media');
+            iframe.setAttribute('allowfullscreen', '');
+            iframe.setAttribute('style', 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 10;');
+            this.innerHTML = '';
+            this.appendChild(iframe);
+        });
+    });
+}
+
+function toggleLyrics(id) {
+    const el = document.getElementById(id);
+    if (el) {
+        const isOpen = el.style.display === "block";
+        el.style.display = isOpen ? "none" : "block";
+        if (!isOpen) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', checkAccess);
 // 4. INTERACTIE
 function toggleLyrics(id) {
     const el = document.getElementById(id);
