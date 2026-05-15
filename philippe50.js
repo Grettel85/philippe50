@@ -1,6 +1,6 @@
 /* ==========================================================================
-   VERSION: PHILIPPE 50 - TOTAL ENGINE (V7.3 - Global Language Sync)
-   MODIFIED: Menu Injection & Multi-language Sync (localStorage Fix)
+   VERSION: PHILIPPE 50 - TOTAL ENGINE (V7.4 - PDF Hub Integration)
+   MODIFIED: Added updatePDFHub logic to existing language sync
    ========================================================================== */
 
 const config = {
@@ -99,7 +99,7 @@ const config = {
             "placeholder-obstacle": "ex: Le wifi est coupé, une roue du waveboard est cassée...",
             "placeholder-soundtrack": "Artiste - Titre",
             "chapter1-title": "Chapitre 1: Le Gramophone",
-            "chapter1-text": "Un matin, Philippe dégustait tranquillement son café dans la véranda, sa playlist Spotify en fond sonore. Les yeux fermés, il profitait du soleil sur son visage.\n\nLe combiné vidéo-DVD leva les yeux au ciel et le vieux gramophone sous le téléviseur grogna : encore cette musique 'moderne'. Soudain, un glitch temporel survint et le gramophone sursauta. Sous le choc, le saphir se déplaça sur un vieux disque et atterrit sur un sillon. Le glitch revint de plus belle et la pièce commença à tourner.\n\nAu lieu de Spotify, les notes du tube 'Fernando' d'ABBA résonnèrent au loin. Il ouvrit les yeux. Il était toujours dans son fauteuil, mais la pièce n'était plus celle de sa maison à Kessel-Lo. Le journal sur la table affichait une date surprenante : 14 avril 1976, 13h30 précises.\n\nPropulsé 50 ans en arrière. Comment reviendra-t-il vers le futur ?",
+            "chapter1-text": "Un matin, Philippe dégustait tranquillement son café dans la véranda, sa playlist Spotify en fond sonore. Les yeux fermés, il profitait du soleil sur son visage.\n\nLe combiné vidéo-DVD leva les yeux au ciel et le vieux gramophone sous le téléviseur grogna : encore cette musique 'moderne'. Soudain, un glitch temporel survint et le gramophone sursauta. Sous le choc, le saphir se déplaça sur un vieux disque et atterrit sur un sillon. Le glitch revint de plus belle et la pièce commença à tourner.\n\nAu lieu de Spotify, les notes du tube 'Fernando' d'ABBA résonnèrent au loin. Il ouvrit les yeux. Il était toujours dans son fauteuil, maar de pièce n'était plus celle de sa maison à Kessel-Lo. Le journal sur la table affichait une date surprenante : 14 avril 1976, 13h30 précises.\n\nPropulsé 50 ans en arrière. Comment reviendra-t-il vers le futur ?",
             "loader-phrases": ["Le saphir cherche le bon sillon...", "Stabilisation du glitch...", "La légende s'écrit..."],
             "sync-msg": "Le chronomètre se synchronise avec 1976... La chronologie se stabilise.",
             "no-match": "Aucune correspondance trouvée. Vérifiez votre nickname et mot secret.",
@@ -263,6 +263,7 @@ function setLanguage(lang) {
         }
     });
     updateLangButtons(lang);
+    updatePDFHub(lang); // Nieuwe toevoeging voor de PDF sync
 }
 
 function updateLangButtons(lang) {
@@ -273,6 +274,28 @@ function updateLangButtons(lang) {
         const targetLang = (btnId.includes('nl') || btnText.includes('nl')) ? 'nl' : 'fr';
         btn.classList.toggle('active-lang', lang === targetLang);
     });
+}
+
+function updatePDFHub(lang) {
+    const nlBtn = document.getElementById('pdf-nl');
+    const frBtn = document.getElementById('pdf-fr');
+    const dualLabel = document.querySelector('#pdf-dual .label');
+    const intro = document.getElementById('download-intro');
+
+    // Alleen uitvoeren als de elementen op de huidige pagina bestaan
+    if (!nlBtn || !frBtn || !dualLabel) return;
+
+    if (lang === 'nl') {
+        nlBtn.classList.add('active-lang');
+        frBtn.classList.remove('active-lang');
+        dualLabel.textContent = dualLabel.getAttribute('data-nl');
+        if(intro) intro.textContent = "Kies je versie van de Legende:";
+    } else {
+        frBtn.classList.add('active-lang');
+        nlBtn.classList.remove('active-lang');
+        dualLabel.textContent = dualLabel.getAttribute('data-fr');
+        if(intro) intro.textContent = "Choisissez votre version de la Légende :";
+    }
 }
 
 function handleAccess(action) {
