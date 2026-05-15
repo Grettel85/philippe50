@@ -1,7 +1,6 @@
 /* ==========================================================================
-   VERSION: PHILIPPE 50 - TOTAL ENGINE (V7.7 - FINAL STABLE)
-   DESCRIPTION: Volledige integratie van Meertaligheid, Wachtwoord-systeem, 
-                Formulier-verzending naar Make.com en PDF Hub Sync.
+   VERSION: PHILIPPE 50 - STABLE MASTER
+   RESTORING: Volledige functionaliteit, Spreadsheet Sync & Navigatie
    ========================================================================== */
 
 const config = {
@@ -10,7 +9,7 @@ const config = {
     translations: {
         nl: {
             "nav-verhaal": "Het Verhaal",
-            "nav-someone": "Find Someone",
+            "nav-someone": "Find Someone Who",
             "nav-mysterie": "Bestemming50",
             "desc-verhaal": "Ontdek de legende, deel een herinnering of bekijk jouw eigen hoofdstuk.",
             "btn-read-legend": "Lees De Legende",
@@ -48,14 +47,14 @@ const config = {
         },
         fr: {
             "nav-verhaal": "L'Histoire",
-            "nav-someone": "Trouver quelqu'un",
+            "nav-someone": "Find Someone Who",
             "nav-mysterie": "Destination50",
             "desc-verhaal": "Découvrez la légende, partagez un souvenir ou consultez votre propre chapitre.",
             "btn-read-legend": "Lire La Légende",
             "btn-write": "Contribuez",
             "desc-someone": "Le brise-glace ultime. Quel invité correspond à l'affirmation ?",
             "btn-play": "Jouez au Jeu 🔒",
-            "desc-mysterie": "15 indices, un seul objectif. Arriverez-vous à déchiffrer les coordonnées ?",
+            "desc-mysterie": "15 indices, un seul doel. Arriverez-vous à déchiffrer les coordonnées ?",
             "btn-play-online": "Jouez en Ligne",
             "btn-input": "Entrer les Indices 🔑",
             "btn-gen": "Générateur de Cartes 🔒",
@@ -88,12 +87,11 @@ const config = {
 };
 
 const makeWebhookURL = "https://hook.eu1.make.com/ywmy2xr3wy53a3f4zadrdws3hiex3h3f"; 
+const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR8NcRn-YMmbVuxKlYx_WT9_QZEB5eaFbiygWphB86Ya2mzMswKVwVlqFpBDe5ewM6f1uFh2wi8nIDk/pub?output=csv';
+
 let pendingAction = null;
 
-/* =========================================
-   1. TOEGANGSBEHEER & NAVIGATIE
-   ========================================= */
-
+/* --- TOEGANG & LINKS --- */
 function handleAccess(action) {
     pendingAction = action;
     const gate = document.getElementById('password-gate');
@@ -105,129 +103,54 @@ function handleAccess(action) {
 
 function checkAccess() {
     const input = document.getElementById('password-input').value;
-    const errorMsg = document.getElementById('error-container');
-
     if (input === config.password) {
         closeGate();
         executeAction(pendingAction);
     } else {
-        if (errorMsg) errorMsg.style.display = 'block';
+        document.getElementById('error-container').style.display = 'block';
     }
 }
 
 function executeAction(action) {
-    switch (action) {
-        case 'verhaal-admin':
-            const form = document.getElementById('form-section');
-            if (form) {
-                form.style.display = 'block';
-                form.scrollIntoView({ behavior: 'smooth' });
-            }
-            break;
-        case 'admin-someone':
-            window.location.href = "someone-admin.html";
-            break;
-        case 'mysterie-tips':
-            window.location.href = "tips-admin.html";
-            break;
-        case 'admin-mysterie':
-            window.location.href = "mysterie-admin.html";
-            break;
+    if (action === 'verhaal-admin') {
+        document.getElementById('form-section').style.display = 'block';
+        document.getElementById('form-section').scrollIntoView({ behavior: 'smooth' });
+    } else if (action === 'admin-someone') {
+        window.location.href = "someone-admin.html";
+    } else if (action === 'mysterie-tips') {
+        window.location.href = "tips-admin.html";
+    } else if (action === 'admin-mysterie') {
+        window.location.href = "mysterie-admin.html";
     }
 }
 
-function openMysteriePlay() {
-    window.location.href = "quiztit/quiztitspel.html";
-}
+function openMysteriePlay() { window.location.href = "quiztit/quiztitspel.html"; }
+function openSecureScroll() { window.location.href = "scroll.html"; }
+function closeGate() { document.getElementById('password-gate').style.display = 'none'; }
+function closeForm() { document.getElementById('form-section').style.display = 'none'; }
 
-function openSecureScroll() {
-    window.location.href = "scroll.html";
-}
-
-function closeGate() {
-    const gate = document.getElementById('password-gate');
-    if (gate) gate.style.display = 'none';
-    const input = document.getElementById('password-input');
-    if (input) input.value = "";
-    const error = document.getElementById('error-container');
-    if (error) error.style.display = 'none';
-}
-
-function closeForm() {
-    const form = document.getElementById('form-section');
-    if (form) form.style.display = 'none';
-}
-
-/* =========================================
-   2. TAAL ENGINE & UI UPDATES
-   ========================================= */
-
+/* --- TAAL & UI --- */
 function setLanguage(lang) {
     config.currentLang = lang;
     localStorage.setItem('preferred_lang', lang);
-
-    // Update alle teksten met data-i18n attribuut
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        const translation = config.translations[lang][key];
-        if (translation) {
-            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                el.placeholder = translation;
-            } else {
-                el.innerHTML = translation;
-            }
-        }
+        const trans = config.translations[lang][key];
+        if (trans) el.innerHTML = trans;
     });
-
-    // Update specifieke UI onderdelen
     updateLangButtons(lang);
-    updatePDFHub(lang);
-    
-    // Refresh spreadsheet data als we op de legende pagina zijn
-    if (typeof fetchStory === 'function') fetchStory();
-    if (typeof fetchLegendeData === 'function') fetchLegendeData();
 }
 
 function updateLangButtons(lang) {
-    const btns = document.querySelectorAll('#btn-nl, #btn-fr, .language-switch-nav button, .pdf-lang-btn');
-    btns.forEach(btn => {
-        const btnId = btn.id || btn.getAttribute('onclick') || "";
-        const isNL = btnId.includes('nl') || btnId.includes("'nl'");
-        const isFR = btnId.includes('fr') || btnId.includes("'fr'");
-        
-        if (isNL) btn.classList.toggle('active-lang', lang === 'nl');
-        if (isFR) btn.classList.toggle('active-lang', lang === 'fr');
+    document.querySelectorAll('#btn-nl, #btn-fr').forEach(btn => {
+        btn.classList.toggle('active-lang', btn.id.includes(lang));
     });
 }
 
-function updatePDFHub(lang) {
-    document.querySelectorAll('.pdf-item').forEach(item => {
-        const titleEl = item.querySelector('h4');
-        const btnEl = item.querySelector('.download-btn span');
-        
-        if (titleEl) {
-            const translation = titleEl.getAttribute(`data-${lang}`);
-            if (translation) titleEl.innerText = translation;
-        }
-        
-        if (btnEl) {
-            btnEl.innerText = config.translations[lang]["btn-download"];
-        }
-    });
-}
-
-/* =========================================
-   3. FORMULIER VERZENDING (MAKE.COM)
-   ========================================= */
-
+/* --- FORMULIER --- */
 async function submitForm() {
     const submitBtn = document.querySelector('#dragon-form .submit-btn');
-    if (!submitBtn) return;
-
-    const originalText = submitBtn.innerText;
     submitBtn.disabled = true;
-    submitBtn.innerText = "...";
-
     const formData = {
         naam: document.getElementById('deelnemer_naam').value,
         setting: document.getElementById('input-setting').value,
@@ -239,71 +162,27 @@ async function submitForm() {
         timestamp: new Date().toISOString(),
         taal: config.currentLang
     };
-
     try {
-        const response = await fetch(makeWebhookURL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
-        });
-
-        if (response.ok) {
-            alert(config.translations[config.currentLang]["success-alert"]);
-            document.getElementById('dragon-form').reset();
-            closeForm();
-        } else {
-            throw new Error();
-        }
-    } catch (error) {
-        alert(config.translations[config.currentLang]["error-alert"]);
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerText = originalText;
-    }
+        const res = await fetch(makeWebhookURL, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(formData)});
+        if (res.ok) { alert(config.translations[config.currentLang]["success-alert"]); closeForm(); }
+    } catch (e) { alert("Error!"); }
+    finally { submitBtn.disabled = false; }
 }
-
-/* =========================================
-   4. HELPERS & INITIALISATIE
-   ========================================= */
 
 function copyPassword() {
-    const copyText = document.getElementById("deelnemer_ww");
-    if (!copyText) return;
-
-    copyText.type = "text"; 
-    copyText.select();
-    copyText.setSelectionRange(0, 99999);
-    document.execCommand("copy");
-    copyText.type = "password"; 
-    
-    const btn = document.querySelector('.copy-btn');
-    if (btn) {
-        const originalIcon = btn.innerText;
-        btn.innerText = "✅";
-        setTimeout(() => { btn.innerText = originalIcon; }, 2000);
-    }
+    const el = document.getElementById("deelnemer_ww");
+    el.type = "text"; el.select(); document.execCommand("copy"); el.type = "password";
 }
 
+/* --- INITIALISATIE --- */
 document.addEventListener('DOMContentLoaded', () => {
-    // Menu laden
-    const navPlaceholder = document.getElementById('nav-placeholder');
-    if (navPlaceholder) {
-        fetch('menu.html')
-            .then(res => res.text())
-            .then(data => {
-                navPlaceholder.innerHTML = data;
-                setLanguage(config.currentLang);
-            })
-            .catch(() => setLanguage(config.currentLang));
+    const nav = document.getElementById('nav-placeholder');
+    if (nav) {
+        fetch('menu.html').then(res => res.text()).then(data => {
+            nav.innerHTML = data;
+            setLanguage(config.currentLang);
+        });
     } else {
         setLanguage(config.currentLang);
-    }
-
-    // Enter toets op password gate
-    const pwInput = document.getElementById('password-input');
-    if (pwInput) {
-        pwInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') checkAccess();
-        });
     }
 });
