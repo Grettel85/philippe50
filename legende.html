@@ -7,11 +7,32 @@
     <link rel="stylesheet" href="philippe50.css">
 </head>
 <body>
+    
     <div class="stars-container"></div>
-
     <div id="nav-placeholder"></div>
 
     <div class="card-container" style="max-width: 800px; margin-top: 100px;">
+        
+        <section class="download-hub fade-in" style="margin-bottom: 50px;">
+            <p id="download-intro" data-i18n="download-intro">Kies je versie van de Legende:</p>
+            <div class="download-options">
+                <a href="docs/philippe50_NL.pdf" id="pdf-nl" download class="download-link-box secondary">
+                    <span class="icon">🇳🇱</span>
+                    <span class="label">Nederlands</span>
+                </a>
+
+                <a href="docs/philippe50_NL_FR_full.pdf" id="pdf-dual" download class="download-link-box primary">
+                    <span class="icon">📖</span>
+                    <span class="label" data-nl="Volledig Boekje (NL/FR)" data-fr="Livret Complet (NL/FR)">Volledig Boekje (NL/FR)</span>
+                </a>
+
+                <a href="docs/philippe50_FR.pdf" id="pdf-fr" download class="download-link-box secondary">
+                    <span class="icon">🇫🇷</span>
+                    <span class="label">Français</span>
+                </a>
+            </div>
+        </section>
+
         <h1 data-i18n="story-title" style="text-align: center; margin-bottom: 40px;">De Legende van Philippe</h1>
         
         <div id="story-content" class="fade-in">
