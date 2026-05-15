@@ -9,7 +9,11 @@
     "sound-title": "De Muzikale Reis",
     "sound-desc": "Geluid plant zich niet voort in het vacuüm van de ruimte, maar wel in onze herinneringen... <br> Ontgrendel hier de soundtracks die de voorbije 50j de grenzen van tijd en ruimte hebben doorbroken.",
     "sound-loading": "De instrumenten worden gestemd...",
-    "back-link": "← Terug naar de start"
+    "back-link": "← Terug naar de start",
+    "sound-loading": "De instrumenten worden gestemd...",
+    "sound-empty": "Er zijn nog geen soundtracks ontgrendeld.",
+    "sound-play": "Beluister fragment",
+    "sound-chapter-prefix": "Hoofdstuk"
   },
   "fr": {
   "nav-legende": "La Légende",
@@ -20,6 +24,10 @@
     "sound-title": "Le Voyage Musical",
     "sound-desc": "Le son ne se propage pas dans le vide de l'espace, mais bien dans nos souvenirs... <br> Débloquez ici les bandes sonores qui ont brisé les frontières du temps et de l'espace ces 50 dernières années.",
     "sound-loading": "Les instruments s'accordent...",
-    "back-link": "← Retour au début"
+    "back-link": "← Retour au début",
+    "sound-loading": "Les instruments s'accordent...",
+    "sound-empty": "Aucune bande sonore n'a nog été débloquée.",
+    "sound-play": "Écouter l'extrait",
+    "sound-chapter-prefix": "Chapitre"
   }
 }
