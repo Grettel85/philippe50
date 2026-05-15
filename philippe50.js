@@ -251,23 +251,34 @@ function setLanguage(lang) {
     config.currentLang = lang;
     localStorage.setItem('preferred_lang', lang);
 
-    // Dit zorgt ervoor dat het menu (uit translations.json) direct vertaalt
+    // 1. De menu-vertalingen (uit translations.json) toepassen
     if (typeof applyTranslations === 'function') {
         applyTranslations(lang);
     }
     
-   
+    // 2. Alle elementen met data-i18n afgaan en vertalen
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        const translation = config.translations[lang][key];
+        
+        // Zoek de vertaling: 
+        // We kijken eerst of de sleutel in de geladen JSON data zit (window.translationsData),
+        // als dat niet zo is, kijken we in de lokale config.translations.
+        const translation = (window.translationsData && window.translationsData[lang] && window.translationsData[lang][key]) 
+                            ? window.translationsData[lang][key] 
+                            : (config.translations[lang] ? config.translations[lang][key] : null);
+
         if (translation) {
             if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
                 el.placeholder = translation;
             } else {
+                // Essentieel: we gebruiken innerHTML zodat HTML-tags zoals <br> 
+                // daadwerkelijk als witregels worden gerenderd en niet als tekst.
                 el.innerHTML = translation;
             }
         }
     });
+
+    // 3. De overige UI-updates uitvoeren
     updateLangButtons(lang);
     updatePDFHub(lang); // Nieuwe toevoeging voor de PDF sync
 }
