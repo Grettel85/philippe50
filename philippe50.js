@@ -1,5 +1,3 @@
-welke versie is dit? 
-
 /* ==========================================================================
    VERSION: PHILIPPE 50 - TOTAL ENGINE (V7.4 - PDF Hub Integration)
    MODIFIED: Added updatePDFHub logic to existing language sync
@@ -295,26 +293,18 @@ function setLanguage(lang) {
     updatePDFHub(lang); 
 }
 
-// Zorg dat de PDF Hub knoppen en labels visueel mee veranderen
+/* =========================================
+   CORRECTE STRUCTUUR VOOR TAAL-FUNCTIES
+   ========================================= */
+
 function updatePDFHub(lang) {
     const nlBtn = document.getElementById('pdf-nl');
     const frBtn = document.getElementById('pdf-fr');
     const dualLabel = document.querySelector('#pdf-dual .label');
     const intro = document.getElementById('download-intro');
 
-    // Alleen uitvoeren als de elementen op de huidige pagina bestaan
     if (!nlBtn || !frBtn || !dualLabel) return;
 
-function updateLangButtons(lang) {
-    const btns = document.querySelectorAll('#btn-nl, #btn-fr, .language-switch-nav button');
-    btns.forEach(btn => {
-        const btnId = btn.id || "";
-        const btnText = btn.innerText.toLowerCase();
-        const targetLang = (btnId.includes('nl') || btnText.includes('nl')) ? 'nl' : 'fr';
-        btn.classList.toggle('active-lang', lang === targetLang);
-    });
-}
-   
     if (lang === 'nl') {
         nlBtn.classList.add('active-lang');
         frBtn.classList.remove('active-lang');
@@ -326,7 +316,17 @@ function updateLangButtons(lang) {
         dualLabel.textContent = dualLabel.getAttribute('data-fr');
         if(intro) intro.textContent = "Choisissez votre version de la Légende :";
     }
-}
+} // <--- Deze sluit updatePDFHub af
+
+function updateLangButtons(lang) {
+    const btns = document.querySelectorAll('#btn-nl, #btn-fr, .language-switch-nav button');
+    btns.forEach(btn => {
+        const btnId = btn.id || "";
+        const btnText = btn.innerText.toLowerCase();
+        const targetLang = (btnId.includes('nl') || btnText.includes('nl')) ? 'nl' : 'fr';
+        btn.classList.toggle('active-lang', lang === targetLang);
+    });
+} // <--- Deze sluit updateLangButtons af
 
 /* =========================================
    4. DATA FETCHING & DISPLAY (Tijdlijn & Scroll)
