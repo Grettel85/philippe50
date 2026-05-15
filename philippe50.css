@@ -484,62 +484,82 @@ button:hover, .submit-btn:hover, .submit-btn-alt:hover {
 
 
 /* Styling voor de Download Hub */
+/* =========================================
+    11. COMPACTE DOWNLOAD HUB
+   ========================================= */
 .download-hub {
     text-align: center;
-    margin: 0 auto 50px auto;
-    padding: 25px;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 20px;
-    border: 1px solid rgba(0, 242, 255, 0.1);
+    margin: 0 auto 20px auto; /* Minder ruimte onder de hub */
+    padding: 10px; /* Minder padding voor minder hoogte */
+    background: transparent; /* Geen achtergrondvlak voor meer rust */
+    border: none;
+}
+
+#download-intro {
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+    opacity: 0.8;
 }
 
 .download-options {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 12px; /* Ruimte tussen de knoppen */
     flex-wrap: wrap;
-    margin-top: 20px;
 }
 
 .download-link-box {
     text-decoration: none;
     color: #fff;
     display: flex;
-    flex-direction: column;
+    flex-direction: row; /* Icoon en tekst naast elkaar */
     align-items: center;
-    transition: all 0.4s ease;
-    border-radius: 15px;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    padding: 8px 15px; /* Compacte hoogte */
 }
 
 /* De primaire tweetalige knop */
 .download-link-box.primary {
-    padding: 20px 30px;
     background: rgba(0, 242, 255, 0.1);
-    border: 2px solid #00f2ff;
-    box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
-    min-width: 220px;
+    border: 1px solid #00f2ff;
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
 }
 
 /* De secundaire eentalige knoppen */
 .download-link-box.secondary {
-    padding: 12px 18px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    min-width: 140px;
-    opacity: 0.7;
-}
-
-.download-link-box.active-lang {
-    opacity: 1;
-    border-color: #ff00de;
-    background: rgba(255, 0, 222, 0.05);
 }
 
 .download-link-box:hover {
-    transform: translateY(-3px);
-    opacity: 1;
+    transform: translateY(-2px);
+    background: rgba(255, 0, 222, 0.1);
+    border-color: #ff00de;
+    box-shadow: 0 0 15px rgba(255, 0, 222, 0.3);
 }
 
-.download-link-box .icon { font-size: 1.5rem; margin-bottom: 5px; }
-.download-link-box .label { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
+.download-link-box .icon { 
+    font-size: 1.1rem; 
+    margin-right: 8px; /* Ruimte rechts van icoon ipv eronder */
+    margin-bottom: 0; 
+}
+
+.download-link-box .label { 
+    font-size: 0.75rem; 
+    font-weight: 600; 
+    text-transform: uppercase;
+    white-space: nowrap; /* Tekst blijft op 1 lijn */
+}
+
+@media (max-width: 600px) {
+    .download-options {
+        flex-direction: column;
+        width: 100%;
+    }
+    .download-link-box {
+        width: 100%;
+        max-width: 250px;
+    }
+}
