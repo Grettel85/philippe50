@@ -251,6 +251,12 @@ function setLanguage(lang) {
     config.currentLang = lang;
     localStorage.setItem('preferred_lang', lang);
 
+    // Dit zorgt ervoor dat het menu (uit translations.json) direct vertaalt
+    if (typeof applyTranslations === 'function') {
+        applyTranslations(lang);
+    }
+    
+   
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         const translation = config.translations[lang][key];
