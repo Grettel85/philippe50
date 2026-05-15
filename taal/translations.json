@@ -1,1 +1,15 @@
 
+{
+  "nl": {
+    "nav-legende": "De Legende",
+    "nav-someone": "Find Someone",
+    "nav-mysterie": "Bestemming50",
+    "nav-soundtrack": "De Soundtrack"
+  },
+  "fr": {
+    "nav-legende": "La Légende",
+    "nav-someone": "Trouver quelqu'un",
+    "nav-mysterie": "Destination50",
+    "nav-soundtrack": "La Bande Sonore"
+  }
+}
