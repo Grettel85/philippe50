@@ -278,6 +278,12 @@ function setLanguage(lang) {
         }
     });
 
+// VOEG DIT TOE:
+    // Controleer of de soundtrack render functie bestaat en voer deze uit
+    if (typeof renderSoundtracks === 'function') {
+        renderSoundtracks();
+    }
+   
     // 3. De overige UI-updates uitvoeren
     updateLangButtons(lang);
     updatePDFHub(lang); // Nieuwe toevoeging voor de PDF sync
