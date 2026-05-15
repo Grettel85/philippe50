@@ -563,3 +563,11 @@ button:hover, .submit-btn:hover, .submit-btn-alt:hover {
         max-width: 250px;
     }
 }
+
+/* De actieve taal krijgt een accentkleur (roze) */
+.download-link-box.active-lang {
+    opacity: 1 !important;
+    border-color: #ff00de !important;
+    background: rgba(255, 0, 222, 0.1) !important;
+    box-shadow: 0 0 15px rgba(255, 0, 222, 0.4) !important;
+}
