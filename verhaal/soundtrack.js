@@ -1260,7 +1260,15 @@ function renderSoundtracks() {
 
     let htmlGerecht = ""; 
     soundtrackData.forEach(item => {
-        const displayTitel = (item.id === 'bonus') ? item.titel : `Hoofdstuk ${item.id}: ${item.titel}`;
+        // --- STAP 1: Gebruik de vertaalfunctie voor de titel ---
+        const vertaaldeTitel = getLanguageSpecificText(item.titel);
+        
+        // Bepaal het label (Hoofdstuk / Chapitre)
+        const label = (currentLanguage === 'fr') ? "Chapitre" : "Hoofdstuk";
+        const displayTitel = (item.id === 'bonus') ? vertaaldeTitel : `${label} ${item.id}: ${vertaaldeTitel}`;
+
+        // Bepaal de knoptekst (Toon Liedjestekst / Afficher les Paroles)
+        const btnText = (currentLanguage === 'fr') ? "📜 Afficher les Paroles" : "📜 Toon Liedjestekst";
 
         const videoA_html = createVideoBox(item.videoA, item.driveA, "A-Kant");
         const videoB_html = createVideoBox(item.videoB, item.driveB, "B-Kant");
@@ -1273,7 +1281,7 @@ function renderSoundtracks() {
                     ${videoB_html}
                 </div>
                 <button onclick="toggleLyrics('lyrics-h${item.id}')" class="submit-btn-alt" style="margin-top: 20px; width: auto; padding: 8px 20px;">
-                    📜 Toon Liedjestekst
+                    ${btnText}
                 </button>
                 <div id="lyrics-h${item.id}" class="lyrics-section">
                     <p style="white-space: pre-wrap;">${item.tekst}</p>
@@ -1285,45 +1293,6 @@ function renderSoundtracks() {
 
     // Activeer de klik-events
     setupVideoListeners();
-}
-
-function createVideoBox(videoId, driveLink, label) {
-    if (!videoId) return '';
-    return `
-        <div>
-            <div class="video-container lite-video" 
-                 data-id="${videoId}" 
-                 style="background-image: url('https://img.youtube.com/vi/${videoId}/hqdefault.jpg'); cursor: pointer; position: relative;">
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); pointer-events: none;">
-                    <div style="font-size: 50px; color: white; background: rgba(255, 0, 222, 0.8); border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(255, 0, 222, 0.5);">
-                        ▶
-                    </div>
-                </div>
-            </div>
-            ${driveLink ? `<a href="${driveLink}" target="_blank" class="download-link">💾 Download track (${label})</a>` : ''}
-        </div>`;
-}
-
-function setupVideoListeners() {
-    document.querySelectorAll('.lite-video').forEach(box => {
-        box.addEventListener('click', function() {
-            const videoId = this.getAttribute('data-id');
-            if (!videoId) return;
-
-            // FIX VOOR DE HOOGTE (Omdat CSS height op 0 zet)
-            this.style.height = this.offsetWidth * 0.5625 + "px";
-            this.style.paddingBottom = "0";
-
-            const iframe = document.createElement('iframe');
-            iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1`);
-            iframe.setAttribute('allow', 'autoplay; encrypted-media');
-            iframe.setAttribute('allowfullscreen', '');
-            iframe.setAttribute('style', 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 10;');
-            
-            this.innerHTML = '';
-            this.appendChild(iframe);
-        });
-    });
 }
 
 // 4. INTERACTIE
