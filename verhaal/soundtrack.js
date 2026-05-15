@@ -33,7 +33,7 @@ De radio kraakt... Hoe keert hij terug?`
         id: 2,
         titel: "De Grote Mand van de Verwarring",
         videoA: "DEVv_LFmnzI",
-        videoB: "", 
+        videoB: "aYGEfj6YZNg", 
         driveB: "https://drive.google.com/file/d/169YDs4fVib5h-qXJnkCtSK92rUOAl2m-/view?usp=drive_link", 
         driveA: "https://drive.google.com/file/d/1nBW4AnLOFMXuMBMdqlsSUmdgbC3u0boB/view?usp=drive_link",
         tekst: `II.
@@ -76,9 +76,9 @@ Hoe keert hij terug?`
         id: 3,
         titel: "De Tuinman van de Nieuwe Wereld",
         videoA: "ncZsbZckZhQ",
-        videoB: "", 
-        driveA: "", 
-        driveB: "",
+        videoB: "https://youtu.be/oErYI0A-TCg", 
+        driveA: "https://drive.google.com/file/d/1F6mgIpzgwrmz9CkaTQBPVcB9wycNJhZ8/view?usp=drive_link", 
+        driveB: "https://drive.google.com/file/d/14FimBWngP8kErw03dotgX-TugEXOEuWH/view?usp=drive_link",
         tekst: `III.
 [Verse 1]
 Lichtgevend mos vangt hem op,
@@ -906,8 +906,8 @@ Hoe keert hij terug? Comment retourner ?`
    {
         id: 22,
         titel: "Het Grote Kat-en-Muis Spel",
-        videoA: "",
-        videoB: "", 
+        videoA: "qmVeiTOWdco",
+        videoB: "1XL647pTtc4", 
         driveA: "https://drive.google.com/file/d/1hICcP1wEjIHnKp-Mv6G4R1fGHzCqRCqd/view?usp=drive_link", 
         driveB: "https://drive.google.com/file/d/1Cv3tq07D0viytQGp8nft1jmiRGAdYIus/view?usp=drive_link",
         tekst: `XXII.
@@ -950,8 +950,8 @@ Hoe keert hij terug? Comment retourner ?`
    {
         id: 23,
         titel: "De Toverkracht van het Varkenssnuitje",
-        videoA: "",
-        videoB: "", 
+        videoA: "Hi2J7AUI0JA",
+        videoB: "sXxykVi1gYE", 
         driveA: "https://drive.google.com/file/d/1B8jLPZ_iAa-338tuxgBMm5iMRknZsMPI/view?usp=drive_link", 
         driveB: "https://drive.google.com/file/d/1DxvvOhBfvBRxd_S1nINAnwgu4_GQPyRo/view?usp=drive_link",
         tekst: `XXIII.
@@ -995,7 +995,7 @@ Hoe keert hij terug? Comment retourner ?`
         id: 24,
         titel: "De Onvolmaakte Muze",
         videoA: "JDGwBNj7SIg",
-        videoB: "JDGwBNj7SIg", 
+        videoB: "FZOs8c9r7FI", 
         driveB: "https://drive.google.com/file/d/1WP1N_-92WmEYV4fsdB12tTERXFTSTAuZ/view?usp=drive_link", 
         driveA: "https://drive.google.com/file/d/1E8HWa3w8Kip5e7NW4377psbe3DuftV83/view?usp=drive_link",
         tekst: `XXIV.
