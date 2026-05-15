@@ -303,6 +303,16 @@ function updatePDFHub(lang) {
     // Alleen uitvoeren als de elementen op de huidige pagina bestaan
     if (!nlBtn || !frBtn || !dualLabel) return;
 
+function updateLangButtons(lang) {
+    const btns = document.querySelectorAll('#btn-nl, #btn-fr, .language-switch-nav button');
+    btns.forEach(btn => {
+        const btnId = btn.id || "";
+        const btnText = btn.innerText.toLowerCase();
+        const targetLang = (btnId.includes('nl') || btnText.includes('nl')) ? 'nl' : 'fr';
+        btn.classList.toggle('active-lang', lang === targetLang);
+    });
+}
+   
     if (lang === 'nl') {
         nlBtn.classList.add('active-lang');
         frBtn.classList.remove('active-lang');
