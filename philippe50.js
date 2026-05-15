@@ -1,3 +1,5 @@
+welke versie is dit? 
+
 /* ==========================================================================
    VERSION: PHILIPPE 50 - TOTAL ENGINE (V7.4 - PDF Hub Integration)
    MODIFIED: Added updatePDFHub logic to existing language sync
