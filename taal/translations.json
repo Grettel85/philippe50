@@ -4,12 +4,22 @@
     "nav-legende": "De Legende",
     "nav-someone": "Find Someone",
     "nav-mysterie": "Bestemming50",
-    "nav-soundtrack": "De Soundtrack"
+    "nav-soundtrack": "De Soundtrack",
+    "soundtrack-page-title": "De Soundtrack - Philippe 50",
+    "sound-title": "De Muzikale Reis",
+    "sound-desc": "Geluid plant zich niet voort in het vacuüm van de ruimte, maar wel in onze herinneringen... <br> Ontgrendel hier de soundtracks die de voorbije 50j de grenzen van tijd en ruimte hebben doorbroken.",
+    "sound-loading": "De instrumenten worden gestemd...",
+    "back-link": "← Terug naar de start"
   },
   "fr": {
-    "nav-legende": "La Légende",
+  "nav-legende": "La Légende",
     "nav-someone": "Trouver quelqu'un",
     "nav-mysterie": "Destination50",
-    "nav-soundtrack": "La Bande Sonore"
+    "nav-soundtrack": "La Bande Sonore",
+    "soundtrack-page-title": "La Bande Son - Philippe 50",
+    "sound-title": "Le Voyage Musical",
+    "sound-desc": "Le son ne se propage pas dans le vide de l'espace, mais bien dans nos souvenirs... <br> Débloquez ici les bandes sonores qui ont brisé les frontières du temps et de l'espace ces 50 dernières années.",
+    "sound-loading": "Les instruments s'accordent...",
+    "back-link": "← Retour au début"
   }
 }
