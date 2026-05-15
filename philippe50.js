@@ -64,7 +64,7 @@ const config = {
             "nav-mysterie": "Destination50",
             "desc-verhaal": "Découvrez la légende, partagez un souvenir ou consultez votre propre chapitre.",
             "btn-read-legend": "Lire La Légende",
-            "btn-write": "Schrijf mee",
+            "btn-write": "Contribuez",
             "desc-someone": "Le brise-glace ultime. Quel invité correspond à l'affirmation ?",
             "btn-play": "Jouez au Jeu 🔒",
             "desc-mysterie": "15 indices, un seul objectif. Arriverez-vous à déchiffrer les coordonnées ?",
