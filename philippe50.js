@@ -280,9 +280,12 @@ function setLanguage(lang) {
         renderSoundtracks();
     }
 
-    // NIEUW: De Spreadsheet Legende-data verversen
+    // NIEUW: De Spreadsheet Legende-data verversen (Toegevoegd conform PDF Hub Integration)
     if (typeof fetchLegendeData === 'function') {
         fetchLegendeData(lang); 
+    } else if (document.getElementById('story-content')) {
+        // Indien fetchLegendeData niet bestaat maar we wel op de verhaalpagina zijn
+        fetchStory();
     }
    
     // 3. De overige UI-updates uitvoeren
@@ -290,22 +293,7 @@ function setLanguage(lang) {
     updatePDFHub(lang); 
 }
 
-// 4. De Spreadsheet Legende-data verversen (indien aanwezig op de pagina)
-if (typeof fetchLegendeData === 'function') {
-    // We roepen de functie opnieuw aan met de nieuwe taal
-    fetchLegendeData(lang); 
-}
-
-function updateLangButtons(lang) {
-    const btns = document.querySelectorAll('#btn-nl, #btn-fr, .language-switch-nav button');
-    btns.forEach(btn => {
-        const btnId = btn.id || "";
-        const btnText = btn.innerText.toLowerCase();
-        const targetLang = (btnId.includes('nl') || btnText.includes('nl')) ? 'nl' : 'fr';
-        btn.classList.toggle('active-lang', lang === targetLang);
-    });
-}
-
+// Zorg dat de PDF Hub knoppen en labels visueel mee veranderen
 function updatePDFHub(lang) {
     const nlBtn = document.getElementById('pdf-nl');
     const frBtn = document.getElementById('pdf-fr');
@@ -326,118 +314,6 @@ function updatePDFHub(lang) {
         dualLabel.textContent = dualLabel.getAttribute('data-fr');
         if(intro) intro.textContent = "Choisissez votre version de la Légende :";
     }
-}
-
-function handleAccess(action) {
-    const isGuestAuthed = localStorage.getItem('phil_access') === 'granted';
-    const isAdminAuthed = sessionStorage.getItem('admin_access') === 'granted';
-
-    if (action.startsWith('admin-')) {
-        if (isAdminAuthed) {
-            executeAction(action);
-        } else {
-            pendingAction = action;
-            showGate("Voer Admin Code in / Entrez le code Admin");
-        }
-        return;
-    }
-
-    if (isGuestAuthed) {
-        executeAction(action);
-    } else {
-        pendingAction = action;
-        showGate();
-    }
-}
-
-function showGate(customTitle = null) {
-    const gate = document.getElementById('password-gate');
-    const input = document.getElementById('password-input');
-    if (customTitle) {
-        document.getElementById('gate-title').innerText = customTitle;
-    }
-    if (gate) {
-        gate.style.display = 'block';
-        gate.scrollIntoView({ behavior: 'smooth' });
-        if (input) input.focus();
-    }
-}
-
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && document.activeElement.id === 'password-input') {
-        checkAccess();
-    }
-});
-
-function checkAccess() {
-    const inputField = document.getElementById('password-input');
-    const input = inputField ? inputField.value.trim().toLowerCase() : "";
-    const errorMsg = document.getElementById('error-msg');
-    const errorContainer = document.getElementById('error-container');
-
-    if (input === "admin50") {
-        sessionStorage.setItem('admin_access', 'granted');
-        localStorage.setItem('phil_access', 'granted'); 
-        proceedAfterLogin();
-    } else if (input === config.password.toLowerCase()) {
-        localStorage.setItem('phil_access', 'granted');
-        proceedAfterLogin();
-    } else {
-        if (errorMsg) errorMsg.style.display = 'block';
-        if (errorContainer) errorContainer.style.display = 'block';
-        if (inputField) {
-            inputField.value = "";
-            inputField.focus();
-        }
-    }
-}
-
-function proceedAfterLogin() {
-    const gate = document.getElementById('password-gate');
-    const errorMsg = document.getElementById('error-msg');
-    const errorContainer = document.getElementById('error-container');
-    if (gate) gate.style.display = 'none';
-    if (errorMsg) errorMsg.style.display = 'none';
-    if (errorContainer) errorContainer.style.display = 'none';
-    if (pendingAction) {
-        executeAction(pendingAction);
-        pendingAction = null;
-    }
-}
-
-function executeAction(action) {
-    switch(action) {
-        case 'verhaal-admin':
-        case 'verhaal':
-            const formSection = document.getElementById('form-section');
-            if (formSection) {
-                formSection.style.display = 'block';
-                formSection.scrollIntoView({ behavior: 'smooth' });
-            }
-            break;
-        case 'admin-someone':
-            window.location.href = "find-someone/find-someone.html";
-            break;
-        case 'mysterie-tips':
-            window.location.href = "quiztit/quiztit.html";
-            break;
-        case 'admin-mysterie':
-            window.location.href = "quiztit/quiztitbuild.html";
-            break;
-        case 'admin-scroll':
-            window.location.href = "scroll.html";
-            break;
-        default:
-            console.warn("Actie niet gedefinieerd:", action);
-    }
-}
-
-function openMysteriePlay() {
-    window.location.href = "quiztit/quiztitspel.html";
-}
-
-function openSecureScroll() {
-    handleAccess('admin-scroll');
 }
 
 /* =========================================
