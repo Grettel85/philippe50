@@ -1,6 +1,6 @@
 /* ==========================================================================
-   VERSION: PHILIPPE 50 - TOTAL ENGINE (V7.4 - PDF Hub Integration)
-   MODIFIED: Added updatePDFHub logic to existing language sync
+   VERSION: PHILIPPE 50 - TOTAL ENGINE (V7.5 - PDF Hub Fixed)
+   MODIFIED: Fixed function nesting and ensured full language sync
    ========================================================================== */
 
 const config = {
@@ -280,11 +280,10 @@ function setLanguage(lang) {
         renderSoundtracks();
     }
 
-    // NIEUW: De Spreadsheet Legende-data verversen (Toegevoegd conform PDF Hub Integration)
+    // De Spreadsheet Legende-data verversen
     if (typeof fetchLegendeData === 'function') {
         fetchLegendeData(lang); 
     } else if (document.getElementById('story-content')) {
-        // Indien fetchLegendeData niet bestaat maar we wel op de verhaalpagina zijn
         fetchStory();
     }
    
@@ -292,16 +291,6 @@ function setLanguage(lang) {
     updateLangButtons(lang);
     updatePDFHub(lang); 
 }
-
-// Zorg dat de PDF Hub knoppen en labels visueel mee veranderen
-function updatePDFHub(lang) {
-    const nlBtn = document.getElementById('pdf-nl');
-    const frBtn = document.getElementById('pdf-fr');
-    const dualLabel = document.querySelector('#pdf-dual .label');
-    const intro = document.getElementById('download-intro');
-
-    // Alleen uitvoeren als de elementen op de huidige pagina bestaan
-    if (!nlBtn || !frBtn || !dualLabel) return;
 
 function updateLangButtons(lang) {
     const btns = document.querySelectorAll('#btn-nl, #btn-fr, .language-switch-nav button');
@@ -312,7 +301,15 @@ function updateLangButtons(lang) {
         btn.classList.toggle('active-lang', lang === targetLang);
     });
 }
-   
+
+function updatePDFHub(lang) {
+    const nlBtn = document.getElementById('pdf-nl');
+    const frBtn = document.getElementById('pdf-fr');
+    const dualLabel = document.querySelector('#pdf-dual .label');
+    const intro = document.getElementById('download-intro');
+
+    if (!nlBtn || !frBtn || !dualLabel) return;
+
     if (lang === 'nl') {
         nlBtn.classList.add('active-lang');
         frBtn.classList.remove('active-lang');
