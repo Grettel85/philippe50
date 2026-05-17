@@ -380,11 +380,11 @@ case 'admin-someone':
             break;
 case 'mysterie-tips':
             // Quiztit (tips invoeren)
-            window.location.href = root + "quiztit/quiztitbuild.html";
+            window.location.href = root + "quiztit/quiztit.html";
             break;
 case 'admin-mysterie':
             // Quiztit (kaarten generator) -> .html toegevoegd voor GitHub Pages stabiliteit
-            window.location.href = root + "quiztit/quiztit.html"; 
+            window.location.href = root + "quiztit/quiztitbuild.html"; 
             break;
 case 'admin-scroll-redirect':
             // Live scroll map/pagina
