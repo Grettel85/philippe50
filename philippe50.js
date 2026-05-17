@@ -16,7 +16,7 @@ const config = {
             "btn-read-legend": "Lees De Legende",
             "btn-write": "Schrijf mee",
             "desc-someone": "De ultieme ijsbreker. Wie van de gasten matcht met de stelling?",
-            "btn-play": "Speel het Spel 🔒",
+            "btn-play": "Spel Generator 🔒",
             "desc-mysterie": "15 tips, één doel. Ontrafel jij de coördinaten van Philippe?",
             "btn-play-online": "Speel Online",
             "btn-input": "Tips Invoeren 🔑",
@@ -66,7 +66,7 @@ const config = {
             "btn-read-legend": "Lire La Légende",
             "btn-write": "Contribuez",
             "desc-someone": "Le brise-glace ultime. Quel invité correspond à l'affirmation ?",
-            "btn-play": "Jouez au Jeu 🔒",
+            "btn-play": "Générateur de jeu 🔒",
             "desc-mysterie": "15 indices, un seul objectif. Arriverez-vous à déchiffrer les coordonnées ?",
             "btn-play-online": "Jouez en Ligne",
             "btn-input": "Entrer les Indices 🔑",
@@ -406,20 +406,21 @@ function updatePDFHub(lang) {
     const dualLabel = document.querySelector('#pdf-dual .label');
     const intro = document.getElementById('download-intro');
 
-    if (!nlBtn || !frBtn || !dualLabel) return;
+    // VEILIGHEIDSGRENDEL: Als deze essentiële PDF-elementen niet op de pagina staan, stop dan direct!
+    if (!nlBtn || !frBtn) return;
 
     if (lang === 'nl') {
         nlBtn.classList.add('active-lang');
         frBtn.classList.remove('active-lang');
-        dualLabel.textContent = dualLabel.getAttribute('data-nl');
-        if(intro) intro.textContent = "Kies je versie van de Legende:";
+        if (dualLabel) dualLabel.textContent = dualLabel.getAttribute('data-nl');
+        if (intro) intro.textContent = "Kies je version van de Legende:";
     } else {
         frBtn.classList.add('active-lang');
         nlBtn.classList.remove('active-lang');
-        dualLabel.textContent = dualLabel.getAttribute('data-fr');
-        if(intro) intro.textContent = "Choisissez votre version de la Légende :";
+        if (dualLabel) dualLabel.textContent = dualLabel.getAttribute('data-fr');
+        if (intro) intro.textContent = "Choisissez votre version de la Légende :";
     }
-} // <--- Deze sluit updatePDFHub af
+} // <--- Deze sluit updatePDFHub veilig af
 
 function updateLangButtons(lang) {
     const btns = document.querySelectorAll('#btn-nl, #btn-fr, .language-switch-nav button');
