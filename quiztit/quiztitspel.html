@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Het Philippe Mysterie - Speel het Spel</title>
+    <title>Philippe50</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../philippe50.css">
     <link rel="stylesheet" href="quiztitspel.css">
@@ -15,17 +15,17 @@
 
     <div class="game-container">
         <div class="glass-card">
-            <h1>Het Philippe Mysterie</h1>
+            <h1 data-i18n="game-title">Het Philippe Mysterie</h1>
             
             <div id="setup-area">
-                <button id="start-btn" class="main-btn">Nieuwe Kaart Trekken</button>
+                <button id="start-btn" class="main-btn" data-i18n="btn-new-card">Nieuwe Kaart Trekken</button>
             </div>
 
             <div id="game-area" style="display: none;">
                 <div class="game-header">
                     <span id="display-categorie" class="badge">...</span>
-                    <span id="display-score" class="badge-score">Punten: 15</span>
-                    <span class="badge-best">Beste: <span id="high-score">0</span></span>
+                    <span id="display-score" class="badge-score" data-i18n="score-prefix">Punten: 15</span>
+                    <span class="badge-best"><span data-i18n="high-score-prefix">Beste: </span><span id="high-score">0</span></span>
                 </div>
 
                 <div class="game-main-content">
@@ -33,17 +33,17 @@
 
                     <div class="hints-container">
                         <div id="hints-display" class="hints-box">
-                            <p id="hint-text">Klik op een nummer om een tip te onthullen...</p>
+                            <p id="hint-text" data-i18n="hint-default">Klik op een nummer om een tip te onthullen...</p>
                         </div>
 
                         <div class="guess-section">
-                            <input type="text" id="guess-input" placeholder="Typ je antwoord..." disabled>
-                            <button id="guess-btn" class="guess-btn" disabled>Check</button>
-                            <button id="pass-btn" class="pass-btn">Passen</button>
+                            <input type="text" id="guess-input" data-i18n="placeholder-guess" placeholder="Typ je antwoord..." disabled>
+                            <button id="guess-btn" class="guess-btn" data-i18n="btn-check" disabled>Check</button>
+                            <button id="pass-btn" class="pass-btn" data-i18n="btn-pass">Passen</button>
                         </div>
                         
                         <div id="history-area" style="margin-top: 15px; text-align: left;">
-                            <small style="opacity: 0.7;">Eerdere pogingen:</small>
+                            <small style="opacity: 0.7;" data-i18n="prev-attempts">Eerdere pogingen:</small>
                             <ul id="answer-history" style="list-style: none; padding: 0; font-size: 0.85rem; opacity: 0.6;"></ul>
                         </div>
 
@@ -57,14 +57,14 @@
     <div id="win-popup" class="modal-overlay" style="display: none;">
         <div class="modal-content glass-card fade-in">
             <div class="confetti">🎉🎈🎊</div>
-            <h1 class="win-title">GEVONDEN!</h1>
-            <p class="win-antwoord">Het antwoord was: <strong id="popup-antwoord">...</strong></p>
+            <h1 class="win-title" data-i18n="popup-win">GEVONDEN!</h1>
+            <p class="win-antwoord"><span data-i18n="popup-answer-label">Het antwoord was: </span><strong id="popup-antwoord">...</strong></p>
             <div class="score-display">
-                <span class="score-label">Je score:</span>
+                <span class="score-label" data-i18n="popup-score-label">Je score:</span>
                 <span id="popup-score" class="score-number">15</span>
-                <span class="score-label">Punten</span>
+                <span class="score-label" data-i18n="popup-points-label">Punten</span>
             </div>
-            <button id="play-again-btn" class="main-btn">Speel Nog Een Keer</button>
+            <button id="play-again-btn" class="main-btn" data-i18n="btn-play-again">Speel Nog Een Keer</button>
         </div>
     </div>
 
