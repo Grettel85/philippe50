@@ -99,7 +99,7 @@ const config = {
             "placeholder-obstacle": "ex: Le wifi est coupé, une roue du waveboard est cassée...",
             "placeholder-soundtrack": "Artiste - Titre",
             "chapter1-title": "Chapitre 1: Le Gramophone",
-            "chapter1-text": "Un matin, Philippe dégustait tranquillement son café dans la véranda, sa playlist Spotify en fond sonore. Les yeux fermés, il profitait du soleil sur son visage.\n\nLe combiné vidéo-DVD leva les yeux au ciel et le vieux gramophone sous le téléviseur grogna : encore cette musique 'moderne'. Soudain, un glitch temporel survint et le gramophone sursauta. Sous le choc, le saphir se déplaça sur un vieux disque et atterrit sur un sillon. Le glitch revint de plus belle et la pièce commença à tourner.\n\nAu lieu de Spotify, les notes du tube 'Fernando' d'ABBA résonnèrent au loin. Il ouvrit les yeux. Il était toujours dans son fauteuil, maar de pièce n'était plus celle de sa maison à Kessel-Lo. Le journal sur la table affichait une date surprenante : 14 avril 1976, 13h30 précises.\n\nPropulsé 50 ans en arrière. Comment reviendra-t-il vers le futur ?",
+            "chapter1-text": "Un matin, Philippe dégustait tranquillement son café dans la véranda, sa playlist Spotify en fond sonore. Les yeux fermés, il profitait du soleil sur son visage.\n\nLe combiné vidéo-DVD leva les yeux au ciel et le vieux gramophone sous le téléviseur grogna : encore cette musique 'moderne'. Soudain, un glitch temporel survint et le gramophone sursauta. Sous le choc, le saphir se déplaça sur un vieux disque et atterrit sur un sillon. Le glitch revint de plus belle et la pièce commença à tourner.\n\nAu lieu de Spotify, les notes du tube 'Fernando' d'ABBA résonnèrent au loin. Il ouvrit les yeux. Il était toujours dans son fauteuil, mais la pièce n'était plus celle de sa maison à Kessel-Lo. Le journal sur la table affichait une date surprenante : 14 avril 1976, 13h30 précises.\n\nPropulsé 50 ans en arrière. Comment reviendra-t-il vers le futur ?",
             "loader-phrases": ["Le saphir cherche le bon sillon...", "Stabilisation du glitch...", "La légende s'écrit..."],
             "sync-msg": "Le chronomètre se synchronise avec 1976... La chronologie se stabilise.",
             "no-match": "Aucune correspondance trouvée. Vérifiez votre nickname et mot secret.",
@@ -293,6 +293,109 @@ function setLanguage(lang) {
     updatePDFHub(lang); 
 }
 
+/* ==========================================================================
+   NIEUW: ACCESS CONTROLLER ENGINE (Deelnemer vs Admin Gates)
+   ========================================================================== */
+
+function handleAccess(action) {
+    pendingAction = action;
+
+    // Bepaal welk type toegang vereist is voor deze actie
+    const isAdminAction = ['admin-someone', 'admin-mysterie'].includes(action);
+    
+    if (isAdminAction) {
+        // Admin check (Sessie)
+        if (sessionStorage.getItem('admin_logged_in') === 'true') {
+            executePendingAction();
+            return;
+        }
+    } else {
+        // Deelnemer check (Permanent)
+        if (localStorage.getItem('deelnemer_logged_in') === 'true') {
+            executePendingAction();
+            return;
+        }
+    }
+
+    // Geen geldige sleutel in geheugen? Open de gate
+    const gate = document.getElementById('password-gate');
+    if (gate) {
+        gate.style.display = 'flex';
+        const inputField = gate.querySelector('input[type="password"]') || document.getElementById('pwd-input');
+        if (inputField) {
+            inputField.value = "";
+            inputField.focus();
+        }
+    }
+}
+
+function checkAccess() {
+    // Zoek het invoerveld binnen de gate of op id
+    const inputField = document.getElementById('pwd-input') || (document.getElementById('password-gate') ? document.getElementById('password-gate').querySelector('input[type="password"]') : null);
+    const errorMsg = document.getElementById('error-msg');
+    
+    if (!inputField) return;
+    
+    const userInput = inputField.value.trim().toLowerCase();
+
+    if (userInput === 'admin50') {
+        sessionStorage.setItem('admin_logged_in', 'true');
+        if (errorMsg) errorMsg.style.display = 'none';
+        executePendingAction();
+    } else if (userInput === 'philippe50') {
+        localStorage.setItem('deelnemer_logged_in', 'true');
+        if (errorMsg) errorMsg.style.display = 'none';
+        executePendingAction();
+    } else {
+        // Toon foutmelding bij onjuist wachtwoord
+        if (errorMsg) {
+            errorMsg.style.display = 'block';
+            errorMsg.innerText = config.translations[config.currentLang]["wrong-pwd"];
+        }
+    }
+}
+
+function executePendingAction() {
+    const action = pendingAction;
+    closeGate(); // Sluit de gate pop-up netjes af
+
+    if (!action) return;
+
+    switch (action) {
+        case 'verhaal-admin':
+            // "Schrijf mee": open het formulier op dezelfde pagina
+            const formSection = document.getElementById('form-section');
+            if (formSection) {
+                formSection.style.display = 'block';
+                formSection.scrollIntoView({ behavior: 'smooth' });
+            }
+            break;
+        case 'admin-someone':
+            window.location.href = "someone.html";
+            break;
+        case 'mysterie-tips':
+            window.location.href = "tips.html";
+            break;
+        case 'admin-mysterie':
+            window.location.href = "generator.html";
+            break;
+          case 'admin-scroll-redirect':
+            window.location.href = "livescroll.html";
+            break;
+        default:
+            console.warn("Onbekende actie:", action);
+    }
+}
+
+// Speciale openbare en dedicated admin functies
+function openMysteriePlay() {
+    window.location.href = "mysterie.html";
+}
+
+function openSecureScroll() {
+    handleAccess('admin-scroll-redirect');
+}
+
 /* =========================================
    CORRECTE STRUCTUUR VOOR TAAL-FUNCTIES
    ========================================= */
@@ -421,11 +524,17 @@ function animateScroll(element, limit, speed) {
    ========================================= */
 
 async function findPersonalStory() {
-    const nameInput = document.getElementById('lookup-name').value.trim().toLowerCase();
-    const pwInput = document.getElementById('lookup-pw').value.trim().toLowerCase();
+    const nameField = document.getElementById('lookup-name');
+    const pwField = document.getElementById('lookup-pw');
+    
+    // VEILIGHEIDSGRENDEL: Stop direct als deze lookup-velden niet op de pagina staan
+    if (!nameField || !pwField) return;
+
+    const nameInput = nameField.value.trim().toLowerCase();
+    const pwInput = pwField.value.trim().toLowerCase();
     const output = document.getElementById('typewriter-output');
     
-    if (!nameInput || !pwInput) return;
+    if (!nameInput || !pwInput || !output) return;
 
     personalStoryData = null;
     chapterOneFinished = false;
@@ -433,7 +542,6 @@ async function findPersonalStory() {
     showChapterOne(output);
     pollForPersonalStory(nameInput, pwInput);
 }
-
 function showChapterOne(container) {
     const title = config.translations[config.currentLang]["chapter1-title"];
     const text = config.translations[config.currentLang]["chapter1-text"];
@@ -521,6 +629,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('story-content')) fetchStory();
     if (document.getElementById('scroll-nl')) startLiveScroll();
     trackVisitor();
+
+    // Als de deelnemer al is ingelogd, mag het formulier direct getoond worden indien gewenst
+    if (localStorage.getItem('deelnemer_logged_in') === 'true') {
+        const formSection = document.getElementById('form-section');
+        // Laat het formulier standaard nog dicht, maar het is nu direct oproepbaar zonder wachtwoord!
+    }
 });
 
 function typeWriter(text, elementId, speed, callback) {
@@ -541,6 +655,9 @@ function typeWriter(text, elementId, speed, callback) {
 }
 
 async function submitForm() {
+    // VEILIGHEIDSGRENDEL: Stop direct als het formulier niet op deze pagina staat
+    if (!document.getElementById('deelnemer_naam')) return;
+
     const btn = document.querySelector('.submit-btn');
     if (btn) btn.disabled = true;
 
@@ -570,15 +687,27 @@ async function submitForm() {
         if (btn) btn.disabled = false;
     }
 }
-
 function copyPassword() {
     const copyText = document.getElementById("deelnemer_ww");
-    if (copyText) {
-        copyText.type = "text";
-        copyText.select();
-        copyText.setSelectionRange(0, 99999);
-        document.execCommand("copy");
-        copyText.type = "password";
-        alert("Wachtwoord gekopieerd! / Mot de passe copié !");
-    }
+    
+    // VEILIGHEIDSGRENDEL: Stop als het veld niet op deze pagina bestaat
+    if (!copyText) return;
+
+    const textToCopy = copyText.value;
+    if (!textToCopy) return;
+
+    // De moderne en universele manier van kopiëren
+    navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+            alert("Wachtwoord gekopieerd! / Mot de passe copié !");
+        })
+        .catch(err => {
+            console.error("Kopiëren mislukt:", err);
+            // Fallback voor heel oude browsers
+            copyText.type = "text";
+            copyText.select();
+            document.execCommand("copy");
+            copyText.type = "password";
+            alert("Wachtwoord gekopieerd! / Mot de passe copié !");
+        });
 }
