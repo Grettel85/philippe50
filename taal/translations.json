@@ -27,7 +27,10 @@
 "popup-answer-label": "Het antwoord was: ",
 "popup-score-label": "Je score:",
 "popup-points-label": "Punten",
-"btn-play-again": "Speel Nog Een Keer"
+"btn-play-again": "Speel Nog Een Keer",
+    "menu_photos": "Foto's 📸",
+"pdf_party": "Fotoboek Feest",
+"pdf_past": "Fotoboek Verleden Jaren"
   },
   "fr": {
   "nav-legende": "La Légende",
@@ -56,6 +59,9 @@
 "popup-answer-label": "La réponse était : ",
 "popup-score-label": "Votre score :",
 "popup-points-label": "Points",
-"btn-play-again": "Rejouer"
+"btn-play-again": "Rejouer",
+    "menu_photos": "Photos 📸",
+"pdf_party": "Livre Photo Fête",
+"pdf_past": "Livre Photo Années Passées"
   }
 }
