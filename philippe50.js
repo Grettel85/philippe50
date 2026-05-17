@@ -126,7 +126,10 @@ function loadMenu() {
     const placeholder = document.getElementById('nav-placeholder');
     if (!placeholder) return;
 
-    fetch('https://grettel85.github.io/philippe50/menu.html')
+    // Bepaal de basismap (root) zodat dit vanaf elk mapniveau werkt
+    const root = window.location.pathname.includes('/philippe50/') ? '/philippe50/' : '/';
+
+    fetch(root + 'menu.html')
         .then(response => response.text())
         .then(data => {
             placeholder.innerHTML = data;
@@ -251,46 +254,57 @@ function setLanguage(lang) {
     config.currentLang = lang;
     localStorage.setItem('preferred_lang', lang);
 
-    // 1. De menu-vertalingen (uit translations.json) toepassen
-    if (typeof applyTranslations === 'function') {
-        applyTranslations(lang);
-    }
-    
-    // 2. Alle elementen met data-i18n afgaan en vertalen
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        
-        const translation = (window.translationsData && window.translationsData[lang] && window.translationsData[lang][key]) 
-                            ? window.translationsData[lang][key] 
-                            : (config.translations[lang] ? config.translations[lang][key] : null);
+    // 1. Absolute root bepalen om translations.json op te halen via een stabiel pad
+    const root = window.location.pathname.includes('/philippe50/') ? '/philippe50/' : '/';
 
-        if (translation) {
-            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                el.placeholder = translation;
-            } else {
-                el.innerHTML = translation;
+    // 2. Haal de centrale JSON op vanaf de juiste map-onafhankelijke locatie
+    fetch(root + 'taal/translations.json')
+        .then(response => response.json())
+        .then(jsonData => {
+            // Sla de ingeladen JSON-data globaal op
+            window.translationsData = jsonData;
+
+            // De menu-vertalingen (uit de geladen JSON) toepassen
+            if (typeof applyTranslations === 'function') {
+                applyTranslations(lang);
             }
-        }
-    });
+            
+            // Alle elementen met data-i18n afgaan en vertalen via JSON (met fallback naar config)
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                
+                const translation = (window.translationsData && window.translationsData[lang] && window.translationsData[lang][key]) 
+                                    ? window.translationsData[lang][key] 
+                                    : (config.translations[lang] ? config.translations[lang][key] : null);
 
-    // --- EXTRA UPDATES VOOR SPECIFIEKE PAGINA'S ---
+                if (translation) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = translation;
+                    } else {
+                        el.innerHTML = translation;
+                    }
+                }
+            });
 
-    // Soundtrack verversen
-    if (typeof renderSoundtracks === 'function') {
-        renderSoundtracks();
-    }
+            // --- EXTRA UPDATES VOOR SPECIFIEKE PAGINA'S (Binnen de .then zodat de data geladen is) ---
 
-    // NIEUW: De Spreadsheet Legende-data verversen (Toegevoegd conform PDF Hub Integration)
-    if (typeof fetchLegendeData === 'function') {
-        fetchLegendeData(lang); 
-    } else if (document.getElementById('story-content')) {
-        // Indien fetchLegendeData niet bestaat maar we wel op de verhaalpagina zijn
-        fetchStory();
-    }
-   
-    // 3. De overige UI-updates uitvoeren
-    updateLangButtons(lang);
-    updatePDFHub(lang); 
+            // Soundtrack verversen
+            if (typeof renderSoundtracks === 'function') {
+                renderSoundtracks();
+            }
+
+            // De Spreadsheet Legende-data verversen
+            if (typeof fetchLegendeData === 'function') {
+                fetchLegendeData(lang); 
+            } else if (document.getElementById('story-content')) {
+                fetchStory();
+            }
+           
+            // De overige UI-updates uitvoeren
+            updateLangButtons(lang);
+            updatePDFHub(lang); 
+        })
+        .catch(err => console.error("Fout bij het laden van translations.json:", err));
 }
 
 /* ==========================================================================
