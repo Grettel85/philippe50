@@ -13,7 +13,21 @@
     "sound-loading": "De instrumenten worden gestemd...",
     "sound-empty": "Er zijn nog geen soundtracks ontgrendeld.",
     "sound-play": "Beluister fragment",
-    "sound-chapter-prefix": "Hoofdstuk"
+    "sound-chapter-prefix": "Hoofdstuk",
+    "game-title": "Bestemming50",
+"btn-new-card": "Nieuwe Kaart Trekken",
+"score-prefix": "Punten: ",
+"high-score-prefix": "Beste: ",
+"hint-default": "Klik op een nummer om een tip te onthullen...",
+"placeholder-guess": "Typ je antwoord...",
+"btn-check": "Check",
+"btn-pass": "Passen",
+"prev-attempts": "Eerdere pogingen:",
+"popup-win": "GEVONDEN!",
+"popup-answer-label": "Het antwoord was: ",
+"popup-score-label": "Je score:",
+"popup-points-label": "Punten",
+"btn-play-again": "Speel Nog Een Keer"
   },
   "fr": {
   "nav-legende": "La Légende",
@@ -28,6 +42,20 @@
     "sound-loading": "Les instruments s'accordent...",
     "sound-empty": "Aucune bande sonore n'a nog été débloquée.",
     "sound-play": "Écouter l'extrait",
-    "sound-chapter-prefix": "Chapitre"
+    "sound-chapter-prefix": "Chapitre",
+    "game-title": "Destination50",
+"btn-new-card": "Tirer une nouvelle carte",
+"score-prefix": "Points : ",
+"high-score-prefix": "Meilleur : ",
+"hint-default": "Cliquez sur un numéro pour révéler un indice...",
+"placeholder-guess": "Tapez votre réponse...",
+"btn-check": "Vérifier",
+"btn-pass": "Passer",
+"prev-attempts": "Tentatives précédentes :",
+"popup-win": "TROUVÉ !",
+"popup-answer-label": "La réponse était : ",
+"popup-score-label": "Votre score :",
+"popup-points-label": "Points",
+"btn-play-again": "Rejouer"
   }
 }
