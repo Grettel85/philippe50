@@ -45,6 +45,9 @@ function loadMenu() {
             // VOER VERTALING UIT VOOR HET MENU
             applyTranslations(currentLang);
 
+            // ACTIVEER DE GOOGLE DRIVE LINKS IN HET MENU
+            setupPhotoMenuLinks();
+
             // Nadat het menu geladen is, kijken we of we de taal moeten instellen (vlaggetjes highlighten etc)
             if (typeof setLanguage === 'function') {
                 setLanguage(currentLang);
@@ -80,3 +83,14 @@ document.addEventListener('click', (e) => {
 
 // Start de lader
 document.addEventListener('DOMContentLoaded', loadMenu);
+function setupPhotoMenuLinks() {
+    const partyBtn = document.getElementById('pdf-link-party');
+    const pastBtn = document.getElementById('pdf-link-past');
+    
+    if (partyBtn) {
+        partyBtn.href = "https://drive.google.com/file/d/1MzaPLbOBK2aiA2h7vuJ-K8xmsZaisSbc/view?usp=drive_link";
+    }
+    if (pastBtn) {
+        pastBtn.href = "https://drive.google.com/file/d/1f_O4IveoxrT0XqqFpDhc7mDCXiONwUQX/view?usp=drive_link";
+    }
+}
