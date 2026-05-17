@@ -66,7 +66,7 @@ const config = {
             "btn-read-legend": "Lire La Légende",
             "btn-write": "Contribuez",
             "desc-someone": "Le brise-glace ultime. Quel invité correspond à l'affirmation ?",
-            "btn-play": "Générateur de jeu 🔒",
+            "btn-play": "Générateur du Jeu 🔒",
             "desc-mysterie": "15 indices, un seul objectif. Arriverez-vous à déchiffrer les coordonnées ?",
             "btn-play-online": "Jouez en Ligne",
             "btn-input": "Entrer les Indices 🔑",
@@ -361,6 +361,10 @@ function executePendingAction() {
 
     if (!action) return;
 
+// Bepaal de basismap (repository root) zodat links vanaf elke subpagina werken
+    // Dit zorgt ervoor dat de links zowel lokaal als op https://grettel85.github.io/philippe50/ goed gaan.
+    const root = window.location.pathname.includes('/philippe50/') ? '/philippe50/' : '/';
+   
     switch (action) {
         case 'verhaal-admin':
             // "Schrijf mee": open het formulier op dezelfde pagina
@@ -370,17 +374,21 @@ function executePendingAction() {
                 formSection.scrollIntoView({ behavior: 'smooth' });
             }
             break;
-        case 'admin-someone':
-            window.location.href = "someone.html";
+case 'admin-someone':
+            // Find Someone (spel generator)
+            window.location.href = root + "find-someone/find-someone.html";
             break;
-        case 'mysterie-tips':
-            window.location.href = "tips.html";
+case 'mysterie-tips':
+            // Quiztit (tips invoeren)
+            window.location.href = root + "quiztit/quiztitbuild.html";
             break;
-        case 'admin-mysterie':
-            window.location.href = "generator.html";
+case 'admin-mysterie':
+            // Quiztit (kaarten generator) -> .html toegevoegd voor GitHub Pages stabiliteit
+            window.location.href = root + "quiztit/quiztit.html"; 
             break;
-          case 'admin-scroll-redirect':
-            window.location.href = "livescroll.html";
+case 'admin-scroll-redirect':
+            // Live scroll map/pagina
+            window.location.href = root + "scroll.html";
             break;
         default:
             console.warn("Onbekende actie:", action);
@@ -389,7 +397,9 @@ function executePendingAction() {
 
 // Speciale openbare en dedicated admin functies
 function openMysteriePlay() {
-    window.location.href = "mysterie.html";
+    const root = window.location.pathname.includes('/philippe50/') ? '/philippe50/' : '/';
+    // Quiztit (speel online)
+    window.location.href = root + "quiztit/quiztitspel.html";
 }
 
 function openSecureScroll() {
