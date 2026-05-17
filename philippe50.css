@@ -571,3 +571,84 @@ button:hover, .submit-btn:hover, .submit-btn-alt:hover {
     background: rgba(255, 0, 222, 0.1) !important;
     box-shadow: 0 0 15px rgba(255, 0, 222, 0.4) !important;
 }
+
+/* ==========================================================================
+   DROPDOWN MENU (FOTO'S) STYLING
+   ========================================================================== */
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* De stijl van de uitklapbak zelf */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: rgba(25, 15, 45, 0.98); /* Donkere achtergrond passend bij je thema */
+    min-width: 220px;
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.5), 0px 0px 10px rgba(0, 242, 255, 0.2);
+    border: 1px solid rgba(0, 242, 255, 0.2); /* Subtiele gloed rond het menu */
+    border-radius: 10px;
+    z-index: 999; /* Zorgt dat het menu áltijd bovenop andere elementen ligt */
+    top: 100%;
+    left: 0;
+    margin-top: 5px;
+    padding: 6px 0;
+    overflow: hidden;
+}
+
+/* De links binnen het uitklapmenu */
+.dropdown-content a {
+    color: #ffffff !important;
+    padding: 12px 18px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.95rem;
+    transition: background 0.3s ease, color 0.3s ease;
+    text-align: left;
+}
+
+/* Hover-effect wanneer je over een link in het menu gaat */
+.dropdown-content a:hover {
+    background: rgba(0, 242, 255, 0.15); /* Highlight effect */
+    color: #00f2ff !important; /* Tekst kleurt mee op */
+}
+
+/* Zorg dat het menu opent bij hover (Desktop) */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Mobiele aanpassingen (zodat het onder elkaar schuift op telefoons) */
+@media (max-width: 768px) {
+    .dropdown {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .dropdown-content {
+        position: relative;
+        top: 0;
+        box-shadow: none;
+        border: none;
+        background: rgba(255, 255, 255, 0.03);
+        margin: 0 auto;
+        width: 100%;
+        display: none; /* Verbergt de lijst standaard op mobiel */
+        max-height: none;
+        padding: 0;
+    }
+
+    .dropdown-content a {
+        text-align: center; /* Lijn de links mooi uit in het midden op mobiel */
+        padding: 10px 0;
+    }
+
+    /* Zorg dat op mobiel de links verschijnen als de dropdown wordt aangeraakt */
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+}
