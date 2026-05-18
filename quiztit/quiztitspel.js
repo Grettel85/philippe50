@@ -14,7 +14,32 @@ let currentData = null;
 let availableTips = []; 
 let openedTipsCount = 0;
 let solution = "";
-let currentLang = localStorage.getItem('preferred_lang') || 'nl';
+// Schakel het geheugen gelijk met de rest van de website (preferred_lang naar selectedLanguage)
+let currentLang = localStorage.getItem('selectedLanguage') || localStorage.getItem('preferred_lang') || 'nl';
+localStorage.setItem('selectedLanguage', currentLang);
+
+// Maak het config-object aan dat menu.js nodig heeft om de juiste taal te behouden
+window.config = {
+    currentLang: currentLang
+};
+
+// Zorg dat de wereldwijde setLanguage functie van de website ook gekoppeld is
+const originalSetLanguage = window.setLanguage;
+window.setLanguage = function(lang) {
+    localStorage.setItem('selectedLanguage', lang);
+    if (window.config) window.config.currentLang = lang;
+    
+    // Roep de spel-eigen logica aan die er al stond
+    currentLang = lang;
+    localStorage.setItem('preferred_lang', lang);
+    updateLanguageUI();
+    loadSheetData(); 
+    
+    // Voer de centrale menu-vertaling uit als menu.js geladen is
+    if (typeof applyTranslations === 'function') {
+        applyTranslations(lang);
+    }
+};
 
 async function loadSheetData() {
     const url = `${baseSheetURL}&gid=${gids[currentLang]}&single=true`;
@@ -43,13 +68,6 @@ async function loadSheetData() {
     }
 }
 
-window.setLanguage = function(lang) {
-    currentLang = lang;
-    localStorage.setItem('preferred_lang', lang);
-    updateLanguageUI();
-    loadSheetData(); 
-};
-
 function updateLanguageUI() {
     document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
     const activeBtn = document.getElementById(`btn-${currentLang}`);
@@ -61,6 +79,11 @@ window.onload = () => {
     const high = localStorage.getItem('quiz_high_score') || 0;
     const highScoreEl = document.getElementById('high-score');
     if(highScoreEl) highScoreEl.innerText = high;
+
+    // Vertaal direct alle vaste HTML-elementen op de pagina bij het laden
+    if (typeof applyTranslations === 'function') {
+        applyTranslations(currentLang);
+    }
 };
 
 document.getElementById('start-btn').addEventListener('click', startNewGame);
@@ -97,8 +120,13 @@ function setupGame(data) {
     document.getElementById('setup-area').style.display = 'none';
     document.getElementById('game-area').style.display = 'block';
     document.getElementById('display-categorie').innerText = data.categorie;
-    document.getElementById('display-score').innerText = `Punten: 15`;
-    document.getElementById('hints-display').innerHTML = `<p id="hint-text">Klik op een nummer...</p>`;
+    
+    // Dynamische vertaling van de startscore en de begin-instructie
+    const scoreText = currentLang === 'nl' ? "Punten: 15" : "Points : 15";
+    const hintPlaceholder = currentLang === 'nl' ? "Klik op een nummer..." : "Cliquez sur un numéro...";
+    
+    document.getElementById('display-score').innerText = scoreText;
+    document.getElementById('hints-display').innerHTML = `<p id="hint-text">${hintPlaceholder}</p>`;
     
     const input = document.getElementById('guess-input');
     input.value = "";
@@ -152,7 +180,8 @@ function revealTip(btn) {
     btn.classList.add('used');
     
     const scoreBadge = document.getElementById('display-score');
-    scoreBadge.innerText = `Punten: ${15 - openedTipsCount + 1}`;
+   const currentScore = 15 - openedTipsCount + 1;
+scoreBadge.innerText = currentLang === 'nl' ? `Punten: ${currentScore}` : `Points : ${currentScore}`;
     scoreBadge.classList.remove('score-pop');
     void scoreBadge.offsetWidth; 
     scoreBadge.classList.add('score-pop');
@@ -179,6 +208,9 @@ function checkAnswer() {
         }
 
         document.getElementById('win-popup').style.display = 'flex'; 
+if (typeof applyTranslations === 'function') {
+    applyTranslations(currentLang);
+} 
     } else {
         const gameCard = document.querySelector('.glass-card');
         gameCard.classList.remove('shake');
@@ -210,7 +242,10 @@ const passBtn = document.getElementById('pass-btn');
 if (passBtn) {
     passBtn.addEventListener('click', () => {
         document.getElementById('popup-antwoord').innerText = currentData.oplossing;
-        document.getElementById('popup-score').innerText = "0";
-        document.getElementById('win-popup').style.display = 'flex';
+        document.getElementById('popup-score').innerText = 0;
+       document.getElementById('win-popup').style.display = 'flex';
+if (typeof applyTranslations === 'function') {
+    applyTranslations(currentLang);
+}
     });
 }
