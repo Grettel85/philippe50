@@ -80,10 +80,21 @@ window.onload = () => {
     const highScoreEl = document.getElementById('high-score');
     if(highScoreEl) highScoreEl.innerText = high;
 
-    // Vertaal direct alle vaste HTML-elementen op de pagina bij het laden
-    if (typeof applyTranslations === 'function') {
-        applyTranslations(currentLang);
-    }
+    // Waterdichte controle: wacht tot het menu daadwerkelijk in de placeholder is geladen
+    const checkMenuLoaded = setInterval(() => {
+        const navPlaceholder = document.getElementById('nav-placeholder');
+        // Als de placeholder niet meer leeg is, staat het menu er!
+        if (navPlaceholder && navPlaceholder.innerHTML.trim() !== "") {
+            clearInterval(checkMenuLoaded);
+            if (typeof applyTranslations === 'function') {
+                applyTranslations(currentLang);
+            }
+            updateLanguageUI();
+        }
+    }, 50); // Controleer elke 50ms tot het menu er staat
+
+    // Fallback: stop sowieso na 3 seconden om oneindige lussen te voorkomen bij fouten
+    setTimeout(() => clearInterval(checkMenuLoaded), 3000);
 };
 
 document.getElementById('start-btn').addEventListener('click', startNewGame);
